@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+
 /**
  * Generate src/colorspaces/pantone.ts from the color_library package.
  *
@@ -14,8 +15,8 @@
  *   bun run scripts/generate-pantone.ts
  */
 
-import { createRequire } from 'node:module';
 import { readFileSync, writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 
 const TARGET = resolve(import.meta.dirname, '../src/colorspaces/pantone.ts');
@@ -27,7 +28,7 @@ try {
   SOURCE = require_.resolve('color_library');
 } catch {
   console.error(
-    "color_library not found. Install it as a devDependency first:\n" +
+    'color_library not found. Install it as a devDependency first:\n' +
       '  bun add -D color_library',
   );
   process.exit(1);

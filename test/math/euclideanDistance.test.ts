@@ -26,9 +26,7 @@ describe('euclideanDistance', () => {
   });
 
   it('returns 1 for one-channel-one-unit difference', () => {
-    expect(
-      euclideanDistance({ r: 0, g: 0, b: 0, a: 1 }, { r: 1, g: 0, b: 0, a: 1 }),
-    ).toBe(1);
+    expect(euclideanDistance({ r: 0, g: 0, b: 0, a: 1 }, { r: 1, g: 0, b: 0, a: 1 })).toBe(1);
   });
 
   it('ignores alpha channel (d=0 when only alpha differs)', () => {
@@ -38,8 +36,6 @@ describe('euclideanDistance', () => {
   });
 
   it('handles negative component deltas (squared, so always non-negative)', () => {
-    expect(
-      euclideanDistance({ r: 200, g: 0, b: 0, a: 1 }, { r: 100, g: 0, b: 0, a: 1 }),
-    ).toBe(100);
+    expect(euclideanDistance({ r: 200, g: 0, b: 0, a: 1 }, { r: 100, g: 0, b: 0, a: 1 })).toBe(100);
   });
 });
