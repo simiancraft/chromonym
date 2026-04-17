@@ -1,6 +1,6 @@
 # chromonym
 
-![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+[![codecov](https://codecov.io/gh/simiancraft/chromonym/branch/main/graph/badge.svg)](https://codecov.io/gh/simiancraft/chromonym)
 
 Identify, resolve, and convert colors across CSS, X11, and Pantone colorspaces.
 
