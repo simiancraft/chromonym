@@ -1,5 +1,7 @@
 export type HexColor = `#${string}`;
-export type RgbString = `rgb(${number},${number},${number})`;
+export type RgbString =
+  | `rgb(${number},${number},${number})`
+  | `rgb(${number}, ${number}, ${number})`;
 export type RgbTuple = readonly [r: number, g: number, b: number];
 export type RgbObject = { r: number; g: number; b: number };
 export type RgbInput = RgbString | RgbTuple | RgbObject;
