@@ -1,3 +1,4 @@
+import { hueSectorToPrime } from '../math/hueSector';
 import type { HsvInput, HsvString, Rgba } from '../types';
 
 const HSV_RE =
@@ -31,23 +32,7 @@ export function hsvToRgba(input: HsvInput): Rgba {
   const x = c * (1 - Math.abs((hp % 2) - 1));
   const m = val - c;
 
-  let r1: number;
-  let g1: number;
-  let b1: number;
-  if (hp < 1) {
-    [r1, g1, b1] = [c, x, 0];
-  } else if (hp < 2) {
-    [r1, g1, b1] = [x, c, 0];
-  } else if (hp < 3) {
-    [r1, g1, b1] = [0, c, x];
-  } else if (hp < 4) {
-    [r1, g1, b1] = [0, x, c];
-  } else if (hp < 5) {
-    [r1, g1, b1] = [x, 0, c];
-  } else {
-    [r1, g1, b1] = [c, 0, x];
-  }
-
+  const [r1, g1, b1] = hueSectorToPrime(hp, c, x);
   return {
     r: Math.round((r1 + m) * 255),
     g: Math.round((g1 + m) * 255),
