@@ -7,3 +7,9 @@ dist/
 .env.*.local
 coverage/
 .cache/
+.claude/
+.aider*
+.cursor/
+.continue/
+.codeium/
+.windsurf/
