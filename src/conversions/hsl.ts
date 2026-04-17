@@ -1,3 +1,4 @@
+import { requireFinite } from '../math/clamp';
 import { hueSectorToPrime } from '../math/hueSector';
 import type { HslInput, HslString, Rgba } from '../types';
 
@@ -20,9 +21,9 @@ export function hslToRgba(input: HslInput): Rgba {
     s = Number(match[2]);
     l = Number(match[3]);
   } else {
-    h = input.h;
-    s = input.s;
-    l = input.l;
+    h = requireFinite(input.h, 'h');
+    s = requireFinite(input.s, 's');
+    l = requireFinite(input.l, 'l');
   }
 
   const sat = s / 100;

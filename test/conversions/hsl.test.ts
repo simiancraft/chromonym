@@ -50,6 +50,16 @@ describe('rgbaToHsl', () => {
   });
 });
 
+describe('hslToRgba input validation', () => {
+  it('throws on NaN h', () => {
+    expect(() => hslToRgba({ h: Number.NaN, s: 50, l: 50 })).toThrow();
+  });
+  it('throws on non-numeric s', () => {
+    // @ts-expect-error runtime guard for non-number
+    expect(() => hslToRgba({ h: 0, s: null, l: 50 })).toThrow();
+  });
+});
+
 describe('round-trip hsl ↔ rgba (primary colors)', () => {
   it('preserves pure red through rgba → hsl → rgba', () => {
     const rgba = { r: 255, g: 0, b: 0, a: 1 };

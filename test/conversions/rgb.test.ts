@@ -71,6 +71,29 @@ describe('rgbaToRgb', () => {
   });
 });
 
+describe('rgbToRgba input validation', () => {
+  it('throws on NaN channel', () => {
+    expect(() => rgbToRgba({ r: Number.NaN, g: 0, b: 0 })).toThrow();
+  });
+  it('throws on Infinity channel', () => {
+    expect(() => rgbToRgba({ r: Number.POSITIVE_INFINITY, g: 0, b: 0 })).toThrow();
+  });
+  it('throws on non-numeric channel (tuple)', () => {
+    // @ts-expect-error runtime guard for non-number
+    expect(() => rgbToRgba([{}, 0, 0])).toThrow();
+  });
+  it('clamps out-of-range high channel to 255', () => {
+    expect(rgbToRgba({ r: 300, g: 0, b: 0 })).toEqual({ r: 255, g: 0, b: 0, a: 1 });
+  });
+  it('clamps out-of-range low channel to 0', () => {
+    expect(rgbToRgba({ r: -50, g: 0, b: 0 })).toEqual({ r: 0, g: 0, b: 0, a: 1 });
+  });
+  it('clamps alpha to [0, 1]', () => {
+    expect(rgbToRgba({ r: 0, g: 0, b: 0, a: 5 })).toEqual({ r: 0, g: 0, b: 0, a: 1 });
+    expect(rgbToRgba({ r: 0, g: 0, b: 0, a: -0.5 })).toEqual({ r: 0, g: 0, b: 0, a: 0 });
+  });
+});
+
 describe('round-trip rgb ↔ rgba', () => {
   it('preserves rgba object through rgb string', () => {
     const original = { r: 100, g: 150, b: 200, a: 1 };

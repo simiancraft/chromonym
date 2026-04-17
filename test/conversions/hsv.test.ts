@@ -53,6 +53,16 @@ describe('rgbaToHsv', () => {
   });
 });
 
+describe('hsvToRgba input validation', () => {
+  it('throws on NaN h', () => {
+    expect(() => hsvToRgba({ h: Number.NaN, s: 50, v: 50 })).toThrow();
+  });
+  it('throws on non-numeric v', () => {
+    // @ts-expect-error runtime guard for non-number
+    expect(() => hsvToRgba({ h: 0, s: 50, v: 'abc' })).toThrow();
+  });
+});
+
 describe('round-trip hsv ↔ rgba', () => {
   it('preserves pure red', () => {
     const rgba = { r: 255, g: 0, b: 0, a: 1 };

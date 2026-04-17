@@ -1,21 +1,31 @@
+import { clamp, requireFinite } from '../math/clamp';
 import type { Rgba, RgbaInput, RgbInput, RgbObject, RgbString } from '../types';
 
 const RGB_RE =
   /^rgba?\s*\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*(?:,\s*(\d*\.?\d+)\s*)?\)$/i;
 
+function sanitizeChannel(n: unknown, label: string): number {
+  return clamp(requireFinite(n, label), 0, 255);
+}
+
+function sanitizeAlpha(n: unknown): number {
+  return clamp(requireFinite(n, 'alpha'), 0, 1);
+}
+
 /**
  * Normalize any RGB/RGBA input shape (string, tuple, or object) into
  * the canonical Rgba representation. Alpha defaults to 1 when absent.
+ * Rejects non-finite numeric inputs; clamps r/g/b to [0,255] and a to [0,1].
  * Throws on malformed strings.
  */
 export function rgbToRgba(input: RgbInput | RgbaInput): Rgba {
   if (Array.isArray(input)) {
-    const a = input.length === 4 ? (input[3] as number) : 1;
+    const rawA = input.length === 4 ? input[3] : 1;
     return {
-      r: input[0] as number,
-      g: input[1] as number,
-      b: input[2] as number,
-      a,
+      r: sanitizeChannel(input[0], 'r'),
+      g: sanitizeChannel(input[1], 'g'),
+      b: sanitizeChannel(input[2], 'b'),
+      a: sanitizeAlpha(rawA),
     };
   }
 
@@ -23,10 +33,10 @@ export function rgbToRgba(input: RgbInput | RgbaInput): Rgba {
     const match = RGB_RE.exec(input);
     if (!match) throw new Error(`Invalid rgb(a) string: ${input}`);
     return {
-      r: Number(match[1]),
-      g: Number(match[2]),
-      b: Number(match[3]),
-      a: match[4] !== undefined ? Number(match[4]) : 1,
+      r: sanitizeChannel(Number(match[1]), 'r'),
+      g: sanitizeChannel(Number(match[2]), 'g'),
+      b: sanitizeChannel(Number(match[3]), 'b'),
+      a: sanitizeAlpha(match[4] !== undefined ? Number(match[4]) : 1),
     };
   }
 
@@ -34,18 +44,21 @@ export function rgbToRgba(input: RgbInput | RgbaInput): Rgba {
   // readonly tuple types from the union, so cast after the guards.
   const obj = input as RgbObject | Rgba;
   return {
-    r: obj.r,
-    g: obj.g,
-    b: obj.b,
-    a: 'a' in obj ? obj.a : 1,
+    r: sanitizeChannel(obj.r, 'r'),
+    g: sanitizeChannel(obj.g, 'g'),
+    b: sanitizeChannel(obj.b, 'b'),
+    a: sanitizeAlpha('a' in obj ? obj.a : 1),
   };
 }
 
 /**
- * Emit an `rgb(r, g, b)` string. Alpha is dropped; out-of-range values
- * are clamped to 0..255; fractional values are rounded.
+ * Emit an `rgb(r, g, b)` string. Alpha is dropped; values are
+ * already-clamped by rgbToRgba, but we re-clamp defensively for direct
+ * Rgba-object callers who bypass the input normalizer.
  */
 export function rgbaToRgb(rgba: Rgba): RgbString {
-  const clamp = (n: number): number => Math.max(0, Math.min(255, Math.round(n)));
-  return `rgb(${clamp(rgba.r)}, ${clamp(rgba.g)}, ${clamp(rgba.b)})` as RgbString;
+  const r = clamp(Math.round(rgba.r), 0, 255);
+  const g = clamp(Math.round(rgba.g), 0, 255);
+  const b = clamp(Math.round(rgba.b), 0, 255);
+  return `rgb(${r}, ${g}, ${b})` as RgbString;
 }
