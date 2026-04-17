@@ -105,5 +105,12 @@ describe('detectFormat', () => {
     it('returns UNKNOWN for boolean', () => {
       expect(detectFormat(true as never)).toBe('UNKNOWN');
     });
+    it('returns UNKNOWN for prototype-polluted object (own-property check)', () => {
+      const obj = Object.create({ r: 255, g: 0, b: 0 });
+      expect(detectFormat(obj as never)).toBe('UNKNOWN');
+    });
+    it('returns UNKNOWN for object with only alpha (no r/g/b)', () => {
+      expect(detectFormat({ a: 0.5 } as never)).toBe('UNKNOWN');
+    });
   });
 });

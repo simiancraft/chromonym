@@ -35,10 +35,13 @@ export function detectFormat(input: ColorInput): DetectedFormat {
   }
 
   if (input !== null && typeof input === 'object') {
-    if ('h' in input && 'v' in input) return 'HSV';
-    if ('h' in input && 'l' in input) return 'HSL';
-    if ('a' in input) return 'RGBA';
-    if ('r' in input) return 'RGB';
+    // Use Object.hasOwn — `in` walks the prototype chain and can be
+    // abused by attacker-controlled prototypes to misclassify inputs.
+    const has = Object.hasOwn;
+    if (has(input, 'h') && has(input, 'v')) return 'HSV';
+    if (has(input, 'h') && has(input, 'l')) return 'HSL';
+    if (has(input, 'r') && has(input, 'a')) return 'RGBA';
+    if (has(input, 'r')) return 'RGB';
     return 'UNKNOWN';
   }
 

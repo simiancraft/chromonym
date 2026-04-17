@@ -95,5 +95,11 @@ describe('identify', () => {
     it('returns null regardless of colorspace when input is unrecognized', () => {
       expect(identify('garbage' as never, { colorspace: 'pantone' })).toBeNull();
     });
+    it("returns null for '__proto__' colorspace (prototype-chain key)", () => {
+      expect(identify('#ff0000', { colorspace: '__proto__' as never })).toBeNull();
+    });
+    it('returns null for unknown colorspace name', () => {
+      expect(identify('#ff0000', { colorspace: 'cmyk' as never })).toBeNull();
+    });
   });
 });

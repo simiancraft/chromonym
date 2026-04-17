@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+
 /**
  * Micro-benchmarks for chromonym hot paths.
  * Run with: bun run scripts/bench.ts
@@ -8,11 +9,11 @@
  * use for relative comparison (before/after a change), not absolute claims.
  */
 
-import { convert } from '../src/convert';
 import { hexToRgba } from '../src/conversions/hex';
 import { hslToRgba } from '../src/conversions/hsl';
 import { hsvToRgba } from '../src/conversions/hsv';
 import { rgbToRgba } from '../src/conversions/rgb';
+import { convert } from '../src/convert';
 import { detectFormat } from '../src/detectFormat';
 import { identify } from '../src/identify';
 import { resolve } from '../src/resolve';

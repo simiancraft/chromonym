@@ -8,6 +8,8 @@ import { euclideanDistance } from './math/euclideanDistance';
 import type { ColorInput, Colorspace, ColorspaceName, Rgba } from './types';
 
 const COLORSPACES: Record<ColorspaceName, Colorspace> = { web, x11, pantone };
+// Guard Record lookup against prototype-chain keys like '__proto__'.
+const COLORSPACE_NAMES: ReadonlySet<ColorspaceName> = new Set(['web', 'x11', 'pantone']);
 
 /**
  * Identify the nearest-named color for any color input.
@@ -23,6 +25,7 @@ export function identify(
   if (detectFormat(input) === 'UNKNOWN') return null;
 
   const { colorspace = 'web' } = opts;
+  if (!COLORSPACE_NAMES.has(colorspace)) return null;
   const rgba = convert(input, { format: 'RGBA' }) as Rgba;
   const entries = getRgbaIndex(COLORSPACES[colorspace]);
 

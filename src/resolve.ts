@@ -11,6 +11,8 @@ const NORMALIZERS: Record<ColorspaceName, NormalizeFn> = {
   x11: standardNormalize,
   pantone: pantoneNormalize,
 };
+// Guard Record lookup against prototype-chain keys like '__proto__'.
+const COLORSPACE_NAMES: ReadonlySet<ColorspaceName> = new Set(['web', 'x11', 'pantone']);
 
 /**
  * Resolve a human-readable name to a color. Normalizes the input
@@ -25,6 +27,7 @@ export function resolve(
   opts: { colorspace?: ColorspaceName; format?: ColorFormat } = {},
 ): ColorValue | null {
   const { colorspace = 'web', format = 'HEX' } = opts;
+  if (!COLORSPACE_NAMES.has(colorspace)) return null;
   const space = COLORSPACES[colorspace];
   const normalize = NORMALIZERS[colorspace];
   const canonical = getNameIndex(space, normalize).get(normalize(name));
