@@ -4,6 +4,7 @@
 export { type PantoneColorName, pantone } from './colorspaces/pantone';
 export { type WebColorName, web } from './colorspaces/web';
 export { type X11ColorName, x11 } from './colorspaces/x11';
+export { hexToRgba, rgbaToHex } from './conversions/hex';
 export { type DetectedFormat, detectFormat } from './detectFormat';
 export type {
   ColorFormat,
