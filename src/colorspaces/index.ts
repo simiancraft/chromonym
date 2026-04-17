@@ -1,1 +1,1 @@
-export { web, type WebColorName } from './web.ts';
+export { type WebColorName, web } from './web';
