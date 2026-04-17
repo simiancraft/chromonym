@@ -1,14 +1,8 @@
-import { pantone } from './colorspaces/pantone';
-import { web } from './colorspaces/web';
-import { x11 } from './colorspaces/x11';
+import { COLORSPACE_NAMES, COLORSPACES } from './colorspaces/registry';
 import { toRgba } from './convert';
 import { detectFormat } from './detectFormat';
 import { nearestByRgb } from './indexing';
-import type { Colorspace, ColorspaceName } from './types';
-
-const COLORSPACES: Record<ColorspaceName, Colorspace> = { web, x11, pantone };
-// Guard Record lookup against prototype-chain keys like '__proto__'.
-const COLORSPACE_NAMES: ReadonlySet<ColorspaceName> = new Set(['web', 'x11', 'pantone']);
+import type { ColorspaceName } from './types';
 
 /**
  * Identify the nearest-named color for any color input.

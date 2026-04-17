@@ -1,19 +1,8 @@
-import { pantone } from './colorspaces/pantone';
-import { web } from './colorspaces/web';
-import { x11 } from './colorspaces/x11';
+import { COLORSPACE_NAMES, COLORSPACES, NORMALIZERS } from './colorspaces/registry';
 import { hexToRgba } from './conversions/hex';
 import { fromRgba } from './convert';
-import { getNameIndex, type NormalizeFn, pantoneNormalize, standardNormalize } from './indexing';
-import type { ColorFormat, Colorspace, ColorspaceName, ColorValue, HexColor } from './types';
-
-const COLORSPACES: Record<ColorspaceName, Colorspace> = { web, x11, pantone };
-const NORMALIZERS: Record<ColorspaceName, NormalizeFn> = {
-  web: standardNormalize,
-  x11: standardNormalize,
-  pantone: pantoneNormalize,
-};
-// Guard Record lookup against prototype-chain keys like '__proto__'.
-const COLORSPACE_NAMES: ReadonlySet<ColorspaceName> = new Set(['web', 'x11', 'pantone']);
+import { getNameIndex } from './indexing';
+import type { ColorFormat, ColorspaceName, ColorValue, HexColor } from './types';
 
 /**
  * Resolve a human-readable name to a color. Normalizes the input

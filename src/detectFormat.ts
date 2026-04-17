@@ -7,7 +7,8 @@ import type { ColorFormat, ColorInput } from './types';
  */
 export type DetectedFormat = ColorFormat | 'UNKNOWN';
 
-const HEX_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+/** Shared with `src/conversions/hex.ts`. Capture group is used there; .test() ignores it here. */
+export const HEX_RE = /^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
 const RGBA_STR_RE = /^rgba\s*\(/i;
 const RGB_STR_RE = /^rgb\s*\(/i;
 const HSL_STR_RE = /^hsl\s*\(/i;

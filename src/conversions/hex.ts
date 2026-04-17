@@ -1,7 +1,6 @@
+import { HEX_RE } from '../detectFormat';
 import { clamp } from '../math/clamp';
 import type { HexColor, Rgba } from '../types';
-
-const HEX_RE = /^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
 
 /**
  * Parse a hex color string into the canonical Rgba representation.
