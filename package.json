@@ -1,0 +1,62 @@
+{
+  "name": "chromonym",
+  "version": "0.0.0-development",
+  "description": "Color naming tool — resolve RGB or Hex color input to a human-readable name.",
+  "keywords": [
+    "color",
+    "naming",
+    "rgb",
+    "hex",
+    "palette",
+    "chromonym"
+  ],
+  "author": "the-simian <harlinjesse@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/simiancraft/chromonym#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simiancraft/chromonym.git"
+  },
+  "bugs": {
+    "url": "https://github.com/simiancraft/chromonym/issues"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsgo",
+    "typecheck": "tsgo --noEmit",
+    "lint": "biome check",
+    "lint:fix": "biome check --write",
+    "format": "biome format --write .",
+    "test": "bun test",
+    "prepublishOnly": "bun run build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@types/bun": "latest",
+    "@typescript/native-preview": "latest",
+    "semantic-release": "^24.2.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
