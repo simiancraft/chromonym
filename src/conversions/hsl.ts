@@ -26,24 +26,24 @@ export function hslToRgba(input: HslInput): Rgba {
     l = requireFinite(input.l, 'l');
   }
 
-  const sat = s / 100;
-  const lig = l / 100;
+  const saturation = s / 100;
+  const lightness = l / 100;
 
-  if (sat === 0) {
-    const v = Math.round(lig * 255);
-    return { r: v, g: v, b: v, a: 1 };
+  if (saturation === 0) {
+    const gray = Math.round(lightness * 255);
+    return { r: gray, g: gray, b: gray, a: 1 };
   }
 
-  const c = (1 - Math.abs(2 * lig - 1)) * sat;
-  const hp = (((h % 360) + 360) % 360) / 60;
-  const x = c * (1 - Math.abs((hp % 2) - 1));
-  const m = lig - c / 2;
+  const chroma = (1 - Math.abs(2 * lightness - 1)) * saturation;
+  const hueSector = (((h % 360) + 360) % 360) / 60;
+  const secondary = chroma * (1 - Math.abs((hueSector % 2) - 1));
+  const lightnessOffset = lightness - chroma / 2;
 
-  const [r1, g1, b1] = hueSectorToPrime(hp, c, x);
+  const [rPrime, gPrime, bPrime] = hueSectorToPrime(hueSector, chroma, secondary);
   return {
-    r: Math.round((r1 + m) * 255),
-    g: Math.round((g1 + m) * 255),
-    b: Math.round((b1 + m) * 255),
+    r: Math.round((rPrime + lightnessOffset) * 255),
+    g: Math.round((gPrime + lightnessOffset) * 255),
+    b: Math.round((bPrime + lightnessOffset) * 255),
     a: 1,
   };
 }
@@ -53,28 +53,28 @@ export function hslToRgba(input: HslInput): Rgba {
  * three components are rounded to whole numbers.
  */
 export function rgbaToHsl(rgba: Rgba): HslString {
-  const rn = rgba.r / 255;
-  const gn = rgba.g / 255;
-  const bn = rgba.b / 255;
-  const max = Math.max(rn, gn, bn);
-  const min = Math.min(rn, gn, bn);
-  const l = (max + min) / 2;
+  const rNorm = rgba.r / 255;
+  const gNorm = rgba.g / 255;
+  const bNorm = rgba.b / 255;
+  const max = Math.max(rNorm, gNorm, bNorm);
+  const min = Math.min(rNorm, gNorm, bNorm);
+  const lightness = (max + min) / 2;
 
   if (max === min) {
-    return `hsl(0, 0%, ${Math.round(l * 100)}%)` as HslString;
+    return `hsl(0, 0%, ${Math.round(lightness * 100)}%)` as HslString;
   }
 
   const delta = max - min;
-  const s = l > 0.5 ? delta / (2 - max - min) : delta / (max + min);
-  let h: number;
-  if (max === rn) {
-    h = (gn - bn) / delta + (gn < bn ? 6 : 0);
-  } else if (max === gn) {
-    h = (bn - rn) / delta + 2;
+  const saturation = lightness > 0.5 ? delta / (2 - max - min) : delta / (max + min);
+  let hue: number;
+  if (max === rNorm) {
+    hue = (gNorm - bNorm) / delta + (gNorm < bNorm ? 6 : 0);
+  } else if (max === gNorm) {
+    hue = (bNorm - rNorm) / delta + 2;
   } else {
-    h = (rn - gn) / delta + 4;
+    hue = (rNorm - gNorm) / delta + 4;
   }
-  h *= 60;
+  hue *= 60;
 
-  return `hsl(${Math.round(h)}, ${Math.round(s * 100)}%, ${Math.round(l * 100)}%)` as HslString;
+  return `hsl(${Math.round(hue)}, ${Math.round(saturation * 100)}%, ${Math.round(lightness * 100)}%)` as HslString;
 }

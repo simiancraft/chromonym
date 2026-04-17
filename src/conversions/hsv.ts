@@ -26,18 +26,18 @@ export function hsvToRgba(input: HsvInput): Rgba {
     v = requireFinite(input.v, 'v');
   }
 
-  const sat = s / 100;
-  const val = v / 100;
-  const c = val * sat;
-  const hp = (((h % 360) + 360) % 360) / 60;
-  const x = c * (1 - Math.abs((hp % 2) - 1));
-  const m = val - c;
+  const saturation = s / 100;
+  const value = v / 100;
+  const chroma = value * saturation;
+  const hueSector = (((h % 360) + 360) % 360) / 60;
+  const secondary = chroma * (1 - Math.abs((hueSector % 2) - 1));
+  const valueOffset = value - chroma;
 
-  const [r1, g1, b1] = hueSectorToPrime(hp, c, x);
+  const [rPrime, gPrime, bPrime] = hueSectorToPrime(hueSector, chroma, secondary);
   return {
-    r: Math.round((r1 + m) * 255),
-    g: Math.round((g1 + m) * 255),
-    b: Math.round((b1 + m) * 255),
+    r: Math.round((rPrime + valueOffset) * 255),
+    g: Math.round((gPrime + valueOffset) * 255),
+    b: Math.round((bPrime + valueOffset) * 255),
     a: 1,
   };
 }
@@ -47,26 +47,26 @@ export function hsvToRgba(input: HsvInput): Rgba {
  * three components are rounded to whole numbers.
  */
 export function rgbaToHsv(rgba: Rgba): HsvString {
-  const rn = rgba.r / 255;
-  const gn = rgba.g / 255;
-  const bn = rgba.b / 255;
-  const max = Math.max(rn, gn, bn);
-  const min = Math.min(rn, gn, bn);
+  const rNorm = rgba.r / 255;
+  const gNorm = rgba.g / 255;
+  const bNorm = rgba.b / 255;
+  const max = Math.max(rNorm, gNorm, bNorm);
+  const min = Math.min(rNorm, gNorm, bNorm);
   const delta = max - min;
-  const v = max;
-  const s = max === 0 ? 0 : delta / max;
+  const value = max;
+  const saturation = max === 0 ? 0 : delta / max;
 
-  let h = 0;
+  let hue = 0;
   if (delta !== 0) {
-    if (max === rn) {
-      h = (gn - bn) / delta + (gn < bn ? 6 : 0);
-    } else if (max === gn) {
-      h = (bn - rn) / delta + 2;
+    if (max === rNorm) {
+      hue = (gNorm - bNorm) / delta + (gNorm < bNorm ? 6 : 0);
+    } else if (max === gNorm) {
+      hue = (bNorm - rNorm) / delta + 2;
     } else {
-      h = (rn - gn) / delta + 4;
+      hue = (rNorm - gNorm) / delta + 4;
     }
-    h *= 60;
+    hue *= 60;
   }
 
-  return `hsv(${Math.round(h)}, ${Math.round(s * 100)}%, ${Math.round(v * 100)}%)` as HsvString;
+  return `hsv(${Math.round(hue)}, ${Math.round(saturation * 100)}%, ${Math.round(value * 100)}%)` as HsvString;
 }
