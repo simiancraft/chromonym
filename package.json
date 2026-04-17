@@ -1,6 +1,6 @@
 {
   "name": "chromonym",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Color naming tool — resolve RGB or Hex color input to a human-readable name.",
   "keywords": [
     "color",
