@@ -135,6 +135,26 @@ Format keys are SCREAMING_CAPS — they are used as dispatch keys internally.
 
 The runtime set `COLOR_FORMATS` is exported for enumeration / membership checks.
 
+## Error handling
+
+The three dispatchers are asymmetric — chosen deliberately, but worth knowing:
+
+| Function | Unrecognized / unknown input | Rationale |
+|---|---|---|
+| `identify(input)` | returns `null` | lookup-flavored; "no match" is a normal outcome |
+| `resolve(name)` | returns `null` | lookup-flavored; name may legitimately not exist |
+| `convert(input)` | **throws** | parser-flavored; malformed color is a caller error |
+
+Low-level converters (`hexToRgba`, `rgbToRgba`, `hslToRgba`, `hsvToRgba`, `pantoneToRgba`) all **throw** on malformed input. The `rgbaTo*` direction never throws. The nearest-match returner `rgbaToPantone` always returns *some* Pantone code.
+
+If you want a `null`-returning variant of `convert`, wrap it:
+
+```ts
+const tryConvert = (input: ColorInput, opts = {}) => {
+  try { return convert(input, opts); } catch { return null; }
+};
+```
+
 ## Utilities
 
 - **`detectFormat(input): DetectedFormat`** — runtime format detection. Returns one of the format keys or `'UNKNOWN'`.
