@@ -51,12 +51,32 @@ describe('convert', () => {
     });
   });
 
-  describe('HSV output', () => {
+  describe('HSV output and input', () => {
     it('converts hex → hsv', () => {
       expect(convert('#ff0000', { format: 'HSV' })).toBe('hsv(0, 100%, 100%)');
     });
     it('converts rgb → hsv', () => {
       expect(convert({ r: 0, g: 128, b: 0 }, { format: 'HSV' })).toBe('hsv(120, 100%, 50%)');
+    });
+    it('accepts hsv object as input', () => {
+      expect(convert({ h: 0, s: 100, v: 100 }, { format: 'HEX' })).toBe('#ff0000');
+    });
+    it('accepts hsv string as input', () => {
+      expect(convert('hsv(120, 100%, 100%)', { format: 'RGB' })).toBe('rgb(0, 255, 0)');
+    });
+  });
+
+  describe('PANTONE input and output', () => {
+    it('accepts a pantone code as input', () => {
+      expect(convert('185 C', { format: 'HEX' })).toBe('#e4002b');
+    });
+    it('emits a Pantone code for rgb input', () => {
+      // Exact match: rgba equivalent of #e4002b → 185C.
+      expect(convert({ r: 228, g: 0, b: 43 }, { format: 'PANTONE' })).toBe('185C');
+    });
+    it('round-trips pantone code through rgba', () => {
+      const rgba = convert('100C', { format: 'RGBA' });
+      expect(convert(rgba, { format: 'PANTONE' })).toBe('100C');
     });
   });
 

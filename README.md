@@ -95,6 +95,8 @@ convert('#ff0000', { format: 'RGBA' })             // { r: 255, g: 0, b: 0, a: 1
 convert([255, 0, 0], { format: 'HEX' })            // '#ff0000'
 convert('rgb(255, 0, 0)', { format: 'HSL' })       // 'hsl(0, 100%, 50%)'
 convert({ h: 0, s: 100, l: 50 }, { format: 'HEX' })// '#ff0000'
+convert('185 C', { format: 'HEX' })                // '#e4002b'
+convert('#e4002b', { format: 'PANTONE' })          // '185C' (nearest Pantone C)
 ```
 
 ## Colorspaces
