@@ -178,6 +178,12 @@ bun run scripts/generate-x11.ts        # reads /usr/share/X11/rgb.txt
 bun run scripts/generate-pantone.ts    # reads color_library (MIT dependency)
 ```
 
+## Coverage
+
+[![Coverage sunburst](https://codecov.io/github/simiancraft/chromonym/graphs/sunburst.svg?token=HYWM6G66YE)](https://codecov.io/github/simiancraft/chromonym)
+
+Each ring is a directory; each leaf is a file. Green is covered, red is gaps.
+
 ## License
 
 MIT © [the-simian](https://github.com/the-simian)
