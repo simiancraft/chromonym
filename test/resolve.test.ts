@@ -29,6 +29,27 @@ describe('resolve', () => {
     });
   });
 
+  describe('output format', () => {
+    it("resolve('red', { format: 'HSL' }) → 'hsl(0, 100%, 50%)'", () => {
+      expect(resolve('red', { format: 'HSL' })).toBe('hsl(0, 100%, 50%)');
+    });
+    it("resolve('red', { format: 'HSV' }) → 'hsv(0, 100%, 100%)'", () => {
+      expect(resolve('red', { format: 'HSV' })).toBe('hsv(0, 100%, 100%)');
+    });
+    it("resolve('red', { format: 'PANTONE' }) returns nearest Pantone C code", () => {
+      const result = resolve('red', { format: 'PANTONE' });
+      expect(result).toMatch(/^\d+C$/);
+    });
+    it("resolve('185 C', { colorspace: 'pantone', format: 'RGBA' }) returns the rgba object", () => {
+      expect(resolve('185 C', { colorspace: 'pantone', format: 'RGBA' })).toEqual({
+        r: 228,
+        g: 0,
+        b: 43,
+        a: 1,
+      });
+    });
+  });
+
   describe('normalization', () => {
     it('is case-insensitive', () => {
       expect(resolve('ALICEBLUE')).toBe('#f0f8ff');
