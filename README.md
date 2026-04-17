@@ -1,5 +1,7 @@
 # chromonym
 
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+
 Identify, resolve, and convert colors across CSS, X11, and Pantone colorspaces.
 
 ```ts
