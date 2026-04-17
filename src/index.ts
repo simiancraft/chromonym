@@ -7,6 +7,7 @@ export { type X11ColorName, x11 } from './colorspaces/x11';
 export { hexToRgba, rgbaToHex } from './conversions/hex';
 export { hslToRgba, rgbaToHsl } from './conversions/hsl';
 export { hsvToRgba, rgbaToHsv } from './conversions/hsv';
+export { pantoneToRgba, rgbaToPantone } from './conversions/pantone';
 export { rgbaToRgb, rgbToRgba } from './conversions/rgb';
 export { type DetectedFormat, detectFormat } from './detectFormat';
 export type {
