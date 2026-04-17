@@ -2,38 +2,15 @@ import { pantone } from './colorspaces/pantone';
 import { web } from './colorspaces/web';
 import { x11 } from './colorspaces/x11';
 import { convert } from './convert';
+import { getNameIndex, type NormalizeFn, pantoneNormalize, standardNormalize } from './indexing';
 import type { ColorFormat, Colorspace, ColorspaceName, ColorValue, HexColor } from './types';
 
 const COLORSPACES: Record<ColorspaceName, Colorspace> = { web, x11, pantone };
-
-function normalize(s: string): string {
-  return s.toLowerCase().replace(/[^a-z0-9]/g, '');
-}
-
-// Pantone-specific: also strip leading "Pantone" / "PMS" prefix so that
-// "Pantone 185 C" and "PMS 185C" both resolve to "185C".
-function normalizeForPantone(s: string): string {
-  return s
-    .toLowerCase()
-    .replace(/^(pantone|pms)\s*/, '')
-    .replace(/[^a-z0-9]/g, '');
-}
-
-const indexes = new Map<ColorspaceName, Map<string, string>>();
-
-function getIndex(colorspace: ColorspaceName): Map<string, string> {
-  let idx = indexes.get(colorspace);
-  if (idx === undefined) {
-    idx = new Map();
-    const space = COLORSPACES[colorspace];
-    const normFn = colorspace === 'pantone' ? normalizeForPantone : normalize;
-    for (const key of Object.keys(space)) {
-      idx.set(normFn(key), key);
-    }
-    indexes.set(colorspace, idx);
-  }
-  return idx;
-}
+const NORMALIZERS: Record<ColorspaceName, NormalizeFn> = {
+  web: standardNormalize,
+  x11: standardNormalize,
+  pantone: pantoneNormalize,
+};
 
 /**
  * Resolve a human-readable name to a color. Normalizes the input
@@ -48,10 +25,10 @@ export function resolve(
   opts: { colorspace?: ColorspaceName; format?: ColorFormat } = {},
 ): ColorValue | null {
   const { colorspace = 'web', format = 'HEX' } = opts;
-  const normFn = colorspace === 'pantone' ? normalizeForPantone : normalize;
-  const canonical = getIndex(colorspace).get(normFn(name));
-  if (canonical === undefined) return null;
   const space = COLORSPACES[colorspace];
+  const normalize = NORMALIZERS[colorspace];
+  const canonical = getNameIndex(space, normalize).get(normalize(name));
+  if (canonical === undefined) return null;
   const hex = space[canonical] as HexColor;
   return convert(hex, { format });
 }
