@@ -11,6 +11,7 @@ export { pantoneToRgba, rgbaToPantone } from './conversions/pantone';
 export { rgbaToRgb, rgbToRgba } from './conversions/rgb';
 export { convert } from './convert';
 export { type DetectedFormat, detectFormat } from './detectFormat';
+export { identify } from './identify';
 export { resolve } from './resolve';
 export type {
   ColorFormat,
