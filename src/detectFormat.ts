@@ -1,0 +1,46 @@
+import type { ColorFormat, ColorInput } from './types';
+
+/**
+ * A color comes in, a format key comes out.
+ * 'UNKNOWN' signals the caller that the input isn't a recognized color shape.
+ * Used as the dispatch key for format-specific converters.
+ */
+export type DetectedFormat = ColorFormat | 'UNKNOWN';
+
+const HEX_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+const RGBA_STR_RE = /^rgba\s*\(/i;
+const RGB_STR_RE = /^rgb\s*\(/i;
+const HSL_STR_RE = /^hsl\s*\(/i;
+const HSV_STR_RE = /^hsv\s*\(/i;
+// Conservative: matches "<digits> C|U|M" with optional "Pantone" prefix.
+// Refine once the real Pantone code list lands.
+const PANTONE_RE = /^(?:pantone\s+)?\d+\s*[CUM]$/i;
+
+export function detectFormat(input: ColorInput): DetectedFormat {
+  if (typeof input === 'string') {
+    if (input === '') return 'UNKNOWN';
+    if (HEX_RE.test(input)) return 'HEX';
+    if (RGBA_STR_RE.test(input)) return 'RGBA';
+    if (RGB_STR_RE.test(input)) return 'RGB';
+    if (HSL_STR_RE.test(input)) return 'HSL';
+    if (HSV_STR_RE.test(input)) return 'HSV';
+    if (PANTONE_RE.test(input)) return 'PANTONE';
+    return 'UNKNOWN';
+  }
+
+  if (Array.isArray(input)) {
+    if (input.length === 4) return 'RGBA';
+    if (input.length === 3) return 'RGB';
+    return 'UNKNOWN';
+  }
+
+  if (input !== null && typeof input === 'object') {
+    if ('h' in input && 'v' in input) return 'HSV';
+    if ('h' in input && 'l' in input) return 'HSL';
+    if ('a' in input) return 'RGBA';
+    if ('r' in input) return 'RGB';
+    return 'UNKNOWN';
+  }
+
+  return 'UNKNOWN';
+}

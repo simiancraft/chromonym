@@ -2,6 +2,7 @@
 // No default export; no side effects at module scope.
 
 export { type WebColorName, web } from './colorspaces/web';
+export { type DetectedFormat, detectFormat } from './detectFormat';
 export type {
   ColorFormat,
   ColorInput,
@@ -12,6 +13,9 @@ export type {
   HslInput,
   HslObject,
   HslString,
+  HsvInput,
+  HsvObject,
+  HsvString,
   PantoneCode,
   Rgba,
   RgbaInput,
@@ -22,3 +26,4 @@ export type {
   RgbString,
   RgbTuple,
 } from './types';
+export { COLOR_FORMATS } from './types';
