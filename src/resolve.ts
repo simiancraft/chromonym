@@ -1,7 +1,8 @@
 import { pantone } from './colorspaces/pantone';
 import { web } from './colorspaces/web';
 import { x11 } from './colorspaces/x11';
-import { convert } from './convert';
+import { hexToRgba } from './conversions/hex';
+import { fromRgba } from './convert';
 import { getNameIndex, type NormalizeFn, pantoneNormalize, standardNormalize } from './indexing';
 import type { ColorFormat, Colorspace, ColorspaceName, ColorValue, HexColor } from './types';
 
@@ -33,5 +34,6 @@ export function resolve(
   const canonical = getNameIndex(space, normalize).get(normalize(name));
   if (canonical === undefined) return null;
   const hex = space[canonical] as HexColor;
-  return convert(hex, { format });
+  // Skip detectFormat — we already know this is HEX (read from colorspace data).
+  return fromRgba(hexToRgba(hex), format);
 }

@@ -13,7 +13,7 @@ import { hexToRgba } from '../src/conversions/hex';
 import { hslToRgba } from '../src/conversions/hsl';
 import { hsvToRgba } from '../src/conversions/hsv';
 import { rgbToRgba } from '../src/conversions/rgb';
-import { convert } from '../src/convert';
+import { convert, fromRgba, toRgba } from '../src/convert';
 import { detectFormat } from '../src/detectFormat';
 import { identify } from '../src/identify';
 import { resolve } from '../src/resolve';
@@ -38,6 +38,8 @@ bench('hslToRgba({h,s,l})', () => hslToRgba({ h: 180, s: 50, l: 50 }), 200000);
 bench('hsvToRgba({h,s,v})', () => hsvToRgba({ h: 180, s: 50, v: 50 }), 200000);
 
 console.log('\n— dispatchers —');
+bench('toRgba(#ff0000)', () => toRgba('#ff0000'), 100000);
+bench('fromRgba(rgba, HEX)', () => fromRgba({ r: 255, g: 0, b: 0, a: 1 }, 'HEX'), 100000);
 bench('convert(#ff0000 → HEX)', () => convert('#ff0000'), 50000);
 bench('convert(#ff0000 → HSL)', () => convert('#ff0000', { format: 'HSL' }), 50000);
 bench('resolve(crimson, web)', () => resolve('crimson'), 50000);

@@ -1,4 +1,5 @@
 import { hexToRgba } from './conversions/hex';
+import { squaredDistanceRgb } from './math/euclideanDistance';
 import type { Colorspace, HexColor, Rgba } from './types';
 
 /**
@@ -58,4 +59,23 @@ export function getRgbaIndex(space: Colorspace): Array<readonly [string, Rgba]> 
     rgbaIndexCache.set(space, idx);
   }
   return idx;
+}
+
+/**
+ * Find the nearest-named entry in a colorspace to the given Rgba, using
+ * squared Euclidean distance in RGB (alpha ignored). Used by `identify`
+ * and `rgbaToPantone`. Returns an empty string only for an empty colorspace.
+ */
+export function nearestByRgb(target: Rgba, space: Colorspace): string {
+  const entries = getRgbaIndex(space);
+  let bestName = entries[0]?.[0] ?? '';
+  let bestDistance = Number.POSITIVE_INFINITY;
+  for (const [name, candidate] of entries) {
+    const d = squaredDistanceRgb(target, candidate);
+    if (d < bestDistance) {
+      bestDistance = d;
+      bestName = name;
+    }
+  }
+  return bestName;
 }
