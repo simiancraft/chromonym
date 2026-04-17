@@ -1,0 +1,109 @@
+import { describe, expect, it } from 'bun:test';
+import { detectFormat } from '../src/detectFormat';
+
+describe('detectFormat', () => {
+  describe('HEX', () => {
+    it('detects 6-digit hex', () => {
+      expect(detectFormat('#ff0000')).toBe('HEX');
+    });
+    it('detects 3-digit hex (shorthand)', () => {
+      expect(detectFormat('#f00')).toBe('HEX');
+    });
+    it('detects 8-digit hex (with alpha)', () => {
+      expect(detectFormat('#ff0000aa')).toBe('HEX');
+    });
+    it('is case-insensitive', () => {
+      expect(detectFormat('#FF00AA')).toBe('HEX');
+    });
+  });
+
+  describe('RGB', () => {
+    it('detects rgb() string with spaces', () => {
+      expect(detectFormat('rgb(255, 0, 0)')).toBe('RGB');
+    });
+    it('detects rgb() string without spaces', () => {
+      expect(detectFormat('rgb(255,0,0)')).toBe('RGB');
+    });
+    it('detects 3-tuple', () => {
+      expect(detectFormat([255, 0, 0] as const)).toBe('RGB');
+    });
+    it('detects {r,g,b} object', () => {
+      expect(detectFormat({ r: 255, g: 0, b: 0 })).toBe('RGB');
+    });
+  });
+
+  describe('RGBA', () => {
+    it('detects rgba() string', () => {
+      expect(detectFormat('rgba(255, 0, 0, 0.5)')).toBe('RGBA');
+    });
+    it('detects 4-tuple', () => {
+      expect(detectFormat([255, 0, 0, 0.5] as const)).toBe('RGBA');
+    });
+    it('detects {r,g,b,a} object', () => {
+      expect(detectFormat({ r: 255, g: 0, b: 0, a: 0.5 })).toBe('RGBA');
+    });
+  });
+
+  describe('HSL', () => {
+    it('detects hsl() string', () => {
+      expect(detectFormat('hsl(0, 100%, 50%)')).toBe('HSL');
+    });
+    it('detects {h,s,l} object', () => {
+      expect(detectFormat({ h: 0, s: 100, l: 50 })).toBe('HSL');
+    });
+  });
+
+  describe('HSV', () => {
+    it('detects hsv() string', () => {
+      expect(detectFormat('hsv(0, 100%, 100%)')).toBe('HSV');
+    });
+    it('detects {h,s,v} object', () => {
+      expect(detectFormat({ h: 0, s: 100, v: 100 })).toBe('HSV');
+    });
+  });
+
+  describe('PANTONE', () => {
+    it('detects bare code like "185 C"', () => {
+      expect(detectFormat('185 C')).toBe('PANTONE');
+    });
+    it('detects "Pantone 185 C"', () => {
+      expect(detectFormat('Pantone 185 C')).toBe('PANTONE');
+    });
+    it('detects "2945 U"', () => {
+      expect(detectFormat('2945 U')).toBe('PANTONE');
+    });
+    it('detects "100 M"', () => {
+      expect(detectFormat('100 M')).toBe('PANTONE');
+    });
+  });
+
+  describe('UNKNOWN', () => {
+    it('returns UNKNOWN for garbage string', () => {
+      expect(detectFormat('not a color')).toBe('UNKNOWN');
+    });
+    it('returns UNKNOWN for empty string', () => {
+      expect(detectFormat('')).toBe('UNKNOWN');
+    });
+    it('returns UNKNOWN for empty object', () => {
+      expect(detectFormat({} as never)).toBe('UNKNOWN');
+    });
+    it('returns UNKNOWN for 2-length array', () => {
+      expect(detectFormat([1, 2] as never)).toBe('UNKNOWN');
+    });
+    it('returns UNKNOWN for 5-length array', () => {
+      expect(detectFormat([1, 2, 3, 4, 5] as never)).toBe('UNKNOWN');
+    });
+    it('returns UNKNOWN for null', () => {
+      expect(detectFormat(null as never)).toBe('UNKNOWN');
+    });
+    it('returns UNKNOWN for undefined', () => {
+      expect(detectFormat(undefined as never)).toBe('UNKNOWN');
+    });
+    it('returns UNKNOWN for number', () => {
+      expect(detectFormat(42 as never)).toBe('UNKNOWN');
+    });
+    it('returns UNKNOWN for boolean', () => {
+      expect(detectFormat(true as never)).toBe('UNKNOWN');
+    });
+  });
+});

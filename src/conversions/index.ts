@@ -1,3 +1,5 @@
-// Conversions barrel — populated with explicit named re-exports as
-// per-format converter files (hex.ts, rgb.ts, hsl.ts, pantone.ts) land.
-export {};
+export { hexToRgba, rgbaToHex } from './hex';
+export { hslToRgba, rgbaToHsl } from './hsl';
+export { hsvToRgba, rgbaToHsv } from './hsv';
+export { pantoneToRgba, rgbaToPantone } from './pantone';
+export { rgbaToRgb, rgbToRgba } from './rgb';

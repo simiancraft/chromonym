@@ -1,4 +1,4 @@
-import type { Colorspace } from '../types.ts';
+import type { Colorspace } from '../types';
 
 /**
  * CSS / SVG named colors (CSS Color Module Level 4).
