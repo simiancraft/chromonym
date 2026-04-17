@@ -23,6 +23,12 @@ describe('hslToRgba', () => {
   it('handles magenta { h:300, s:100, l:50 }', () => {
     expect(hslToRgba({ h: 300, s: 100, l: 50 })).toEqual({ r: 255, g: 0, b: 255, a: 1 });
   });
+  it('handles yellow { h:60, s:100, l:50 } (hue in [1, 2) sector)', () => {
+    expect(hslToRgba({ h: 60, s: 100, l: 50 })).toEqual({ r: 255, g: 255, b: 0, a: 1 });
+  });
+  it('handles cyan { h:180, s:100, l:50 } (hue in [3, 4) sector)', () => {
+    expect(hslToRgba({ h: 180, s: 100, l: 50 })).toEqual({ r: 0, g: 255, b: 255, a: 1 });
+  });
   it('throws on malformed string', () => {
     // @ts-expect-error runtime guard for invalid input
     expect(() => hslToRgba('not hsl')).toThrow();

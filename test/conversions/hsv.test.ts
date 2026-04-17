@@ -20,6 +20,15 @@ describe('hsvToRgba', () => {
   it('wraps hue modulo 360', () => {
     expect(hsvToRgba({ h: 360, s: 100, v: 100 })).toEqual({ r: 255, g: 0, b: 0, a: 1 });
   });
+  it('handles yellow { h:60, s:100, v:100 } (hue in [1, 2) sector)', () => {
+    expect(hsvToRgba({ h: 60, s: 100, v: 100 })).toEqual({ r: 255, g: 255, b: 0, a: 1 });
+  });
+  it('handles cyan { h:180, s:100, v:100 } (hue in [3, 4) sector)', () => {
+    expect(hsvToRgba({ h: 180, s: 100, v: 100 })).toEqual({ r: 0, g: 255, b: 255, a: 1 });
+  });
+  it('handles pure blue { h:240, s:100, v:100 } (hue in [4, 5) sector)', () => {
+    expect(hsvToRgba({ h: 240, s: 100, v: 100 })).toEqual({ r: 0, g: 0, b: 255, a: 1 });
+  });
   it('throws on malformed string', () => {
     // @ts-expect-error runtime guard for invalid input
     expect(() => hsvToRgba('not hsv')).toThrow();
@@ -38,6 +47,9 @@ describe('rgbaToHsv', () => {
   });
   it('emits "hsv(0, 0%, 100%)" for white', () => {
     expect(rgbaToHsv({ r: 255, g: 255, b: 255, a: 1 })).toBe('hsv(0, 0%, 100%)');
+  });
+  it('emits "hsv(240, 100%, 100%)" for pure blue (max === b branch)', () => {
+    expect(rgbaToHsv({ r: 0, g: 0, b: 255, a: 1 })).toBe('hsv(240, 100%, 100%)');
   });
 });
 
