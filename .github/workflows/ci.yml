@@ -33,7 +33,12 @@ jobs:
       - name: Test with coverage
         run: bun test --coverage --coverage-reporter=lcov
 
+      # Gate on non-fork to prevent CODECOV_TOKEN exfil from untrusted PRs.
+      # pull_request from a fork has head.repo.full_name != the receiving repo.
       - name: Upload coverage to Codecov
+        if: >
+          github.event_name == 'push' ||
+          github.event.pull_request.head.repo.full_name == github.repository
         uses: codecov/codecov-action@v4
         with:
           files: ./coverage/lcov.info
