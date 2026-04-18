@@ -7,7 +7,8 @@ import {
   identify,
   resolve,
 } from 'chromonym';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import bannerUrl from '../../.github/assets/banner.svg';
 
 const COLORSPACES: ColorspaceName[] = ['web', 'x11', 'pantone'];
 
@@ -29,10 +30,45 @@ const METRIC_LABELS: Record<DistanceMetric, string> = {
   deltaEok: 'ΔE OKLAB — modern, perceptually uniform',
 };
 
+// Read initial state from the URL so shared links reproduce the demo state.
+function readParams() {
+  if (typeof window === 'undefined') return { color: '#E20074', colorspace: 'pantone' as ColorspaceName, metric: 'deltaE2000' as DistanceMetric };
+  const p = new URLSearchParams(window.location.search);
+  const color = p.get('c') ?? '#E20074';
+  const colorspace = (p.get('cs') ?? 'pantone') as ColorspaceName;
+  const metric = (p.get('m') ?? 'deltaE2000') as DistanceMetric;
+  return {
+    color: /^#[0-9a-f]{6}$/i.test(color) ? color : '#E20074',
+    colorspace: (COLORSPACES as string[]).includes(colorspace) ? colorspace : 'pantone',
+    metric: (METRICS as string[]).includes(metric) ? metric : 'deltaE2000',
+  };
+}
+
+const PRESETS: Array<{ label: string; color: string; colorspace: ColorspaceName; metric: DistanceMetric }> = [
+  { label: 'T-Mobile magenta → Pantone', color: '#E20074', colorspace: 'pantone', metric: 'deltaE2000' },
+  { label: 'Spotify green → Pantone', color: '#1DB954', colorspace: 'pantone', metric: 'deltaE2000' },
+  { label: 'Facebook blue → Pantone', color: '#1877F2', colorspace: 'pantone', metric: 'deltaEok' },
+  { label: 'Dodger blue → web', color: '#1E90FF', colorspace: 'web', metric: 'deltaE76' },
+  { label: 'Blueviolet → X11 (ΔE76 picks differently)', color: '#8A2BE2', colorspace: 'x11', metric: 'deltaE76' },
+];
+
 export function App() {
-  const [input, setInput] = useState('#dc143c');
-  const [colorspace, setColorspace] = useState<ColorspaceName>('web');
-  const [metric, setMetric] = useState<DistanceMetric>('deltaE76');
+  const initial = readParams();
+  const [input, setInput] = useState(initial.color);
+  const [colorspace, setColorspace] = useState<ColorspaceName>(initial.colorspace);
+  const [metric, setMetric] = useState<DistanceMetric>(initial.metric);
+
+  // Write state to URL on every change (replaceState — don't pollute history).
+  useEffect(() => {
+    const p = new URLSearchParams();
+    p.set('c', input);
+    p.set('cs', colorspace);
+    p.set('m', metric);
+    const qs = `?${p.toString()}`;
+    if (window.location.search !== qs) {
+      window.history.replaceState({}, '', `${window.location.pathname}${qs}`);
+    }
+  }, [input, colorspace, metric]);
 
   const matchedName = useMemo(() => identify(input, { colorspace, metric }), [input, colorspace, metric]);
 
@@ -56,18 +92,21 @@ export function App() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
       <div className="w-full max-w-3xl space-y-6">
-        <header className="text-center space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight">chromonym</h1>
+        <header className="text-center space-y-3">
+          <img src={bannerUrl} alt="chromonym" className="mx-auto w-full max-w-xl" />
           <p className="text-neutral-600">
             Tree-shakeable color naming for TypeScript. Scrub a color — see the nearest name across
             three colorspaces, with your choice of perceptual distance metric.
           </p>
-          <a
-            href="https://github.com/simiancraft/chromonym"
-            className="inline-block text-sm text-blue-600 hover:underline"
-          >
-            GitHub →
-          </a>
+          <div className="flex items-center justify-center gap-3 text-sm">
+            <a href="https://github.com/simiancraft/chromonym" className="text-blue-600 hover:underline">
+              GitHub →
+            </a>
+            <span className="text-neutral-300">·</span>
+            <a href="https://www.npmjs.com/package/chromonym" className="text-blue-600 hover:underline">
+              npm
+            </a>
+          </div>
         </header>
 
         <section className="bg-white rounded-xl shadow-sm p-6 space-y-4 border border-neutral-200">
@@ -111,6 +150,26 @@ export function App() {
             </label>
           </div>
 
+          <div className="flex flex-wrap gap-2 pt-1">
+            <span className="text-xs uppercase tracking-wide text-neutral-500 self-center mr-1">
+              try:
+            </span>
+            {PRESETS.map((p) => (
+              <button
+                type="button"
+                key={p.label}
+                onClick={() => {
+                  setInput(p.color);
+                  setColorspace(p.colorspace);
+                  setMetric(p.metric);
+                }}
+                className="text-xs px-3 py-1 rounded-full border border-neutral-300 bg-neutral-50 hover:bg-neutral-100"
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
             <div className="text-center">
               <div className="text-xs uppercase tracking-wide text-neutral-500">input</div>
@@ -143,16 +202,21 @@ export function App() {
           </pre>
         </section>
 
-        <footer className="text-center text-xs text-neutral-500 pt-4">
-          Pantone® is a registered trademark of Pantone LLC. Chromonym is not affiliated with
-          Pantone; values are community approximations. See{' '}
-          <a
-            href="https://github.com/simiancraft/chromonym/blob/main/NOTICE.md"
-            className="underline"
-          >
-            NOTICE.md
-          </a>
-          .
+        <footer className="text-center text-xs text-neutral-500 pt-4 space-y-1">
+          <div>
+            Shareable link — this demo's URL updates as you scrub. Copy and send.
+          </div>
+          <div>
+            Pantone® is a registered trademark of Pantone LLC. Chromonym is not affiliated with
+            Pantone; values are community approximations. See{' '}
+            <a
+              href="https://github.com/simiancraft/chromonym/blob/main/NOTICE.md"
+              className="underline"
+            >
+              NOTICE.md
+            </a>
+            .
+          </div>
         </footer>
       </div>
     </div>
