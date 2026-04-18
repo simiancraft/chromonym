@@ -232,16 +232,15 @@ const tryConvert = (input: ColorInput, opts = {}) => {
 
 ## Types
 
-All types are re-exported from the root:
+Re-exported from the root barrel — `import type { ... } from 'chromonym'`:
 
-```ts
-import type {
-  ColorInput, ColorValue, ColorFormat, ColorspaceName,
-  HexColor, Rgba, RgbInput, RgbaInput, HslInput, HsvInput, PantoneCode,
-  Colorspace,
-  WebColorName, X11ColorName, PantoneColorName,
-} from 'chromonym';
-```
+| Category | Types |
+|---|---|
+| Input / output unions | `ColorInput`, `ColorValue` |
+| Format & space keys | `ColorFormat`, `ColorspaceName` |
+| Per-format shapes | `HexColor`, `Rgba`, `RgbInput`, `RgbaInput`, `HslInput`, `HsvInput`, `PantoneCode` |
+| Palette container | `Colorspace` |
+| Color-name unions | `WebColorName`, `X11ColorName`, `PantoneColorName` |
 
 ## Development
 
