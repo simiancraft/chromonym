@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/simiancraft/chromonym/compare/v1.3.0...v1.3.1) (2026-04-18)
+
+
+### Bug Fixes
+
+* republish to sync npm with latest README ([4bc77c5](https://github.com/simiancraft/chromonym/commit/4bc77c508e60fd4f95c645fef15e5b061a8a110e))
+
 # [1.3.0](https://github.com/simiancraft/chromonym/compare/v1.2.0...v1.3.0) (2026-04-18)
 
 
