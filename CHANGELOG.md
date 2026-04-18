@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/simiancraft/chromonym/compare/v1.3.1...v1.4.0) (2026-04-18)
+
+
+### Features
+
+* **types:** narrow identify return via generic over colorspace ([0c7148c](https://github.com/simiancraft/chromonym/commit/0c7148c2e17916ce3c5699f74c6f1c9ebd40c96b))
+
 ## [1.3.1](https://github.com/simiancraft/chromonym/compare/v1.3.0...v1.3.1) (2026-04-18)
 
 
