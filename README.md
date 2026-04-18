@@ -265,7 +265,7 @@ Each ring is a directory; each leaf is a file. Green is covered, red is gaps.
 
 ## See also
 
-chromonym deliberately limits its scope to color *naming*. For other color-related work, reach for tools that do those things well:
+chromonym deliberately limits its scope to color *naming* (resolving and identifying) and lightweight conversions. For other color-related work, reach for tools that do those things well:
 
 - **[color.js](https://colorjs.io/)** — modern, spec-first color library by the CSS Color WG authors. CSS Color 4/5, OKLAB, P3, gamut mapping, interpolation, ΔE.
 - **[chroma.js](https://gka.github.io/chroma.js/)** — color mixing, scales, interpolation, contrast ratios, luminance.
