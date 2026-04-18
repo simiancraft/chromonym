@@ -99,3 +99,29 @@ export function rgbaToOklab(rgba: Rgba): [number, number, number] {
   const [r, g, b] = rgbaToLinearRgb(rgba);
   return linearRgbToOklab(r, g, b);
 }
+
+/**
+ * OKLAB → OKLCh (polar form of OKLAB). L stays the same; a,b become
+ * chroma and hue. Useful for hue-aware manipulation and naming strategies
+ * that want to reason about hue distance independently of lightness.
+ *
+ * Returns [L, C, h] where C >= 0 and h is in degrees [0, 360).
+ * Achromatic colors (C ≈ 0) return h = 0 by convention.
+ */
+export function oklabToOklch(L: number, a: number, b: number): [number, number, number] {
+  const C = Math.sqrt(a * a + b * b);
+  const h = C === 0 ? 0 : ((Math.atan2(b, a) * 180) / Math.PI + 360) % 360;
+  return [L, C, h];
+}
+
+/** OKLCh → OKLAB. Inverse of `oklabToOklch`. */
+export function oklchToOklab(L: number, C: number, h: number): [number, number, number] {
+  const rad = (h * Math.PI) / 180;
+  return [L, C * Math.cos(rad), C * Math.sin(rad)];
+}
+
+/** Rgba (sRGB, 0..255) → OKLCh. Composition shortcut. */
+export function rgbaToOklch(rgba: Rgba): [number, number, number] {
+  const [L, a, b] = rgbaToOklab(rgba);
+  return oklabToOklch(L, a, b);
+}
