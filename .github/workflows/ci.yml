@@ -30,6 +30,11 @@ jobs:
       - name: Typecheck (tsgo)
         run: bun run typecheck
 
+      # Build before test so test/subpathExports.test.ts can verify the
+      # package.json 'exports' map against actual emitted dist/ files.
+      - name: Build
+        run: bun run build
+
       - name: Test with coverage
         run: bun test --coverage --coverage-reporter=lcov
 
@@ -44,9 +49,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/lcov.info
           fail_ci_if_error: false
-
-      - name: Build
-        run: bun run build
 
   release:
     name: Release
