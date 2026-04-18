@@ -87,5 +87,16 @@ describe('convert', () => {
     it('throws on empty string', () => {
       expect(() => convert('' as never)).toThrow();
     });
+    it('error message JSON-stringifies objects (not [object Object])', () => {
+      expect(() => convert({} as never)).toThrow(/\{\}/);
+    });
+    it('error message handles undefined', () => {
+      expect(() => convert(undefined as never)).toThrow(/undefined/);
+    });
+    it('error message handles circular references safely', () => {
+      const circ: Record<string, unknown> = {};
+      circ.self = circ;
+      expect(() => convert(circ as never)).toThrow();
+    });
   });
 });

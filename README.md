@@ -1,3 +1,13 @@
+<p align="center">
+  <img src=".github/assets/banner.svg" alt="chromonym" width="800" />
+</p>
+
+<p align="center">
+  <a href="https://simiancraft.github.io/chromonym/">
+    <img src="https://img.shields.io/badge/▶%20Live%20demo-scrub%20a%20color%2C%20see%20the%20name-4f46e5?style=for-the-badge" alt="Live demo" />
+  </a>
+</p>
+
 # chromonym
 
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
@@ -6,7 +16,9 @@
 [![semantic-release: conventional](https://img.shields.io/badge/semantic--release-conventional-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-Identify, resolve, and convert colors across CSS, X11, and Pantone colorspaces.
+**Tree-shakeable color naming for TypeScript.** Identify, resolve, and convert colors across CSS, X11, and Pantone — with 5 perceptual distance metrics. Add your own colorspaces and metrics as you need them.
+
+Built as a *color-strategy machine*: the identification and resolution mechanism is the same across every colorspace, so plugging in a new set (RAL, HKS, NCS, or a custom brand palette) is one file. For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`](https://gka.github.io/chroma.js/) or [`color.js`](https://colorjs.io/) — chromonym is the tool for *naming*.
 
 ```ts
 import { identify, resolve, convert } from 'chromonym';
@@ -17,6 +29,10 @@ resolve('185 C', { colorspace: 'pantone' })       // '#e4002b'
 convert('#ff0000', { format: 'RGB' })             // 'rgb(255, 0, 0)'
 convert({ r: 255, g: 0, b: 0 }, { format: 'HSL' })// 'hsl(0, 100%, 50%)'
 ```
+
+> ### Pantone® trademark notice
+>
+> **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is **not affiliated with, endorsed by, or certified by Pantone LLC**. The `pantone` colorspace ships **community-derived sRGB approximations** of the Pantone Coated (C) set. Values will **not** match a licensed Pantone reference exactly and are unsuitable for print color specification. See [`NOTICE.md`](./NOTICE.md) for full text.
 
 ## Install
 
@@ -31,16 +47,17 @@ Three primary functions. All accept an optional `opts` object; defaults fire whe
 
 ### `identify(input, opts?)`
 
-**Color → name.** Finds the nearest-match name in the chosen colorspace using Euclidean distance in RGB.
+**Color → name.** Finds the nearest-match name in the chosen colorspace using the selected perceptual distance metric.
 
 ```ts
 function identify(
   input: ColorInput,
-  opts?: { colorspace?: ColorspaceName },
+  opts?: { colorspace?: ColorspaceName; metric?: DistanceMetric },
 ): string | null
 ```
 
 - **Default colorspace**: `'web'`.
+- **Default metric**: picked per colorspace — `'deltaE76'` for web and x11 (well-separated palettes), `'deltaE2000'` for pantone (dense, perceptually-packed). Override freely via `metric`.
 - Returns the matched name, or `null` if input is unrecognized (`detectFormat` returns `'UNKNOWN'`).
 - Ties are broken by the first entry encountered in the colorspace data.
 
@@ -50,6 +67,8 @@ identify([255, 0, 0])                              // 'red'
 identify({ r: 250, g: 20, b: 60 })                 // 'crimson' (nearest)
 identify('#ff0000', { colorspace: 'x11' })         // 'red' (or 'red1', X11 has numbered variants)
 identify('#ff0000', { colorspace: 'pantone' })     // nearest Pantone C code, e.g. '185C'
+identify('#ff0080', { metric: 'deltaE2000' })      // force perceptual-accurate match
+identify('#ff0000', { metric: 'euclidean-srgb' })  // force fastest (non-perceptual) match
 ```
 
 ### `resolve(name, opts?)`
@@ -120,6 +139,34 @@ import { web, x11, pantone } from 'chromonym';
 web.crimson                      // '#dc143c'
 ```
 
+## Distance metrics
+
+`identify` picks the nearest-named color by comparing your input to every entry in the chosen colorspace. *How* it measures "nearest" is controlled by `metric`. Five options, roughly ordered from fast-and-approximate to slow-and-correct:
+
+| Metric | What it does | When to use |
+|---|---|---|
+| `'euclidean-srgb'` | Raw `sqrt(Δr² + Δg² + Δb²)` in sRGB. Fastest. Not perceptually uniform — a unit of distance doesn't mean a unit of "visual difference." | Tight perf budgets; well-separated palettes where you just need the obvious answer. |
+| `'euclidean-linear'` | Same math, but on linearized (gamma-removed) RGB. Somewhat better in dark regions. Still not perceptual. | Physical-light mixing contexts; incremental upgrade from sRGB Euclidean. |
+| `'deltaE76'` | Euclidean in CIELAB (CIE 1976). Simple perceptual metric. 1 ΔE ≈ "just noticeable difference" for most of the gamut. | **Default for web and x11.** Sweet spot: meaningful perceptual accuracy, low cost. |
+| `'deltaE94'` | ΔE76 + chroma/hue weighting (CIE 1994). Fixes "saturated colors feel too far apart." | When ΔE76 is over-penalizing saturated matches in your use case. |
+| `'deltaE2000'` | Full CIEDE2000 formula with blue/purple rotation correction. Industry standard for print, design tools, Pantone workflows. | **Default for pantone.** Use whenever accuracy matters, especially in the blue region where ΔE76/94 break down. |
+| `'deltaEok'` | Euclidean distance in OKLAB (Björn Ottosson, 2020). OKLAB is perceptually uniform by construction — no weighting formula needed. Strictly more uniform than CIELAB; often a better nearest-match than ΔE2000 in saturated-blue regions, and cheaper to compute. | Modern default if you want perceptual accuracy without the CIEDE2000 rotation-term complexity. |
+
+Each metric trades cost for accuracy — the full scan over 907 Pantone entries is well under 1 ms even with ΔE2000, so for interactive UIs there's no practical reason not to use the most accurate metric. Batch-processing millions of colors is where you'd drop down.
+
+```ts
+// Defaults: deltaE76 for web/x11, deltaE2000 for pantone.
+identify('#ff8080')                                // deltaE76 (web default)
+identify('#ff8080', { colorspace: 'pantone' })     // deltaE2000 (pantone default)
+
+// Override per-call:
+identify('#ff8080', { metric: 'euclidean-srgb' })  // fastest
+identify('#ff8080', { metric: 'deltaE2000' })      // most accurate
+identify('#ff8080', { colorspace: 'pantone', metric: 'euclidean-srgb' })  // force fast for Pantone
+```
+
+The low-level `rgbaToPantone` always uses `'deltaE2000'` — appropriate for Pantone matching, where this is what the industry tools use.
+
 ## Formats
 
 Format keys are SCREAMING_CAPS — they are used as dispatch keys internally.
@@ -134,6 +181,26 @@ Format keys are SCREAMING_CAPS — they are used as dispatch keys internally.
 | `'PANTONE'` | `'185 C'`, `'185C'`, `'Pantone 185 C'`, etc. | `'185C'`-style string |
 
 The runtime set `COLOR_FORMATS` is exported for enumeration / membership checks.
+
+## Error handling
+
+The three dispatchers are asymmetric — chosen deliberately, but worth knowing:
+
+| Function | Unrecognized / unknown input | Rationale |
+|---|---|---|
+| `identify(input)` | returns `null` | lookup-flavored; "no match" is a normal outcome |
+| `resolve(name)` | returns `null` | lookup-flavored; name may legitimately not exist |
+| `convert(input)` | **throws** | parser-flavored; malformed color is a caller error |
+
+Low-level converters (`hexToRgba`, `rgbToRgba`, `hslToRgba`, `hsvToRgba`, `pantoneToRgba`) all **throw** on malformed input. The `rgbaTo*` direction never throws. The nearest-match returner `rgbaToPantone` always returns *some* Pantone code.
+
+If you want a `null`-returning variant of `convert`, wrap it:
+
+```ts
+const tryConvert = (input: ColorInput, opts = {}) => {
+  try { return convert(input, opts); } catch { return null; }
+};
+```
 
 ## Utilities
 
@@ -183,6 +250,14 @@ bun run scripts/generate-pantone.ts    # reads color_library (MIT dependency)
 [![Coverage sunburst](https://codecov.io/github/simiancraft/chromonym/graphs/sunburst.svg?token=HYWM6G66YE)](https://codecov.io/github/simiancraft/chromonym)
 
 Each ring is a directory; each leaf is a file. Green is covered, red is gaps.
+
+## See also
+
+chromonym deliberately limits its scope to color *naming*. For other color-related work, reach for tools that do those things well:
+
+- **[color.js](https://colorjs.io/)** — modern, spec-first color library by the CSS Color WG authors. CSS Color 4/5, OKLAB, P3, gamut mapping, interpolation, ΔE.
+- **[chroma.js](https://gka.github.io/chroma.js/)** — color mixing, scales, interpolation, contrast ratios, luminance.
+- **[tinycolor2](https://github.com/bgrins/TinyColor)** — lightweight manipulation (lighten / darken / mix) with CSS-string I/O.
 
 ## License
 

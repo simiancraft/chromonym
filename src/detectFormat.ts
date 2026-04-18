@@ -7,7 +7,8 @@ import type { ColorFormat, ColorInput } from './types';
  */
 export type DetectedFormat = ColorFormat | 'UNKNOWN';
 
-const HEX_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+/** Shared with `src/conversions/hex.ts`. Capture group is used there; .test() ignores it here. */
+export const HEX_RE = /^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
 const RGBA_STR_RE = /^rgba\s*\(/i;
 const RGB_STR_RE = /^rgb\s*\(/i;
 const HSL_STR_RE = /^hsl\s*\(/i;
@@ -15,6 +16,15 @@ const HSV_STR_RE = /^hsv\s*\(/i;
 // Conservative: matches "<digits> C|U|M" with optional "Pantone" prefix.
 // Refine once the real Pantone code list lands.
 const PANTONE_RE = /^(?:pantone\s+)?\d+\s*[CUM]$/i;
+
+/**
+ * Runtime type-guard — returns `true` if `input` looks like something any of
+ * chromonym's converters can parse. Cheaper than catching a `convert` throw
+ * and more ergonomic than hand-rolling `detectFormat(x) !== 'UNKNOWN'`.
+ */
+export function isColor(input: unknown): input is ColorInput {
+  return detectFormat(input as ColorInput) !== 'UNKNOWN';
+}
 
 export function detectFormat(input: ColorInput): DetectedFormat {
   if (typeof input === 'string') {
@@ -35,10 +45,13 @@ export function detectFormat(input: ColorInput): DetectedFormat {
   }
 
   if (input !== null && typeof input === 'object') {
-    if ('h' in input && 'v' in input) return 'HSV';
-    if ('h' in input && 'l' in input) return 'HSL';
-    if ('a' in input) return 'RGBA';
-    if ('r' in input) return 'RGB';
+    // Use Object.hasOwn — `in` walks the prototype chain and can be
+    // abused by attacker-controlled prototypes to misclassify inputs.
+    const has = Object.hasOwn;
+    if (has(input, 'h') && has(input, 'v')) return 'HSV';
+    if (has(input, 'h') && has(input, 'l')) return 'HSL';
+    if (has(input, 'r') && has(input, 'a')) return 'RGBA';
+    if (has(input, 'r')) return 'RGB';
     return 'UNKNOWN';
   }
 

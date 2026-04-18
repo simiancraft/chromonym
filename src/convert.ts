@@ -3,7 +3,7 @@ import { hslToRgba, rgbaToHsl } from './conversions/hsl';
 import { hsvToRgba, rgbaToHsv } from './conversions/hsv';
 import { pantoneToRgba, rgbaToPantone } from './conversions/pantone';
 import { rgbaToRgb, rgbToRgba } from './conversions/rgb';
-import { detectFormat } from './detectFormat';
+import { type DetectedFormat, detectFormat } from './detectFormat';
 import type {
   ColorFormat,
   ColorInput,
@@ -17,8 +17,23 @@ import type {
   RgbInput,
 } from './types';
 
-function toRgba(input: ColorInput): Rgba {
-  const format = detectFormat(input);
+function safeStringify(x: unknown): string {
+  if (x === undefined) return 'undefined';
+  try {
+    const s = JSON.stringify(x);
+    return s === undefined ? String(x) : s;
+  } catch {
+    return Object.prototype.toString.call(x);
+  }
+}
+
+/**
+ * Normalize any recognized color input to canonical `Rgba`.
+ * Pass `knownFormat` when the caller has already run `detectFormat` to skip
+ * the redundant detection. Throws on `UNKNOWN` input.
+ */
+export function toRgba(input: ColorInput, knownFormat?: DetectedFormat): Rgba {
+  const format = knownFormat ?? detectFormat(input);
   switch (format) {
     case 'HEX':
       return hexToRgba(input as HexColor);
@@ -33,11 +48,14 @@ function toRgba(input: ColorInput): Rgba {
     case 'PANTONE':
       return pantoneToRgba(input as PantoneCode);
     default:
-      throw new Error(`Unrecognized color input: ${String(input)}`);
+      throw new Error(`Unrecognized color input: ${safeStringify(input)}`);
   }
 }
 
-function fromRgba(rgba: Rgba, format: ColorFormat): ColorValue {
+/**
+ * Emit a canonical `Rgba` in the target format. Colorspace-independent.
+ */
+export function fromRgba(rgba: Rgba, format: ColorFormat = 'HEX'): ColorValue {
   switch (format) {
     case 'HEX':
       return rgbaToHex(rgba);
@@ -60,6 +78,5 @@ function fromRgba(rgba: Rgba, format: ColorFormat): ColorValue {
  * Throws if the input isn't a recognized color shape.
  */
 export function convert(input: ColorInput, opts: { format?: ColorFormat } = {}): ColorValue {
-  const { format = 'HEX' } = opts;
-  return fromRgba(toRgba(input), format);
+  return fromRgba(toRgba(input), opts.format ?? 'HEX');
 }

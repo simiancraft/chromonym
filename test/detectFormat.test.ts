@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { detectFormat } from '../src/detectFormat';
+import { detectFormat, isColor } from '../src/detectFormat';
 
 describe('detectFormat', () => {
   describe('HEX', () => {
@@ -105,5 +105,33 @@ describe('detectFormat', () => {
     it('returns UNKNOWN for boolean', () => {
       expect(detectFormat(true as never)).toBe('UNKNOWN');
     });
+    it('returns UNKNOWN for prototype-polluted object (own-property check)', () => {
+      const obj = Object.create({ r: 255, g: 0, b: 0 });
+      expect(detectFormat(obj as never)).toBe('UNKNOWN');
+    });
+    it('returns UNKNOWN for object with only alpha (no r/g/b)', () => {
+      expect(detectFormat({ a: 0.5 } as never)).toBe('UNKNOWN');
+    });
+  });
+});
+
+describe('isColor', () => {
+  it('returns true for recognized color shapes', () => {
+    expect(isColor('#ff0000')).toBe(true);
+    expect(isColor('rgb(255, 0, 0)')).toBe(true);
+    expect(isColor([255, 0, 0])).toBe(true);
+    expect(isColor({ r: 255, g: 0, b: 0 })).toBe(true);
+    expect(isColor({ h: 0, s: 100, l: 50 })).toBe(true);
+    expect(isColor({ h: 0, s: 100, v: 100 })).toBe(true);
+    expect(isColor('185 C')).toBe(true);
+  });
+  it('returns false for garbage', () => {
+    expect(isColor('not a color')).toBe(false);
+    expect(isColor('')).toBe(false);
+    expect(isColor(null)).toBe(false);
+    expect(isColor(undefined)).toBe(false);
+    expect(isColor(42)).toBe(false);
+    expect(isColor({})).toBe(false);
+    expect(isColor([1, 2])).toBe(false);
   });
 });

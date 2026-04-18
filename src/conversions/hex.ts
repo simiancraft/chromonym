@@ -1,6 +1,6 @@
+import { HEX_RE } from '../detectFormat';
+import { clamp } from '../math/clamp';
 import type { HexColor, Rgba } from '../types';
-
-const HEX_RE = /^#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
 
 /**
  * Parse a hex color string into the canonical Rgba representation.
@@ -31,14 +31,14 @@ export function hexToRgba(hex: HexColor): Rgba {
   return { r, g, b, a };
 }
 
+function channelToHex(n: number): string {
+  return clamp(Math.round(n), 0, 255).toString(16).padStart(2, '0');
+}
+
 /**
  * Emit a 6-digit lowercase hex string. Alpha is dropped; out-of-range
  * channel values are clamped to 0..255; fractional values are rounded.
  */
 export function rgbaToHex(rgba: Rgba): HexColor {
-  const clamp = (n: number): string =>
-    Math.max(0, Math.min(255, Math.round(n)))
-      .toString(16)
-      .padStart(2, '0');
-  return `#${clamp(rgba.r)}${clamp(rgba.g)}${clamp(rgba.b)}` as HexColor;
+  return `#${channelToHex(rgba.r)}${channelToHex(rgba.g)}${channelToHex(rgba.b)}` as HexColor;
 }

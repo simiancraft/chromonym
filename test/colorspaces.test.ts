@@ -9,8 +9,10 @@ describe.each([
   [
     'pantone',
     pantone,
-    // biome-ignore lint/suspicious/noExplicitAny: pantone keys include digits and are valid identifiers but require string-indexing for test lookup
-    { minCount: 900, spotChecks: { '100C': '#f6eb61', '102C': '#fce300' } as Record<string, string> },
+    {
+      minCount: 900,
+      spotChecks: { '100C': '#f6eb61', '102C': '#fce300' } as Record<string, string>,
+    },
   ],
 ])('%s colorspace', (_name, space, { minCount, spotChecks }) => {
   it(`has at least ${minCount} entries`, () => {

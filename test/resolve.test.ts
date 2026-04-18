@@ -29,6 +29,18 @@ describe('resolve', () => {
     });
   });
 
+  describe('hostile colorspace name', () => {
+    it("returns null for '__proto__' (prototype-chain key)", () => {
+      expect(resolve('red', { colorspace: '__proto__' as never })).toBeNull();
+    });
+    it("returns null for 'constructor'", () => {
+      expect(resolve('red', { colorspace: 'constructor' as never })).toBeNull();
+    });
+    it('returns null for unknown colorspace name', () => {
+      expect(resolve('red', { colorspace: 'cmyk' as never })).toBeNull();
+    });
+  });
+
   describe('output format', () => {
     it("resolve('red', { format: 'HSL' }) → 'hsl(0, 100%, 50%)'", () => {
       expect(resolve('red', { format: 'HSL' })).toBe('hsl(0, 100%, 50%)');

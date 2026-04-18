@@ -9,8 +9,8 @@ export { hslToRgba, rgbaToHsl } from './conversions/hsl';
 export { hsvToRgba, rgbaToHsv } from './conversions/hsv';
 export { pantoneToRgba, rgbaToPantone } from './conversions/pantone';
 export { rgbaToRgb, rgbToRgba } from './conversions/rgb';
-export { convert } from './convert';
-export { type DetectedFormat, detectFormat } from './detectFormat';
+export { convert, fromRgba, toRgba } from './convert';
+export { type DetectedFormat, detectFormat, isColor } from './detectFormat';
 export { identify } from './identify';
 export { resolve } from './resolve';
 export type {

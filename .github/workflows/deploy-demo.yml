@@ -1,0 +1,66 @@
+name: Deploy demo to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    # Only rebuild the demo when things that could affect it change.
+    paths:
+      - 'demo/**'
+      - 'src/**'
+      - 'package.json'
+      - '.github/workflows/deploy-demo.yml'
+  workflow_dispatch:
+
+# Required for actions/deploy-pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deploy at a time.
+concurrency:
+  group: deploy-demo
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install (root — needed to build chromonym dist)
+        run: bun install --frozen-lockfile
+
+      - name: Build chromonym (demo imports from dist)
+        run: bun run build
+
+      - name: Install (demo)
+        working-directory: ./demo
+        run: bun install --no-frozen-lockfile
+
+      - name: Build demo
+        working-directory: ./demo
+        env:
+          GITHUB_PAGES: 'true'
+        run: bun run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./demo/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,27 @@
+# chromonym
+
+> A focused TypeScript library for color naming. `identify` (color → name), `resolve` (name → color), `convert` (color → color format). Ships CSS / X11 / Pantone named colorspaces. Not a general-purpose color manipulation library — for that, use chroma.js or color.js.
+
+## Key files
+
+- [README](./README.md) — user-facing docs, API examples
+- [AGENTS.md](./AGENTS.md) — agent/contributor orientation, conventions
+- [NOTICE.md](./NOTICE.md) — Pantone trademark notice, upstream attribution
+
+## Primary API
+
+- `identify(input, { colorspace, metric })` — color → name
+- `resolve(name, { colorspace, format })` — name → color
+- `convert(input, { format })` — color → color in target format
+- `toRgba(input, knownFormat?)` / `fromRgba(rgba, format)` — dispatcher primitives
+- Low-level converters: `hexToRgba`, `rgbaToHex`, `rgbToRgba`, `rgbaToRgb`, `hslToRgba`, `rgbaToHsl`, `hsvToRgba`, `rgbaToHsv`, `pantoneToRgba`, `rgbaToPantone`
+- Data: `web`, `x11`, `pantone`
+
+## Conventions
+
+- Format keys are SCREAMING_CAPS (`'HEX'`, `'RGB'`, etc.) — dispatch keys.
+- Colorspace names are lowercase strings (`'web'`, `'x11'`, `'pantone'`) — human-facing options.
+- Canonical internal color: `Rgba = { r, g, b, a }`.
+- Low-level converters throw on invalid input. High-level `identify` / `resolve` return `null`. `convert` throws.
+- `sideEffects: false` — no module-scope side effects anywhere.
+- Test suite target: 100% line + function coverage across `src/`.

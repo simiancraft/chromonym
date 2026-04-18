@@ -1,52 +1,33 @@
-import { pantone } from './colorspaces/pantone';
-import { web } from './colorspaces/web';
-import { x11 } from './colorspaces/x11';
-import { hexToRgba } from './conversions/hex';
-import { convert } from './convert';
+import { COLORSPACE_NAMES, COLORSPACES, DEFAULT_METRICS } from './colorspaces/registry';
+import { toRgba } from './convert';
 import { detectFormat } from './detectFormat';
-import { euclideanDistance } from './math/euclideanDistance';
-import type { ColorInput, Colorspace, ColorspaceName, HexColor, Rgba } from './types';
-
-const COLORSPACES: Record<ColorspaceName, Colorspace> = { web, x11, pantone };
-
-// Lazy per-colorspace rgba index — built on first lookup, reused thereafter.
-const rgbaIndexes = new Map<ColorspaceName, Array<readonly [name: string, rgba: Rgba]>>();
-
-function getRgbaIndex(colorspace: ColorspaceName): Array<readonly [string, Rgba]> {
-  let idx = rgbaIndexes.get(colorspace);
-  if (idx === undefined) {
-    const space = COLORSPACES[colorspace];
-    idx = Object.entries(space).map(([name, hex]) => [name, hexToRgba(hex as HexColor)] as const);
-    rgbaIndexes.set(colorspace, idx);
-  }
-  return idx;
-}
+import { nearest } from './indexing';
+import type { ColorspaceName, DistanceMetric } from './types';
 
 /**
  * Identify the nearest-named color for any color input.
- * Uses Euclidean distance in RGB (alpha is ignored).
- * Returns `null` if the input isn't a recognized color shape.
  *
- * Defaults: colorspace = 'web'.
+ * The distance metric defaults to the colorspace's recommended choice
+ * (web/x11: `deltaE76`, pantone: `deltaE2000`). Override with the `metric`
+ * option — e.g. `{ metric: 'euclidean-srgb' }` for maximum speed, or
+ * `{ metric: 'deltaE2000' }` for strictest perceptual accuracy.
+ *
+ * Returns `null` if the input isn't a recognized color shape or the
+ * colorspace name isn't one of `web` / `x11` / `pantone`.
+ *
+ * Defaults: colorspace = 'web', metric = DEFAULT_METRICS[colorspace].
  */
 export function identify(
-  input: ColorInput,
-  opts: { colorspace?: ColorspaceName } = {},
+  input: Parameters<typeof toRgba>[0],
+  opts: { colorspace?: ColorspaceName; metric?: DistanceMetric } = {},
 ): string | null {
-  if (detectFormat(input) === 'UNKNOWN') return null;
+  const format = detectFormat(input);
+  if (format === 'UNKNOWN') return null;
 
-  const { colorspace = 'web' } = opts;
-  const rgba = convert(input, { format: 'RGBA' }) as Rgba;
-  const entries = getRgbaIndex(colorspace);
+  const { colorspace = 'web', metric } = opts;
+  if (!COLORSPACE_NAMES.has(colorspace)) return null;
 
-  let bestName: string | null = null;
-  let bestDistance = Infinity;
-  for (const [name, candidate] of entries) {
-    const d = euclideanDistance(rgba, candidate);
-    if (d < bestDistance) {
-      bestDistance = d;
-      bestName = name;
-    }
-  }
-  return bestName;
+  const rgba = toRgba(input, format);
+  const name = nearest(rgba, COLORSPACES[colorspace], metric ?? DEFAULT_METRICS[colorspace]);
+  return name || null;
 }
