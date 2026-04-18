@@ -11,7 +11,8 @@
 # chromonym
 
 [![npm version](https://img.shields.io/npm/v/chromonym?color=cb3837&logo=npm)](https://www.npmjs.com/package/chromonym)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/chromonym?label=gzip&color=44cc11)](https://bundlephobia.com/package/chromonym)
+[![publish size](https://badgen.net/packagephobia/publish/chromonym?color=green)](https://packagephobia.com/result?p=chromonym)
+[![install size](https://badgen.net/packagephobia/install/chromonym?color=green)](https://packagephobia.com/result?p=chromonym)
 [![Types: included](https://img.shields.io/npm/types/chromonym?color=3178c6&logo=typescript)](https://www.npmjs.com/package/chromonym)
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/simiancraft/chromonym/branch/main/graph/badge.svg)](https://codecov.io/gh/simiancraft/chromonym)
