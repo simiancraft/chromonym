@@ -3,12 +3,15 @@ import type { Rgba } from '../types';
 /**
  * Color-space conversions needed by the perceptual distance metrics.
  *
- * Pipeline:  sRGB (0..255)  →  linear RGB (0..1)  →  XYZ (D65)  →  Lab
+ * Two pipelines:
+ *   CIELAB:  sRGB (0..255)  →  linear RGB  →  XYZ (D65)  →  Lab
+ *   OKLAB:   sRGB (0..255)  →  linear RGB  →  LMS (cbrt)  →  OKLAB
  *
  * References:
  *   sRGB EOTF / companding:      IEC 61966-2-1
  *   sRGB → XYZ (D65):            Bruce Lindbloom, http://www.brucelindbloom.com/
- *   XYZ → Lab:                   CIE 15: 2004
+ *   XYZ → Lab:                   CIE 15:2004
+ *   OKLAB:                       Ottosson, https://bottosson.github.io/posts/oklab/
  */
 
 /** sRGB → linear for a single channel in [0, 255]. Returns [0, 1]. */

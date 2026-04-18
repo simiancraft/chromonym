@@ -91,7 +91,8 @@
     "./types": {
       "types": "./dist/types.d.ts",
       "import": "./dist/types.js"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
