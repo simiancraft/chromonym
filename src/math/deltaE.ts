@@ -87,24 +87,41 @@ function hueDeg(b: number, a: number): number {
  * Reference: G. Sharma, W. Wu, E.N. Dalal, "The CIEDE2000 Color-Difference
  * Formula" (Color Research & Application, 2005).
  */
-export function deltaE2000(p: Lab, q: Lab, kL = 1, kC = 1, kH = 1): number {
-  const [l1, a1, b1] = p;
-  const [l2, a2, b2] = q;
+// Precomputed constant: 25^7 = 6,103,515,625. Appears twice in the formula.
+const POW_25_7 = 6103515625;
 
-  // Chromas and mean chroma.
-  const c1 = Math.hypot(a1, b1);
-  const c2 = Math.hypot(a2, b2);
+// Inline pow(x, 7) — Math.pow with non-integer exponent is slower in V8
+// than three multiplies. x² → x⁴ → x⁶·x.
+function pow7(x: number): number {
+  const x2 = x * x;
+  const x4 = x2 * x2;
+  return x4 * x2 * x;
+}
+
+export function deltaE2000(p: Lab, q: Lab, kL = 1, kC = 1, kH = 1): number {
+  const l1 = p[0];
+  const a1 = p[1];
+  const b1 = p[2];
+  const l2 = q[0];
+  const a2 = q[1];
+  const b2 = q[2];
+
+  // Chromas and mean chroma. Lab values stay within ±150 so overflow
+  // protection in Math.hypot is unnecessary — plain sqrt(a²+b²) is ~3×
+  // faster in V8 and more than precise enough for our range.
+  const c1 = Math.sqrt(a1 * a1 + b1 * b1);
+  const c2 = Math.sqrt(a2 * a2 + b2 * b2);
   const cBar = (c1 + c2) / 2;
-  const cBar7 = cBar ** 7;
+  const cBar7 = pow7(cBar);
 
   // G-factor boost for a* in low-chroma regions.
-  const g = 0.5 * (1 - Math.sqrt(cBar7 / (cBar7 + 25 ** 7)));
+  const g = 0.5 * (1 - Math.sqrt(cBar7 / (cBar7 + POW_25_7)));
   const a1p = (1 + g) * a1;
   const a2p = (1 + g) * a2;
 
   // Primed chroma and hue.
-  const c1p = Math.hypot(a1p, b1);
-  const c2p = Math.hypot(a2p, b2);
+  const c1p = Math.sqrt(a1p * a1p + b1 * b1);
+  const c2p = Math.sqrt(a2p * a2p + b2 * b2);
   const h1p = hueDeg(b1, a1p);
   const h2p = hueDeg(b2, a2p);
 
@@ -154,9 +171,10 @@ export function deltaE2000(p: Lab, q: Lab, kL = 1, kC = 1, kH = 1): number {
   const sH = 1 + 0.015 * cBarP * t;
 
   // Rotation term — the blue-purple correction that ΔE94 lacks.
-  const dTheta = 30 * Math.exp(-(((hBarP - 275) / 25) ** 2));
-  const cBarP7 = cBarP ** 7;
-  const rC = 2 * Math.sqrt(cBarP7 / (cBarP7 + 25 ** 7));
+  const hShift = (hBarP - 275) / 25;
+  const dTheta = 30 * Math.exp(-(hShift * hShift));
+  const cBarP7 = pow7(cBarP);
+  const rC = 2 * Math.sqrt(cBarP7 / (cBarP7 + POW_25_7));
   const rT = -Math.sin(2 * dTheta * DEG) * rC;
 
   const termL = dLp / (kL * sL);

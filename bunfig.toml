@@ -1,0 +1,4 @@
+[test]
+# The subpathExports test suite imports from dist/ to prove published subpath
+# resolution works. Exclude dist/ from coverage so reports show src/ accuracy.
+coveragePathIgnorePatterns = ["dist/"]
