@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/simiancraft/chromonym/compare/v1.4.0...v1.4.1) (2026-04-18)
+
+
+### Bug Fixes
+
+* republish to ship README humanization to npm ([d3ab002](https://github.com/simiancraft/chromonym/commit/d3ab002516972a0a2a715094117077081aff4a0e))
+
 # [1.4.0](https://github.com/simiancraft/chromonym/compare/v1.3.1...v1.4.0) (2026-04-18)
 
 
