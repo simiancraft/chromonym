@@ -45,3 +45,17 @@ export type ColorValue = HexColor | RgbString | Rgba | HslString | HsvString | P
 // --- Colorspace: a named map of color-name -> hex. Pure data. ---
 export type Colorspace = Record<string, HexColor>;
 export type ColorspaceName = 'web' | 'x11' | 'pantone';
+
+// --- Distance metric for nearest-name lookup (used by `identify`). ---
+// Choose based on palette density and accuracy needs:
+//   'euclidean-srgb'    — fastest; fine for well-separated palettes (web, x11)
+//   'euclidean-linear'  — undoes sRGB gamma first; closer to physical light mixing
+//   'deltaE76'          — Euclidean in CIELAB; simple perceptual metric (CIE 1976)
+//   'deltaE94'          — chroma/hue weighted; fixes saturation overweighting
+//   'deltaE2000'        — industry standard; fixes blue/purple region
+export type DistanceMetric =
+  | 'euclidean-srgb'
+  | 'euclidean-linear'
+  | 'deltaE76'
+  | 'deltaE94'
+  | 'deltaE2000';

@@ -1,5 +1,5 @@
 import { pantone } from '../colorspaces/pantone';
-import { getNameIndex, nearestByRgb, pantoneNormalize } from '../indexing';
+import { getNameIndex, nearest, pantoneNormalize } from '../indexing';
 import type { HexColor, PantoneCode, Rgba } from '../types';
 import { hexToRgba } from './hex';
 
@@ -17,9 +17,12 @@ export function pantoneToRgba(code: PantoneCode): Rgba {
 }
 
 /**
- * Find the nearest Pantone code (Coated) to the given Rgba by
- * squared Euclidean distance in RGB. Alpha is ignored. Always returns a code.
+ * Find the nearest Pantone Coated code to the given Rgba. Uses ΔE*00
+ * (CIEDE2000) — the industry-standard perceptual metric — by default, since
+ * Pantone values cluster densely in the saturated blue/purple region where
+ * sRGB Euclidean distance gives visually wrong answers.
+ * Alpha is ignored. Always returns a code.
  */
 export function rgbaToPantone(rgba: Rgba): PantoneCode {
-  return nearestByRgb(rgba, pantone) as PantoneCode;
+  return nearest(rgba, pantone, 'deltaE2000') as PantoneCode;
 }

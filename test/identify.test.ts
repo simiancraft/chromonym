@@ -85,6 +85,49 @@ describe('identify', () => {
     });
   });
 
+  describe('distance metric option', () => {
+    it('defaults to deltaE76 for web (still returns red for pure red)', () => {
+      expect(identify('#ff0000')).toBe('red');
+    });
+    it('defaults to deltaE2000 for pantone', () => {
+      // Exact Pantone 185C match holds regardless of metric.
+      expect(identify('#e4002b', { colorspace: 'pantone' })).toBe('185C');
+    });
+    it("metric: 'euclidean-srgb' still returns pure-red match", () => {
+      expect(identify('#ff0000', { metric: 'euclidean-srgb' })).toBe('red');
+    });
+    it("metric: 'euclidean-linear' still returns pure-red match", () => {
+      expect(identify('#ff0000', { metric: 'euclidean-linear' })).toBe('red');
+    });
+    it("metric: 'deltaE76' still returns pure-red match", () => {
+      expect(identify('#ff0000', { metric: 'deltaE76' })).toBe('red');
+    });
+    it("metric: 'deltaE94' still returns pure-red match", () => {
+      expect(identify('#ff0000', { metric: 'deltaE94' })).toBe('red');
+    });
+    it("metric: 'deltaE2000' still returns pure-red match", () => {
+      expect(identify('#ff0000', { metric: 'deltaE2000' })).toBe('red');
+    });
+    it('all metrics return a string for any recognized input', () => {
+      const metrics = [
+        'euclidean-srgb',
+        'euclidean-linear',
+        'deltaE76',
+        'deltaE94',
+        'deltaE2000',
+      ] as const;
+      for (const m of metrics) {
+        const r = identify({ r: 123, g: 45, b: 67 }, { colorspace: 'x11', metric: m });
+        expect(typeof r).toBe('string');
+      }
+    });
+    it('metric override works cross-colorspace', () => {
+      expect(identify('#ff0000', { colorspace: 'pantone', metric: 'euclidean-srgb' })).toMatch(
+        /^\d+C$/,
+      );
+    });
+  });
+
   describe('error / null cases', () => {
     it('returns null for garbage string input', () => {
       expect(identify('not a color' as never)).toBeNull();

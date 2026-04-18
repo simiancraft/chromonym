@@ -39,16 +39,17 @@ Three primary functions. All accept an optional `opts` object; defaults fire whe
 
 ### `identify(input, opts?)`
 
-**Color → name.** Finds the nearest-match name in the chosen colorspace using Euclidean distance in RGB.
+**Color → name.** Finds the nearest-match name in the chosen colorspace using the selected perceptual distance metric.
 
 ```ts
 function identify(
   input: ColorInput,
-  opts?: { colorspace?: ColorspaceName },
+  opts?: { colorspace?: ColorspaceName; metric?: DistanceMetric },
 ): string | null
 ```
 
 - **Default colorspace**: `'web'`.
+- **Default metric**: picked per colorspace — `'deltaE76'` for web and x11 (well-separated palettes), `'deltaE2000'` for pantone (dense, perceptually-packed). Override freely via `metric`.
 - Returns the matched name, or `null` if input is unrecognized (`detectFormat` returns `'UNKNOWN'`).
 - Ties are broken by the first entry encountered in the colorspace data.
 
@@ -58,6 +59,8 @@ identify([255, 0, 0])                              // 'red'
 identify({ r: 250, g: 20, b: 60 })                 // 'crimson' (nearest)
 identify('#ff0000', { colorspace: 'x11' })         // 'red' (or 'red1', X11 has numbered variants)
 identify('#ff0000', { colorspace: 'pantone' })     // nearest Pantone C code, e.g. '185C'
+identify('#ff0080', { metric: 'deltaE2000' })      // force perceptual-accurate match
+identify('#ff0000', { metric: 'euclidean-srgb' })  // force fastest (non-perceptual) match
 ```
 
 ### `resolve(name, opts?)`
@@ -127,6 +130,33 @@ Each colorspace is a pure data object: `Record<string, HexColor>`. Importable di
 import { web, x11, pantone } from 'chromonym';
 web.crimson                      // '#dc143c'
 ```
+
+## Distance metrics
+
+`identify` picks the nearest-named color by comparing your input to every entry in the chosen colorspace. *How* it measures "nearest" is controlled by `metric`. Five options, roughly ordered from fast-and-approximate to slow-and-correct:
+
+| Metric | What it does | When to use |
+|---|---|---|
+| `'euclidean-srgb'` | Raw `sqrt(Δr² + Δg² + Δb²)` in sRGB. Fastest. Not perceptually uniform — a unit of distance doesn't mean a unit of "visual difference." | Tight perf budgets; well-separated palettes where you just need the obvious answer. |
+| `'euclidean-linear'` | Same math, but on linearized (gamma-removed) RGB. Somewhat better in dark regions. Still not perceptual. | Physical-light mixing contexts; incremental upgrade from sRGB Euclidean. |
+| `'deltaE76'` | Euclidean in CIELAB (CIE 1976). Simple perceptual metric. 1 ΔE ≈ "just noticeable difference" for most of the gamut. | **Default for web and x11.** Sweet spot: meaningful perceptual accuracy, low cost. |
+| `'deltaE94'` | ΔE76 + chroma/hue weighting (CIE 1994). Fixes "saturated colors feel too far apart." | When ΔE76 is over-penalizing saturated matches in your use case. |
+| `'deltaE2000'` | Full CIEDE2000 formula with blue/purple rotation correction. Industry standard for print, design tools, Pantone workflows. | **Default for pantone.** Use whenever accuracy matters, especially in the blue region where ΔE76/94 break down. |
+
+Each metric trades cost for accuracy — the full scan over 907 Pantone entries is well under 1 ms even with ΔE2000, so for interactive UIs there's no practical reason not to use the most accurate metric. Batch-processing millions of colors is where you'd drop down.
+
+```ts
+// Defaults: deltaE76 for web/x11, deltaE2000 for pantone.
+identify('#ff8080')                                // deltaE76 (web default)
+identify('#ff8080', { colorspace: 'pantone' })     // deltaE2000 (pantone default)
+
+// Override per-call:
+identify('#ff8080', { metric: 'euclidean-srgb' })  // fastest
+identify('#ff8080', { metric: 'deltaE2000' })      // most accurate
+identify('#ff8080', { colorspace: 'pantone', metric: 'euclidean-srgb' })  // force fast for Pantone
+```
+
+The low-level `rgbaToPantone` always uses `'deltaE2000'` — appropriate for Pantone matching, where this is what the industry tools use.
 
 ## Formats
 

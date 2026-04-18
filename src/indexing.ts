@@ -1,6 +1,8 @@
 import { hexToRgba } from './conversions/hex';
+import { rgbaToLab, rgbaToLinearRgb } from './math/colorSpace';
+import { deltaE76Squared, deltaE94, deltaE2000 } from './math/deltaE';
 import { squaredDistanceRgb } from './math/euclideanDistance';
-import type { Colorspace, HexColor, Rgba } from './types';
+import type { Colorspace, DistanceMetric, HexColor, Rgba } from './types';
 
 /**
  * Name normalization and per-colorspace lookup indexes.
@@ -63,8 +65,8 @@ export function getRgbaIndex(space: Colorspace): Array<readonly [string, Rgba]> 
 
 /**
  * Find the nearest-named entry in a colorspace to the given Rgba, using
- * squared Euclidean distance in RGB (alpha ignored). Used by `identify`
- * and `rgbaToPantone`. Returns an empty string only for an empty colorspace.
+ * squared Euclidean distance in sRGB (alpha ignored). Used by `identify`
+ * and `rgbaToPantone` when metric === 'euclidean-srgb'.
  */
 export function nearestByRgb(target: Rgba, space: Colorspace): string {
   const entries = getRgbaIndex(space);
@@ -72,6 +74,79 @@ export function nearestByRgb(target: Rgba, space: Colorspace): string {
   let bestDistance = Number.POSITIVE_INFINITY;
   for (const [name, candidate] of entries) {
     const d = squaredDistanceRgb(target, candidate);
+    if (d < bestDistance) {
+      bestDistance = d;
+      bestName = name;
+    }
+  }
+  return bestName;
+}
+
+// Precomputed Lab entries for delta-E metrics. Same shape as rgba index.
+type LabTriple = readonly [number, number, number];
+const labIndexCache = new WeakMap<Colorspace, Array<readonly [string, LabTriple]>>();
+
+function getLabIndex(space: Colorspace): Array<readonly [string, LabTriple]> {
+  let idx = labIndexCache.get(space);
+  if (idx === undefined) {
+    idx = getRgbaIndex(space).map(([name, rgba]) => [name, rgbaToLab(rgba)] as const);
+    labIndexCache.set(space, idx);
+  }
+  return idx;
+}
+
+// Precomputed linear-RGB entries for euclidean-linear metric.
+const linearIndexCache = new WeakMap<Colorspace, Array<readonly [string, LabTriple]>>();
+
+function getLinearIndex(space: Colorspace): Array<readonly [string, LabTriple]> {
+  let idx = linearIndexCache.get(space);
+  if (idx === undefined) {
+    idx = getRgbaIndex(space).map(([name, rgba]) => [name, rgbaToLinearRgb(rgba)] as const);
+    linearIndexCache.set(space, idx);
+  }
+  return idx;
+}
+
+/**
+ * Find the nearest-named entry in a colorspace under the specified distance
+ * metric. Dispatches to the right index (rgba / linear-rgb / Lab) and
+ * the right distance function. See `DistanceMetric` in types.ts for how
+ * to pick a metric.
+ */
+export function nearest(
+  target: Rgba,
+  space: Colorspace,
+  metric: DistanceMetric = 'euclidean-srgb',
+): string {
+  if (metric === 'euclidean-srgb') return nearestByRgb(target, space);
+
+  if (metric === 'euclidean-linear') {
+    const t = rgbaToLinearRgb(target);
+    const entries = getLinearIndex(space);
+    let bestName = entries[0]?.[0] ?? '';
+    let bestDistance = Number.POSITIVE_INFINITY;
+    for (const [name, c] of entries) {
+      const d0 = t[0] - c[0];
+      const d1 = t[1] - c[1];
+      const d2 = t[2] - c[2];
+      const d = d0 * d0 + d1 * d1 + d2 * d2;
+      if (d < bestDistance) {
+        bestDistance = d;
+        bestName = name;
+      }
+    }
+    return bestName;
+  }
+
+  // Lab-based metrics share the same Lab cache; only the distance fn differs.
+  const t = rgbaToLab(target);
+  const entries = getLabIndex(space);
+  const distFn =
+    metric === 'deltaE76' ? deltaE76Squared : metric === 'deltaE94' ? deltaE94 : deltaE2000;
+  let bestName = entries[0]?.[0] ?? '';
+  let bestDistance = Number.POSITIVE_INFINITY;
+  for (const [name, c] of entries) {
+    const d = distFn(t, c);
     if (d < bestDistance) {
       bestDistance = d;
       bestName = name;

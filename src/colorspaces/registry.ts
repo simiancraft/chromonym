@@ -1,5 +1,5 @@
 import { type NormalizeFn, pantoneNormalize, standardNormalize } from '../indexing';
-import type { Colorspace, ColorspaceName } from '../types';
+import type { Colorspace, ColorspaceName, DistanceMetric } from '../types';
 import { pantone } from './pantone';
 import { web } from './web';
 import { x11 } from './x11';
@@ -23,4 +23,19 @@ export const NORMALIZERS: Record<ColorspaceName, NormalizeFn> = {
   web: standardNormalize,
   x11: standardNormalize,
   pantone: pantoneNormalize,
+};
+
+/**
+ * Default distance metric per colorspace, picked for the density of each
+ * palette. Users can override via `identify(_, { metric })`.
+ *
+ *   web    — 148 entries, well-separated; ΔE76 suffices and is cheap.
+ *   x11    — 658 entries; ΔE76 is the sweet spot (ΔE94/2000 overkill).
+ *   pantone — 907 entries densely packed in the blue/purple region; ΔE2000
+ *             is the industry standard and what color-print tools use.
+ */
+export const DEFAULT_METRICS: Record<ColorspaceName, DistanceMetric> = {
+  web: 'deltaE76',
+  x11: 'deltaE76',
+  pantone: 'deltaE2000',
 };

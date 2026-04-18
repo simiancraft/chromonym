@@ -45,9 +45,18 @@ bench('convert(#ff0000 → HSL)', () => convert('#ff0000', { format: 'HSL' }), 5
 bench('resolve(crimson, web)', () => resolve('crimson'), 50000);
 bench('resolve(185C, pantone)', () => resolve('185 C', { colorspace: 'pantone' }), 50000);
 
-console.log('\n— nearest-match —');
+console.log('\n— nearest-match (colorspace defaults) —');
 bench('identify(#ff0000, web)', () => identify('#ff0000'), 20000);
 bench('identify(#ff0000, x11)', () => identify('#ff0000', { colorspace: 'x11' }), 5000);
 bench('identify(#ff0000, pantone)', () => identify('#ff0000', { colorspace: 'pantone' }), 3000);
+
+console.log('\n— nearest-match (metric comparison, pantone 907 entries) —');
+for (const metric of ['euclidean-srgb', 'euclidean-linear', 'deltaE76', 'deltaE94', 'deltaE2000'] as const) {
+  bench(
+    `identify(#ff0080, pantone, ${metric})`,
+    () => identify('#ff0080', { colorspace: 'pantone', metric }),
+    metric.startsWith('deltaE') && metric !== 'deltaE76' ? 1000 : 3000,
+  );
+}
 
 console.log('');
