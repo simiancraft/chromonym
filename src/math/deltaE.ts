@@ -1,9 +1,12 @@
 /**
- * CIE color-difference metrics. Inputs are `Lab` triples (L, a, b) as
- * produced by `rgbaToLab` from `colorSpace.ts`.
+ * Color-difference metrics. Inputs are `Lab` triples (L, a, b). The
+ * CIELAB family (ΔE*76 / ΔE*94 / ΔE*00) takes coordinates from
+ * `rgbaToLab`; ΔE*ok takes coordinates from `rgbaToOklab`. Both spaces
+ * share the `Lab` tuple shape but are not interchangeable — see
+ * `deltaEokSquared` below.
  *
- * All three metrics operate in CIELAB; the differences are in how each
- * region of Lab space is weighted:
+ * Within the CIELAB family, the metrics differ in how each region of
+ * Lab space is weighted:
  *   ΔE*76  — simple Euclidean in Lab (CIE 1976). Fast, decent.
  *   ΔE*94  — adds chroma/hue weighting (CIE 1994). Better saturation handling.
  *   ΔE00  — also adjusts L/C/h + rotation correction in blue-purple region
