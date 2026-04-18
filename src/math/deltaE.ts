@@ -67,3 +67,101 @@ export function deltaE94(p: Lab, q: Lab): number {
 
   return Math.sqrt(termL * termL + termC * termC + termH * termH);
 }
+
+// ---- ΔE00 helpers --------------------------------------------------------
+
+const DEG = Math.PI / 180;
+const RAD = 180 / Math.PI;
+
+function hueDeg(b: number, a: number): number {
+  if (b === 0 && a === 0) return 0;
+  return ((Math.atan2(b, a) * RAD + 360) % 360);
+}
+
+/**
+ * ΔE*00 (CIE 2000 / CIEDE2000). Current industry-standard perceptual
+ * color-difference formula. Fixes the saturated-blue failure of ΔE76/94
+ * with a rotation term in the blue-purple region (h ≈ 275°).
+ *
+ * kL / kC / kH are parametric factors (default 1/1/1 = graphic arts).
+ * Reference: G. Sharma, W. Wu, E.N. Dalal, "The CIEDE2000 Color-Difference
+ * Formula" (Color Research & Application, 2005).
+ */
+export function deltaE2000(p: Lab, q: Lab, kL = 1, kC = 1, kH = 1): number {
+  const [l1, a1, b1] = p;
+  const [l2, a2, b2] = q;
+
+  // Chromas and mean chroma.
+  const c1 = Math.hypot(a1, b1);
+  const c2 = Math.hypot(a2, b2);
+  const cBar = (c1 + c2) / 2;
+  const cBar7 = cBar ** 7;
+
+  // G-factor boost for a* in low-chroma regions.
+  const g = 0.5 * (1 - Math.sqrt(cBar7 / (cBar7 + 25 ** 7)));
+  const a1p = (1 + g) * a1;
+  const a2p = (1 + g) * a2;
+
+  // Primed chroma and hue.
+  const c1p = Math.hypot(a1p, b1);
+  const c2p = Math.hypot(a2p, b2);
+  const h1p = hueDeg(b1, a1p);
+  const h2p = hueDeg(b2, a2p);
+
+  // Differences.
+  const dLp = l2 - l1;
+  const dCp = c2p - c1p;
+
+  let dhp: number;
+  if (c1p * c2p === 0) {
+    dhp = 0;
+  } else {
+    const raw = h2p - h1p;
+    if (Math.abs(raw) <= 180) dhp = raw;
+    else if (raw > 180) dhp = raw - 360;
+    else dhp = raw + 360;
+  }
+  const dHp = 2 * Math.sqrt(c1p * c2p) * Math.sin((dhp * DEG) / 2);
+
+  // Means.
+  const lBarP = (l1 + l2) / 2;
+  const cBarP = (c1p + c2p) / 2;
+
+  let hBarP: number;
+  if (c1p * c2p === 0) {
+    hBarP = h1p + h2p;
+  } else if (Math.abs(h1p - h2p) <= 180) {
+    hBarP = (h1p + h2p) / 2;
+  } else if (h1p + h2p < 360) {
+    hBarP = (h1p + h2p + 360) / 2;
+  } else {
+    hBarP = (h1p + h2p - 360) / 2;
+  }
+
+  // Weighting function T.
+  const hBarRad = hBarP * DEG;
+  const t =
+    1 -
+    0.17 * Math.cos(hBarRad - 30 * DEG) +
+    0.24 * Math.cos(2 * hBarRad) +
+    0.32 * Math.cos(3 * hBarRad + 6 * DEG) -
+    0.2 * Math.cos(4 * hBarRad - 63 * DEG);
+
+  // Lightness, chroma, hue weighting factors.
+  const lBarMinus50Sq = (lBarP - 50) ** 2;
+  const sL = 1 + (0.015 * lBarMinus50Sq) / Math.sqrt(20 + lBarMinus50Sq);
+  const sC = 1 + 0.045 * cBarP;
+  const sH = 1 + 0.015 * cBarP * t;
+
+  // Rotation term — the blue-purple correction that ΔE94 lacks.
+  const dTheta = 30 * Math.exp(-(((hBarP - 275) / 25) ** 2));
+  const cBarP7 = cBarP ** 7;
+  const rC = 2 * Math.sqrt(cBarP7 / (cBarP7 + 25 ** 7));
+  const rT = -Math.sin(2 * dTheta * DEG) * rC;
+
+  const termL = dLp / (kL * sL);
+  const termC = dCp / (kC * sC);
+  const termH = dHp / (kH * sH);
+
+  return Math.sqrt(termL * termL + termC * termC + termH * termH + rT * termC * termH);
+}

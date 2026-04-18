@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { rgbaToLab } from '../../src/math/colorSpace';
-import { deltaE76, deltaE76Squared, deltaE94 } from '../../src/math/deltaE';
+import type { Lab } from '../../src/math/deltaE';
+import { deltaE2000, deltaE76, deltaE76Squared, deltaE94 } from '../../src/math/deltaE';
 
 describe('deltaE76', () => {
   it('identity: d(x, x) === 0', () => {
@@ -54,5 +55,50 @@ describe('deltaE76', () => {
     // argmin must match
     const argmin = (arr: number[]) => arr.indexOf(Math.min(...arr));
     expect(argmin(distances)).toBe(argmin(squared));
+  });
+});
+
+describe('deltaE2000 — Sharma et al. (2005) reference vectors', () => {
+  // From "The CIEDE2000 Color-Difference Formula" test tables.
+  // Format: [labA, labB, expected ΔE00]
+  // Reference values from Sharma/Wu/Dalal "Implementation Notes, Supplementary
+  // Test Data and Mathematical Observations" (Color Research & Application, 2005).
+  const cases: Array<[Lab, Lab, number]> = [
+    // Near-identical blue-region pairs (rotation term engaged)
+    [[50, 2.6772, -79.7751], [50, 0, -82.7485], 2.0425],
+    [[50, 3.1571, -77.2803], [50, 0, -82.7485], 2.8615],
+    [[50, 2.8361, -74.02], [50, 0, -82.7485], 3.4412],
+    [[50, -1.3802, -84.2814], [50, 0, -82.7485], 1.0],
+    [[50, -1.1848, -84.8006], [50, 0, -82.7485], 1.0],
+    [[50, -0.9009, -85.5211], [50, 0, -82.7485], 1.0],
+    // Larger differences
+    [[50, 2.5, 0], [73, 25, -18], 27.1492],
+    [[50, 2.5, 0], [61, -5, 29], 22.8977],
+    [[50, 2.5, 0], [56, -27, -3], 31.903],
+    [[50, 2.5, 0], [58, 24, 15], 19.4535],
+  ];
+
+  for (const [p, q, expected] of cases) {
+    it(`deltaE2000(${JSON.stringify(p)}, ${JSON.stringify(q)}) ≈ ${expected}`, () => {
+      expect(deltaE2000(p, q)).toBeCloseTo(expected, 3);
+    });
+  }
+
+  it('identity: d(x, x) === 0', () => {
+    expect(deltaE2000([50, 2.5, 0], [50, 2.5, 0])).toBe(0);
+  });
+
+  it('symmetric: d(p, q) === d(q, p)', () => {
+    const p: Lab = [50, 2.5, 0];
+    const q: Lab = [73, 25, -18];
+    expect(deltaE2000(p, q)).toBeCloseTo(deltaE2000(q, p), 10);
+  });
+
+  it('ΔE2000 differs from ΔE94 in blue region (rotation term active)', () => {
+    // At h̄ ≈ 275°, ΔE2000's rotation term changes the coupling between dC and dH.
+    const p: Lab = [50, 2.5, 0];
+    const q: Lab = [50, 0, -2.5];
+    // ΔE2000 ≈ 7.22 (with rotation), ΔE94 would be smaller.
+    expect(deltaE2000(p, q)).toBeGreaterThan(deltaE94(p, q));
   });
 });
