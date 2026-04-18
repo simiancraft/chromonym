@@ -10,7 +10,7 @@
 [![semantic-release: conventional](https://img.shields.io/badge/semantic--release-conventional-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
-Identify, resolve, and convert colors across CSS, X11, and Pantone colorspaces.
+**A focused color-naming library.** Identify, resolve, and convert colors across CSS, X11, and Pantone named sets. For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`](https://gka.github.io/chroma.js/) or [`color.js`](https://colorjs.io/) — chromonym is the tool for *naming*.
 
 ```ts
 import { identify, resolve, convert } from 'chromonym';
@@ -21,6 +21,10 @@ resolve('185 C', { colorspace: 'pantone' })       // '#e4002b'
 convert('#ff0000', { format: 'RGB' })             // 'rgb(255, 0, 0)'
 convert({ r: 255, g: 0, b: 0 }, { format: 'HSL' })// 'hsl(0, 100%, 50%)'
 ```
+
+> ### Pantone® trademark notice
+>
+> **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is **not affiliated with, endorsed by, or certified by Pantone LLC**. The `pantone` colorspace ships **community-derived sRGB approximations** of the Pantone Coated (C) set. Values will **not** match a licensed Pantone reference exactly and are unsuitable for print color specification. See [`NOTICE.md`](./NOTICE.md) for full text.
 
 ## Install
 
@@ -207,6 +211,14 @@ bun run scripts/generate-pantone.ts    # reads color_library (MIT dependency)
 [![Coverage sunburst](https://codecov.io/github/simiancraft/chromonym/graphs/sunburst.svg?token=HYWM6G66YE)](https://codecov.io/github/simiancraft/chromonym)
 
 Each ring is a directory; each leaf is a file. Green is covered, red is gaps.
+
+## See also
+
+chromonym deliberately limits its scope to color *naming*. For other color-related work, reach for tools that do those things well:
+
+- **[color.js](https://colorjs.io/)** — modern, spec-first color library by the CSS Color WG authors. CSS Color 4/5, OKLAB, P3, gamut mapping, interpolation, ΔE.
+- **[chroma.js](https://gka.github.io/chroma.js/)** — color mixing, scales, interpolation, contrast ratios, luminance.
+- **[tinycolor2](https://github.com/bgrins/TinyColor)** — lightweight manipulation (lighten / darken / mix) with CSS-string I/O.
 
 ## License
 
