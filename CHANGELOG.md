@@ -1,3 +1,30 @@
+# [1.2.0](https://github.com/simiancraft/chromonym/compare/v1.1.0...v1.2.0) (2026-04-18)
+
+
+### Bug Fixes
+
+* **ci+test:** build before test; skip subpath tests when dist missing ([20e2b95](https://github.com/simiancraft/chromonym/commit/20e2b95ba651e729e60116ba03b9d0aa33f7da7d))
+* **ci:** gate Codecov upload on non-fork ([394d8f8](https://github.com/simiancraft/chromonym/commit/394d8f84a9fd81412021819e6aa8516eb2d5ae22))
+* **conversions:** validate finite numerics and clamp input range ([02de8b7](https://github.com/simiancraft/chromonym/commit/02de8b72c117015a813cbd9c84ee434ad570b58b))
+* **security:** harden input type checks and colorspace lookups ([7a46a6b](https://github.com/simiancraft/chromonym/commit/7a46a6bfdec0c9051dd5f22b167fddba89896ee5))
+
+
+### Features
+
+* **demo:** add isolated Vite+React demo deployed to GitHub Pages ([ee10cb2](https://github.com/simiancraft/chromonym/commit/ee10cb27d9d9d5a90ca61d586969ec17f2ff964c))
+* **identify:** add distance-metric strategy with per-colorspace defaults ([c8a1877](https://github.com/simiancraft/chromonym/commit/c8a1877a5167622e0f17dd9a78a93bf37a23e4d1))
+* **math:** add OKLAB color space + deltaEok metric ([1b7714a](https://github.com/simiancraft/chromonym/commit/1b7714a746b38f9998af08a5f680b3325d0c1803))
+* **math:** add sRGB ↔ linear ↔ XYZ ↔ Lab color-space conversions ([6fb0429](https://github.com/simiancraft/chromonym/commit/6fb0429819775458fa342f41c3fde3f99b8394b9)), closes [#ff0000](https://github.com/simiancraft/chromonym/issues/ff0000)
+* **math:** add ΔE*00 (CIEDE2000) distance metric ([bbb5453](https://github.com/simiancraft/chromonym/commit/bbb5453f71e7c332286f7ff9aff278012e05729e))
+* **math:** add ΔE*76 distance metric (CIE 1976 Lab Euclidean) ([f9631fa](https://github.com/simiancraft/chromonym/commit/f9631fa72deb3603c1b0624498d26f069ad8588d))
+* **math:** add ΔE*94 distance metric (CIE 1994) ([03c5454](https://github.com/simiancraft/chromonym/commit/03c54546eccbb9386175c9d8995dce35b7afde80))
+* **pkg:** add subpath exports for tree-shake-minimal imports ([9be6900](https://github.com/simiancraft/chromonym/commit/9be69001904a7ee68f7d735f8c60be6165a5ff06))
+
+
+### Performance Improvements
+
+* **deltaE2000:** inline Math.hypot and **7, hoist 25^7 constant ([55405ed](https://github.com/simiancraft/chromonym/commit/55405ed8a20d8dc09562caa5665a6bccd1959406))
+
 # [1.1.0](https://github.com/simiancraft/chromonym/compare/v1.0.1...v1.1.0) (2026-04-17)
 
 
