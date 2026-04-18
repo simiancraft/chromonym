@@ -32,13 +32,15 @@
   </a>
 </p>
 
+Because "it's sort of magenta-ish, maybe?" doesn't copy-paste into code, and the nearest Pantone to your brand hex is something you should be able to answer without opening Photoshop.
+
 Built as a *color-strategy machine*: the identification and resolution mechanism is the same across every colorspace, so plugging in a new set (RAL, HKS, NCS, or a custom brand palette) is one file. For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`](https://gka.github.io/chroma.js/) or [`color.js`](https://colorjs.io/) — chromonym is the tool for *naming*.
 
 ```ts
 import { identify, resolve, convert } from 'chromonym';
 
 // What Pantone is this brand color closest to? (perceptually, via CIEDE2000)
-identify('#E20074', { colorspace: 'pantone' })     // '213C'
+identify('#E20074', { colorspace: 'pantone' })     // '213C' — T-Mobile magenta
 
 // Resolve any Pantone code back to RGB — prefix, spacing, case all fine
 resolve('Pantone 185 C', { colorspace: 'pantone' })// '#e4002b'
@@ -49,6 +51,8 @@ convert({ h: 120, s: 100, l: 50 }, { format: 'HEX' })  // '#00ff00'
 
 // The classic: nearest CSS name
 identify('#ff8080')                                // 'lightcoral'
+identify('#bada55')                                // 'yellowgreen' — also the best-spelled hex
+identify('#663399')                                // 'rebeccapurple'
 ```
 
 ## Install
@@ -76,7 +80,7 @@ function identify(
 - **Default colorspace**: `'web'`.
 - **Default metric**: picked per colorspace — `'deltaE76'` for web and x11 (well-separated palettes), `'deltaE2000'` for pantone (dense, perceptually-packed). Override freely via `metric`.
 - Returns the matched name, or `null` if input is unrecognized (`detectFormat` returns `'UNKNOWN'`).
-- Ties are broken by the first entry encountered in the colorspace data.
+- Ties go to whichever color was defined first — stable, occasionally arbitrary.
 
 ```ts
 identify('#ff0000')                                // 'red'
@@ -156,7 +160,11 @@ import { web, x11, pantone } from 'chromonym';
 web.crimson                      // '#dc143c'
 ```
 
+*Trivia:* `web.rebeccapurple` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 99, so `x11.gray73` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
+
 ## Distance metrics
+
+*Five ways to ask "how different are two colors?"*
 
 `identify` picks the nearest-named color by comparing your input to every entry in the chosen colorspace. *How* it measures "nearest" is controlled by `metric`. Five options, roughly ordered from fast-and-approximate to slow-and-correct:
 
