@@ -21,6 +21,12 @@
 
 **Tree-shakeable color naming for TypeScript.** Identify, resolve, and convert colors across CSS, X11, and Pantone — with 5 perceptual distance metrics. Add your own colorspaces and metrics as you need them.
 
+<p align="center">
+  <a href="https://simiancraft.github.io/chromonym/">
+    <img src=".github/assets/chromonym-demo.gif" alt="chromonym demo — scrub a color, see the nearest name update live" width="800" />
+  </a>
+</p>
+
 Built as a *color-strategy machine*: the identification and resolution mechanism is the same across every colorspace, so plugging in a new set (RAL, HKS, NCS, or a custom brand palette) is one file. For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`](https://gka.github.io/chroma.js/) or [`color.js`](https://colorjs.io/) — chromonym is the tool for *naming*.
 
 ```ts
