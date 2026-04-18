@@ -11,7 +11,8 @@
 # chromonym
 
 [![npm version](https://img.shields.io/npm/v/chromonym?color=cb3837&logo=npm)](https://www.npmjs.com/package/chromonym)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/chromonym?label=gzip&color=44cc11)](https://bundlephobia.com/package/chromonym)
+[![publish size](https://badgen.net/packagephobia/publish/chromonym?color=green)](https://packagephobia.com/result?p=chromonym)
+[![install size](https://badgen.net/packagephobia/install/chromonym?color=green)](https://packagephobia.com/result?p=chromonym)
 [![Types: included](https://img.shields.io/npm/types/chromonym?color=3178c6&logo=typescript)](https://www.npmjs.com/package/chromonym)
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/simiancraft/chromonym/branch/main/graph/badge.svg)](https://codecov.io/gh/simiancraft/chromonym)
@@ -20,6 +21,12 @@
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
 **Tree-shakeable color naming for TypeScript.** Identify, resolve, and convert colors across CSS, X11, and Pantone — with 5 perceptual distance metrics. Add your own colorspaces and metrics as you need them.
+
+<p align="center">
+  <a href="https://simiancraft.github.io/chromonym/">
+    <img src=".github/assets/chromonym-demo.gif" alt="chromonym demo — scrub a color, see the nearest name update live" width="800" />
+  </a>
+</p>
 
 Built as a *color-strategy machine*: the identification and resolution mechanism is the same across every colorspace, so plugging in a new set (RAL, HKS, NCS, or a custom brand palette) is one file. For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`](https://gka.github.io/chroma.js/) or [`color.js`](https://colorjs.io/) — chromonym is the tool for *naming*.
 
@@ -39,10 +46,6 @@ convert({ h: 120, s: 100, l: 50 }, { format: 'HEX' })  // '#00ff00'
 // The classic: nearest CSS name
 identify('#ff8080')                                // 'lightcoral'
 ```
-
-> ### Pantone® trademark notice
->
-> **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is **not affiliated with, endorsed by, or certified by Pantone LLC**. The `pantone` colorspace ships **community-derived sRGB approximations** of the Pantone Coated (C) set. Values will **not** match a licensed Pantone reference exactly and are unsuitable for print color specification. See [`NOTICE.md`](./NOTICE.md) for full text.
 
 ## Install
 
@@ -263,7 +266,7 @@ Each ring is a directory; each leaf is a file. Green is covered, red is gaps.
 
 ## See also
 
-chromonym deliberately limits its scope to color *naming*. For other color-related work, reach for tools that do those things well:
+chromonym deliberately limits its scope to color *naming* (resolving and identifying) and lightweight conversions. For other color-related work, reach for tools that do those things well:
 
 - **[color.js](https://colorjs.io/)** — modern, spec-first color library by the CSS Color WG authors. CSS Color 4/5, OKLAB, P3, gamut mapping, interpolation, ΔE.
 - **[chroma.js](https://gka.github.io/chroma.js/)** — color mixing, scales, interpolation, contrast ratios, luminance.
@@ -272,3 +275,9 @@ chromonym deliberately limits its scope to color *naming*. For other color-relat
 ## License
 
 MIT © [the-simian](https://github.com/the-simian)
+
+---
+
+> ### Pantone® trademark notice
+>
+> **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is **not affiliated with, endorsed by, or certified by Pantone LLC**. The `pantone` colorspace ships **community-derived sRGB approximations** of the Pantone Coated (C) set. Values will **not** match a licensed Pantone reference exactly and are unsuitable for print color specification. See [`NOTICE.md`](./NOTICE.md) for full text.
