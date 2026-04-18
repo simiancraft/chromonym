@@ -3,12 +3,15 @@ import type { Rgba } from '../types';
 /**
  * Color-space conversions needed by the perceptual distance metrics.
  *
- * Pipeline:  sRGB (0..255)  →  linear RGB (0..1)  →  XYZ (D65)  →  Lab
+ * Two pipelines:
+ *   CIELAB:  sRGB (0..255)  →  linear RGB  →  XYZ (D65)  →  Lab
+ *   OKLAB:   sRGB (0..255)  →  linear RGB  →  LMS (cbrt)  →  OKLAB
  *
  * References:
  *   sRGB EOTF / companding:      IEC 61966-2-1
  *   sRGB → XYZ (D65):            Bruce Lindbloom, http://www.brucelindbloom.com/
- *   XYZ → Lab:                   CIE 15: 2004
+ *   XYZ → Lab:                   CIE 15:2004
+ *   OKLAB:                       Ottosson, https://bottosson.github.io/posts/oklab/
  */
 
 /** sRGB → linear for a single channel in [0, 255]. Returns [0, 1]. */
@@ -95,4 +98,30 @@ export function linearRgbToOklab(r: number, g: number, b: number): [number, numb
 export function rgbaToOklab(rgba: Rgba): [number, number, number] {
   const [r, g, b] = rgbaToLinearRgb(rgba);
   return linearRgbToOklab(r, g, b);
+}
+
+/**
+ * OKLAB → OKLCh (polar form of OKLAB). L stays the same; a,b become
+ * chroma and hue. Useful for hue-aware manipulation and naming strategies
+ * that want to reason about hue distance independently of lightness.
+ *
+ * Returns [L, C, h] where C >= 0 and h is in degrees [0, 360).
+ * Achromatic colors (C ≈ 0) return h = 0 by convention.
+ */
+export function oklabToOklch(L: number, a: number, b: number): [number, number, number] {
+  const C = Math.sqrt(a * a + b * b);
+  const h = C === 0 ? 0 : ((Math.atan2(b, a) * 180) / Math.PI + 360) % 360;
+  return [L, C, h];
+}
+
+/** OKLCh → OKLAB. Inverse of `oklabToOklch`. */
+export function oklchToOklab(L: number, C: number, h: number): [number, number, number] {
+  const rad = (h * Math.PI) / 180;
+  return [L, C * Math.cos(rad), C * Math.sin(rad)];
+}
+
+/** Rgba (sRGB, 0..255) → OKLCh. Composition shortcut. */
+export function rgbaToOklch(rgba: Rgba): [number, number, number] {
+  const [L, a, b] = rgbaToOklab(rgba);
+  return oklabToOklch(L, a, b);
 }

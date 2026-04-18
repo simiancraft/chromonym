@@ -192,6 +192,11 @@ export function deltaE2000(p: Lab, q: Lab, kL = 1, kC = 1, kH = 1): number {
  *
  * Often gives more visually-accurate nearest-matches than CIEDE2000 in
  * the saturated blue/purple region.
+ *
+ * NOTE: the body is byte-identical to `deltaE76Squared` — both compute
+ * `dl² + da² + db²`. The semantic difference is entirely in *which* space
+ * the caller passes coordinates from: CIELAB (for ΔE*76) vs OKLAB (for this).
+ * Kept separate so callers and tests can't cross-wire the indexes.
  */
 export function deltaEokSquared(p: Lab, q: Lab): number {
   const dl = p[0] - q[0];

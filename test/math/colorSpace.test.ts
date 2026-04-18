@@ -3,9 +3,12 @@ import {
   linearRgbToOklab,
   linearRgbToXyz,
   linearToSrgb,
+  oklabToOklch,
+  oklchToOklab,
   rgbaToLab,
   rgbaToLinearRgb,
   rgbaToOklab,
+  rgbaToOklch,
   srgbToLinear,
   xyzToLab,
 } from '../../src/math/colorSpace';
@@ -145,5 +148,42 @@ describe('rgbaToOklab (Björn Ottosson, 2020)', () => {
     expect(L).toBeCloseTo(1.0, 2);
     expect(a).toBeCloseTo(0, 3);
     expect(b).toBeCloseTo(0, 3);
+  });
+});
+
+describe('OKLCh (polar form of OKLAB)', () => {
+  it('achromatic input: (L, 0, 0) → (L, 0, 0)', () => {
+    const [L, C, h] = oklabToOklch(0.5, 0, 0);
+    expect(L).toBe(0.5);
+    expect(C).toBe(0);
+    expect(h).toBe(0);
+  });
+  it('pure-a axis: (L, 1, 0) → (L, 1, 0°)', () => {
+    const [, C, h] = oklabToOklch(0.5, 1, 0);
+    expect(C).toBeCloseTo(1, 6);
+    expect(h).toBeCloseTo(0, 3);
+  });
+  it('pure-b axis: (L, 0, 1) → (L, 1, 90°)', () => {
+    const [, C, h] = oklabToOklch(0.5, 0, 1);
+    expect(C).toBeCloseTo(1, 6);
+    expect(h).toBeCloseTo(90, 3);
+  });
+  it('negative-b: hue wraps to 270°', () => {
+    const [, , h] = oklabToOklch(0.5, 0, -1);
+    expect(h).toBeCloseTo(270, 3);
+  });
+  it('round-trip OKLAB → OKLCh → OKLAB', () => {
+    const [L, a, b] = rgbaToOklab({ r: 100, g: 150, b: 200, a: 1 });
+    const [L2, C, h] = oklabToOklch(L, a, b);
+    const [L3, a3, b3] = oklchToOklab(L2, C, h);
+    expect(L3).toBeCloseTo(L, 10);
+    expect(a3).toBeCloseTo(a, 10);
+    expect(b3).toBeCloseTo(b, 10);
+  });
+  it('rgbaToOklch: pure red has hue in red region', () => {
+    const [, , h] = rgbaToOklch({ r: 255, g: 0, b: 0, a: 1 });
+    // OKLCh red hue is ~29° (warmer than CIELAB).
+    expect(h).toBeGreaterThan(20);
+    expect(h).toBeLessThan(40);
   });
 });

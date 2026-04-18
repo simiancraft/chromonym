@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/assets/banner.svg" alt="chromonym" width="800" />
+  <img src=".github/assets/banner.png" alt="chromonym" width="800" />
 </p>
 
 <p align="center">
@@ -10,6 +10,9 @@
 
 # chromonym
 
+[![npm version](https://img.shields.io/npm/v/chromonym?color=cb3837&logo=npm)](https://www.npmjs.com/package/chromonym)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/chromonym?label=gzip&color=44cc11)](https://bundlephobia.com/package/chromonym)
+[![Types: included](https://img.shields.io/npm/types/chromonym?color=3178c6&logo=typescript)](https://www.npmjs.com/package/chromonym)
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/simiancraft/chromonym/branch/main/graph/badge.svg)](https://codecov.io/gh/simiancraft/chromonym)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -23,11 +26,18 @@ Built as a *color-strategy machine*: the identification and resolution mechanism
 ```ts
 import { identify, resolve, convert } from 'chromonym';
 
-identify('#ff0000')                               // 'red'
-resolve('crimson')                                // '#dc143c'
-resolve('185 C', { colorspace: 'pantone' })       // '#e4002b'
-convert('#ff0000', { format: 'RGB' })             // 'rgb(255, 0, 0)'
-convert({ r: 255, g: 0, b: 0 }, { format: 'HSL' })// 'hsl(0, 100%, 50%)'
+// What Pantone is this brand color closest to? (perceptually, via CIEDE2000)
+identify('#E20074', { colorspace: 'pantone' })     // '213C'
+
+// Resolve any Pantone code back to RGB — prefix, spacing, case all fine
+resolve('Pantone 185 C', { colorspace: 'pantone' })// '#e4002b'
+
+// Format conversion, format-detecting input
+convert('#ff0000', { format: 'HSL' })              // 'hsl(0, 100%, 50%)'
+convert({ h: 120, s: 100, l: 50 }, { format: 'HEX' })  // '#00ff00'
+
+// The classic: nearest CSS name
+identify('#ff8080')                                // 'lightcoral'
 ```
 
 > ### Pantone® trademark notice

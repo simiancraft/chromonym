@@ -24,5 +24,5 @@ The `.github/workflows/deploy-demo.yml` workflow builds this folder on every pus
 ## Stack
 
 - Vite + React 18 + TypeScript (strict)
-- Tailwind CSS via CDN (no build-time CSS dep)
+- Tailwind CSS v4 via `@tailwindcss/vite` (build-time, no CDN — avoids the dev-only console warning in production)
 - chromonym linked via `"chromonym": "file:.."` (always tracks the library's source)
