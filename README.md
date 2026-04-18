@@ -46,10 +46,6 @@ convert({ h: 120, s: 100, l: 50 }, { format: 'HEX' })  // '#00ff00'
 identify('#ff8080')                                // 'lightcoral'
 ```
 
-> ### Pantone® trademark notice
->
-> **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is **not affiliated with, endorsed by, or certified by Pantone LLC**. The `pantone` colorspace ships **community-derived sRGB approximations** of the Pantone Coated (C) set. Values will **not** match a licensed Pantone reference exactly and are unsuitable for print color specification. See [`NOTICE.md`](./NOTICE.md) for full text.
-
 ## Install
 
 ```sh
@@ -278,3 +274,9 @@ chromonym deliberately limits its scope to color *naming*. For other color-relat
 ## License
 
 MIT © [the-simian](https://github.com/the-simian)
+
+---
+
+> ### Pantone® trademark notice
+>
+> **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is **not affiliated with, endorsed by, or certified by Pantone LLC**. The `pantone` colorspace ships **community-derived sRGB approximations** of the Pantone Coated (C) set. Values will **not** match a licensed Pantone reference exactly and are unsuitable for print color specification. See [`NOTICE.md`](./NOTICE.md) for full text.
