@@ -5,7 +5,7 @@ import type { X11ColorName } from './colorspaces/x11';
 import { toRgba } from './convert';
 import { detectFormat } from './detectFormat';
 import { nearest } from './indexing';
-import type { ColorspaceName, DistanceMetric } from './types';
+import type { ColorInput, ColorspaceName, DistanceMetric } from './types';
 
 type ColorNameByColorspace = {
   web: WebColorName;
@@ -27,7 +27,7 @@ type ColorNameByColorspace = {
  * Defaults: colorspace = 'web', metric = DEFAULT_METRICS[colorspace].
  */
 export function identify<C extends ColorspaceName = 'web'>(
-  input: Parameters<typeof toRgba>[0],
+  input: ColorInput,
   opts: { colorspace?: C; metric?: DistanceMetric } = {},
 ): ColorNameByColorspace[C] | null {
   const format = detectFormat(input);
