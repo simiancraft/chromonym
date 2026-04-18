@@ -13,9 +13,6 @@ const RGBA_STR_RE = /^rgba\s*\(/i;
 const RGB_STR_RE = /^rgb\s*\(/i;
 const HSL_STR_RE = /^hsl\s*\(/i;
 const HSV_STR_RE = /^hsv\s*\(/i;
-// Conservative: matches "<digits> C|U|M" with optional "Pantone" prefix.
-// Refine once the real Pantone code list lands.
-const PANTONE_RE = /^(?:pantone\s+)?\d+\s*[CUM]$/i;
 
 /**
  * Runtime type-guard — returns `true` if `input` looks like something any of
@@ -28,13 +25,13 @@ export function isColor(input: unknown): input is ColorInput {
 
 export function detectFormat(input: ColorInput): DetectedFormat {
   if (typeof input === 'string') {
-    if (input === '') return 'UNKNOWN';
+    // Runtime guard against JS callers that bypass the string template union.
+    if ((input as string).length === 0) return 'UNKNOWN';
     if (HEX_RE.test(input)) return 'HEX';
     if (RGBA_STR_RE.test(input)) return 'RGBA';
     if (RGB_STR_RE.test(input)) return 'RGB';
     if (HSL_STR_RE.test(input)) return 'HSL';
     if (HSV_STR_RE.test(input)) return 'HSV';
-    if (PANTONE_RE.test(input)) return 'PANTONE';
     return 'UNKNOWN';
   }
 

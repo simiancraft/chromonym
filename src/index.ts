@@ -1,9 +1,9 @@
 // Public API barrel — explicit named re-exports only (tree-shake friendly).
 // No default export; no side effects at module scope.
 
-export { type PantoneColorName, pantone } from './colorspaces/pantone';
-export { type WebColorName, web } from './colorspaces/web';
-export { type X11ColorName, x11 } from './colorspaces/x11';
+export { type PantoneColorName, pantone } from './palettes/pantone';
+export { type WebColorName, web } from './palettes/web';
+export { type X11ColorName, x11 } from './palettes/x11';
 export { hexToRgba, rgbaToHex } from './conversions/hex';
 export { hslToRgba, rgbaToHsl } from './conversions/hsl';
 export { hsvToRgba, rgbaToHsv } from './conversions/hsv';
@@ -16,9 +16,8 @@ export { resolve } from './resolve';
 export type {
   ColorFormat,
   ColorInput,
-  Colorspace,
-  ColorspaceName,
   ColorValue,
+  DistanceMetric,
   HexColor,
   HslInput,
   HslObject,
@@ -26,7 +25,8 @@ export type {
   HsvInput,
   HsvObject,
   HsvString,
-  PantoneCode,
+  NormalizeFn,
+  Palette,
   Rgba,
   RgbaInput,
   RgbaString,

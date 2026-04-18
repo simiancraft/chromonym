@@ -27,24 +27,37 @@ export type HsvString = `hsv(${number}, ${number}%, ${number}%)`;
 export type HsvObject = { h: number; s: number; v: number };
 export type HsvInput = HsvString | HsvObject;
 
-// --- Pantone ---
-// Loose for now; refine to a template-literal pattern once the code list lands.
-export type PantoneCode = string;
-
-// --- Unified input: anything the public API accepts ---
-export type ColorInput = HexColor | RgbInput | RgbaInput | HslInput | HsvInput | PantoneCode;
+// --- Unified input: anything the core `convert` / `identify` path accepts. ---
+// Pantone strings are deliberately NOT in this union — they require the
+// `pantone` palette data to parse. Callers who want to feed a Pantone code
+// import `pantoneToRgba` from `chromonym/conversions/pantone` (or the
+// subpath) and pass the resulting `Rgba` here. Keeps `identify` / `convert`
+// palette-free so they tree-shake down to structural math.
+export type ColorInput = HexColor | RgbInput | RgbaInput | HslInput | HsvInput;
 
 // --- Format keys (SCREAMING_CAPS — these are lookup keys for converter dispatch) ---
-const FORMAT_VALUES = ['HEX', 'RGB', 'RGBA', 'HSL', 'HSV', 'PANTONE'] as const;
+// PANTONE intentionally omitted — see ColorInput comment.
+const FORMAT_VALUES = ['HEX', 'RGB', 'RGBA', 'HSL', 'HSV'] as const;
 export type ColorFormat = (typeof FORMAT_VALUES)[number];
 export const COLOR_FORMATS: ReadonlySet<ColorFormat> = new Set(FORMAT_VALUES);
 
 // --- A returned color value (union of canonical output shapes, one per ColorFormat) ---
-export type ColorValue = HexColor | RgbString | Rgba | HslString | HsvString | PantoneCode;
+export type ColorValue = HexColor | RgbString | Rgba | HslString | HsvString;
 
-// --- Colorspace: a named map of color-name -> hex. Pure data. ---
-export type Colorspace = Record<string, HexColor>;
-export type ColorspaceName = 'web' | 'x11' | 'pantone';
+// --- Name normalization function shape (used by palettes). ---
+// A NormalizeFn takes a user-supplied name ("Pantone 185 C") and returns
+// its canonical lookup key ("185c"). Paired with each Palette.
+export type NormalizeFn = (name: string) => string;
+
+// --- Palette: a named color lookup with its indexing rules. ---
+// Generic over the key type so BYO palettes can carry narrow literal
+// unions for full type inference through identify/resolve.
+export type Palette<Name extends string = string> = {
+  readonly name: string;
+  readonly colors: Readonly<Record<Name, HexColor>>;
+  readonly normalize: NormalizeFn;
+  readonly defaultMetric: DistanceMetric;
+};
 
 // --- Distance metric for nearest-name lookup (used by `identify`). ---
 // Choose based on palette density and accuracy needs:

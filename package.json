@@ -1,7 +1,7 @@
 {
   "name": "chromonym",
   "version": "1.4.1",
-  "description": "Tree-shakeable color-naming primitive for TypeScript. Identify, resolve, and convert colors across CSS, X11, and Pantone colorspaces — with perceptual distance metrics (CIEDE2000).",
+  "description": "Tree-shakeable color-naming primitive for TypeScript. Identify, resolve, and convert colors across CSS, X11, Pantone, or any palette you bring — with perceptual distance metrics (CIEDE2000).",
   "keywords": [
     "color",
     "color-name",
@@ -46,51 +46,63 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./web": {
-      "types": "./dist/colorspaces/web.d.ts",
-      "import": "./dist/colorspaces/web.js"
+      "types": "./dist/palettes/web.d.ts",
+      "import": "./dist/palettes/web.js",
+      "default": "./dist/palettes/web.js"
     },
     "./x11": {
-      "types": "./dist/colorspaces/x11.d.ts",
-      "import": "./dist/colorspaces/x11.js"
+      "types": "./dist/palettes/x11.d.ts",
+      "import": "./dist/palettes/x11.js",
+      "default": "./dist/palettes/x11.js"
     },
     "./pantone": {
-      "types": "./dist/colorspaces/pantone.d.ts",
-      "import": "./dist/colorspaces/pantone.js"
+      "types": "./dist/palettes/pantone.d.ts",
+      "import": "./dist/palettes/pantone.js",
+      "default": "./dist/palettes/pantone.js"
     },
     "./conversions/hex": {
       "types": "./dist/conversions/hex.d.ts",
-      "import": "./dist/conversions/hex.js"
+      "import": "./dist/conversions/hex.js",
+      "default": "./dist/conversions/hex.js"
     },
     "./conversions/rgb": {
       "types": "./dist/conversions/rgb.d.ts",
-      "import": "./dist/conversions/rgb.js"
+      "import": "./dist/conversions/rgb.js",
+      "default": "./dist/conversions/rgb.js"
     },
     "./conversions/hsl": {
       "types": "./dist/conversions/hsl.d.ts",
-      "import": "./dist/conversions/hsl.js"
+      "import": "./dist/conversions/hsl.js",
+      "default": "./dist/conversions/hsl.js"
     },
     "./conversions/hsv": {
       "types": "./dist/conversions/hsv.d.ts",
-      "import": "./dist/conversions/hsv.js"
+      "import": "./dist/conversions/hsv.js",
+      "default": "./dist/conversions/hsv.js"
     },
     "./conversions/pantone": {
       "types": "./dist/conversions/pantone.d.ts",
-      "import": "./dist/conversions/pantone.js"
+      "import": "./dist/conversions/pantone.js",
+      "default": "./dist/conversions/pantone.js"
     },
     "./math/deltaE": {
       "types": "./dist/math/deltaE.d.ts",
-      "import": "./dist/math/deltaE.js"
+      "import": "./dist/math/deltaE.js",
+      "default": "./dist/math/deltaE.js"
     },
     "./math/colorSpace": {
       "types": "./dist/math/colorSpace.d.ts",
-      "import": "./dist/math/colorSpace.js"
+      "import": "./dist/math/colorSpace.js",
+      "default": "./dist/math/colorSpace.js"
     },
     "./types": {
       "types": "./dist/types.d.ts",
-      "import": "./dist/types.js"
+      "import": "./dist/types.js",
+      "default": "./dist/types.js"
     },
     "./package.json": "./package.json"
   },
@@ -101,12 +113,14 @@
     "NOTICE.md"
   ],
   "scripts": {
-    "build": "tsgo",
+    "clean": "rm -rf dist",
+    "build": "bun run clean && tsgo",
     "typecheck": "tsgo --noEmit",
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "format": "biome format --write .",
     "test": "bun test",
+    "demo": "bun run build && cd demo && bun run dev",
     "prepublishOnly": "bun run build"
   },
   "devDependencies": {

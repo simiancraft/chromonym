@@ -62,18 +62,16 @@ describe('detectFormat', () => {
     });
   });
 
-  describe('PANTONE', () => {
-    it('detects bare code like "185 C"', () => {
-      expect(detectFormat('185 C')).toBe('PANTONE');
+  describe('PANTONE strings no longer detected (off core path)', () => {
+    // Pantone codes are palette data, not a structural color format —
+    // detecting them here would force the palette into every identify/
+    // convert bundle. Callers parse Pantone codes via `pantoneToRgba`
+    // from `chromonym/conversions/pantone` instead.
+    it('returns UNKNOWN for "185 C"', () => {
+      expect(detectFormat('185 C' as never)).toBe('UNKNOWN');
     });
-    it('detects "Pantone 185 C"', () => {
-      expect(detectFormat('Pantone 185 C')).toBe('PANTONE');
-    });
-    it('detects "2945 U"', () => {
-      expect(detectFormat('2945 U')).toBe('PANTONE');
-    });
-    it('detects "100 M"', () => {
-      expect(detectFormat('100 M')).toBe('PANTONE');
+    it('returns UNKNOWN for "Pantone 185 C"', () => {
+      expect(detectFormat('Pantone 185 C' as never)).toBe('UNKNOWN');
     });
   });
 
@@ -123,7 +121,10 @@ describe('isColor', () => {
     expect(isColor({ r: 255, g: 0, b: 0 })).toBe(true);
     expect(isColor({ h: 0, s: 100, l: 50 })).toBe(true);
     expect(isColor({ h: 0, s: 100, v: 100 })).toBe(true);
-    expect(isColor('185 C')).toBe(true);
+  });
+  it('returns false for Pantone codes (palette data, not a structural format)', () => {
+    expect(isColor('185 C')).toBe(false);
+    expect(isColor('Pantone 185 C')).toBe(false);
   });
   it('returns false for garbage', () => {
     expect(isColor('not a color')).toBe(false);

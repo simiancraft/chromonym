@@ -2,7 +2,10 @@ import { describe, expect, it } from 'bun:test';
 import { pantoneToRgba, rgbaToPantone } from '../../src/conversions/pantone';
 
 describe('pantoneToRgba', () => {
-  it('resolves "100C" (exact canonical key)', () => {
+  it('resolves "100 C" (exact canonical key)', () => {
+    expect(pantoneToRgba('100 C')).toEqual({ r: 246, g: 235, b: 97, a: 1 });
+  });
+  it('resolves "100C" (normalizer strips spaces — still matches)', () => {
     expect(pantoneToRgba('100C')).toEqual({ r: 246, g: 235, b: 97, a: 1 });
   });
   it('resolves "100 C" (space-normalized)', () => {
@@ -24,13 +27,13 @@ describe('pantoneToRgba', () => {
 
 describe('rgbaToPantone', () => {
   it('returns exact Pantone code when the rgba matches a known entry', () => {
-    // 185C is #e4002b → rgb(228, 0, 43)
-    expect(rgbaToPantone({ r: 228, g: 0, b: 43, a: 1 })).toBe('185C');
+    // 185 C is #e4002b → rgb(228, 0, 43)
+    expect(rgbaToPantone({ r: 228, g: 0, b: 43, a: 1 })).toBe('185 C');
   });
   it('returns nearest-match when rgba is close but not exact', () => {
-    // Pure red (#ff0000) isn't a Pantone value but is near 185C / Red 032C.
+    // Pure red (#ff0000) isn't a Pantone value but is near 185 C / Red 032 C.
     const match = rgbaToPantone({ r: 255, g: 0, b: 0, a: 1 });
-    expect(match).toMatch(/^\d+C$/);
+    expect(match).toMatch(/^\d+ C$/);
   });
   it('ignores alpha channel in distance calculation', () => {
     const match1 = rgbaToPantone({ r: 228, g: 0, b: 43, a: 1 });
@@ -47,7 +50,7 @@ describe('rgbaToPantone', () => {
 
 describe('round-trip pantone ↔ rgba', () => {
   it('exact Pantone entries round-trip to themselves', () => {
-    const rgba = pantoneToRgba('100C');
-    expect(rgbaToPantone(rgba)).toBe('100C');
+    const rgba = pantoneToRgba('100 C');
+    expect(rgbaToPantone(rgba)).toBe('100 C');
   });
 });

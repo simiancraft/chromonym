@@ -66,17 +66,15 @@ describe('convert', () => {
     });
   });
 
-  describe('PANTONE input and output', () => {
-    it('accepts a pantone code as input', () => {
-      expect(convert('185 C', { format: 'HEX' })).toBe('#e4002b');
+  describe('PANTONE is off the core path (requires explicit pantone import)', () => {
+    it('rejects a pantone-code string as input — convert stays palette-free', () => {
+      // Users who want Pantone round-tripping chain through pantoneToRgba
+      // from `chromonym/conversions/pantone`. This isolation is what lets
+      // `convert` / `identify` tree-shake without dragging the Pantone palette.
+      expect(() => convert('185 C' as never, { format: 'HEX' })).toThrow();
     });
-    it('emits a Pantone code for rgb input', () => {
-      // Exact match: rgba equivalent of #e4002b → 185C.
-      expect(convert({ r: 228, g: 0, b: 43 }, { format: 'PANTONE' })).toBe('185C');
-    });
-    it('round-trips pantone code through rgba', () => {
-      const rgba = convert('100C', { format: 'RGBA' });
-      expect(convert(rgba, { format: 'PANTONE' })).toBe('100C');
+    it("the 'PANTONE' format key is no longer accepted — it would require palette data", () => {
+      expect(() => convert({ r: 228, g: 0, b: 43 }, { format: 'PANTONE' as never })).toThrow();
     });
   });
 

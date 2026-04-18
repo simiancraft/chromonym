@@ -1,6 +1,6 @@
 # chromonym
 
-> A focused TypeScript library for color naming. `identify` (color → name), `resolve` (name → color), `convert` (color → color format). Ships CSS / X11 / Pantone named colorspaces. Not a general-purpose color manipulation library — for that, use chroma.js or color.js.
+> The last color-naming library you'll ever need. One API — `identify` (color → name), `resolve` (name → color), `convert` (color → color format) — works against any palette matching `Palette<Name>`. Ships CSS, X11, Pantone; bring your own (brand colors, paint chips, game factions). Tree-shakes: you only pay for palettes you import. Not a general-purpose manipulation library — for mixing / scales / gamut mapping, use chroma.js or color.js.
 
 ## Key files
 
@@ -10,17 +10,30 @@
 
 ## Primary API
 
-- `identify(input, { colorspace, metric })` — color → name
-- `resolve(name, { colorspace, format })` — name → color
-- `convert(input, { format })` — color → color in target format
-- `toRgba(input, knownFormat?)` / `fromRgba(rgba, format)` — dispatcher primitives
-- Low-level converters: `hexToRgba`, `rgbaToHex`, `rgbToRgba`, `rgbaToRgb`, `hslToRgba`, `rgbaToHsl`, `hsvToRgba`, `rgbaToHsv`, `pantoneToRgba`, `rgbaToPantone`
-- Data: `web`, `x11`, `pantone`
+- `identify(input, { palette, metric })` — color → name. `palette` is a `Palette<Name>` object (defaults to `web`).
+- `resolve(name, { palette, format })` — name → color. `palette` defaults to `web`.
+- `convert(input, { format })` — structural color-format conversion (HEX / RGB / RGBA / HSL / HSV). Intentionally does NOT handle PANTONE (palette-data dependent) — use `pantoneToRgba` / `rgbaToPantone` from `chromonym/conversions/pantone`.
+- `toRgba(input, knownFormat?)` / `fromRgba(rgba, format)` — dispatcher primitives.
+- Low-level converters: `hexToRgba`, `rgbaToHex`, `rgbToRgba`, `rgbaToRgb`, `hslToRgba`, `rgbaToHsl`, `hsvToRgba`, `rgbaToHsv`, `pantoneToRgba`, `rgbaToPantone`.
+- Built-in palettes: `web`, `x11`, `pantone` (each a `Palette<Name>` object; `.colors` holds the hex map).
+
+## BYO palettes
+
+`identify` / `resolve` take a `Palette<Name>` object literal — no registration. Shape:
+
+```ts
+type Palette<Name extends string = string> = {
+  name: string;
+  colors: Record<Name, HexColor>;
+  normalize: (s: string) => string;
+  defaultMetric: DistanceMetric;
+};
+```
 
 ## Conventions
 
 - Format keys are SCREAMING_CAPS (`'HEX'`, `'RGB'`, etc.) — dispatch keys.
-- Colorspace names are lowercase strings (`'web'`, `'x11'`, `'pantone'`) — human-facing options.
+- Palette identity is the object itself; there is no string-keyed registry.
 - Canonical internal color: `Rgba = { r, g, b, a }`.
 - Low-level converters throw on invalid input. High-level `identify` / `resolve` return `null`. `convert` throws.
 - `sideEffects: false` — no module-scope side effects anywhere.
