@@ -47,12 +47,57 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./web": {
+      "types": "./dist/colorspaces/web.d.ts",
+      "import": "./dist/colorspaces/web.js"
+    },
+    "./x11": {
+      "types": "./dist/colorspaces/x11.d.ts",
+      "import": "./dist/colorspaces/x11.js"
+    },
+    "./pantone": {
+      "types": "./dist/colorspaces/pantone.d.ts",
+      "import": "./dist/colorspaces/pantone.js"
+    },
+    "./conversions/hex": {
+      "types": "./dist/conversions/hex.d.ts",
+      "import": "./dist/conversions/hex.js"
+    },
+    "./conversions/rgb": {
+      "types": "./dist/conversions/rgb.d.ts",
+      "import": "./dist/conversions/rgb.js"
+    },
+    "./conversions/hsl": {
+      "types": "./dist/conversions/hsl.d.ts",
+      "import": "./dist/conversions/hsl.js"
+    },
+    "./conversions/hsv": {
+      "types": "./dist/conversions/hsv.d.ts",
+      "import": "./dist/conversions/hsv.js"
+    },
+    "./conversions/pantone": {
+      "types": "./dist/conversions/pantone.d.ts",
+      "import": "./dist/conversions/pantone.js"
+    },
+    "./math/deltaE": {
+      "types": "./dist/math/deltaE.d.ts",
+      "import": "./dist/math/deltaE.js"
+    },
+    "./math/colorSpace": {
+      "types": "./dist/math/colorSpace.d.ts",
+      "import": "./dist/math/colorSpace.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
     }
   },
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "NOTICE.md"
   ],
   "scripts": {
     "build": "tsgo",
