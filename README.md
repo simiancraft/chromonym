@@ -2,6 +2,12 @@
   <img src=".github/assets/banner.svg" alt="chromonym" width="800" />
 </p>
 
+<p align="center">
+  <a href="https://simiancraft.github.io/chromonym/">
+    <img src="https://img.shields.io/badge/▶%20Live%20demo-scrub%20a%20color%2C%20see%20the%20name-4f46e5?style=for-the-badge" alt="Live demo" />
+  </a>
+</p>
+
 # chromonym
 
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
