@@ -17,14 +17,12 @@
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/simiancraft/chromonym/branch/main/graph/badge.svg)](https://codecov.io/gh/simiancraft/chromonym)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![semantic-release: conventional](https://img.shields.io/badge/semantic--release-conventional-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
-[![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
 <p align="center">
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
 </p>
 
-**Tree-shakeable color naming for TypeScript.** Identify, resolve, and convert colors across CSS, X11, and Pantone — with 5 perceptual distance metrics. Add your own colorspaces and metrics as you need them.
+**Tree-shakeable color naming for TypeScript** — across CSS, X11, and Pantone, with six distance metrics (four perceptual).
 
 <p align="center">
   <a href="https://simiancraft.github.io/chromonym/">
@@ -32,9 +30,11 @@
   </a>
 </p>
 
-Because "it's sort of magenta-ish, maybe?" doesn't copy-paste into code, and the nearest Pantone to your brand hex is something you should be able to answer without opening Photoshop.
+Because "it's sort of magenta-ish, maybe?" doesn't copy-paste into code, and the nearest Pantone to your brand hex is something you should be able to answer without opening a swatch book.
 
-Built as a *color-strategy machine*: the identification and resolution mechanism is the same across every colorspace, so plugging in a new set (RAL, HKS, NCS, or a custom brand palette) is one file. For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`](https://gka.github.io/chroma.js/) or [`color.js`](https://colorjs.io/) — chromonym is the tool for *naming*.
+The identification and resolution mechanism is the same across every colorspace, so future additions (RAL, HKS, NCS, or similar) are one file each. There's no public `registerColorspace` API yet — open an issue if you need a specific set.
+
+For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`](https://gka.github.io/chroma.js/) or [`color.js`](https://colorjs.io/) — chromonym is the tool for *naming*.
 
 ```ts
 import { identify, resolve, convert } from 'chromonym';
@@ -59,6 +59,8 @@ identify('#663399')                                // 'rebeccapurple'
 
 ```sh
 bun add chromonym
+pnpm add chromonym
+yarn add chromonym
 npm install chromonym
 ```
 
@@ -80,7 +82,7 @@ function identify(
 - **Default colorspace**: `'web'`.
 - **Default metric**: picked per colorspace — `'deltaE76'` for web and x11 (well-separated palettes), `'deltaE2000'` for pantone (dense, perceptually-packed). Override freely via `metric`.
 - Returns the matched name, or `null` if input is unrecognized (`detectFormat` returns `'UNKNOWN'`).
-- Ties go to whichever color was defined first — stable, occasionally arbitrary.
+- Ties go to whichever color was defined first — deterministic across runs, but not semantically meaningful.
 
 ```ts
 identify('#ff0000')                                // 'red'
@@ -164,20 +166,20 @@ web.crimson                      // '#dc143c'
 
 ## Distance metrics
 
-*Five ways to ask "how different are two colors?"*
+*Six ways to ask "how different are two colors?"*
 
-`identify` picks the nearest-named color by comparing your input to every entry in the chosen colorspace. *How* it measures "nearest" is controlled by `metric`. Five options, roughly ordered from fast-and-approximate to slow-and-correct:
+`identify` picks the nearest-named color by comparing your input to every entry in the chosen colorspace. *How* it measures "nearest" is controlled by `metric`. Six options, roughly ordered from fast-and-approximate to slow-and-correct:
 
 | Metric | What it does | When to use |
 |---|---|---|
 | `'euclidean-srgb'` | Raw `sqrt(Δr² + Δg² + Δb²)` in sRGB. Fastest. Not perceptually uniform — a unit of distance doesn't mean a unit of "visual difference." | Tight perf budgets; well-separated palettes where you just need the obvious answer. |
 | `'euclidean-linear'` | Same math, but on linearized (gamma-removed) RGB. Somewhat better in dark regions. Still not perceptual. | Physical-light mixing contexts; incremental upgrade from sRGB Euclidean. |
-| `'deltaE76'` | Euclidean in CIELAB (CIE 1976). Simple perceptual metric. 1 ΔE ≈ "just noticeable difference" for most of the gamut. | **Default for web and x11.** Sweet spot: meaningful perceptual accuracy, low cost. |
+| `'deltaE76'` | Euclidean in CIELAB (CIE 1976). Simple perceptual metric. 1 ΔE ≈ "just noticeable difference" for most of the gamut. | **Default for web and x11.** Meaningful perceptual accuracy at low cost. |
 | `'deltaE94'` | ΔE76 + chroma/hue weighting (CIE 1994). Fixes "saturated colors feel too far apart." | When ΔE76 is over-penalizing saturated matches in your use case. |
 | `'deltaE2000'` | Full CIEDE2000 formula with blue/purple rotation correction. Industry standard for print, design tools, Pantone workflows. | **Default for pantone.** Use whenever accuracy matters, especially in the blue region where ΔE76/94 break down. |
-| `'deltaEok'` | Euclidean distance in OKLAB (Björn Ottosson, 2020). OKLAB is perceptually uniform by construction — no weighting formula needed. Strictly more uniform than CIELAB; often a better nearest-match than ΔE2000 in saturated-blue regions, and cheaper to compute. | Modern default if you want perceptual accuracy without the CIEDE2000 rotation-term complexity. |
+| `'deltaEok'` | Euclidean distance in OKLAB (Björn Ottosson, 2020). OKLAB is perceptually uniform by construction — no weighting formula needed. Strictly more uniform than CIELAB; often a better nearest-match than ΔE2000 in saturated-blue regions, and cheaper to compute. | Use when you want perceptual accuracy without the CIEDE2000 rotation-term complexity. |
 
-Each metric trades cost for accuracy — the full scan over 907 Pantone entries is well under 1 ms even with ΔE2000, so for interactive UIs there's no practical reason not to use the most accurate metric. Batch-processing millions of colors is where you'd drop down.
+Each metric trades cost for accuracy — the full scan over 907 Pantone entries is well under 1 ms even with ΔE2000. For interactive UIs, cost is usually irrelevant; drop to a cheaper metric when batch-processing millions of colors or when you need specific tie-breaking behavior.
 
 ```ts
 // Defaults: deltaE76 for web/x11, deltaE2000 for pantone.
@@ -190,7 +192,7 @@ identify('#ff8080', { metric: 'deltaE2000' })      // most accurate
 identify('#ff8080', { colorspace: 'pantone', metric: 'euclidean-srgb' })  // force fast for Pantone
 ```
 
-The low-level `rgbaToPantone` always uses `'deltaE2000'` — appropriate for Pantone matching, where this is what the industry tools use.
+The low-level `rgbaToPantone` always uses `'deltaE2000'`.
 
 ## Formats
 
@@ -203,11 +205,9 @@ The low-level `rgbaToPantone` always uses `'deltaE2000'` — appropriate for Pan
 | `'HSV'` | `'hsv(h, s%, v%)'`, `{ h, s, v }` | `'hsv(h, s%, v%)'` string |
 | `'PANTONE'` | `'185 C'`, `'185C'`, `'Pantone 185 C'`, etc. | `'185C'`-style string |
 
-The runtime set `COLOR_FORMATS` is exported for enumeration / membership checks.
-
 ## Error handling
 
-The three dispatchers are asymmetric — chosen deliberately, but worth knowing:
+The three dispatchers are asymmetric:
 
 | Function | Unrecognized / unknown input | Rationale |
 |---|---|---|
@@ -215,7 +215,7 @@ The three dispatchers are asymmetric — chosen deliberately, but worth knowing:
 | `resolve(name)` | returns `null` | lookup-flavored; name may legitimately not exist |
 | `convert(input)` | **throws** | parser-flavored; malformed color is a caller error |
 
-Low-level converters (`hexToRgba`, `rgbToRgba`, `hslToRgba`, `hsvToRgba`, `pantoneToRgba`) all **throw** on malformed input. The `rgbaTo*` direction never throws. The nearest-match returner `rgbaToPantone` always returns *some* Pantone code.
+Low-level converters (`hexToRgba`, `rgbToRgba`, `hslToRgba`, `hsvToRgba`, `pantoneToRgba`) all **throw** on malformed input. The `rgbaTo*` direction never throws. `rgbaToPantone` is the special case: it always returns a Pantone code regardless of how distant the nearest match is, so don't treat the return as evidence the input was Pantone-like — check the ΔE yourself if that matters.
 
 If you want a `null`-returning variant of `convert`, wrap it:
 
@@ -245,7 +245,7 @@ Re-exported from the root barrel — `import type { ... } from 'chromonym'`:
 | Category | Types |
 |---|---|
 | Input / output unions | `ColorInput`, `ColorValue` |
-| Format & space keys | `ColorFormat`, `ColorspaceName` |
+| Format & colorspace keys | `ColorFormat`, `ColorspaceName` |
 | Per-format shapes | `HexColor`, `Rgba`, `RgbInput`, `RgbaInput`, `HslInput`, `HsvInput`, `PantoneCode` |
 | Palette container | `Colorspace` |
 | Color-name unions | `WebColorName`, `X11ColorName`, `PantoneColorName` |
@@ -264,14 +264,12 @@ Regenerating colorspace data:
 
 ```sh
 bun run scripts/generate-x11.ts        # reads /usr/share/X11/rgb.txt
-bun run scripts/generate-pantone.ts    # reads color_library (MIT dependency)
+bun run scripts/generate-pantone.ts    # reads the color_library npm package (MIT © Radu Dragan)
 ```
 
 ## Coverage
 
 [![Coverage sunburst](https://codecov.io/github/simiancraft/chromonym/graphs/sunburst.svg?token=HYWM6G66YE)](https://codecov.io/github/simiancraft/chromonym)
-
-Each ring is a directory; each leaf is a file. Green is covered, red is gaps.
 
 ## See also
 
