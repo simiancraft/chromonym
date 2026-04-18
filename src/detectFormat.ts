@@ -17,6 +17,15 @@ const HSV_STR_RE = /^hsv\s*\(/i;
 // Refine once the real Pantone code list lands.
 const PANTONE_RE = /^(?:pantone\s+)?\d+\s*[CUM]$/i;
 
+/**
+ * Runtime type-guard — returns `true` if `input` looks like something any of
+ * chromonym's converters can parse. Cheaper than catching a `convert` throw
+ * and more ergonomic than hand-rolling `detectFormat(x) !== 'UNKNOWN'`.
+ */
+export function isColor(input: unknown): input is ColorInput {
+  return detectFormat(input as ColorInput) !== 'UNKNOWN';
+}
+
 export function detectFormat(input: ColorInput): DetectedFormat {
   if (typeof input === 'string') {
     if (input === '') return 'UNKNOWN';

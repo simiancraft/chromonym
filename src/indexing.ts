@@ -108,6 +108,37 @@ function getLinearIndex(space: Colorspace): Array<readonly [string, LabTriple]> 
 }
 
 /**
+ * Generic argmin over an `[name, value]` entries array with a custom
+ * distance function. Factored so the three metric branches in `nearest`
+ * share one loop body instead of duplicating it three times.
+ */
+function argminBy<T>(
+  entries: Array<readonly [string, T]>,
+  target: T,
+  dist: (a: T, b: T) => number,
+): string {
+  let bestName = entries[0]?.[0] ?? '';
+  let bestDistance = Number.POSITIVE_INFINITY;
+  for (const [name, candidate] of entries) {
+    const d = dist(target, candidate);
+    if (d < bestDistance) {
+      bestDistance = d;
+      bestName = name;
+    }
+  }
+  return bestName;
+}
+
+// Squared Euclidean on a [number, number, number] triple. Used for the
+// linear-RGB metric (sharing shape with Lab but different meaning).
+function squaredDistanceTriple(a: LabTriple, b: LabTriple): number {
+  const d0 = a[0] - b[0];
+  const d1 = a[1] - b[1];
+  const d2 = a[2] - b[2];
+  return d0 * d0 + d1 * d1 + d2 * d2;
+}
+
+/**
  * Find the nearest-named entry in a colorspace under the specified distance
  * metric. Dispatches to the right index (rgba / linear-rgb / Lab) and
  * the right distance function. See `DistanceMetric` in types.ts for how
@@ -119,38 +150,12 @@ export function nearest(
   metric: DistanceMetric = 'euclidean-srgb',
 ): string {
   if (metric === 'euclidean-srgb') return nearestByRgb(target, space);
-
   if (metric === 'euclidean-linear') {
-    const t = rgbaToLinearRgb(target);
-    const entries = getLinearIndex(space);
-    let bestName = entries[0]?.[0] ?? '';
-    let bestDistance = Number.POSITIVE_INFINITY;
-    for (const [name, c] of entries) {
-      const d0 = t[0] - c[0];
-      const d1 = t[1] - c[1];
-      const d2 = t[2] - c[2];
-      const d = d0 * d0 + d1 * d1 + d2 * d2;
-      if (d < bestDistance) {
-        bestDistance = d;
-        bestName = name;
-      }
-    }
-    return bestName;
+    return argminBy(getLinearIndex(space), rgbaToLinearRgb(target), squaredDistanceTriple);
   }
-
-  // Lab-based metrics share the same Lab cache; only the distance fn differs.
-  const t = rgbaToLab(target);
-  const entries = getLabIndex(space);
-  const distFn =
-    metric === 'deltaE76' ? deltaE76Squared : metric === 'deltaE94' ? deltaE94 : deltaE2000;
-  let bestName = entries[0]?.[0] ?? '';
-  let bestDistance = Number.POSITIVE_INFINITY;
-  for (const [name, c] of entries) {
-    const d = distFn(t, c);
-    if (d < bestDistance) {
-      bestDistance = d;
-      bestName = name;
-    }
-  }
-  return bestName;
+  const labTarget = rgbaToLab(target);
+  const labIndex = getLabIndex(space);
+  if (metric === 'deltaE76') return argminBy(labIndex, labTarget, deltaE76Squared);
+  if (metric === 'deltaE94') return argminBy(labIndex, labTarget, deltaE94);
+  return argminBy(labIndex, labTarget, deltaE2000);
 }
