@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/assets/banner.svg" alt="chromonym" width="800" />
+  <img src=".github/assets/banner.png" alt="chromonym" width="800" />
 </p>
 
 <p align="center">

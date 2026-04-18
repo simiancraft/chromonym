@@ -8,7 +8,7 @@ import {
   resolve,
 } from 'chromonym';
 import { useEffect, useMemo, useState } from 'react';
-import bannerUrl from '../../.github/assets/banner.svg';
+import bannerUrl from '../../.github/assets/banner.png';
 
 const COLORSPACES: ColorspaceName[] = ['web', 'x11', 'pantone'];
 
