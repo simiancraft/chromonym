@@ -75,7 +75,7 @@ const RAD = 180 / Math.PI;
 
 function hueDeg(b: number, a: number): number {
   if (b === 0 && a === 0) return 0;
-  return ((Math.atan2(b, a) * RAD + 360) % 360);
+  return (Math.atan2(b, a) * RAD + 360) % 360;
 }
 
 /**

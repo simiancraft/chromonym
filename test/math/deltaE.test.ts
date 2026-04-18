@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { rgbaToLab } from '../../src/math/colorSpace';
 import type { Lab } from '../../src/math/deltaE';
-import { deltaE2000, deltaE76, deltaE76Squared, deltaE94 } from '../../src/math/deltaE';
+import { deltaE76, deltaE76Squared, deltaE94, deltaE2000 } from '../../src/math/deltaE';
 
 describe('deltaE76', () => {
   it('identity: d(x, x) === 0', () => {
