@@ -17,12 +17,13 @@ export function pantoneToRgba(code: PantoneCode): Rgba {
 }
 
 /**
- * Find the nearest Pantone Coated code to the given Rgba. Uses ΔE*00
- * (CIEDE2000) — the industry-standard perceptual metric — by default, since
- * Pantone values cluster densely in the saturated blue/purple region where
- * sRGB Euclidean distance gives visually wrong answers.
+ * Find the nearest Pantone Coated code to the given Rgba. Uses the
+ * `pantone` palette's own `defaultMetric` (ΔE*00 / CIEDE2000) — the
+ * industry-standard perceptual metric, since Pantone values cluster densely
+ * in the saturated blue/purple region where sRGB Euclidean distance gives
+ * visually wrong answers.
  * Alpha is ignored. Always returns a code.
  */
 export function rgbaToPantone(rgba: Rgba): PantoneCode {
-  return nearest(rgba, pantone, 'deltaE2000') as PantoneCode;
+  return nearest(rgba, pantone, pantone.defaultMetric) as PantoneCode;
 }

@@ -245,36 +245,38 @@ export function App() {
           </div>
         </section>
 
-        <section className="bg-white rounded-xl shadow-sm p-6 space-y-4 border border-neutral-200">
+        <section className="bg-amber-50/60 rounded-xl shadow-sm p-6 space-y-4 border-2 border-dashed border-amber-300">
           <div>
             <div className="flex items-baseline justify-between">
               <h2 className="text-lg font-semibold">Bring your own colorspace</h2>
-              <span className="text-xs uppercase tracking-wide text-neutral-500">BYO palette</span>
+              <span className="text-[10px] uppercase tracking-wider font-semibold bg-amber-200 text-amber-900 px-2 py-0.5 rounded">
+                user-supplied
+              </span>
             </div>
-            <p className="text-sm text-neutral-600 mt-1">
-              Any object matching <code className="text-xs bg-neutral-100 px-1 rounded">Colorspace&lt;Name&gt;</code>{' '}
-              works. This 5-color palette is defined inline in the demo source and passed straight to
-              <code className="text-xs bg-neutral-100 px-1 rounded mx-1">identify</code>— no
+            <p className="text-sm text-neutral-700 mt-1">
+              Any object matching <code className="text-xs bg-white/70 px-1 rounded">Colorspace&lt;Name&gt;</code>{' '}
+              works. This 6-color palette is defined inline in the demo source and passed straight to
+              <code className="text-xs bg-white/70 px-1 rounded mx-1">identify</code>— no
               registration, full type inference.
             </p>
           </div>
 
-          <div className="grid grid-cols-6 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
             {Object.entries(warhammer.colors).map(([key, hex]) => (
               <div key={key} className="text-center">
                 <div
                   className="h-14 rounded border border-neutral-300"
                   style={{ backgroundColor: hex }}
                 />
-                <div className="text-[10px] text-neutral-600 mt-1 break-words leading-tight">
+                <div className="text-xs text-neutral-700 mt-1 break-words leading-tight">
                   {key}
                 </div>
-                <code className="text-[10px] text-neutral-400">{hex}</code>
+                <code className="text-[10px] text-neutral-500">{hex}</code>
               </div>
             ))}
           </div>
 
-          <pre className="text-xs font-mono bg-neutral-50 border border-neutral-200 rounded p-3 overflow-x-auto">
+          <pre className="text-xs font-mono bg-white/70 border border-amber-200 rounded p-3 overflow-x-auto">
 {`const warhammer = {
   name: 'warhammer40k',
   colors: {

@@ -22,7 +22,7 @@
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
 </p>
 
-**Tree-shakeable color naming for TypeScript** — across CSS, X11, Pantone, or any palette you bring. Six distance metrics (four perceptual). BYO palettes with full type inference.
+**The last color-naming library you'll ever need.** One API — `identify`, `resolve`, `convert` — works against any palette you throw at it. Ships CSS, X11, and Pantone out of the box; bring your own (brand colors, paint chips, game factions, chart themes) with full TypeScript inference and zero registration. Perceptual accuracy via six distance metrics. Tree-shakes to the bone — you only pay for palettes you import.
 
 <p align="center">
   <a href="https://simiancraft.github.io/chromonym/">
@@ -30,30 +30,36 @@
   </a>
 </p>
 
-Because "it's sort of magenta-ish, maybe?" doesn't copy-paste into code, and the nearest Pantone to your brand hex is something you should be able to answer without opening a swatch book.
-
-The identification and resolution mechanism is the same across every colorspace, so future additions (RAL, HKS, NCS, or similar) are one file each. And since `identify` / `resolve` take a `Colorspace<Name>` object rather than a string key, **you can bring your own palette** — any object matching the shape works, no registration needed. See [BYO colorspace](#byo-colorspace) below.
+Because "it's sort of magenta-ish, maybe?" doesn't copy-paste into code — and naming a color is the same problem whether your palette is CSS, Pantone, your company's brand kit, or a homebrew set of faction colors. Chromonym treats every palette as a first-class `Colorspace<Name>` object and runs the same nearest-neighbor machinery over all of them.
 
 For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`](https://gka.github.io/chroma.js/) or [`color.js`](https://colorjs.io/) — chromonym is the tool for *naming*.
 
 ```ts
-import { identify, resolve, convert, pantone } from 'chromonym';
+import { identify, resolve, convert, pantone, type Colorspace } from 'chromonym';
 
-// What Pantone is this brand color closest to? (perceptually, via CIEDE2000)
+// Any palette you can express as an object works — built-in or your own.
+identify('#ff8080')                                // 'light coral' (web is the default)
+identify('#663399')                                // 'rebecca purple'
 identify('#E20074', { colorspace: pantone })       // '213 C' — T-Mobile magenta
 
-// Resolve any Pantone code back to RGB — prefix, spacing, case all fine
-resolve('Pantone 185 C', { colorspace: pantone })  // '#e4002b'
+// Your palette — defined inline, type-checked, no registration.
+const brand = {
+  name: 'acme-brand',
+  colors: { 'acme red': '#ff2a3b', 'acme ink': '#0a0f2c', 'acme mist': '#e6ecf5' },
+  normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
+  defaultMetric: 'deltaEok',
+} as const satisfies Colorspace;
 
-// Format conversion, format-detecting input
+identify('#ff2b3c', { colorspace: brand })         // 'acme red'
+resolve('Acme Ink', { colorspace: brand })         // '#0a0f2c'
+
+// Name → color, then go wherever you need: RGB, RGBA, HSL, HSV.
+resolve('Pantone 185 C', { colorspace: pantone })  // '#e4002b'
 convert('#ff0000', { format: 'HSL' })              // 'hsl(0, 100%, 50%)'
 convert({ h: 120, s: 100, l: 50 }, { format: 'HEX' })  // '#00ff00'
-
-// The classic: nearest CSS name (web is the default colorspace)
-identify('#ff8080')                                // 'light coral'
-identify('#bada55')                                // 'yellow green' — also the best-spelled hex
-identify('#663399')                                // 'rebecca purple'
 ```
+
+Future built-in additions (RAL, HKS, NCS, Munsell — open an issue) are one file each, because the identification machinery is palette-agnostic. Until then, they're twelve lines of your own code away.
 
 ## Install
 
@@ -139,7 +145,8 @@ function convert(
 
 - **Default format**: `'HEX'`.
 - Throws if input format is unrecognized.
-- Alpha information is preserved when converting into RGBA/RGB(A) string forms, and discarded for HEX (6-digit) / HSL / HSV / PANTONE output.
+- Alpha information is preserved when converting into RGBA/RGB(A) string forms, and discarded for HEX (6-digit) / HSL / HSV output.
+- **PANTONE is deliberately not a `convert` format.** Pantone round-tripping requires the palette data; routing it through `convert` would force every `convert` / `identify` bundle to include ~6 KB gzipped of Pantone table even when the caller never uses it. Use `pantoneToRgba` / `rgbaToPantone` from `chromonym/conversions/pantone` — they tree-shake independently.
 
 ```ts
 convert('#ff0000')                                 // '#ff0000' (identity)
@@ -148,8 +155,11 @@ convert('#ff0000', { format: 'RGBA' })             // { r: 255, g: 0, b: 0, a: 1
 convert([255, 0, 0], { format: 'HEX' })            // '#ff0000'
 convert('rgb(255, 0, 0)', { format: 'HSL' })       // 'hsl(0, 100%, 50%)'
 convert({ h: 0, s: 100, l: 50 }, { format: 'HEX' })// '#ff0000'
-convert('185 C', { format: 'HEX' })                // '#e4002b'
-convert('#e4002b', { format: 'PANTONE' })          // '185 C' (nearest Pantone C)
+
+// Pantone: opt-in, tree-shakes with its palette data
+import { pantoneToRgba, rgbaToPantone } from 'chromonym/conversions/pantone';
+convert(pantoneToRgba('185 C'), { format: 'HEX' }) // '#e4002b'
+rgbaToPantone({ r: 228, g: 0, b: 43, a: 1 })       // '185 C'
 ```
 
 ## Colorspaces
@@ -231,6 +241,8 @@ No registry, no plugin, no side effects. Bundlers only include the palettes you 
 
 Each metric trades cost for accuracy — the full scan over 907 Pantone entries is well under 1 ms even with ΔE2000. For interactive UIs, cost is usually irrelevant; drop to a cheaper metric when batch-processing millions of colors or when you need specific tie-breaking behavior.
 
+> **Note on x11's default (ΔE76):** x11 has 658 entries, many of them saturated blue/purple ramps where ΔE76 is a known weak spot. The default optimizes for UI scrubbing speed (~5 µs vs ~90 µs for ΔE2000). If perceptual accuracy matters more than latency, override per call with `{ metric: 'deltaEok' }` — same cost as ΔE76 on cached Lab/OKLAB indexes, better separation in blues.
+
 ```ts
 // Defaults: read from the palette's own `defaultMetric`.
 identify('#ff8080')                                // deltaE76 (web default)
@@ -242,7 +254,7 @@ identify('#ff8080', { metric: 'deltaE2000' })      // most accurate
 identify('#ff8080', { colorspace: pantone, metric: 'euclidean-srgb' })  // force fast for Pantone
 ```
 
-The low-level `rgbaToPantone` always uses `'deltaE2000'`.
+The low-level `rgbaToPantone` reads `pantone.defaultMetric` (currently `'deltaE2000'`).
 
 ## Formats
 
@@ -253,7 +265,6 @@ The low-level `rgbaToPantone` always uses `'deltaE2000'`.
 | `'RGBA'` | `'rgba(r, g, b, a)'`, `[r, g, b, a]`, `{ r, g, b, a }` | `{ r, g, b, a }` object |
 | `'HSL'` | `'hsl(h, s%, l%)'`, `{ h, s, l }` | `'hsl(h, s%, l%)'` string |
 | `'HSV'` | `'hsv(h, s%, v%)'`, `{ h, s, v }` | `'hsv(h, s%, v%)'` string |
-| `'PANTONE'` | `'185 C'`, `'185C'`, `'Pantone 185 C'`, etc. | `'185 C'`-style string |
 
 ## Error handling
 

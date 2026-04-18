@@ -101,7 +101,8 @@
     "NOTICE.md"
   ],
   "scripts": {
-    "build": "tsgo",
+    "clean": "rm -rf dist",
+    "build": "bun run clean && tsgo",
     "typecheck": "tsgo --noEmit",
     "lint": "biome check",
     "lint:fix": "biome check --write",

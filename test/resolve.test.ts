@@ -39,9 +39,10 @@ describe('resolve', () => {
     it("resolve('red', { format: 'HSV' }) → 'hsv(0, 100%, 100%)'", () => {
       expect(resolve('red', { format: 'HSV' })).toBe('hsv(0, 100%, 100%)');
     });
-    it("resolve('red', { format: 'PANTONE' }) returns nearest Pantone C code", () => {
-      const result = resolve('red', { format: 'PANTONE' });
-      expect(result).toMatch(/^\d+ C$/);
+    it("'PANTONE' output is off the core path — throws, route through rgbaToPantone instead", () => {
+      // `resolve` → `fromRgba` no longer handles PANTONE. Users wanting a
+      // Pantone code for a named color chain: `rgbaToPantone(hexToRgba(resolve('red') as HexColor))`.
+      expect(() => resolve('red', { format: 'PANTONE' as never })).toThrow();
     });
     it("resolve('185 C', { colorspace: pantone, format: 'RGBA' }) returns the rgba object", () => {
       expect(resolve('185 C', { colorspace: pantone, format: 'RGBA' })).toEqual({

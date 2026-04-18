@@ -1,6 +1,6 @@
 # chromonym
 
-> A focused TypeScript library for color naming. `identify` (color → name), `resolve` (name → color), `convert` (color → color format). Ships CSS / X11 / Pantone palettes; accepts BYO palettes matching `Colorspace<Name>`. Not a general-purpose color manipulation library — for that, use chroma.js or color.js.
+> The last color-naming library you'll ever need. One API — `identify` (color → name), `resolve` (name → color), `convert` (color → color format) — works against any palette matching `Colorspace<Name>`. Ships CSS, X11, Pantone; bring your own (brand colors, paint chips, game factions). Tree-shakes: you only pay for palettes you import. Not a general-purpose manipulation library — for mixing / scales / gamut mapping, use chroma.js or color.js.
 
 ## Key files
 
@@ -12,7 +12,7 @@
 
 - `identify(input, { colorspace, metric })` — color → name. `colorspace` is a `Colorspace<Name>` object (defaults to `web`).
 - `resolve(name, { colorspace, format })` — name → color. `colorspace` defaults to `web`.
-- `convert(input, { format })` — color → color in target format.
+- `convert(input, { format })` — structural color-format conversion (HEX / RGB / RGBA / HSL / HSV). Intentionally does NOT handle PANTONE (palette-data dependent) — use `pantoneToRgba` / `rgbaToPantone` from `chromonym/conversions/pantone`.
 - `toRgba(input, knownFormat?)` / `fromRgba(rgba, format)` — dispatcher primitives.
 - Low-level converters: `hexToRgba`, `rgbaToHex`, `rgbToRgba`, `rgbaToRgb`, `hslToRgba`, `rgbaToHsl`, `hsvToRgba`, `rgbaToHsv`, `pantoneToRgba`, `rgbaToPantone`.
 - Built-in palettes: `web`, `x11`, `pantone` (each a `Colorspace<Name>` object; `.colors` holds the hex map).

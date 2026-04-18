@@ -73,6 +73,18 @@ ${body}
 
 export type X11ColorName = keyof typeof x11Colors;
 
+/**
+ * Default metric note: x11 has 658 entries including dense numbered ramps
+ * (gray 0-100, dark slate gray 1-4, etc). ΔE76 is chosen for speed — at
+ * ~5 µs per identify vs ~90 µs for ΔE2000 — which matters for interactive
+ * UIs that scrub many colors per second.
+ *
+ * The tradeoff: ΔE76's known weakness in saturated blue/purple can pick a
+ * perceptually-suboptimal neighbor for colors in that region. For those
+ * inputs, override per-call with a perceptually-uniform metric:
+ *   identify(hex, { colorspace: x11, metric: 'deltaEok' })    // ~5 µs
+ *   identify(hex, { colorspace: x11, metric: 'deltaE2000' })  // ~90 µs
+ */
 export const x11 = {
   name: 'x11',
   colors: x11Colors,
