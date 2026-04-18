@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
-import { pantone } from '../src/colorspaces/pantone';
-import { web } from '../src/colorspaces/web';
-import { x11 } from '../src/colorspaces/x11';
+import { pantone } from '../src/palettes/pantone';
+import { web } from '../src/palettes/web';
+import { x11 } from '../src/palettes/x11';
 import { resolve } from '../src/resolve';
 
 describe('resolve', () => {
@@ -15,11 +15,11 @@ describe('resolve', () => {
     it("resolve('alice-blue!') → '#f0f8ff'", () => {
       expect(resolve('alice-blue!')).toBe('#f0f8ff');
     });
-    it("resolve('185 C', { colorspace: pantone }) → '#e4002b'", () => {
-      expect(resolve('185 C', { colorspace: pantone })).toBe('#e4002b');
+    it("resolve('185 C', { palette: pantone }) → '#e4002b'", () => {
+      expect(resolve('185 C', { palette: pantone })).toBe('#e4002b');
     });
-    it("resolve('Pantone 185 C', { colorspace: pantone }) → '#e4002b'", () => {
-      expect(resolve('Pantone 185 C', { colorspace: pantone })).toBe('#e4002b');
+    it("resolve('Pantone 185 C', { palette: pantone }) → '#e4002b'", () => {
+      expect(resolve('Pantone 185 C', { palette: pantone })).toBe('#e4002b');
     });
     it("resolve('crimson', { format: 'RGB' }) → 'rgb(220, 20, 60)'", () => {
       expect(resolve('crimson', { format: 'RGB' })).toBe('rgb(220, 20, 60)');
@@ -44,8 +44,8 @@ describe('resolve', () => {
       // Pantone code for a named color chain: `rgbaToPantone(hexToRgba(resolve('red') as HexColor))`.
       expect(() => resolve('red', { format: 'PANTONE' as never })).toThrow();
     });
-    it("resolve('185 C', { colorspace: pantone, format: 'RGBA' }) returns the rgba object", () => {
-      expect(resolve('185 C', { colorspace: pantone, format: 'RGBA' })).toEqual({
+    it("resolve('185 C', { palette: pantone, format: 'RGBA' }) returns the rgba object", () => {
+      expect(resolve('185 C', { palette: pantone, format: 'RGBA' })).toEqual({
         r: 228,
         g: 0,
         b: 43,
@@ -71,34 +71,34 @@ describe('resolve', () => {
     });
   });
 
-  describe('x11 colorspace', () => {
+  describe('x11 palette', () => {
     it('resolves x11-only name', () => {
-      expect(resolve('antiquewhite1', { colorspace: x11 })).toBe('#ffefdb');
+      expect(resolve('antiquewhite1', { palette: x11 })).toBe('#ffefdb');
     });
     it('normalizes x11 spaced input', () => {
-      expect(resolve('Antique White 1', { colorspace: x11 })).toBe('#ffefdb');
+      expect(resolve('Antique White 1', { palette: x11 })).toBe('#ffefdb');
     });
-    it('returns null for x11-only name under web colorspace', () => {
-      expect(resolve('antiquewhite1', { colorspace: web })).toBeNull();
+    it('returns null for x11-only name under web palette', () => {
+      expect(resolve('antiquewhite1', { palette: web })).toBeNull();
     });
   });
 
-  describe('pantone colorspace', () => {
+  describe('pantone palette', () => {
     it('resolves bare numeric code', () => {
-      expect(resolve('100C', { colorspace: pantone })).toBe('#f6eb61');
+      expect(resolve('100C', { palette: pantone })).toBe('#f6eb61');
     });
     it('resolves case-insensitively', () => {
-      expect(resolve('100c', { colorspace: pantone })).toBe('#f6eb61');
+      expect(resolve('100c', { palette: pantone })).toBe('#f6eb61');
     });
     it('resolves with PMS prefix', () => {
-      expect(resolve('PMS 100C', { colorspace: pantone })).toBe('#f6eb61');
+      expect(resolve('PMS 100C', { palette: pantone })).toBe('#f6eb61');
     });
     it('returns null for unknown pantone code', () => {
-      expect(resolve('999999C', { colorspace: pantone })).toBeNull();
+      expect(resolve('999999C', { palette: pantone })).toBeNull();
     });
   });
 
-  describe('BYO colorspace', () => {
+  describe('BYO palette', () => {
     const homebrew = {
       name: 'warhammer',
       colors: {
@@ -114,13 +114,13 @@ describe('resolve', () => {
     } as const;
 
     it('resolves a BYO key to its hex', () => {
-      expect(resolve('nurgle green', { colorspace: homebrew })).toBe('#748c3f');
+      expect(resolve('nurgle green', { palette: homebrew })).toBe('#748c3f');
     });
     it('applies the BYO normalizer (case + punctuation insensitive)', () => {
-      expect(resolve('Nurgle-Green!', { colorspace: homebrew })).toBe('#748c3f');
+      expect(resolve('Nurgle-Green!', { palette: homebrew })).toBe('#748c3f');
     });
     it('returns null for an unknown key', () => {
-      expect(resolve('Death Guard', { colorspace: homebrew })).toBeNull();
+      expect(resolve('Death Guard', { palette: homebrew })).toBeNull();
     });
   });
 });

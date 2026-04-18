@@ -27,22 +27,22 @@ maybe('subpath exports resolve', () => {
     expect(m.web.name).toBe('web');
   });
 
-  it('chromonym/web exports the web colorspace object', async () => {
-    const m = await import('../dist/colorspaces/web');
+  it('chromonym/web exports the web palette object', async () => {
+    const m = await import('../dist/palettes/web');
     expect(m.web.name).toBe('web');
     expect(m.web.colors.red).toBe('#ff0000');
     expect(typeof m.web.normalize).toBe('function');
     expect(m.web.defaultMetric).toBe('deltaE76');
   });
 
-  it('chromonym/x11 exports the x11 colorspace object', async () => {
-    const m = await import('../dist/colorspaces/x11');
+  it('chromonym/x11 exports the x11 palette object', async () => {
+    const m = await import('../dist/palettes/x11');
     expect(m.x11.name).toBe('x11');
     expect(Object.keys(m.x11.colors).length).toBeGreaterThan(600);
   });
 
-  it('chromonym/pantone exports the pantone colorspace object', async () => {
-    const m = await import('../dist/colorspaces/pantone');
+  it('chromonym/pantone exports the pantone palette object', async () => {
+    const m = await import('../dist/palettes/pantone');
     expect(m.pantone.name).toBe('pantone');
     expect(m.pantone.colors['185 C']).toBe('#e4002b');
     expect(m.pantone.defaultMetric).toBe('deltaE2000');
@@ -108,10 +108,12 @@ maybe('subpath exports resolve', () => {
   });
 
   it('stale v1 registry artifacts are not shipped', () => {
-    // src/colorspaces/registry.ts was deleted in this branch; a dirty dist/
-    // would still carry compiled output. This test fails if the build
-    // pipeline forgot to clean dist/ first.
+    // src/colorspaces/registry.ts was deleted in this branch (v1 artifact);
+    // src/colorspaces/ itself was later renamed to src/palettes/. A dirty
+    // dist/ without a clean step would carry either. This test fails if the
+    // build pipeline forgot to clean dist/ first.
     expect(existsSync(new URL('colorspaces/registry.js', DIST_URL))).toBe(false);
     expect(existsSync(new URL('colorspaces/registry.d.ts', DIST_URL))).toBe(false);
+    expect(existsSync(new URL('colorspaces/web.js', DIST_URL))).toBe(false);
   });
 });

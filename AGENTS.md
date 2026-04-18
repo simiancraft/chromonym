@@ -7,17 +7,17 @@ A focused TypeScript library for **color naming**: `identify` (color → name), 
 ```
 src/
 ├── index.ts                 # public barrel (explicit named re-exports only)
-├── types.ts                 # all types; ColorFormat, ColorInput, ColorValue, Rgba, Colorspace<Name>, ...
+├── types.ts                 # all types; ColorFormat, ColorInput, ColorValue, Rgba, Palette<Name>, ...
 ├── detectFormat.ts          # runtime format dispatch, returns SCREAMING_CAPS keys
 ├── convert.ts               # toRgba / fromRgba / convert — format dispatchers
 ├── resolve.ts               # name → color, defaults to web palette
 ├── identify.ts              # color → nearest name, defaults to web palette
-├── indexing.ts              # lazy indexes (WeakMap keyed on Colorspace), nearest()
-├── colorspaces/
+├── indexing.ts              # lazy indexes (WeakMap keyed on Palette), nearest()
+├── palettes/
 │   ├── normalize.ts         # standardNormalize, pantoneNormalize (zero imports)
-│   ├── web.ts               # 148 CSS/SVG colors — Colorspace wrapper over webColors
-│   ├── x11.ts               # 658 X.Org rgb.txt entries — Colorspace wrapper
-│   ├── pantone.ts           # 907 Pantone Coated approximations — Colorspace wrapper
+│   ├── web.ts               # 148 CSS/SVG colors — Palette wrapper over webColors
+│   ├── x11.ts               # 658 X.Org rgb.txt entries — Palette wrapper
+│   ├── pantone.ts           # 907 Pantone Coated approximations — Palette wrapper
 │   └── index.ts             # barrel
 ├── conversions/             # per-format converters (hex, rgb, hsl, hsv, pantone)
 │   └── index.ts             # barrel
@@ -30,7 +30,7 @@ src/
 ## Conventions (follow these)
 
 - **Format keys are SCREAMING_CAPS**: `'HEX' | 'RGB' | 'RGBA' | 'HSL' | 'HSV' | 'PANTONE'`. These are dispatch keys — treat them as identifiers, not labels.
-- **Colorspaces are objects, not strings**: `identify` / `resolve` take a `Colorspace<Name>` object (import `web`, `x11`, `pantone` — or BYO). There is **no** registry of string keys to look up. Each palette carries its own `name`, `colors`, `normalize`, and `defaultMetric`.
+- **Palettes are objects, not strings**: `identify` / `resolve` take a `Palette<Name>` object (import `web`, `x11`, `pantone` — or BYO). There is **no** registry of string keys to look up. Each palette carries its own `name`, `colors`, `normalize`, and `defaultMetric`.
 - **Canonical internal representation**: `Rgba = { r: number; g: number; b: number; a: number }`. All paths normalize to this.
 - **Error semantics**:
   - Low-level converters (`hexToRgba` etc.) **throw** on malformed input.
@@ -52,15 +52,15 @@ bun run lint                         # biome check
 bun run lint:fix                     # biome check --write
 bun run build                        # emit dist/ via tsgo
 bun run scripts/bench.ts             # hot-path micro-benchmarks
-bun run scripts/generate-x11.ts      # regenerate src/colorspaces/x11.ts
-bun run scripts/generate-pantone.ts  # regenerate src/colorspaces/pantone.ts (requires color_library)
+bun run scripts/generate-x11.ts      # regenerate src/palettes/x11.ts
+bun run scripts/generate-pantone.ts  # regenerate src/palettes/pantone.ts (requires color_library)
 ```
 
-## Adding a new built-in colorspace
+## Adding a new built-in palette
 
-1. Add data at `src/colorspaces/<name>.ts`:
+1. Add data at `src/palettes/<name>.ts`:
    ```ts
-   import type { Colorspace } from '../types';
+   import type { Palette } from '../types';
    import { standardNormalize } from './normalize';  // or pantoneNormalize / custom
 
    const <name>Colors = { /* key: '#hex', ... */ } as const;
@@ -70,16 +70,16 @@ bun run scripts/generate-pantone.ts  # regenerate src/colorspaces/pantone.ts (re
      colors: <name>Colors,
      normalize: standardNormalize,
      defaultMetric: 'deltaE76',  // pick a sensible default per palette density
-   } as const satisfies Colorspace<<Name>ColorName>;
+   } as const satisfies Palette<<Name>ColorName>;
    ```
-2. Re-export from `src/colorspaces/index.ts` and `src/index.ts`.
+2. Re-export from `src/palettes/index.ts` and `src/index.ts`.
 3. Add subpath export in `package.json` (mirror `./web`, `./x11`, `./pantone`).
-4. Add tests mirroring `test/colorspaces.test.ts` table-driven structure.
+4. Add tests mirroring `test/palettes.test.ts` table-driven structure.
 5. No registry to update — `identify` / `resolve` accept the object directly.
 
-## BYO colorspace (user-facing)
+## BYO palette (user-facing)
 
-Users can ship their own `Colorspace<Name>` objects without touching the library — document this in the README "BYO colorspace" section when relevant. A custom normalizer is any `(s: string) => string`; the simplest is `(s) => s.toLowerCase().replace(/[^a-z0-9]/g, '')`.
+Users can ship their own `Palette<Name>` objects without touching the library — document this in the README "BYO palette" section when relevant. A custom normalizer is any `(s: string) => string`; the simplest is `(s) => s.toLowerCase().replace(/[^a-z0-9]/g, '')`.
 
 ## Adding a new distance metric (when implemented)
 
@@ -87,7 +87,7 @@ Users can ship their own `Colorspace<Name>` objects without touching the library
 2. Extend the `DistanceMetric` type union in `src/types.ts`.
 3. Wire into `nearest()` in `src/indexing.ts` (may need a new cached index type if the metric operates in a non-RGB space).
 4. If metric operates in Lab/XYZ/linear, add the corresponding conversion to `src/math/colorSpace.ts` and the cached index to `indexing.ts`.
-5. Update per-palette `defaultMetric` in the relevant `src/colorspaces/<name>.ts` if appropriate.
+5. Update per-palette `defaultMetric` in the relevant `src/palettes/<name>.ts` if appropriate.
 6. Add comprehensive tests with known reference values (e.g. from CIE test vectors for ΔE2000).
 7. Document in the README "Distance metrics" section.
 
@@ -97,4 +97,4 @@ Users can ship their own `Colorspace<Name>` objects without touching the library
 - **`Object.hasOwn` vs `in`**: use `hasOwn` for type-shape detection on untrusted input; `in` walks the prototype chain.
 - **`JSON.stringify(undefined) === undefined`**: use `safeStringify` in `convert.ts` for user-facing errors.
 - **`RegExp.exec` with `noUncheckedIndexedAccess`**: capture groups are typed `string | undefined`.
-- **Colorspace data imports**: `identify` / `resolve` only pull the built-in `web` palette by default (it's their default colorspace). Passing `{ colorspace: pantone }` adds pantone to the bundle; `x11` is never included unless imported. Users wanting strict minimal bundles can import a palette via its subpath (`chromonym/pantone`) to skip the root barrel entirely.
+- **Palette data imports**: `identify` / `resolve` only pull the built-in `web` palette by default (it's their default palette). Passing `{ palette: pantone }` adds pantone to the bundle; `x11` is never included unless imported. Users wanting strict minimal bundles can import a palette via its subpath (`chromonym/pantone`) to skip the root barrel entirely.

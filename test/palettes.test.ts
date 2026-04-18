@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { pantone, web, x11 } from '../src/colorspaces';
+import { pantone, web, x11 } from '../src/palettes';
 
 const HEX_RE = /^#[0-9a-f]{6}$/;
 
@@ -22,7 +22,7 @@ describe.each([
       spotChecks: { '100 C': '#f6eb61', '102 C': '#fce300' } as Record<string, string>,
     },
   ],
-])('%s colorspace', (name, space, { minCount, spotChecks }) => {
+])('%s palette', (name, space, { minCount, spotChecks }) => {
   it('declares its own name', () => {
     expect(space.name).toBe(name);
   });

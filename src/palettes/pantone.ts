@@ -1,4 +1,4 @@
-import type { Colorspace } from '../types';
+import type { Palette } from '../types';
 import { pantoneNormalize } from './normalize';
 
 /**
@@ -926,4 +926,4 @@ export const pantone = {
   colors: pantoneColors,
   normalize: pantoneNormalize,
   defaultMetric: 'deltaE2000',
-} as const satisfies Colorspace<PantoneColorName>;
+} as const satisfies Palette<PantoneColorName>;

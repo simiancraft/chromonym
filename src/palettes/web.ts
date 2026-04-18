@@ -1,4 +1,4 @@
-import type { Colorspace } from '../types';
+import type { Palette } from '../types';
 import { standardNormalize } from './normalize';
 
 /**
@@ -167,4 +167,4 @@ export const web = {
   colors: webColors,
   normalize: standardNormalize,
   defaultMetric: 'deltaE76',
-} as const satisfies Colorspace<WebColorName>;
+} as const satisfies Palette<WebColorName>;

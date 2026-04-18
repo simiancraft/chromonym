@@ -1,4 +1,4 @@
-import { pantone, type PantoneColorName } from '../colorspaces/pantone';
+import { pantone, type PantoneColorName } from '../palettes/pantone';
 import { getNameIndex, nearest } from '../indexing';
 import type { HexColor, Rgba } from '../types';
 import { hexToRgba } from './hex';

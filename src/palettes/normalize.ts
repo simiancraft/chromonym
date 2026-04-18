@@ -1,7 +1,7 @@
 import type { NormalizeFn } from '../types';
 
 /**
- * Name normalizers used by colorspaces.
+ * Name normalizers used by palettes.
  *
  * Tree-shake note: this module has zero imports beyond a type. Palette
  * modules (`web`, `x11`, `pantone`, or user BYO palettes) can reference

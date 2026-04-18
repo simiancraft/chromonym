@@ -53,7 +53,7 @@ export function toRgba(input: ColorInput, knownFormat?: DetectedFormat): Rgba {
 }
 
 /**
- * Emit a canonical `Rgba` in the target format. Colorspace-independent.
+ * Emit a canonical `Rgba` in the target format. Palette-independent.
  *
  * PANTONE output lives in `rgbaToPantone` (from
  * `chromonym/conversions/pantone`) — keeping it out of here is what lets
@@ -84,7 +84,7 @@ export function fromRgba(rgba: Rgba, format: ColorFormat = 'HEX'): ColorValue {
 
 /**
  * Detect the input color format, normalize to Rgba, and emit the result
- * in the requested output format. Colorspace-independent.
+ * in the requested output format. Palette-independent.
  * Throws if the input isn't a recognized color shape.
  */
 export function convert(input: ColorInput, opts: { format?: ColorFormat } = {}): ColorValue {

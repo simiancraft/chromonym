@@ -1,6 +1,6 @@
 # chromonym
 
-> The last color-naming library you'll ever need. One API — `identify` (color → name), `resolve` (name → color), `convert` (color → color format) — works against any palette matching `Colorspace<Name>`. Ships CSS, X11, Pantone; bring your own (brand colors, paint chips, game factions). Tree-shakes: you only pay for palettes you import. Not a general-purpose manipulation library — for mixing / scales / gamut mapping, use chroma.js or color.js.
+> The last color-naming library you'll ever need. One API — `identify` (color → name), `resolve` (name → color), `convert` (color → color format) — works against any palette matching `Palette<Name>`. Ships CSS, X11, Pantone; bring your own (brand colors, paint chips, game factions). Tree-shakes: you only pay for palettes you import. Not a general-purpose manipulation library — for mixing / scales / gamut mapping, use chroma.js or color.js.
 
 ## Key files
 
@@ -10,19 +10,19 @@
 
 ## Primary API
 
-- `identify(input, { colorspace, metric })` — color → name. `colorspace` is a `Colorspace<Name>` object (defaults to `web`).
-- `resolve(name, { colorspace, format })` — name → color. `colorspace` defaults to `web`.
+- `identify(input, { palette, metric })` — color → name. `palette` is a `Palette<Name>` object (defaults to `web`).
+- `resolve(name, { palette, format })` — name → color. `palette` defaults to `web`.
 - `convert(input, { format })` — structural color-format conversion (HEX / RGB / RGBA / HSL / HSV). Intentionally does NOT handle PANTONE (palette-data dependent) — use `pantoneToRgba` / `rgbaToPantone` from `chromonym/conversions/pantone`.
 - `toRgba(input, knownFormat?)` / `fromRgba(rgba, format)` — dispatcher primitives.
 - Low-level converters: `hexToRgba`, `rgbaToHex`, `rgbToRgba`, `rgbaToRgb`, `hslToRgba`, `rgbaToHsl`, `hsvToRgba`, `rgbaToHsv`, `pantoneToRgba`, `rgbaToPantone`.
-- Built-in palettes: `web`, `x11`, `pantone` (each a `Colorspace<Name>` object; `.colors` holds the hex map).
+- Built-in palettes: `web`, `x11`, `pantone` (each a `Palette<Name>` object; `.colors` holds the hex map).
 
 ## BYO palettes
 
-`identify` / `resolve` take a `Colorspace<Name>` object literal — no registration. Shape:
+`identify` / `resolve` take a `Palette<Name>` object literal — no registration. Shape:
 
 ```ts
-type Colorspace<Name extends string = string> = {
+type Palette<Name extends string = string> = {
   name: string;
   colors: Record<Name, HexColor>;
   normalize: (s: string) => string;

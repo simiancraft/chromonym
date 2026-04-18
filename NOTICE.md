@@ -6,7 +6,7 @@
 **not affiliated with, endorsed by, licensed by, or certified by Pantone
 LLC**.
 
-The `pantone` colorspace in this library ships **community-derived sRGB
+The `pantone` palette in this library ships **community-derived sRGB
 approximations** of the Pantone Coated (C) color set, sourced from
 [`color_library`](https://github.com/draganradu/color_library) (MIT © Radu
 Dragan). These values:
@@ -41,7 +41,7 @@ observer. As a rough guide:
 
 ### What `identify` does *not* guarantee
 
-`identify(sampledRgba, { colorspace: pantone })` returns the nearest
+`identify(sampledRgba, { palette: pantone })` returns the nearest
 entry **in the shipped sRGB approximation set**. It does **not** imply
 that the physical ink bearing that Pantone code would match your sampled
 color in a print workflow, under a different light source, or on
@@ -53,12 +53,12 @@ If you need Pantone-certified color values, consult Pantone directly:
 
 ## X11 / X.Org
 
-The `x11` colorspace is derived from the X.Org `rgb.txt` file, which is in
+The `x11` palette is derived from the X.Org `rgb.txt` file, which is in
 the public domain.
 
 ## CSS / SVG named colors
 
-The `web` colorspace mirrors the CSS Color Module Level 4 named-color
+The `web` palette mirrors the CSS Color Module Level 4 named-color
 set, which is a public specification.
 
 ## Upstream dependencies

@@ -1,7 +1,7 @@
 {
   "name": "chromonym",
   "version": "1.4.1",
-  "description": "Tree-shakeable color-naming primitive for TypeScript. Identify, resolve, and convert colors across CSS, X11, and Pantone colorspaces — with perceptual distance metrics (CIEDE2000).",
+  "description": "Tree-shakeable color-naming primitive for TypeScript. Identify, resolve, and convert colors across CSS, X11, Pantone, or any palette you bring — with perceptual distance metrics (CIEDE2000).",
   "keywords": [
     "color",
     "color-name",
@@ -50,19 +50,19 @@
       "default": "./dist/index.js"
     },
     "./web": {
-      "types": "./dist/colorspaces/web.d.ts",
-      "import": "./dist/colorspaces/web.js",
-      "default": "./dist/colorspaces/web.js"
+      "types": "./dist/palettes/web.d.ts",
+      "import": "./dist/palettes/web.js",
+      "default": "./dist/palettes/web.js"
     },
     "./x11": {
-      "types": "./dist/colorspaces/x11.d.ts",
-      "import": "./dist/colorspaces/x11.js",
-      "default": "./dist/colorspaces/x11.js"
+      "types": "./dist/palettes/x11.d.ts",
+      "import": "./dist/palettes/x11.js",
+      "default": "./dist/palettes/x11.js"
     },
     "./pantone": {
-      "types": "./dist/colorspaces/pantone.d.ts",
-      "import": "./dist/colorspaces/pantone.js",
-      "default": "./dist/colorspaces/pantone.js"
+      "types": "./dist/palettes/pantone.d.ts",
+      "import": "./dist/palettes/pantone.js",
+      "default": "./dist/palettes/pantone.js"
     },
     "./conversions/hex": {
       "types": "./dist/conversions/hex.d.ts",

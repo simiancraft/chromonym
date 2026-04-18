@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * Generate src/colorspaces/x11.ts from the X.Org rgb.txt file.
+ * Generate src/palettes/x11.ts from the X.Org rgb.txt file.
  *
  * Reads from /usr/share/X11/rgb.txt (X11 / X.Org public-domain color list).
  * Humanizes names to lowercase with word spaces ("antique white 1" rather
@@ -16,7 +16,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const SOURCE = '/usr/share/X11/rgb.txt';
-const TARGET = resolve(import.meta.dirname, '../src/colorspaces/x11.ts');
+const TARGET = resolve(import.meta.dirname, '../src/palettes/x11.ts');
 
 const toHex = (r: number, g: number, b: number): string =>
   `#${[r, g, b].map((n) => n.toString(16).padStart(2, '0')).join('')}`;
@@ -58,7 +58,7 @@ const sorted = [...entries.values()].sort(([a], [b]) => a.localeCompare(b));
 
 const body = sorted.map(([name, hex]) => `  '${name}': '${hex}',`).join('\n');
 
-const output = `import type { Colorspace } from '../types';
+const output = `import type { Palette } from '../types';
 import { standardNormalize } from './normalize';
 
 /**
@@ -82,15 +82,15 @@ export type X11ColorName = keyof typeof x11Colors;
  * The tradeoff: ΔE76's known weakness in saturated blue/purple can pick a
  * perceptually-suboptimal neighbor for colors in that region. For those
  * inputs, override per-call with a perceptually-uniform metric:
- *   identify(hex, { colorspace: x11, metric: 'deltaEok' })    // ~5 µs
- *   identify(hex, { colorspace: x11, metric: 'deltaE2000' })  // ~90 µs
+ *   identify(hex, { palette: x11, metric: 'deltaEok' })    // ~5 µs
+ *   identify(hex, { palette: x11, metric: 'deltaE2000' })  // ~90 µs
  */
 export const x11 = {
   name: 'x11',
   colors: x11Colors,
   normalize: standardNormalize,
   defaultMetric: 'deltaE76',
-} as const satisfies Colorspace<X11ColorName>;
+} as const satisfies Palette<X11ColorName>;
 `;
 
 writeFileSync(TARGET, output, 'utf8');

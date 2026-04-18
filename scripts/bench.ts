@@ -9,8 +9,8 @@
  * use for relative comparison (before/after a change), not absolute claims.
  */
 
-import { pantone } from '../src/colorspaces/pantone';
-import { x11 } from '../src/colorspaces/x11';
+import { pantone } from '../src/palettes/pantone';
+import { x11 } from '../src/palettes/x11';
 import { hexToRgba } from '../src/conversions/hex';
 import { hslToRgba } from '../src/conversions/hsl';
 import { hsvToRgba } from '../src/conversions/hsv';
@@ -45,12 +45,12 @@ bench('fromRgba(rgba, HEX)', () => fromRgba({ r: 255, g: 0, b: 0, a: 1 }, 'HEX')
 bench('convert(#ff0000 → HEX)', () => convert('#ff0000'), 50000);
 bench('convert(#ff0000 → HSL)', () => convert('#ff0000', { format: 'HSL' }), 50000);
 bench('resolve(crimson, web)', () => resolve('crimson'), 50000);
-bench('resolve(185 C, pantone)', () => resolve('185 C', { colorspace: pantone }), 50000);
+bench('resolve(185 C, pantone)', () => resolve('185 C', { palette: pantone }), 50000);
 
-console.log('\n— nearest-match (colorspace defaults) —');
+console.log('\n— nearest-match (palette defaults) —');
 bench('identify(#ff0000, web)', () => identify('#ff0000'), 20000);
-bench('identify(#ff0000, x11)', () => identify('#ff0000', { colorspace: x11 }), 5000);
-bench('identify(#ff0000, pantone)', () => identify('#ff0000', { colorspace: pantone }), 3000);
+bench('identify(#ff0000, x11)', () => identify('#ff0000', { palette: x11 }), 5000);
+bench('identify(#ff0000, pantone)', () => identify('#ff0000', { palette: pantone }), 3000);
 
 console.log('\n— nearest-match (metric comparison, pantone 907 entries) —');
 for (const metric of [
@@ -63,7 +63,7 @@ for (const metric of [
 ] as const) {
   bench(
     `identify(#ff0080, pantone, ${metric})`,
-    () => identify('#ff0080', { colorspace: pantone, metric }),
+    () => identify('#ff0080', { palette: pantone, metric }),
     metric.startsWith('deltaE') && metric !== 'deltaE76' ? 1000 : 3000,
   );
 }

@@ -1,11 +1,11 @@
 #!/usr/bin/env bun
 
 /**
- * Generate src/colorspaces/pantone.ts from the color_library package.
+ * Generate src/palettes/pantone.ts from the color_library package.
  *
  * Reads the Pantone array from color_library (MIT © Radu Dragan),
  * extracts Coated ("C" suffix) entries, converts RGB -> hex, sorts by
- * numeric code, emits as a typed Colorspace.
+ * numeric code, emits as a typed Palette.
  *
  * Pantone values are trademarked; these are community approximations,
  * not official Pantone measurements.
@@ -19,7 +19,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
 
-const TARGET = resolve(import.meta.dirname, '../src/colorspaces/pantone.ts');
+const TARGET = resolve(import.meta.dirname, '../src/palettes/pantone.ts');
 
 const require_ = createRequire(import.meta.url);
 
@@ -80,7 +80,7 @@ const sorted = [...entries.entries()].sort(([a], [b]) => {
 
 const body = sorted.map(([name, hex]) => `  '${name}': '${hex}',`).join('\n');
 
-const output = `import type { Colorspace } from '../types';
+const output = `import type { Palette } from '../types';
 import { pantoneNormalize } from './normalize';
 
 /**
@@ -102,7 +102,7 @@ export const pantone = {
   colors: pantoneColors,
   normalize: pantoneNormalize,
   defaultMetric: 'deltaE2000',
-} as const satisfies Colorspace<PantoneColorName>;
+} as const satisfies Palette<PantoneColorName>;
 `;
 
 writeFileSync(TARGET, output, 'utf8');

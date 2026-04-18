@@ -1,4 +1,4 @@
-import type { Colorspace } from '../types';
+import type { Palette } from '../types';
 import { standardNormalize } from './normalize';
 
 /**
@@ -679,12 +679,12 @@ export type X11ColorName = keyof typeof x11Colors;
  * The tradeoff: ΔE76's known weakness in saturated blue/purple can pick a
  * perceptually-suboptimal neighbor for colors in that region. For those
  * inputs, override per-call with a perceptually-uniform metric:
- *   identify(hex, { colorspace: x11, metric: 'deltaEok' })    // ~5 µs
- *   identify(hex, { colorspace: x11, metric: 'deltaE2000' })  // ~90 µs
+ *   identify(hex, { palette: x11, metric: 'deltaEok' })    // ~5 µs
+ *   identify(hex, { palette: x11, metric: 'deltaE2000' })  // ~90 µs
  */
 export const x11 = {
   name: 'x11',
   colors: x11Colors,
   normalize: standardNormalize,
   defaultMetric: 'deltaE76',
-} as const satisfies Colorspace<X11ColorName>;
+} as const satisfies Palette<X11ColorName>;
