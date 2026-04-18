@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { rgbaToLab } from '../../src/math/colorSpace';
-import { deltaE76, deltaE76Squared } from '../../src/math/deltaE';
+import { deltaE76, deltaE76Squared, deltaE94 } from '../../src/math/deltaE';
 
 describe('deltaE76', () => {
   it('identity: d(x, x) === 0', () => {
@@ -26,6 +26,21 @@ describe('deltaE76', () => {
     const d = deltaE76(a, b);
     expect(d).toBeGreaterThan(0.1);
     expect(d).toBeLessThan(2.0);
+  });
+  it('deltaE94: identity is 0', () => {
+    const lab = rgbaToLab({ r: 128, g: 128, b: 128, a: 1 });
+    expect(deltaE94(lab, lab)).toBe(0);
+  });
+  it('deltaE94: red vs green is smaller than deltaE76 (chroma de-weighting)', () => {
+    const r = rgbaToLab({ r: 255, g: 0, b: 0, a: 1 });
+    const g = rgbaToLab({ r: 0, g: 255, b: 0, a: 1 });
+    expect(deltaE94(r, g)).toBeLessThan(deltaE76(r, g));
+  });
+  it('deltaE94: clamps dH² to 0 when floating-point drift makes it negative', () => {
+    // Pick two colors with identical chroma to force dH² near zero.
+    const lab1 = rgbaToLab({ r: 100, g: 100, b: 100, a: 1 });
+    const lab2 = rgbaToLab({ r: 100, g: 100, b: 100, a: 1 });
+    expect(deltaE94(lab1, lab2)).toBe(0);
   });
   it('square variant is monotonic with unsquared (argmin preserved)', () => {
     const target = rgbaToLab({ r: 255, g: 0, b: 0, a: 1 });
