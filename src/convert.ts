@@ -71,10 +71,14 @@ export function fromRgba(rgba: Rgba, format: ColorFormat = 'HEX'): ColorValue {
       return rgbaToHsl(rgba);
     case 'HSV':
       return rgbaToHsv(rgba);
-    default:
+    default: {
       // Runtime safety for JS callers who bypass the ColorFormat union.
-      // The notable case is passing `'PANTONE'` — use `rgbaToPantone` instead.
-      throw new Error(`Unsupported format: ${safeStringify(format)}`);
+      const hint =
+        format === ('PANTONE' as unknown)
+          ? ` — use rgbaToPantone from 'chromonym/conversions/pantone'`
+          : '';
+      throw new Error(`Unsupported format: ${safeStringify(format)}${hint}`);
+    }
   }
 }
 

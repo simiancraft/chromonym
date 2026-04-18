@@ -121,7 +121,12 @@ export function App() {
     return resolve(matchedName, { colorspace }) as string | null;
   }, [matchedName, colorspace]);
 
-  const warhammerMatch = useMemo(() => identify(input, { colorspace: warhammer }), [input]);
+  // `warhammer` is module-scope const — included in deps for hygiene in case
+  // it's ever lifted into state.
+  const warhammerMatch = useMemo(
+    () => identify(input, { colorspace: warhammer }),
+    [input],
+  );
   const warhammerHex = useMemo(() => {
     if (!warhammerMatch) return null;
     return resolve(warhammerMatch, { colorspace: warhammer }) as string | null;
@@ -240,8 +245,17 @@ export function App() {
           </div>
 
           <div className="text-center pt-2">
-            <div className="text-xs uppercase tracking-wide text-neutral-500">name</div>
-            <div className="text-5xl font-mono font-semibold pt-1">{matchedName ?? 'unknown'}</div>
+            <div className="text-xs uppercase tracking-wide text-neutral-500" id="match-name-label">
+              name
+            </div>
+            <div
+              className="text-5xl font-mono font-semibold pt-1"
+              role="status"
+              aria-live="polite"
+              aria-labelledby="match-name-label"
+            >
+              {matchedName ?? 'unknown'}
+            </div>
           </div>
         </section>
 

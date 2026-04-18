@@ -27,7 +27,6 @@ export type {
   HsvObject,
   HsvString,
   NormalizeFn,
-  PantoneCode,
   Rgba,
   RgbaInput,
   RgbaString,

@@ -11,12 +11,10 @@
 # chromonym
 
 [![npm version](https://img.shields.io/npm/v/chromonym?color=cb3837&logo=npm)](https://www.npmjs.com/package/chromonym)
-[![publish size](https://badgen.net/packagephobia/publish/chromonym?color=green)](https://packagephobia.com/result?p=chromonym)
-[![install size](https://badgen.net/packagephobia/install/chromonym?color=green)](https://packagephobia.com/result?p=chromonym)
 [![Types: included](https://img.shields.io/npm/types/chromonym?color=3178c6&logo=typescript)](https://www.npmjs.com/package/chromonym)
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/simiancraft/chromonym/branch/main/graph/badge.svg)](https://codecov.io/gh/simiancraft/chromonym)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+<sub>[publish size](https://packagephobia.com/result?p=chromonym) • [install size](https://packagephobia.com/result?p=chromonym) • [coverage](https://codecov.io/gh/simiancraft/chromonym) • [MIT license](https://opensource.org/licenses/MIT)</sub>
 
 <p align="center">
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
@@ -37,12 +35,8 @@ For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`
 ```ts
 import { identify, resolve, convert, pantone, type Colorspace } from 'chromonym';
 
-// Any palette you can express as an object works — built-in or your own.
-identify('#ff8080')                                // 'light coral' (web is the default)
-identify('#663399')                                // 'rebecca purple'
-identify('#E20074', { colorspace: pantone })       // '213 C' — T-Mobile magenta
-
-// Your palette — defined inline, type-checked, no registration.
+// Your palette — defined inline, type-checked, no registration. Works the
+// same as the built-in ones because that's the whole point.
 const brand = {
   name: 'acme-brand',
   colors: { 'acme red': '#ff2a3b', 'acme ink': '#0a0f2c', 'acme mist': '#e6ecf5' },
@@ -53,13 +47,18 @@ const brand = {
 identify('#ff2b3c', { colorspace: brand })         // 'acme red'
 resolve('Acme Ink', { colorspace: brand })         // '#0a0f2c'
 
-// Name → color, then go wherever you need: RGB, RGBA, HSL, HSV.
+// Built-in palettes follow the identical shape — CSS, X11, Pantone out of the box.
+identify('#ff8080')                                // 'light coral' (web is the default)
+identify('#663399')                                // 'rebecca purple'
+identify('#E20074', { colorspace: pantone })       // '213 C' — T-Mobile magenta
 resolve('Pantone 185 C', { colorspace: pantone })  // '#e4002b'
+
+// Format conversion: HEX / RGB / RGBA / HSL / HSV (palette-free, tree-shakes cleanly).
 convert('#ff0000', { format: 'HSL' })              // 'hsl(0, 100%, 50%)'
 convert({ h: 120, s: 100, l: 50 }, { format: 'HEX' })  // '#00ff00'
 ```
 
-Future built-in additions (RAL, HKS, NCS, Munsell — open an issue) are one file each, because the identification machinery is palette-agnostic. Until then, they're twelve lines of your own code away.
+The identification machinery is palette-agnostic — RAL, HKS, NCS, Munsell, or a bespoke in-house set are the same amount of work (a small file each, or a single object literal). PRs welcome; meanwhile, BYO lets you ship today.
 
 ## Install
 
@@ -309,7 +308,7 @@ Re-exported from the root barrel — `import type { ... } from 'chromonym'`:
 |---|---|
 | Input / output unions | `ColorInput`, `ColorValue` |
 | Format keys | `ColorFormat` |
-| Per-format shapes | `HexColor`, `Rgba`, `RgbInput`, `RgbaInput`, `HslInput`, `HsvInput`, `PantoneCode` |
+| Per-format shapes | `HexColor`, `Rgba`, `RgbInput`, `RgbaInput`, `HslInput`, `HsvInput` |
 | Palette container | `Colorspace<Name>`, `NormalizeFn` |
 | Distance selector | `DistanceMetric` |
 | Color-name unions | `WebColorName`, `X11ColorName`, `PantoneColorName` |

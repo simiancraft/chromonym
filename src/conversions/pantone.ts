@@ -1,6 +1,6 @@
-import { pantone } from '../colorspaces/pantone';
+import { pantone, type PantoneColorName } from '../colorspaces/pantone';
 import { getNameIndex, nearest } from '../indexing';
-import type { HexColor, PantoneCode, Rgba } from '../types';
+import type { HexColor, Rgba } from '../types';
 import { hexToRgba } from './hex';
 
 /**
@@ -9,7 +9,7 @@ import { hexToRgba } from './hex';
  * since non-alphanumeric characters are stripped before lookup.
  * Throws on unknown codes.
  */
-export function pantoneToRgba(code: PantoneCode): Rgba {
+export function pantoneToRgba(code: string): Rgba {
   const canonical = getNameIndex(pantone).get(pantone.normalize(code));
   if (canonical === undefined) throw new Error(`Unknown Pantone code: ${code}`);
   const hex = pantone.colors[canonical as keyof typeof pantone.colors];
@@ -24,6 +24,6 @@ export function pantoneToRgba(code: PantoneCode): Rgba {
  * visually wrong answers.
  * Alpha is ignored. Always returns a code.
  */
-export function rgbaToPantone(rgba: Rgba): PantoneCode {
-  return nearest(rgba, pantone, pantone.defaultMetric) as PantoneCode;
+export function rgbaToPantone(rgba: Rgba): PantoneColorName {
+  return nearest(rgba, pantone, pantone.defaultMetric) as PantoneColorName;
 }

@@ -147,11 +147,15 @@ function squaredDistanceTriple(a: LabTriple, b: LabTriple): number {
  * metric. Dispatches to the right index (rgba / linear-rgb / Lab) and
  * the right distance function. See `DistanceMetric` in types.ts for how
  * to pick a metric.
+ *
+ * `metric` is required — callers should pass `space.defaultMetric` if
+ * they want the palette's declared preference. A silent default would
+ * hide the distance-metric choice from the hot path.
  */
 export function nearest(
   target: Rgba,
   space: AnyColorspace,
-  metric: DistanceMetric = 'euclidean-srgb',
+  metric: DistanceMetric,
 ): string {
   if (metric === 'euclidean-srgb') return nearestByRgb(target, space);
   if (metric === 'euclidean-linear') {

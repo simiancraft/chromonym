@@ -27,10 +27,6 @@ export type HsvString = `hsv(${number}, ${number}%, ${number}%)`;
 export type HsvObject = { h: number; s: number; v: number };
 export type HsvInput = HsvString | HsvObject;
 
-// --- Pantone ---
-// Loose for now; refine to a template-literal pattern once the code list lands.
-export type PantoneCode = string;
-
 // --- Unified input: anything the core `convert` / `identify` path accepts. ---
 // Pantone strings are deliberately NOT in this union — they require the
 // `pantone` palette data to parse. Callers who want to feed a Pantone code
