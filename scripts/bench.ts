@@ -51,7 +51,13 @@ bench('identify(#ff0000, x11)', () => identify('#ff0000', { colorspace: 'x11' })
 bench('identify(#ff0000, pantone)', () => identify('#ff0000', { colorspace: 'pantone' }), 3000);
 
 console.log('\n— nearest-match (metric comparison, pantone 907 entries) —');
-for (const metric of ['euclidean-srgb', 'euclidean-linear', 'deltaE76', 'deltaE94', 'deltaE2000'] as const) {
+for (const metric of [
+  'euclidean-srgb',
+  'euclidean-linear',
+  'deltaE76',
+  'deltaE94',
+  'deltaE2000',
+] as const) {
   bench(
     `identify(#ff0080, pantone, ${metric})`,
     () => identify('#ff0080', { colorspace: 'pantone', metric }),
