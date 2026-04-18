@@ -73,15 +73,16 @@ Three primary functions. All accept an optional `opts` object; defaults fire whe
 **Color → name.** Finds the nearest-match name in the chosen colorspace using the selected perceptual distance metric.
 
 ```ts
-function identify(
+function identify<C extends ColorspaceName = 'web'>(
   input: ColorInput,
-  opts?: { colorspace?: ColorspaceName; metric?: DistanceMetric },
-): string | null
+  opts?: { colorspace?: C; metric?: DistanceMetric },
+): WebColorName | X11ColorName | PantoneColorName | null
 ```
 
 - **Default colorspace**: `'web'`.
 - **Default metric**: picked per colorspace — `'deltaE76'` for web and x11 (well-separated palettes), `'deltaE2000'` for pantone (dense, perceptually-packed). Override freely via `metric`.
 - Returns the matched name, or `null` if input is unrecognized (`detectFormat` returns `'UNKNOWN'`).
+- Return type narrows based on the `colorspace` option — e.g. `identify(hex, { colorspace: 'pantone' })` returns `PantoneColorName | null`, and the no-args call returns `WebColorName | null`.
 - Ties go to whichever color was defined first — deterministic across runs, but not semantically meaningful.
 
 ```ts
