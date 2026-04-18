@@ -20,6 +20,10 @@
 [![semantic-release: conventional](https://img.shields.io/badge/semantic--release-conventional-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
+<p align="center">
+  <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
+</p>
+
 **Tree-shakeable color naming for TypeScript.** Identify, resolve, and convert colors across CSS, X11, and Pantone — with 5 perceptual distance metrics. Add your own colorspaces and metrics as you need them.
 
 <p align="center">
@@ -181,8 +185,6 @@ identify('#ff8080', { colorspace: 'pantone', metric: 'euclidean-srgb' })  // for
 The low-level `rgbaToPantone` always uses `'deltaE2000'` — appropriate for Pantone matching, where this is what the industry tools use.
 
 ## Formats
-
-Format keys are SCREAMING_CAPS — they are used as dispatch keys internally.
 
 | Key | Input accepted | Output shape |
 |---|---|---|
