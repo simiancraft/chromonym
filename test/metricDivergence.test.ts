@@ -24,10 +24,10 @@ describe('cross-metric divergence (pantone, saturated blue region)', () => {
     // sRGB Euclidean + CIELAB Euclidean (ΔE76) + CIEDE2000 all agree on
     // 2736C here. OKLAB disagrees because its uniformity correction in the
     // blue region shifts which candidate is perceived as closer.
-    expect(IDENTIFY('#0000ff', 'euclidean-srgb')).toBe('2736C');
-    expect(IDENTIFY('#0000ff', 'deltaE76')).toBe('2736C');
-    expect(IDENTIFY('#0000ff', 'deltaE2000')).toBe('2736C');
-    expect(IDENTIFY('#0000ff', 'deltaEok')).toBe('2728C');
+    expect(IDENTIFY('#0000ff', 'euclidean-srgb')).toBe('2736 C');
+    expect(IDENTIFY('#0000ff', 'deltaE76')).toBe('2736 C');
+    expect(IDENTIFY('#0000ff', 'deltaE2000')).toBe('2736 C');
+    expect(IDENTIFY('#0000ff', 'deltaEok')).toBe('2728 C');
   });
 
   it('#1e90ff: perceptual metrics pick 279C; non-perceptual pick 2727C', () => {
@@ -35,20 +35,20 @@ describe('cross-metric divergence (pantone, saturated blue region)', () => {
     // and OKLAB agree, both Euclidean-in-sRGB and ΔE76 agree — but the two
     // groups disagree with each other. Exactly the kind of disagreement
     // the `metric` option exists to let callers control.
-    expect(IDENTIFY('#1e90ff', 'euclidean-srgb')).toBe('2727C');
-    expect(IDENTIFY('#1e90ff', 'deltaE76')).toBe('2727C');
-    expect(IDENTIFY('#1e90ff', 'deltaE2000')).toBe('279C');
-    expect(IDENTIFY('#1e90ff', 'deltaEok')).toBe('279C');
+    expect(IDENTIFY('#1e90ff', 'euclidean-srgb')).toBe('2727 C');
+    expect(IDENTIFY('#1e90ff', 'deltaE76')).toBe('2727 C');
+    expect(IDENTIFY('#1e90ff', 'deltaE2000')).toBe('279 C');
+    expect(IDENTIFY('#1e90ff', 'deltaEok')).toBe('279 C');
   });
 
   it('#8a2be2 (blueviolet): ΔE76 diverges from the other three', () => {
     // ΔE76's known failure in saturated violet: picks 2592C while the
     // newer metrics agree on 266C. Documents that ΔE76 is not always
     // sufficient for dense palettes in this region.
-    expect(IDENTIFY('#8a2be2', 'deltaE76')).toBe('2592C');
-    expect(IDENTIFY('#8a2be2', 'euclidean-srgb')).toBe('266C');
-    expect(IDENTIFY('#8a2be2', 'deltaE2000')).toBe('266C');
-    expect(IDENTIFY('#8a2be2', 'deltaEok')).toBe('266C');
+    expect(IDENTIFY('#8a2be2', 'deltaE76')).toBe('2592 C');
+    expect(IDENTIFY('#8a2be2', 'euclidean-srgb')).toBe('266 C');
+    expect(IDENTIFY('#8a2be2', 'deltaE2000')).toBe('266 C');
+    expect(IDENTIFY('#8a2be2', 'deltaEok')).toBe('266 C');
   });
 
   it('pure primaries on web colorspace: all metrics agree', () => {

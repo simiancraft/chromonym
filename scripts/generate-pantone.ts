@@ -50,13 +50,24 @@ if (!block) throw new Error('Pantone block matched but empty');
 const entryRe =
   /\{\s*name:"([^"]+)"[\s\S]*?rgb:\{\s*"r":\s*(\d+)\s*,\s*"g":\s*(\d+)\s*,\s*"b":\s*(\d+)\s*\}/g;
 
+// Humanize raw names so keys are readable: '185C' → '185 C', 'Black2C' → 'Black 2 C'.
+// Identify uses these keys as display names; resolve still accepts any spelling
+// since pantoneNormalize strips spaces and prefixes before lookup.
+const humanize = (name: string) =>
+  name
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/([A-Za-z])(\d)/g, '$1 $2')
+    .replace(/(\d)([A-Za-z])/g, '$1 $2')
+    .replace(/\s+/g, ' ')
+    .trim();
+
 const entries = new Map<string, string>();
 let m: RegExpExecArray | null;
 // biome-ignore lint/suspicious/noAssignInExpressions: standard RegExp.exec loop
 while ((m = entryRe.exec(block)) !== null) {
   const [, name, r, g, b] = m;
   if (!name || !r || !g || !b) continue;
-  entries.set(name, toHex(Number(r), Number(g), Number(b)));
+  entries.set(humanize(name), toHex(Number(r), Number(g), Number(b)));
 }
 
 // Sort by leading numeric value, then by full key.

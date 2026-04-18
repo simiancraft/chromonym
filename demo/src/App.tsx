@@ -40,20 +40,22 @@ const METRIC_LABELS: Record<DistanceMetric, string> = {
 const warhammer = {
   name: 'warhammer40k',
   colors: {
-    WorldEatersRed: '#8b1a1a',
-    SonsOfMaliceWhite: '#e8e4d8',
-    TheFlawlessHostPurple: '#6b2d7d',
-    NurgleGreen: '#748c3f',
-    AlphaLegionTeal: '#2a6d7a',
+    'world eaters red': '#8b1a1a',
+    'adeptus red': '#652022',
+    'sons of malice white': '#e8e4d8',
+    'the flawless host purple': '#6b2d7d',
+    'nurgle green': '#748c3f',
+    'alpha legion teal': '#2a6d7a',
   },
   normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
   defaultMetric: 'deltaE2000',
 } as const satisfies Colorspace<
-  | 'WorldEatersRed'
-  | 'SonsOfMaliceWhite'
-  | 'TheFlawlessHostPurple'
-  | 'NurgleGreen'
-  | 'AlphaLegionTeal'
+  | 'world eaters red'
+  | 'adeptus red'
+  | 'sons of malice white'
+  | 'the flawless host purple'
+  | 'nurgle green'
+  | 'alpha legion teal'
 >;
 
 // Read initial state from the URL so shared links reproduce the demo state.
@@ -257,7 +259,7 @@ export function App() {
             </p>
           </div>
 
-          <div className="grid grid-cols-5 gap-2">
+          <div className="grid grid-cols-6 gap-2">
             {Object.entries(warhammer.colors).map(([key, hex]) => (
               <div key={key} className="text-center">
                 <div
@@ -276,11 +278,12 @@ export function App() {
 {`const warhammer = {
   name: 'warhammer40k',
   colors: {
-    WorldEatersRed: '#8b1a1a',
-    SonsOfMaliceWhite: '#e8e4d8',
-    TheFlawlessHostPurple: '#6b2d7d',
-    NurgleGreen: '#748c3f',
-    AlphaLegionTeal: '#2a6d7a',
+    'world eaters red': '#8b1a1a',
+    'adeptus red': '#652022',
+    'sons of malice white': '#e8e4d8',
+    'the flawless host purple': '#6b2d7d',
+    'nurgle green': '#748c3f',
+    'alpha legion teal': '#2a6d7a',
   },
   normalize: (s) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
   defaultMetric: 'deltaE2000',
@@ -307,6 +310,10 @@ identify(${JSON.stringify(input)}, { colorspace: warhammer })
               />
               <code className="text-sm text-neutral-600 mt-1 block">{warhammerMatch ?? '—'}</code>
             </div>
+          </div>
+
+          <div className="text-center text-xs italic text-neutral-500 pt-1">
+            For the glory of the Omnissiah.
           </div>
         </section>
 

@@ -71,12 +71,12 @@ describe('convert', () => {
       expect(convert('185 C', { format: 'HEX' })).toBe('#e4002b');
     });
     it('emits a Pantone code for rgb input', () => {
-      // Exact match: rgba equivalent of #e4002b → 185C.
-      expect(convert({ r: 228, g: 0, b: 43 }, { format: 'PANTONE' })).toBe('185C');
+      // Exact match: rgba equivalent of #e4002b → 185 C.
+      expect(convert({ r: 228, g: 0, b: 43 }, { format: 'PANTONE' })).toBe('185 C');
     });
     it('round-trips pantone code through rgba', () => {
-      const rgba = convert('100C', { format: 'RGBA' });
-      expect(convert(rgba, { format: 'PANTONE' })).toBe('100C');
+      const rgba = convert('100 C', { format: 'RGBA' });
+      expect(convert(rgba, { format: 'PANTONE' })).toBe('100 C');
     });
   });
 

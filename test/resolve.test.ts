@@ -41,7 +41,7 @@ describe('resolve', () => {
     });
     it("resolve('red', { format: 'PANTONE' }) returns nearest Pantone C code", () => {
       const result = resolve('red', { format: 'PANTONE' });
-      expect(result).toMatch(/^\d+C$/);
+      expect(result).toMatch(/^\d+ C$/);
     });
     it("resolve('185 C', { colorspace: pantone, format: 'RGBA' }) returns the rgba object", () => {
       expect(resolve('185 C', { colorspace: pantone, format: 'RGBA' })).toEqual({
@@ -101,24 +101,25 @@ describe('resolve', () => {
     const homebrew = {
       name: 'warhammer',
       colors: {
-        WorldEatersRed: '#8b1a1a',
-        SonsOfMaliceWhite: '#e8e4d8',
-        TheFlawlessHostPurple: '#6b2d7d',
-        NurgleGreen: '#748c3f',
-        AlphaLegionTeal: '#2a6d7a',
+        'world eaters red': '#8b1a1a',
+        'adeptus red': '#652022',
+        'sons of malice white': '#e8e4d8',
+        'the flawless host purple': '#6b2d7d',
+        'nurgle green': '#748c3f',
+        'alpha legion teal': '#2a6d7a',
       },
       normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
       defaultMetric: 'deltaE2000',
     } as const;
 
     it('resolves a BYO key to its hex', () => {
-      expect(resolve('NurgleGreen', { colorspace: homebrew })).toBe('#748c3f');
+      expect(resolve('nurgle green', { colorspace: homebrew })).toBe('#748c3f');
     });
     it('applies the BYO normalizer (case + punctuation insensitive)', () => {
-      expect(resolve('nurgle-green', { colorspace: homebrew })).toBe('#748c3f');
+      expect(resolve('Nurgle-Green!', { colorspace: homebrew })).toBe('#748c3f');
     });
     it('returns null for an unknown key', () => {
-      expect(resolve('DeathGuard', { colorspace: homebrew })).toBeNull();
+      expect(resolve('Death Guard', { colorspace: homebrew })).toBeNull();
     });
   });
 });

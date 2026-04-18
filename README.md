@@ -40,7 +40,7 @@ For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`
 import { identify, resolve, convert, pantone } from 'chromonym';
 
 // What Pantone is this brand color closest to? (perceptually, via CIEDE2000)
-identify('#E20074', { colorspace: pantone })       // '213C' — T-Mobile magenta
+identify('#E20074', { colorspace: pantone })       // '213 C' — T-Mobile magenta
 
 // Resolve any Pantone code back to RGB — prefix, spacing, case all fine
 resolve('Pantone 185 C', { colorspace: pantone })  // '#e4002b'
@@ -50,9 +50,9 @@ convert('#ff0000', { format: 'HSL' })              // 'hsl(0, 100%, 50%)'
 convert({ h: 120, s: 100, l: 50 }, { format: 'HEX' })  // '#00ff00'
 
 // The classic: nearest CSS name (web is the default colorspace)
-identify('#ff8080')                                // 'lightcoral'
-identify('#bada55')                                // 'yellowgreen' — also the best-spelled hex
-identify('#663399')                                // 'rebeccapurple'
+identify('#ff8080')                                // 'light coral'
+identify('#bada55')                                // 'yellow green' — also the best-spelled hex
+identify('#663399')                                // 'rebecca purple'
 ```
 
 ## Install
@@ -92,7 +92,7 @@ identify('#ff0000')                               // 'red' (web default)
 identify([255, 0, 0])                             // 'red'
 identify({ r: 250, g: 20, b: 60 })                // 'crimson' (nearest)
 identify('#ff0000', { colorspace: x11 })          // 'red' (or 'red1', X11 has numbered variants)
-identify('#ff0000', { colorspace: pantone })      // nearest Pantone C code, e.g. '185C'
+identify('#ff0000', { colorspace: pantone })      // nearest Pantone C code, e.g. '185 C'
 identify('#ff0080', { metric: 'deltaE2000' })     // force perceptual-accurate match
 identify('#ff0000', { metric: 'euclidean-srgb' }) // force fastest (non-perceptual) match
 ```
@@ -149,7 +149,7 @@ convert([255, 0, 0], { format: 'HEX' })            // '#ff0000'
 convert('rgb(255, 0, 0)', { format: 'HSL' })       // 'hsl(0, 100%, 50%)'
 convert({ h: 0, s: 100, l: 50 }, { format: 'HEX' })// '#ff0000'
 convert('185 C', { format: 'HEX' })                // '#e4002b'
-convert('#e4002b', { format: 'PANTONE' })          // '185C' (nearest Pantone C)
+convert('#e4002b', { format: 'PANTONE' })          // '185 C' (nearest Pantone C)
 ```
 
 ## Colorspaces
@@ -178,10 +178,11 @@ import { web, x11, pantone } from 'chromonym';
 // or:  import { pantone } from 'chromonym/pantone';
 
 web.colors.crimson               // '#dc143c'
-pantone.colors['185C']           // '#e4002b'
+web.colors['alice blue']         // '#f0f8ff'   (keys are display-ready, with spaces)
+pantone.colors['185 C']          // '#e4002b'
 ```
 
-*Trivia:* `web.colors.rebeccapurple` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 99, so `x11.colors.gray73` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
+*Trivia:* `web.colors['rebecca purple']` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 99, so `x11.colors['gray 73']` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
 
 ### BYO colorspace
 
@@ -193,21 +194,22 @@ import { identify, resolve, type Colorspace } from 'chromonym';
 const warhammer = {
   name: 'warhammer40k',
   colors: {
-    WorldEatersRed: '#8b1a1a',
-    SonsOfMaliceWhite: '#e8e4d8',
-    TheFlawlessHostPurple: '#6b2d7d',
-    NurgleGreen: '#748c3f',
-    AlphaLegionTeal: '#2a6d7a',
+    'world eaters red': '#8b1a1a',
+    'adeptus red': '#652022',
+    'sons of malice white': '#e8e4d8',
+    'the flawless host purple': '#6b2d7d',
+    'nurgle green': '#748c3f',
+    'alpha legion teal': '#2a6d7a',
   },
   normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
   defaultMetric: 'deltaE2000',
 } as const satisfies Colorspace;
 
 identify('#750c0c', { colorspace: warhammer })
-// → 'WorldEatersRed'  (return type narrows to the palette's key union)
+// → 'world eaters red'  (return type narrows to the palette's key union)
 
-resolve('nurgle green', { colorspace: warhammer })
-// → '#748c3f'         (your normalizer handles case + punctuation)
+resolve('Nurgle Green', { colorspace: warhammer })
+// → '#748c3f'           (your normalizer handles case + punctuation)
 ```
 
 No registry, no plugin, no side effects. Bundlers only include the palettes you actually import — BYO palettes ride along as whatever code you wrote to define them.
@@ -251,7 +253,7 @@ The low-level `rgbaToPantone` always uses `'deltaE2000'`.
 | `'RGBA'` | `'rgba(r, g, b, a)'`, `[r, g, b, a]`, `{ r, g, b, a }` | `{ r, g, b, a }` object |
 | `'HSL'` | `'hsl(h, s%, l%)'`, `{ h, s, l }` | `'hsl(h, s%, l%)'` string |
 | `'HSV'` | `'hsv(h, s%, v%)'`, `{ h, s, v }` | `'hsv(h, s%, v%)'` string |
-| `'PANTONE'` | `'185 C'`, `'185C'`, `'Pantone 185 C'`, etc. | `'185C'`-style string |
+| `'PANTONE'` | `'185 C'`, `'185C'`, `'Pantone 185 C'`, etc. | `'185 C'`-style string |
 
 ## Error handling
 

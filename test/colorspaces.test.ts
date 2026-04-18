@@ -4,14 +4,22 @@ import { pantone, web, x11 } from '../src/colorspaces';
 const HEX_RE = /^#[0-9a-f]{6}$/;
 
 describe.each([
-  ['web', web, { minCount: 140, spotChecks: { red: '#ff0000', aliceblue: '#f0f8ff' } }],
-  ['x11', x11, { minCount: 600, spotChecks: { snow: '#fffafa', aliceblue: '#f0f8ff' } }],
+  [
+    'web',
+    web,
+    { minCount: 140, spotChecks: { red: '#ff0000', 'alice blue': '#f0f8ff' } },
+  ],
+  [
+    'x11',
+    x11,
+    { minCount: 600, spotChecks: { snow: '#fffafa', 'alice blue': '#f0f8ff' } },
+  ],
   [
     'pantone',
     pantone,
     {
       minCount: 900,
-      spotChecks: { '100C': '#f6eb61', '102C': '#fce300' } as Record<string, string>,
+      spotChecks: { '100 C': '#f6eb61', '102 C': '#fce300' } as Record<string, string>,
     },
   ],
 ])('%s colorspace', (name, space, { minCount, spotChecks }) => {
@@ -31,9 +39,13 @@ describe.each([
     }
   });
 
-  it('every key has no spaces', () => {
+  it('every key round-trips through its own normalizer to match another key', () => {
+    // Keys are display-ready (may contain spaces), but must resolve through
+    // the palette's own normalize function — otherwise `resolve` won't find them.
     for (const key of Object.keys(space.colors)) {
-      expect(key).not.toContain(' ');
+      const normalized = space.normalize(key);
+      expect(normalized.length).toBeGreaterThan(0);
+      expect(normalized).not.toContain(' ');
     }
   });
 

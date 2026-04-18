@@ -31,7 +31,7 @@ maybe('subpath exports resolve', () => {
   it('chromonym/pantone exports the pantone colorspace object', async () => {
     const m = await import('../dist/colorspaces/pantone');
     expect(m.pantone.name).toBe('pantone');
-    expect(m.pantone.colors['185C']).toBe('#e4002b');
+    expect(m.pantone.colors['185 C']).toBe('#e4002b');
     expect(m.pantone.defaultMetric).toBe('deltaE2000');
   });
 
