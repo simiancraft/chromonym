@@ -1,3 +1,17 @@
+# [1.3.0](https://github.com/simiancraft/chromonym/compare/v1.2.0...v1.3.0) (2026-04-18)
+
+
+### Features
+
+* **demo:** swap Tailwind CDN for @tailwindcss/vite build-time plugin ([0df6cda](https://github.com/simiancraft/chromonym/commit/0df6cdac315127144b63a729657789b44ce80a0c))
+* **demo:** URL state sharing + preset buttons + shared banner SVG ([b6061f0](https://github.com/simiancraft/chromonym/commit/b6061f0322116d1c2583ba72e499960fc73140a5))
+* **math:** add OKLCh polar conversion (oklabToOklch / oklchToOklab / rgbaToOklch) ([77b927b](https://github.com/simiancraft/chromonym/commit/77b927b9434f66a7a61b399623ae99bcc71cc337))
+
+
+### Performance Improvements
+
+* **assets:** lossless re-compress banner.png (1.98 MB → 178 KB, -91%) ([5e5b60c](https://github.com/simiancraft/chromonym/commit/5e5b60c1d882b71c9bf9c471c117b58cd1e157f0))
+
 # [1.2.0](https://github.com/simiancraft/chromonym/compare/v1.1.0...v1.2.0) (2026-04-18)
 
 
