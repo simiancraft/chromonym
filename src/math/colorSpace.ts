@@ -66,3 +66,33 @@ export function rgbaToLab(rgba: Rgba): [number, number, number] {
   const [x, y, z] = linearRgbToXyz(r, g, b);
   return xyzToLab(x, y, z);
 }
+
+/**
+ * Linear sRGB → OKLAB (Björn Ottosson, 2020). OKLAB is strictly more
+ * perceptually uniform than CIELAB, especially in the blue/purple region
+ * where even CIEDE2000 has residual error. Distance in OKLAB is plain
+ * Euclidean — no weighting formula needed, because the space itself is
+ * designed around uniformity.
+ *
+ * Reference: https://bottosson.github.io/posts/oklab/
+ */
+export function linearRgbToOklab(r: number, g: number, b: number): [number, number, number] {
+  const l = 0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b;
+  const m = 0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b;
+  const s = 0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b;
+
+  const l_ = Math.cbrt(l);
+  const m_ = Math.cbrt(m);
+  const s_ = Math.cbrt(s);
+
+  const L = 0.2104542553 * l_ + 0.793617785 * m_ - 0.0040720468 * s_;
+  const a = 1.9779984951 * l_ - 2.428592205 * m_ + 0.4505937099 * s_;
+  const b2 = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.808675766 * s_;
+  return [L, a, b2];
+}
+
+/** Rgba (sRGB, 0..255) → OKLAB. */
+export function rgbaToOklab(rgba: Rgba): [number, number, number] {
+  const [r, g, b] = rgbaToLinearRgb(rgba);
+  return linearRgbToOklab(r, g, b);
+}

@@ -165,3 +165,23 @@ export function deltaE2000(p: Lab, q: Lab, kL = 1, kC = 1, kH = 1): number {
 
   return Math.sqrt(termL * termL + termC * termC + termH * termH + rT * termC * termH);
 }
+
+/**
+ * Squared Euclidean distance in OKLAB space (Björn Ottosson, 2020).
+ * OKLAB is perceptually uniform by construction — plain Euclidean IS the
+ * perceptual distance, no weighting needed. Returns the square for
+ * argmin speed; `deltaEok` returns the actual distance.
+ *
+ * Often gives more visually-accurate nearest-matches than CIEDE2000 in
+ * the saturated blue/purple region.
+ */
+export function deltaEokSquared(p: Lab, q: Lab): number {
+  const dl = p[0] - q[0];
+  const da = p[1] - q[1];
+  const db = p[2] - q[2];
+  return dl * dl + da * da + db * db;
+}
+
+export function deltaEok(p: Lab, q: Lab): number {
+  return Math.sqrt(deltaEokSquared(p, q));
+}

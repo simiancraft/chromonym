@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'bun:test';
-import { rgbaToLab } from '../../src/math/colorSpace';
+import { rgbaToLab, rgbaToOklab } from '../../src/math/colorSpace';
 import type { Lab } from '../../src/math/deltaE';
-import { deltaE76, deltaE76Squared, deltaE94, deltaE2000 } from '../../src/math/deltaE';
+import {
+  deltaE76,
+  deltaE76Squared,
+  deltaE94,
+  deltaE2000,
+  deltaEok,
+  deltaEokSquared,
+} from '../../src/math/deltaE';
 
 describe('deltaE76', () => {
   it('identity: d(x, x) === 0', () => {
@@ -100,5 +107,36 @@ describe('deltaE2000 — Sharma et al. (2005) reference vectors', () => {
     const q: Lab = [50, 0, -2.5];
     // ΔE2000 ≈ 7.22 (with rotation), ΔE94 would be smaller.
     expect(deltaE2000(p, q)).toBeGreaterThan(deltaE94(p, q));
+  });
+});
+
+describe('deltaEok (Euclidean in OKLAB)', () => {
+  it('identity: d(x, x) === 0', () => {
+    const ok = rgbaToOklab({ r: 128, g: 128, b: 128, a: 1 });
+    expect(deltaEok(ok, ok)).toBe(0);
+  });
+  it('symmetric: d(p, q) === d(q, p)', () => {
+    const p = rgbaToOklab({ r: 255, g: 0, b: 0, a: 1 });
+    const q = rgbaToOklab({ r: 0, g: 255, b: 0, a: 1 });
+    expect(deltaEok(p, q)).toBeCloseTo(deltaEok(q, p), 10);
+  });
+  it('red vs green is substantially > 0 in OKLAB', () => {
+    const p = rgbaToOklab({ r: 255, g: 0, b: 0, a: 1 });
+    const q = rgbaToOklab({ r: 0, g: 255, b: 0, a: 1 });
+    // OKLAB L is ~0..1, so expect distance of order 0.3..0.7 between primaries.
+    expect(deltaEok(p, q)).toBeGreaterThan(0.3);
+    expect(deltaEok(p, q)).toBeLessThan(1.0);
+  });
+  it('square variant preserves argmin ordering', () => {
+    const target = rgbaToOklab({ r: 255, g: 0, b: 0, a: 1 });
+    const candidates = [
+      rgbaToOklab({ r: 200, g: 50, b: 50, a: 1 }),
+      rgbaToOklab({ r: 0, g: 255, b: 0, a: 1 }),
+      rgbaToOklab({ r: 0, g: 0, b: 255, a: 1 }),
+    ];
+    const d = candidates.map((c) => deltaEok(target, c));
+    const d2 = candidates.map((c) => deltaEokSquared(target, c));
+    const argmin = (a: number[]) => a.indexOf(Math.min(...a));
+    expect(argmin(d)).toBe(argmin(d2));
   });
 });

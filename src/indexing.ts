@@ -1,6 +1,6 @@
 import { hexToRgba } from './conversions/hex';
-import { rgbaToLab, rgbaToLinearRgb } from './math/colorSpace';
-import { deltaE76Squared, deltaE94, deltaE2000 } from './math/deltaE';
+import { rgbaToLab, rgbaToLinearRgb, rgbaToOklab } from './math/colorSpace';
+import { deltaE76Squared, deltaE94, deltaE2000, deltaEokSquared } from './math/deltaE';
 import { squaredDistanceRgb } from './math/euclideanDistance';
 import type { Colorspace, DistanceMetric, HexColor, Rgba } from './types';
 
@@ -107,6 +107,18 @@ function getLinearIndex(space: Colorspace): Array<readonly [string, LabTriple]> 
   return idx;
 }
 
+// Precomputed OKLAB entries for deltaEok metric.
+const oklabIndexCache = new WeakMap<Colorspace, Array<readonly [string, LabTriple]>>();
+
+function getOklabIndex(space: Colorspace): Array<readonly [string, LabTriple]> {
+  let idx = oklabIndexCache.get(space);
+  if (idx === undefined) {
+    idx = getRgbaIndex(space).map(([name, rgba]) => [name, rgbaToOklab(rgba)] as const);
+    oklabIndexCache.set(space, idx);
+  }
+  return idx;
+}
+
 /**
  * Generic argmin over an `[name, value]` entries array with a custom
  * distance function. Factored so the three metric branches in `nearest`
@@ -152,6 +164,9 @@ export function nearest(
   if (metric === 'euclidean-srgb') return nearestByRgb(target, space);
   if (metric === 'euclidean-linear') {
     return argminBy(getLinearIndex(space), rgbaToLinearRgb(target), squaredDistanceTriple);
+  }
+  if (metric === 'deltaEok') {
+    return argminBy(getOklabIndex(space), rgbaToOklab(target), deltaEokSquared);
   }
   const labTarget = rgbaToLab(target);
   const labIndex = getLabIndex(space);

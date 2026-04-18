@@ -108,6 +108,9 @@ describe('identify', () => {
     it("metric: 'deltaE2000' still returns pure-red match", () => {
       expect(identify('#ff0000', { metric: 'deltaE2000' })).toBe('red');
     });
+    it("metric: 'deltaEok' still returns pure-red match", () => {
+      expect(identify('#ff0000', { metric: 'deltaEok' })).toBe('red');
+    });
     it('all metrics return a string for any recognized input', () => {
       const metrics = [
         'euclidean-srgb',
@@ -115,6 +118,7 @@ describe('identify', () => {
         'deltaE76',
         'deltaE94',
         'deltaE2000',
+        'deltaEok',
       ] as const;
       for (const m of metrics) {
         const r = identify({ r: 123, g: 45, b: 67 }, { colorspace: 'x11', metric: m });

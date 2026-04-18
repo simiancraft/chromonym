@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'bun:test';
 import {
+  linearRgbToOklab,
   linearRgbToXyz,
   linearToSrgb,
   rgbaToLab,
   rgbaToLinearRgb,
+  rgbaToOklab,
   srgbToLinear,
   xyzToLab,
 } from '../../src/math/colorSpace';
@@ -102,5 +104,46 @@ describe('rgbaToLab (end-to-end pipeline)', () => {
     expect(l).toBeCloseTo(53.58, 1);
     expect(a).toBeCloseTo(0, 1);
     expect(b).toBeCloseTo(0, 1);
+  });
+});
+
+describe('rgbaToOklab (Björn Ottosson, 2020)', () => {
+  // Reference values from Ottosson's blog post. OKLAB L is in [0, 1].
+  it('white → L≈1, a≈0, b≈0', () => {
+    const [L, a, b] = rgbaToOklab({ r: 255, g: 255, b: 255, a: 1 });
+    expect(L).toBeCloseTo(1.0, 2);
+    expect(a).toBeCloseTo(0, 3);
+    expect(b).toBeCloseTo(0, 3);
+  });
+  it('black → (0, 0, 0)', () => {
+    const [L, a, b] = rgbaToOklab({ r: 0, g: 0, b: 0, a: 1 });
+    expect(L).toBe(0);
+    expect(a).toBe(0);
+    expect(b).toBe(0);
+  });
+  it('pure red → L≈0.628, a≈0.225, b≈0.126 (Ottosson reference)', () => {
+    const [L, a, b] = rgbaToOklab({ r: 255, g: 0, b: 0, a: 1 });
+    expect(L).toBeCloseTo(0.628, 2);
+    expect(a).toBeCloseTo(0.225, 2);
+    expect(b).toBeCloseTo(0.126, 2);
+  });
+  it('pure green → L≈0.866, a≈-0.234, b≈0.179', () => {
+    const [L, a, b] = rgbaToOklab({ r: 0, g: 255, b: 0, a: 1 });
+    expect(L).toBeCloseTo(0.866, 2);
+    expect(a).toBeCloseTo(-0.234, 2);
+    expect(b).toBeCloseTo(0.179, 2);
+  });
+  it('pure blue → L≈0.452, a≈-0.032, b≈-0.312', () => {
+    const [L, a, b] = rgbaToOklab({ r: 0, g: 0, b: 255, a: 1 });
+    expect(L).toBeCloseTo(0.452, 2);
+    expect(a).toBeCloseTo(-0.032, 2);
+    expect(b).toBeCloseTo(-0.312, 2);
+  });
+  it('linearRgbToOklab takes already-linearized channels', () => {
+    // White: linear RGB (1, 1, 1) → OKLAB (~1, 0, 0)
+    const [L, a, b] = linearRgbToOklab(1, 1, 1);
+    expect(L).toBeCloseTo(1.0, 2);
+    expect(a).toBeCloseTo(0, 3);
+    expect(b).toBeCloseTo(0, 3);
   });
 });

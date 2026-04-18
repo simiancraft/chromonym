@@ -53,9 +53,12 @@ export type ColorspaceName = 'web' | 'x11' | 'pantone';
 //   'deltaE76'          — Euclidean in CIELAB; simple perceptual metric (CIE 1976)
 //   'deltaE94'          — chroma/hue weighted; fixes saturation overweighting
 //   'deltaE2000'        — industry standard; fixes blue/purple region
+//   'deltaEok'          — Euclidean in OKLAB (Ottosson 2020); most modern;
+//                         perceptually uniform by construction, cheaper than ΔE2000
 export type DistanceMetric =
   | 'euclidean-srgb'
   | 'euclidean-linear'
   | 'deltaE76'
   | 'deltaE94'
-  | 'deltaE2000';
+  | 'deltaE2000'
+  | 'deltaEok';

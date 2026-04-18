@@ -57,6 +57,7 @@ for (const metric of [
   'deltaE76',
   'deltaE94',
   'deltaE2000',
+  'deltaEok',
 ] as const) {
   bench(
     `identify(#ff0080, pantone, ${metric})`,
