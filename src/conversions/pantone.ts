@@ -1,5 +1,5 @@
 import { pantone } from '../colorspaces/pantone';
-import { getNameIndex, nearest, pantoneNormalize } from '../indexing';
+import { getNameIndex, nearest } from '../indexing';
 import type { HexColor, PantoneCode, Rgba } from '../types';
 import { hexToRgba } from './hex';
 
@@ -10,9 +10,9 @@ import { hexToRgba } from './hex';
  * Throws on unknown codes.
  */
 export function pantoneToRgba(code: PantoneCode): Rgba {
-  const canonical = getNameIndex(pantone, pantoneNormalize).get(pantoneNormalize(code));
+  const canonical = getNameIndex(pantone).get(pantone.normalize(code));
   if (canonical === undefined) throw new Error(`Unknown Pantone code: ${code}`);
-  const hex = pantone[canonical as keyof typeof pantone];
+  const hex = pantone.colors[canonical as keyof typeof pantone.colors];
   return hexToRgba(hex as HexColor);
 }
 

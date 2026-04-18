@@ -16,18 +16,23 @@ const maybe = DIST_READY ? describe : describe.skip;
 maybe('subpath exports resolve', () => {
   it('chromonym/web exports the web colorspace object', async () => {
     const m = await import('../dist/colorspaces/web');
-    expect(m.web.red).toBe('#ff0000');
+    expect(m.web.name).toBe('web');
+    expect(m.web.colors.red).toBe('#ff0000');
+    expect(typeof m.web.normalize).toBe('function');
+    expect(m.web.defaultMetric).toBe('deltaE76');
   });
 
   it('chromonym/x11 exports the x11 colorspace object', async () => {
     const m = await import('../dist/colorspaces/x11');
-    expect(typeof m.x11).toBe('object');
-    expect(Object.keys(m.x11).length).toBeGreaterThan(600);
+    expect(m.x11.name).toBe('x11');
+    expect(Object.keys(m.x11.colors).length).toBeGreaterThan(600);
   });
 
   it('chromonym/pantone exports the pantone colorspace object', async () => {
     const m = await import('../dist/colorspaces/pantone');
-    expect(m.pantone['185C']).toBe('#e4002b');
+    expect(m.pantone.name).toBe('pantone');
+    expect(m.pantone.colors['185C']).toBe('#e4002b');
+    expect(m.pantone.defaultMetric).toBe('deltaE2000');
   });
 
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {

@@ -1,4 +1,7 @@
 import { describe, expect, it } from 'bun:test';
+import { pantone } from '../src/colorspaces/pantone';
+import { web } from '../src/colorspaces/web';
+import { x11 } from '../src/colorspaces/x11';
 import { identify } from '../src/identify';
 
 describe('identify', () => {
@@ -37,50 +40,50 @@ describe('identify', () => {
       expect(identify({ r: 0, g: 255, b: 0, a: 0.3 })).toBe('lime');
     });
     it('is explicit when colorspace: web is passed', () => {
-      expect(identify('#ff0000', { colorspace: 'web' })).toBe('red');
+      expect(identify('#ff0000', { colorspace: web })).toBe('red');
     });
   });
 
   describe('x11 colorspace', () => {
     it("returns 'red' for #ff0000 (alphabetically first among red/red1/…)", () => {
-      expect(identify('#ff0000', { colorspace: 'x11' })).toBe('red');
+      expect(identify('#ff0000', { colorspace: x11 })).toBe('red');
     });
     it("returns 'gray50' for #7f7f7f (x11-only entry)", () => {
-      expect(identify('#7f7f7f', { colorspace: 'x11' })).toBe('gray50');
+      expect(identify('#7f7f7f', { colorspace: x11 })).toBe('gray50');
     });
     it("returns 'lightgoldenrod' for #eedd82 (x11-only)", () => {
-      expect(identify('#eedd82', { colorspace: 'x11' })).toBe('lightgoldenrod');
+      expect(identify('#eedd82', { colorspace: x11 })).toBe('lightgoldenrod');
     });
     it("returns 'seagreen' for #2e8b57 (shared name, same rgb)", () => {
-      expect(identify('#2e8b57', { colorspace: 'x11' })).toBe('seagreen');
+      expect(identify('#2e8b57', { colorspace: x11 })).toBe('seagreen');
     });
     it('accepts tuple input', () => {
-      expect(identify([0, 0, 0], { colorspace: 'x11' })).toMatch(/^(black|gray0|grey0)$/);
+      expect(identify([0, 0, 0], { colorspace: x11 })).toMatch(/^(black|gray0|grey0)$/);
     });
     it('returns a string for any recognized input', () => {
-      const result = identify({ r: 123, g: 45, b: 67 }, { colorspace: 'x11' });
+      const result = identify({ r: 123, g: 45, b: 67 }, { colorspace: x11 });
       expect(typeof result).toBe('string');
     });
   });
 
   describe('pantone colorspace', () => {
     it("returns '100C' exactly for its canonical rgb", () => {
-      expect(identify({ r: 246, g: 235, b: 97 }, { colorspace: 'pantone' })).toBe('100C');
+      expect(identify({ r: 246, g: 235, b: 97 }, { colorspace: pantone })).toBe('100C');
     });
     it("returns '185C' for #e4002b (exact)", () => {
-      expect(identify('#e4002b', { colorspace: 'pantone' })).toBe('185C');
+      expect(identify('#e4002b', { colorspace: pantone })).toBe('185C');
     });
     it('returns a Pantone code for pure red (nearest match)', () => {
-      const result = identify('#ff0000', { colorspace: 'pantone' });
+      const result = identify('#ff0000', { colorspace: pantone });
       expect(result).toMatch(/^\d+C$/);
     });
     it('accepts hsl input', () => {
-      const result = identify({ h: 0, s: 100, l: 50 }, { colorspace: 'pantone' });
+      const result = identify({ h: 0, s: 100, l: 50 }, { colorspace: pantone });
       expect(result).toMatch(/^\d+C$/);
     });
     it('ignores alpha in distance', () => {
-      const r1 = identify({ r: 246, g: 235, b: 97, a: 1 }, { colorspace: 'pantone' });
-      const r2 = identify({ r: 246, g: 235, b: 97, a: 0.1 }, { colorspace: 'pantone' });
+      const r1 = identify({ r: 246, g: 235, b: 97, a: 1 }, { colorspace: pantone });
+      const r2 = identify({ r: 246, g: 235, b: 97, a: 0.1 }, { colorspace: pantone });
       expect(r1).toBe(r2);
     });
   });
@@ -91,7 +94,7 @@ describe('identify', () => {
     });
     it('defaults to deltaE2000 for pantone', () => {
       // Exact Pantone 185C match holds regardless of metric.
-      expect(identify('#e4002b', { colorspace: 'pantone' })).toBe('185C');
+      expect(identify('#e4002b', { colorspace: pantone })).toBe('185C');
     });
     it("metric: 'euclidean-srgb' still returns pure-red match", () => {
       expect(identify('#ff0000', { metric: 'euclidean-srgb' })).toBe('red');
@@ -121,14 +124,36 @@ describe('identify', () => {
         'deltaEok',
       ] as const;
       for (const m of metrics) {
-        const r = identify({ r: 123, g: 45, b: 67 }, { colorspace: 'x11', metric: m });
+        const r = identify({ r: 123, g: 45, b: 67 }, { colorspace: x11, metric: m });
         expect(typeof r).toBe('string');
       }
     });
     it('metric override works cross-colorspace', () => {
-      expect(identify('#ff0000', { colorspace: 'pantone', metric: 'euclidean-srgb' })).toMatch(
+      expect(identify('#ff0000', { colorspace: pantone, metric: 'euclidean-srgb' })).toMatch(
         /^\d+C$/,
       );
+    });
+  });
+
+  describe('BYO colorspace', () => {
+    const homebrew = {
+      name: 'warhammer',
+      colors: {
+        WorldEatersRed: '#8b1a1a',
+        SonsOfMaliceWhite: '#e8e4d8',
+        TheFlawlessHostPurple: '#6b2d7d',
+        NurgleGreen: '#748c3f',
+        AlphaLegionTeal: '#2a6d7a',
+      },
+      normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
+      defaultMetric: 'deltaE2000',
+    } as const;
+
+    it('returns a user-defined key for an exact input match', () => {
+      expect(identify('#748c3f', { colorspace: homebrew })).toBe('NurgleGreen');
+    });
+    it('returns the nearest user-defined key for a nearby input', () => {
+      expect(identify('#8a1a1b', { colorspace: homebrew })).toBe('WorldEatersRed');
     });
   });
 
@@ -140,13 +165,7 @@ describe('identify', () => {
       expect(identify('' as never)).toBeNull();
     });
     it('returns null regardless of colorspace when input is unrecognized', () => {
-      expect(identify('garbage' as never, { colorspace: 'pantone' })).toBeNull();
-    });
-    it("returns null for '__proto__' colorspace (prototype-chain key)", () => {
-      expect(identify('#ff0000', { colorspace: '__proto__' as never })).toBeNull();
-    });
-    it('returns null for unknown colorspace name', () => {
-      expect(identify('#ff0000', { colorspace: 'cmyk' as never })).toBeNull();
+      expect(identify('garbage' as never, { colorspace: pantone })).toBeNull();
     });
   });
 });

@@ -42,9 +42,20 @@ export const COLOR_FORMATS: ReadonlySet<ColorFormat> = new Set(FORMAT_VALUES);
 // --- A returned color value (union of canonical output shapes, one per ColorFormat) ---
 export type ColorValue = HexColor | RgbString | Rgba | HslString | HsvString | PantoneCode;
 
-// --- Colorspace: a named map of color-name -> hex. Pure data. ---
-export type Colorspace = Record<string, HexColor>;
-export type ColorspaceName = 'web' | 'x11' | 'pantone';
+// --- Name normalization function shape (used by colorspaces). ---
+// A NormalizeFn takes a user-supplied name ("Pantone 185 C") and returns
+// its canonical lookup key ("185c"). Paired with each Colorspace.
+export type NormalizeFn = (name: string) => string;
+
+// --- Colorspace: a named color lookup with its indexing rules. ---
+// Generic over the key type so BYO colorspaces can carry narrow literal
+// unions for full type inference through identify/resolve.
+export type Colorspace<Name extends string = string> = {
+  readonly name: string;
+  readonly colors: Readonly<Record<Name, HexColor>>;
+  readonly normalize: NormalizeFn;
+  readonly defaultMetric: DistanceMetric;
+};
 
 // --- Distance metric for nearest-name lookup (used by `identify`). ---
 // Choose based on palette density and accuracy needs:

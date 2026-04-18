@@ -1,10 +1,15 @@
 import type { Colorspace } from '../types';
+import { standardNormalize } from './normalize';
 
 /**
- * CSS / SVG named colors (CSS Color Module Level 4).
- * 148 entries. Pure data — no imports beyond the type.
+ * CSS / SVG named colors (CSS Color Module Level 4). 148 entries.
+ *
+ * `colors` is the lookup data; the wrapper pairs it with its normalizer
+ * and default distance metric so `identify` / `resolve` can work off the
+ * palette alone — no registry. The inner map is a local so `WebColorName`
+ * can be derived from it via `keyof typeof`.
  */
-export const web = {
+const webColors = {
   aliceblue: '#f0f8ff',
   antiquewhite: '#faebd7',
   aqua: '#00ffff',
@@ -153,6 +158,13 @@ export const web = {
   whitesmoke: '#f5f5f5',
   yellow: '#ffff00',
   yellowgreen: '#9acd32',
-} as const satisfies Colorspace;
+} as const;
 
-export type WebColorName = keyof typeof web;
+export type WebColorName = keyof typeof webColors;
+
+export const web = {
+  name: 'web',
+  colors: webColors,
+  normalize: standardNormalize,
+  defaultMetric: 'deltaE76',
+} as const satisfies Colorspace<WebColorName>;

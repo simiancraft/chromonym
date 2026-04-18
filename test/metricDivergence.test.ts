@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'bun:test';
+import { pantone } from '../src/colorspaces/pantone';
+import { web } from '../src/colorspaces/web';
 import { identify } from '../src/identify';
 import type { DistanceMetric } from '../src/types';
 
@@ -15,7 +17,7 @@ import type { DistanceMetric } from '../src/types';
  */
 
 const IDENTIFY = (hex: string, metric: DistanceMetric) =>
-  identify(hex, { colorspace: 'pantone', metric });
+  identify(hex, { colorspace: pantone, metric });
 
 describe('cross-metric divergence (pantone, saturated blue region)', () => {
   it('#0000ff: non-perceptual metrics pick 2736C; OKLAB picks 2728C', () => {
@@ -60,9 +62,9 @@ describe('cross-metric divergence (pantone, saturated blue region)', () => {
       'deltaE2000',
       'deltaEok',
     ] as const) {
-      expect(identify('#ff0000', { colorspace: 'web', metric })).toBe('red');
-      expect(identify('#00ff00', { colorspace: 'web', metric })).toBe('lime');
-      expect(identify('#0000ff', { colorspace: 'web', metric })).toBe('blue');
+      expect(identify('#ff0000', { colorspace: web, metric })).toBe('red');
+      expect(identify('#00ff00', { colorspace: web, metric })).toBe('lime');
+      expect(identify('#0000ff', { colorspace: web, metric })).toBe('blue');
     }
   });
 });

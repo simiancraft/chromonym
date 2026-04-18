@@ -14,13 +14,17 @@ describe.each([
       spotChecks: { '100C': '#f6eb61', '102C': '#fce300' } as Record<string, string>,
     },
   ],
-])('%s colorspace', (_name, space, { minCount, spotChecks }) => {
+])('%s colorspace', (name, space, { minCount, spotChecks }) => {
+  it('declares its own name', () => {
+    expect(space.name).toBe(name);
+  });
+
   it(`has at least ${minCount} entries`, () => {
-    expect(Object.keys(space).length).toBeGreaterThanOrEqual(minCount);
+    expect(Object.keys(space.colors).length).toBeGreaterThanOrEqual(minCount);
   });
 
   it('every value is a valid 6-digit lowercase hex', () => {
-    for (const [key, value] of Object.entries(space)) {
+    for (const [key, value] of Object.entries(space.colors)) {
       if (!HEX_RE.test(value)) {
         throw new Error(`Invalid hex for ${key}: ${value}`);
       }
@@ -28,14 +32,22 @@ describe.each([
   });
 
   it('every key has no spaces', () => {
-    for (const key of Object.keys(space)) {
+    for (const key of Object.keys(space.colors)) {
       expect(key).not.toContain(' ');
     }
   });
 
   it('spot-checks known values', () => {
     for (const [key, expected] of Object.entries(spotChecks)) {
-      expect((space as Record<string, string>)[key]).toBe(expected);
+      expect((space.colors as Record<string, string>)[key]).toBe(expected);
     }
+  });
+
+  it('exposes a normalize function', () => {
+    expect(typeof space.normalize).toBe('function');
+  });
+
+  it('declares a default distance metric', () => {
+    expect(typeof space.defaultMetric).toBe('string');
   });
 });

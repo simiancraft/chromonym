@@ -1,16 +1,21 @@
 import {
   COLOR_FORMATS,
   type ColorFormat,
-  type ColorspaceName,
+  type Colorspace,
   convert,
   type DistanceMetric,
   identify,
+  pantone,
   resolve,
+  web,
+  x11,
 } from 'chromonym';
 import { useEffect, useMemo, useState } from 'react';
 import bannerUrl from '../../.github/assets/banner.png';
 
-const COLORSPACES: ColorspaceName[] = ['web', 'x11', 'pantone'];
+const COLORSPACES = { web, x11, pantone } as const;
+type ColorspaceKey = keyof typeof COLORSPACES;
+const COLORSPACE_KEYS = Object.keys(COLORSPACES) as ColorspaceKey[];
 
 const METRICS: DistanceMetric[] = [
   'euclidean-srgb',
@@ -30,21 +35,53 @@ const METRIC_LABELS: Record<DistanceMetric, string> = {
   deltaEok: 'ΔE OKLAB — modern, perceptually uniform',
 };
 
+// Warhammer 40k–flavored BYO palette. Defined inline in the demo source —
+// passed straight to `identify`/`resolve` without registering anything.
+const warhammer = {
+  name: 'warhammer40k',
+  colors: {
+    WorldEatersRed: '#8b1a1a',
+    SonsOfMaliceWhite: '#e8e4d8',
+    TheFlawlessHostPurple: '#6b2d7d',
+    NurgleGreen: '#748c3f',
+    AlphaLegionTeal: '#2a6d7a',
+  },
+  normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
+  defaultMetric: 'deltaE2000',
+} as const satisfies Colorspace<
+  | 'WorldEatersRed'
+  | 'SonsOfMaliceWhite'
+  | 'TheFlawlessHostPurple'
+  | 'NurgleGreen'
+  | 'AlphaLegionTeal'
+>;
+
 // Read initial state from the URL so shared links reproduce the demo state.
 function readParams() {
-  if (typeof window === 'undefined') return { color: '#E20074', colorspace: 'pantone' as ColorspaceName, metric: 'deltaE2000' as DistanceMetric };
+  if (typeof window === 'undefined') {
+    return {
+      color: '#E20074',
+      colorspace: 'pantone' as ColorspaceKey,
+      metric: 'deltaE2000' as DistanceMetric,
+    };
+  }
   const p = new URLSearchParams(window.location.search);
   const color = p.get('c') ?? '#E20074';
-  const colorspace = (p.get('cs') ?? 'pantone') as ColorspaceName;
+  const colorspace = (p.get('cs') ?? 'pantone') as ColorspaceKey;
   const metric = (p.get('m') ?? 'deltaE2000') as DistanceMetric;
   return {
     color: /^#[0-9a-f]{6}$/i.test(color) ? color : '#E20074',
-    colorspace: (COLORSPACES as string[]).includes(colorspace) ? colorspace : 'pantone',
+    colorspace: (COLORSPACE_KEYS as string[]).includes(colorspace) ? colorspace : 'pantone',
     metric: (METRICS as string[]).includes(metric) ? metric : 'deltaE2000',
   };
 }
 
-const PRESETS: Array<{ label: string; color: string; colorspace: ColorspaceName; metric: DistanceMetric }> = [
+const PRESETS: Array<{
+  label: string;
+  color: string;
+  colorspace: ColorspaceKey;
+  metric: DistanceMetric;
+}> = [
   { label: 'T-Mobile magenta → Pantone', color: '#E20074', colorspace: 'pantone', metric: 'deltaE2000' },
   { label: 'Spotify green → Pantone', color: '#1DB954', colorspace: 'pantone', metric: 'deltaE2000' },
   { label: 'Facebook blue → Pantone', color: '#1877F2', colorspace: 'pantone', metric: 'deltaEok' },
@@ -55,27 +92,38 @@ const PRESETS: Array<{ label: string; color: string; colorspace: ColorspaceName;
 export function App() {
   const initial = readParams();
   const [input, setInput] = useState(initial.color);
-  const [colorspace, setColorspace] = useState<ColorspaceName>(initial.colorspace);
+  const [colorspaceKey, setColorspaceKey] = useState<ColorspaceKey>(initial.colorspace);
   const [metric, setMetric] = useState<DistanceMetric>(initial.metric);
+
+  const colorspace = COLORSPACES[colorspaceKey];
 
   // Write state to URL on every change (replaceState — don't pollute history).
   useEffect(() => {
     const p = new URLSearchParams();
     p.set('c', input);
-    p.set('cs', colorspace);
+    p.set('cs', colorspaceKey);
     p.set('m', metric);
     const qs = `?${p.toString()}`;
     if (window.location.search !== qs) {
       window.history.replaceState({}, '', `${window.location.pathname}${qs}`);
     }
-  }, [input, colorspace, metric]);
+  }, [input, colorspaceKey, metric]);
 
-  const matchedName = useMemo(() => identify(input, { colorspace, metric }), [input, colorspace, metric]);
+  const matchedName = useMemo(
+    () => identify(input, { colorspace, metric }),
+    [input, colorspace, metric],
+  );
 
   const matchedHex = useMemo(() => {
     if (!matchedName) return null;
     return resolve(matchedName, { colorspace }) as string | null;
   }, [matchedName, colorspace]);
+
+  const warhammerMatch = useMemo(() => identify(input, { colorspace: warhammer }), [input]);
+  const warhammerHex = useMemo(() => {
+    if (!warhammerMatch) return null;
+    return resolve(warhammerMatch, { colorspace: warhammer }) as string | null;
+  }, [warhammerMatch]);
 
   const conversions = useMemo(() => {
     const out: Record<string, unknown> = {};
@@ -96,7 +144,7 @@ export function App() {
           <img src={bannerUrl} alt="chromonym" className="mx-auto w-full max-w-xl" />
           <p className="text-neutral-600">
             Tree-shakeable color naming for TypeScript. Scrub a color — see the nearest name across
-            three colorspaces, with your choice of perceptual distance metric.
+            three built-in colorspaces, with your choice of perceptual distance metric.
           </p>
           <div className="flex items-center justify-center gap-3 text-sm">
             <a href="https://github.com/simiancraft/chromonym" className="text-blue-600 hover:underline">
@@ -123,11 +171,11 @@ export function App() {
             <label className="block">
               <span className="text-sm font-medium text-neutral-700">colorspace</span>
               <select
-                value={colorspace}
-                onChange={(e) => setColorspace(e.target.value as ColorspaceName)}
+                value={colorspaceKey}
+                onChange={(e) => setColorspaceKey(e.target.value as ColorspaceKey)}
                 className="w-full h-12 rounded border border-neutral-300 px-3 mt-1"
               >
-                {COLORSPACES.map((c) => (
+                {COLORSPACE_KEYS.map((c) => (
                   <option key={c} value={c}>
                     {c}
                   </option>
@@ -160,7 +208,7 @@ export function App() {
                 key={p.label}
                 onClick={() => {
                   setInput(p.color);
-                  setColorspace(p.colorspace);
+                  setColorspaceKey(p.colorspace);
                   setMetric(p.metric);
                 }}
                 className="text-xs px-3 py-1 rounded-full border border-neutral-300 bg-neutral-50 hover:bg-neutral-100"
@@ -192,6 +240,73 @@ export function App() {
           <div className="text-center pt-2">
             <div className="text-xs uppercase tracking-wide text-neutral-500">name</div>
             <div className="text-5xl font-mono font-semibold pt-1">{matchedName ?? 'unknown'}</div>
+          </div>
+        </section>
+
+        <section className="bg-white rounded-xl shadow-sm p-6 space-y-4 border border-neutral-200">
+          <div>
+            <div className="flex items-baseline justify-between">
+              <h2 className="text-lg font-semibold">Bring your own colorspace</h2>
+              <span className="text-xs uppercase tracking-wide text-neutral-500">BYO palette</span>
+            </div>
+            <p className="text-sm text-neutral-600 mt-1">
+              Any object matching <code className="text-xs bg-neutral-100 px-1 rounded">Colorspace&lt;Name&gt;</code>{' '}
+              works. This 5-color palette is defined inline in the demo source and passed straight to
+              <code className="text-xs bg-neutral-100 px-1 rounded mx-1">identify</code>— no
+              registration, full type inference.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-5 gap-2">
+            {Object.entries(warhammer.colors).map(([key, hex]) => (
+              <div key={key} className="text-center">
+                <div
+                  className="h-14 rounded border border-neutral-300"
+                  style={{ backgroundColor: hex }}
+                />
+                <div className="text-[10px] text-neutral-600 mt-1 break-words leading-tight">
+                  {key}
+                </div>
+                <code className="text-[10px] text-neutral-400">{hex}</code>
+              </div>
+            ))}
+          </div>
+
+          <pre className="text-xs font-mono bg-neutral-50 border border-neutral-200 rounded p-3 overflow-x-auto">
+{`const warhammer = {
+  name: 'warhammer40k',
+  colors: {
+    WorldEatersRed: '#8b1a1a',
+    SonsOfMaliceWhite: '#e8e4d8',
+    TheFlawlessHostPurple: '#6b2d7d',
+    NurgleGreen: '#748c3f',
+    AlphaLegionTeal: '#2a6d7a',
+  },
+  normalize: (s) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
+  defaultMetric: 'deltaE2000',
+} as const satisfies Colorspace;
+
+identify(${JSON.stringify(input)}, { colorspace: warhammer })
+// → ${JSON.stringify(warhammerMatch)}`}
+          </pre>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+            <div className="text-center">
+              <div className="text-xs uppercase tracking-wide text-neutral-500">your input</div>
+              <div
+                className="h-20 rounded-lg border border-neutral-300 mt-1"
+                style={{ backgroundColor: input }}
+              />
+              <code className="text-sm text-neutral-600 mt-1 block">{input}</code>
+            </div>
+            <div className="text-center">
+              <div className="text-xs uppercase tracking-wide text-neutral-500">warhammer match</div>
+              <div
+                className="h-20 rounded-lg border border-neutral-300 mt-1"
+                style={{ backgroundColor: warhammerHex ?? 'transparent' }}
+              />
+              <code className="text-sm text-neutral-600 mt-1 block">{warhammerMatch ?? '—'}</code>
+            </div>
           </div>
         </section>
 
