@@ -95,8 +95,9 @@ describe('convert', () => {
       });
     });
     it('accepts a web name with the web palette', () => {
-      expect(convert('rebecca purple', { palette: web })).toBe('#663399');
-      expect(convert('alice blue', { palette: web, format: 'HSL' })).toMatch(/^hsl\(/);
+      expect(convert('rebeccapurple', { palette: web })).toBe('#663399');
+      expect(convert('Rebecca Purple', { palette: web })).toBe('#663399'); // normalizer strips spaces
+      expect(convert('aliceblue', { palette: web, format: 'HSL' })).toMatch(/^hsl\(/);
     });
     it('works for BYO palettes inline', () => {
       const brand = {
@@ -127,7 +128,7 @@ describe('convert', () => {
       expect(convert(rgba, { palette: pantone, format: 'NAME' })).toBe('100 C');
     });
     it('web name round-trip', () => {
-      expect(convert('#663399', { palette: web, format: 'NAME' })).toBe('rebecca purple');
+      expect(convert('#663399', { palette: web, format: 'NAME' })).toBe('rebeccapurple');
     });
     it('throws when the input has no exact palette match (use identify for fuzzy)', () => {
       expect(() => convert('#ff0000', { palette: pantone, format: 'NAME' })).toThrow(

@@ -48,8 +48,8 @@ identify('#ff2b3c', { palette: brand })         // 'acme red'
 resolve('Acme Ink', { palette: brand })         // '#0a0f2c'
 
 // Built-in palettes follow the identical shape — CSS, X11, Pantone out of the box.
-identify('#ff8080')                                // 'light coral' (web is the default)
-identify('#663399')                                // 'rebecca purple'
+identify('#ff8080')                                // 'lightcoral' (web is the default)
+identify('#663399')                                // 'rebeccapurple'
 identify('#E20074', { palette: pantone })       // '213 C' — T-Mobile magenta
 resolve('Pantone 185 C', { palette: pantone })  // '#e4002b'
 
@@ -179,7 +179,7 @@ convert('185 C', { palette: pantone, format: 'HSL' }) // 'hsl(349, 100%, 45%)'
 
 // With a palette — color in, exact palette key out
 convert('#e4002b', { palette: pantone, format: 'NAME' })  // '185 C'
-convert('#663399', { palette: web, format: 'NAME' })       // 'rebecca purple'
+convert('#663399', { palette: web, format: 'NAME' })       // 'rebeccapurple'
 convert('#ff0000', { palette: pantone, format: 'NAME' })   // throws — use identify for nearest
 
 // BYO palettes work the same way
@@ -215,11 +215,13 @@ import { web, x11, pantone } from 'chromonym';
 // or:  import { pantone } from 'chromonym/pantone';
 
 web.colors.crimson               // '#dc143c'
-web.colors['alice blue']         // '#f0f8ff'   (keys are display-ready, with spaces)
+web.colors.aliceblue             // '#f0f8ff'   (CSS keyword form — paste-compatible)
 pantone.colors['185 C']          // '#e4002b'
 ```
 
-*Trivia:* `web.colors['rebecca purple']` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 99, so `x11.colors['gray 73']` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
+Each palette's keys follow its own domain convention: `web` uses the CSS spec's single-word form (so `identify('#663399') → 'rebeccapurple'` pastes straight into a `color:` declaration); `x11` uses the X.Org docs' spaced form; `pantone` uses the official `'<number> C'` notation.
+
+*Trivia:* `web.colors.rebeccapurple` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 99, so `x11.colors['gray 73']` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
 
 ### BYO palette
 
@@ -259,11 +261,11 @@ No registry, no plugin, no side effects. Bundlers only include the palettes you 
 import { convert, identify, web, x11, pantone } from 'chromonym';
 
 // web → x11
-identify(convert('rebecca purple', { palette: web }), { palette: x11 })
+identify(convert('rebeccapurple', { palette: web }), { palette: x11 })
 // → 'dark orchid 4'
 
-identify(convert('dodger blue', { palette: web }), { palette: x11 })
-// → 'dodger blue'   (name shared across both palettes — exact hex too)
+identify(convert('dodgerblue', { palette: web }), { palette: x11 })
+// → 'dodger blue'   (hex shared across both palettes — exact hit)
 
 // x11 → pantone
 identify(convert('dark slate gray 4', { palette: x11 }), { palette: pantone })
@@ -273,16 +275,16 @@ identify(convert('debian red', { palette: x11 }), { palette: pantone })
 // → '1925 C'
 
 // web → pantone  (the classic brand-matching case)
-identify(convert('hot pink', { palette: web }), { palette: pantone })       // → '812 C'
-identify(convert('dodger blue', { palette: web }), { palette: pantone })    // → '279 C'
+identify(convert('hotpink', { palette: web }), { palette: pantone })        // → '812 C'
+identify(convert('dodgerblue', { palette: web }), { palette: pantone })     // → '279 C'
 
 // BYO → pantone  (ship your brand palette, find the closest Pantone for print)
 identify(convert('acme red', { palette: brand }), { palette: pantone })     // → '1788 C'
 
 // Override the metric for the *nearest-match* leg if you want — input parsing
 // is always exact, so only the second call takes `metric`.
-identify(convert('rebecca purple', { palette: web }), { palette: pantone, metric: 'deltaEok' })
-// → '267 C'
+identify(convert('rebeccapurple', { palette: web }), { palette: pantone, metric: 'deltaEok' })
+// → '526 C'  (OKLAB disagrees with ΔE2000's '267 C' in the saturated-purple region)
 ```
 
 Why two calls instead of one: `convert` is the strict verb (throws on a name miss), `identify` is the fuzzy one (always returns a nearest). Keeping them separate lets you decide — per call — whether you want a hard error on an unknown input or a best-effort neighbor.

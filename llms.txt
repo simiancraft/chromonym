@@ -22,7 +22,7 @@
 Fundamentally nearest-match, so it's `identify`'s job. Chain `convert` (strict name → hex) with `identify` (fuzzy hex → nearest name):
 
 ```ts
-identify(convert('rebecca purple', { palette: web }), { palette: pantone })  // '267 C'
+identify(convert('rebeccapurple', { palette: web }), { palette: pantone })   // '267 C'
 identify(convert('acme red', { palette: brand }), { palette: pantone })      // nearest Pantone
 ```
 
