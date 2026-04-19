@@ -62,6 +62,13 @@ maybe('subpath exports resolve', () => {
     expect(m.pantone.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/crayola exports the crayola palette object', async () => {
+    const m = await import('../dist/palettes/crayola');
+    expect(m.crayola.name).toBe('crayola');
+    expect(m.crayola.colors.Razzmatazz).toBe('#e3256b');
+    expect(m.crayola.defaultMetric).toBe('deltaEok');
+  });
+
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
     const m = await import('../dist/conversions/hex');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
@@ -141,6 +148,7 @@ maybe('subpath exports resolve', () => {
       "const { pantone } = await import('chromonym/pantone');",
       "const { web } = await import('chromonym/web');",
       "const { x11 } = await import('chromonym/x11');",
+      "const { crayola } = await import('chromonym/crayola');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -154,6 +162,7 @@ maybe('subpath exports resolve', () => {
       '  pantoneName: pantone.name,',
       '  webRed: web.colors.red,',
       '  x11Count: Object.keys(x11.colors).length > 600,',
+      '  crayolaRazz: crayola.colors.Razzmatazz === "#e3256b",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -176,6 +185,7 @@ maybe('subpath exports resolve', () => {
       pantoneName: 'pantone',
       webRed: '#ff0000',
       x11Count: true,
+      crayolaRazz: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,

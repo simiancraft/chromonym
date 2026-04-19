@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { pantone, web, x11 } from '../src/palettes/index.js';
+import { crayola, pantone, web, x11 } from '../src/palettes/index.js';
 
 const HEX_RE = /^#[0-9a-f]{6}$/;
 
@@ -12,6 +12,17 @@ describe.each([
     {
       minCount: 900,
       spotChecks: { '100 C': '#f6eb61', '102 C': '#fce300' } as Record<string, string>,
+    },
+  ],
+  [
+    'crayola',
+    crayola,
+    {
+      minCount: 60,
+      spotChecks: {
+        Razzmatazz: '#e3256b',
+        'Granny Smith Apple': '#a8e4a0',
+      } as Record<string, string>,
     },
   ],
 ])('%s palette', (name, space, { minCount, spotChecks }) => {

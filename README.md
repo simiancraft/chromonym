@@ -233,26 +233,29 @@ resolve('Nurgle Green', { palette: warhammer })
 // → '#748c3f'           (your normalizer handles case + punctuation)
 ```
 
-### The three we ship
+### The four we ship
 
 | Name | Entries | Source |
 |---|---|---|
 | `web` (default) | 148 | CSS Color Module Level 4 named colors |
 | `x11` | 658 | X.Org `rgb.txt` (public domain) |
 | `pantone` | 907 | Pantone Coated (C) — community approximations (not Pantone-licensed) |
+| `crayola` | ~85 | Crayola crayon colors — community approximations (not Crayola-licensed) |
 
 Importable directly, or via subpath exports for stricter tree-shaking:
 
 ```ts
-import { web, x11, pantone } from 'chromonym';
+import { web, x11, pantone, crayola } from 'chromonym';
 // or:  import { pantone } from 'chromonym/pantone';
 
 web.colors.crimson               // '#dc143c'
-web.colors.aliceblue             // '#f0f8ff'   (CSS keyword form — paste-compatible)
+web.colors.aliceblue             // '#f0f8ff'     (CSS keyword form — paste-compatible)
 pantone.colors['185 C']          // '#e4002b'
+crayola.colors.Razzmatazz        // '#e3256b'
+crayola.colors['Granny Smith Apple']  // '#a8e4a0'
 ```
 
-Each palette's keys follow its own domain convention — so `identify`'s output pastes back into whatever ecosystem the name came from. `web` uses the CSS spec's single-word form (`rebeccapurple`), `x11` uses the X.Org docs' spaced form (`'antique white 1'`), `pantone` uses the official print notation (`'185 C'`).
+Each palette's keys follow its own domain convention — so `identify`'s output pastes back into whatever ecosystem the name came from. `web` uses the CSS spec's single-word form (`rebeccapurple`), `x11` uses the X.Org docs' spaced form (`'antique white 1'`), `pantone` uses the official print notation (`'185 C'`), `crayola` uses the Title Case form printed on the crayon wrapper (`'Granny Smith Apple'`).
 
 *Trivia:* `web.colors.rebeccapurple` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 99, so `x11.colors['gray 73']` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
 
@@ -288,6 +291,12 @@ identify(convert('acme red', { palette: brand }), { palette: pantone })     // �
 // is always exact, so only the second call takes `metric`.
 identify(convert('rebeccapurple', { palette: web }), { palette: pantone, metric: 'deltaEok' })
 // → '526 C'  (OKLAB disagrees with ΔE2000's '267 C' in the saturated-purple region)
+
+// crayola in both directions — useful for consumer-facing / educational UIs
+identify(convert('Razzmatazz', { palette: crayola }), { palette: pantone })  // → '213 C' (…T-Mobile magenta, same color family)
+identify(convert('Razzmatazz', { palette: crayola }), { palette: web })       // → 'deeppink'
+identify(convert('hotpink', { palette: web }), { palette: crayola })          // → 'Violet Red'
+identify(convert('forestgreen', { palette: web }), { palette: crayola })      // → 'Green'
 ```
 
 Why two calls instead of one: `convert` is the strict verb (throws on a name miss), `identify` is the fuzzy one (always returns a nearest). Keeping them separate lets you decide — per call — whether you want a hard error on an unknown input or a best-effort neighbor.

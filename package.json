@@ -64,6 +64,11 @@
       "import": "./dist/palettes/pantone.js",
       "default": "./dist/palettes/pantone.js"
     },
+    "./crayola": {
+      "types": "./dist/palettes/crayola.d.ts",
+      "import": "./dist/palettes/crayola.js",
+      "default": "./dist/palettes/crayola.js"
+    },
     "./conversions/hex": {
       "types": "./dist/conversions/hex.d.ts",
       "import": "./dist/conversions/hex.js",
