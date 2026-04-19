@@ -117,6 +117,32 @@ describe('convert', () => {
       // structurally-valid input takes precedence. #ff0000 is always parsed as hex.
       expect(convert('#ff0000', { palette: web })).toBe('#ff0000');
     });
+    it('guards against palette mutation between name-index build and color lookup', () => {
+      // Defensive branch: if a palette's `colors` is mutated between the time
+      // getNameIndex() caches it and the actual hex lookup, canonical can
+      // resolve to a key no longer present in `.colors`. Not a supported
+      // usage pattern, but the guard avoids returning `undefined` disguised
+      // as a hex string.
+      const mutable: {
+        name: string;
+        colors: Record<string, string>;
+        normalize: (s: string) => string;
+        defaultMetric: 'deltaE2000';
+      } = {
+        name: 'mutable',
+        colors: { onlykey: '#ff0000' },
+        normalize: (s) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
+        defaultMetric: 'deltaE2000',
+      };
+      // First call warms the name-index cache (WeakMap keyed on the palette object).
+      expect(convert('onlykey', { palette: mutable as never })).toBe('#ff0000');
+      // Mutate: drop the key. The cached name-index still maps 'onlykey' → 'onlykey',
+      // but palette.colors.onlykey is now undefined.
+      delete mutable.colors.onlykey;
+      expect(() => convert('onlykey', { palette: mutable as never })).toThrow(
+        /Unrecognized color input/,
+      );
+    });
   });
 
   describe("unified palette option — format: 'NAME' emits the exact canonical key", () => {

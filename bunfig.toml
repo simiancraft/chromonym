@@ -1,4 +1,7 @@
 [test]
 # The subpathExports test suite imports from dist/ to prove published subpath
 # resolution works. Exclude dist/ from coverage so reports show src/ accuracy.
-coveragePathIgnorePatterns = ["dist/"]
+coveragePathIgnorePatterns = ["**/dist/**", "dist/**", "**/dist/*"]
+# Target: 100% on src/. Any drop below is a CI failure.
+coverageThreshold = 1.0
+coverageSkipTestFiles = true

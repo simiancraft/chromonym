@@ -14,7 +14,7 @@
 [![Types: included](https://img.shields.io/npm/types/chromonym?color=3178c6&logo=typescript)](https://www.npmjs.com/package/chromonym)
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
 
-<sub>[publish size](https://packagephobia.com/result?p=chromonym) • [install size](https://packagephobia.com/result?p=chromonym) • [coverage](https://codecov.io/gh/simiancraft/chromonym) • [MIT license](https://opensource.org/licenses/MIT)</sub>
+<sub>[bundle size](https://packagephobia.com/result?p=chromonym) • [coverage](https://codecov.io/gh/simiancraft/chromonym) • [MIT license](https://opensource.org/licenses/MIT)</sub>
 
 <p align="center">
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
@@ -420,6 +420,8 @@ chromonym deliberately limits its scope to color *naming* (resolving and identif
 ## License
 
 MIT © [the-simian](https://github.com/the-simian)
+
+<p align="center"><sub>Crafted with care by <a href="https://simiancraft.com">Simiancraft</a>.</sub></p>
 
 ---
 
