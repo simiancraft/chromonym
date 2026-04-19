@@ -1,3 +1,75 @@
+# [2.0.0](https://github.com/simiancraft/chromonym/compare/v1.4.1...v2.0.0) (2026-04-19)
+
+
+* feat(colorspaces)!: accept Colorspace<Name> objects; enable BYO palettes ([fe887b4](https://github.com/simiancraft/chromonym/commit/fe887b4fd7da75b1e15657eaf0a29279e71747a9))
+* feat(colorspaces)!: humanize canonical keys across all palettes ([9d39b8d](https://github.com/simiancraft/chromonym/commit/9d39b8d36881020bf6c2872ed02785f92269c0bd))
+* feat(convert)!: unify palette lookup into the convert API ([e783a41](https://github.com/simiancraft/chromonym/commit/e783a41684dd937ab6bfd90ed9e789d4d715223b))
+* fix!: Node ESM blocker, NAME alpha guard, subpath test via package specifier, marketing copy ([a6af084](https://github.com/simiancraft/chromonym/commit/a6af084056763c90289b9caa021d9a76657f6e4a))
+* refactor!: panel re-review follow-ups — types, packaging, docs, a11y ([515ded3](https://github.com/simiancraft/chromonym/commit/515ded3738afb777234f3b0b76340fb841a84151))
+* refactor!: rename Colorspace → Palette universally ([eded24f](https://github.com/simiancraft/chromonym/commit/eded24f13e9b655a13bc29dda4a07d03a16de7a7))
+* refactor(palettes)!: web keys revert to CSS-keyword form (paste-compatible) ([6ec66a4](https://github.com/simiancraft/chromonym/commit/6ec66a48c13c3d3f76f30c59626c0db5120e62ce))
+
+
+### BREAKING CHANGES
+
+* Node ESM consumers who somehow made it work with the
+old bundler-style output now see correct behavior (no regression — the
+old state was broken for Node ESM). `convert(_, { palette, format:
+'NAME' })` now rejects non-opaque inputs instead of silently matching.
+* web palette keys are now CSS-keyword form
+(`rebeccapurple` instead of `rebecca purple`). Callers hardcoding
+spaced web keys must update; callers relying on the normalizer
+(passing any casing/whitespace) are unaffected.
+* `convert` now accepts a `palette` option and a new
+`'NAME'` format value. The old behaviour (no palette) is unchanged.
+This is additive in practice — nothing that worked before stops
+working; `convert(pantoneString, { format: 'HEX' })` without a palette
+still throws (same as before).
+* type `Colorspace<Name>` renamed to `Palette<Name>`;
+option key `colorspace:` renamed to `palette:` on `identify` and
+`resolve`. Migration is a pure find/replace — no semantic change. See
+the README BYO section for the new shape.
+* `PantoneCode` type alias removed from the public surface.
+Callers importing the type should use `string` for inputs to
+`pantoneToRgba` or `PantoneColorName` for narrow typed returns.
+`nearest()` (internal API, but exported) now requires a `metric` argument.
+* `identify` and `resolve` (with a `format: HEX`
+return) still behave the same at the input side, but return values
+now match the humanized keys. Examples:
+
+  identify('#663399')                              // was 'rebeccapurple'; now 'rebecca purple'
+  identify('#ff8080')                              // was 'lightcoral';    now 'light coral'
+  identify('#e4002b', { colorspace: pantone })     // was '185C';          now '185 C'
+  identify('#7f7f7f', { colorspace: x11 })         // was 'gray50';        now 'gray 50'
+  convert('#e4002b', { format: 'PANTONE' })        // was '185C';          now '185 C'
+
+Direct palette access also uses the new keys:
+
+  // before:  web.colors.rebeccapurple
+  // after:   web.colors['rebecca purple']
+  // before:  pantone.colors['185C']
+  // after:   pantone.colors['185 C']
+* `identify` and `resolve` no longer accept colorspace
+strings. Pass the palette object instead:
+
+  // before
+  identify('#E20074', { colorspace: 'pantone' })
+  resolve('185 C', { colorspace: 'pantone' })
+
+  // after
+  import { identify, resolve, pantone } from 'chromonym';
+  identify('#E20074', { colorspace: pantone })
+  resolve('185 C', { colorspace: pantone })
+
+Palette data now lives under `.colors`:
+
+  // before: web.crimson              // '#dc143c'
+  // after:  web.colors.crimson       // '#dc143c'
+
+The `ColorspaceName` type has been removed. `Colorspace` is now a
+generic `Colorspace<Name>`. `DistanceMetric` and `NormalizeFn` are
+exported from the root barrel for BYO palette authors.
+
 ## [1.4.1](https://github.com/simiancraft/chromonym/compare/v1.4.0...v1.4.1) (2026-04-18)
 
 
