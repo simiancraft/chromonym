@@ -192,6 +192,65 @@ convert('#ff2a3b', { palette: brand, format: 'NAME' })     // 'acme red'
 
 The low-level `pantoneToRgba` / `rgbaToPantone` functions (from `chromonym` or `chromonym/conversions/pantone`) remain available for single-purpose Pantone work when you don't need the full `convert` ceremony.
 
+### `translate(name, opts)`
+
+**Name → nearest name, across palettes.** Sugar for `identify(resolve(name, { palette: from }), { palette: to, metric })`. Returns `null` if `name` isn't in the `from` palette.
+
+```ts
+function translate<T extends Palette>(
+  name: string,
+  opts: { from: Palette; to: T; metric?: DistanceMetric },
+): PaletteKey<T> | null;
+```
+
+- Cross-palette is always a nearest-match on the target side — exact round-trips don't generally exist between palettes. The `metric` option controls *how* "nearest" is measured on that side; defaults to `to.defaultMetric`.
+- Source-side name parsing uses the `from` palette's normalizer, so casing / spacing / punctuation are tolerated.
+
+```ts
+import { translate, web, crayola, pantone } from 'chromonym';
+
+translate('rebeccapurple', { from: web, to: pantone })    // '267 C'
+translate('Razzmatazz',    { from: crayola, to: pantone }) // '213 C' (same family as T-Mobile magenta)
+translate('hotpink',       { from: web, to: crayola })     // 'Violet Red'
+translate('acme red',      { from: brand, to: pantone })   // nearest Pantone to your brand color
+translate('not-a-name',    { from: web, to: pantone })     // null
+```
+
+### `identifyAll(input, opts?)`
+
+**Ranked top-k nearest matches with ΔE scores.** Same input as `identify`; returns an array sorted by distance (nearest first).
+
+```ts
+function identifyAll<P extends Palette = typeof web>(
+  input: ColorInput,
+  opts?: { palette?: P; metric?: DistanceMetric; k?: number },
+): Array<{ name: PaletteKey<P>; distance: number }>;
+```
+
+- **Default palette**: `web`. **Default metric**: `palette.defaultMetric`. **Default `k`**: all entries.
+- `distance` is in the selected metric's natural units: ΔE for all `deltaE*` metrics (≈1 = just-noticeable); channel-unit Euclidean distance for `euclidean-srgb` / `euclidean-linear`.
+- Returns `[]` on unrecognized input (consistent with `identify` returning `null`).
+
+Use cases:
+
+```ts
+// "Did you mean" top-3
+identifyAll('#ff4488', { palette: crayola, k: 3 })
+// [
+//   { name: 'Shocking Pink',  distance:  3.1 },
+//   { name: 'Tickle Me Pink', distance:  4.8 },
+//   { name: 'Wild Watermelon', distance: 5.2 },
+// ]
+
+// Quality-gated matching — only accept if best is perceptually close
+const [best] = identifyAll(hex, { palette: pantone, k: 1 });
+if (best && best.distance < 5) useIt(best.name); else warn();
+
+// Exact-hex match produces distance ≈ 0
+identifyAll('#ff0000', { palette: web, k: 1 })
+// [{ name: 'red', distance: 0 }]
+```
+
 ## Palettes
 
 Every palette — yours or ours — is a `Palette<Name>` object. Define it once, pass it anywhere the three verbs accept one.
@@ -261,42 +320,37 @@ Each palette's keys follow its own domain convention — so `identify`'s output 
 
 ### Cross-palette translation
 
-"What's this CSS color in X11?" / "What's our brand red in Pantone?" is a *nearest-match* question — palettes almost never share exact hex values, so there's no strict round-trip. That's `identify`'s job. Chain `convert` (strict name → hex) with `identify` (fuzzy hex → nearest name):
+"What's this CSS color in X11?" / "What's our brand red in Pantone?" is a *nearest-match* question — palettes almost never share exact hex values, so there's no strict round-trip. Use `translate` for the single-verb form, or chain `convert` + `identify` manually when you want finer control.
 
 ```ts
-import { convert, identify, web, x11, pantone } from 'chromonym';
+import { translate, web, x11, pantone, crayola } from 'chromonym';
 
-// web → x11
-identify(convert('rebeccapurple', { palette: web }), { palette: x11 })
-// → 'dark orchid 4'
+// Single verb, cross-palette nearest-name. Throws nothing; returns null if the
+// source name isn't in the `from` palette.
+translate('rebeccapurple', { from: web, to: x11 })                   // → 'dark orchid 4'
+translate('dodgerblue',    { from: web, to: x11 })                   // → 'dodger blue' (shared hex)
+translate('dark slate gray 4', { from: x11, to: pantone })           // → '5483 C'
+translate('hotpink',       { from: web, to: pantone })               // → '812 C'
+translate('Razzmatazz',    { from: crayola, to: pantone })           // → '213 C' (same family as T-Mobile magenta)
+translate('Razzmatazz',    { from: crayola, to: web })               // → 'deeppink'
+translate('hotpink',       { from: web, to: crayola })               // → 'Violet Red'
+translate('forestgreen',   { from: web, to: crayola })               // → 'Green'
 
-identify(convert('dodgerblue', { palette: web }), { palette: x11 })
-// → 'dodger blue'   (hex shared across both palettes — exact hit)
+// BYO works on either side — ship your brand palette, find the closest Pantone for print.
+translate('acme red', { from: brand, to: pantone })                  // → '1788 C'
 
-// x11 → pantone
-identify(convert('dark slate gray 4', { palette: x11 }), { palette: pantone })
-// → '5483 C'
-
-identify(convert('debian red', { palette: x11 }), { palette: pantone })
-// → '1925 C'
-
-// web → pantone  (the classic brand-matching case)
-identify(convert('hotpink', { palette: web }), { palette: pantone })        // → '812 C'
-identify(convert('dodgerblue', { palette: web }), { palette: pantone })     // → '279 C'
-
-// BYO → pantone  (ship your brand palette, find the closest Pantone for print)
-identify(convert('acme red', { palette: brand }), { palette: pantone })     // → '1788 C'
-
-// Override the metric for the *nearest-match* leg if you want — input parsing
-// is always exact, so only the second call takes `metric`.
-identify(convert('rebeccapurple', { palette: web }), { palette: pantone, metric: 'deltaEok' })
+// Override the metric for the target-side nearest-match leg.
+translate('rebeccapurple', { from: web, to: pantone, metric: 'deltaEok' })
 // → '526 C'  (OKLAB disagrees with ΔE2000's '267 C' in the saturated-purple region)
+```
 
-// crayola in both directions — useful for consumer-facing / educational UIs
-identify(convert('Razzmatazz', { palette: crayola }), { palette: pantone })  // → '213 C' (…T-Mobile magenta, same color family)
-identify(convert('Razzmatazz', { palette: crayola }), { palette: web })       // → 'deeppink'
-identify(convert('hotpink', { palette: web }), { palette: crayola })          // → 'Violet Red'
-identify(convert('forestgreen', { palette: web }), { palette: crayola })      // → 'Green'
+If you need the underlying chain (e.g., to keep the intermediate hex, or to use the exact-throwing `convert` form for source-name miss behavior), the `identify(convert(…))` pattern is still there:
+
+```ts
+import { convert, identify, web, pantone } from 'chromonym';
+
+const hex = convert('rebeccapurple', { palette: web });         // '#663399' (throws on miss)
+const nearest = identify(hex, { palette: pantone });            // '267 C'
 ```
 
 Why two calls instead of one: `convert` is the strict verb (throws on a name miss), `identify` is the fuzzy one (always returns a nearest). Keeping them separate lets you decide — per call — whether you want a hard error on an unknown input or a best-effort neighbor.

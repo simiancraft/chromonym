@@ -1,6 +1,6 @@
 # chromonym
 
-> The last color-naming library you'll ever need. One API — `identify` (color → name), `resolve` (name → color), `convert` (color → color format) — works against any palette matching `Palette<Name>`. Ships CSS, X11, Pantone; bring your own (brand colors, paint chips, game factions). Tree-shakes: you only pay for palettes you import. Not a general-purpose manipulation library — for mixing / scales / gamut mapping, use chroma.js or color.js.
+> The last color-naming library you'll ever need. One API — `identify` (color → name), `resolve` (name → color), `convert` (color → color format), `translate` (name → nearest name in a different palette), `identifyAll` (ranked top-k matches with ΔE scores) — works against any palette matching `Palette<Name>`. Ships CSS, X11, Pantone, Crayola; bring your own (brand colors, paint chips, game factions). Tree-shakes: you only pay for palettes you import. Not a general-purpose manipulation library — for mixing / scales / gamut mapping, use chroma.js or color.js.
 
 ## Key files
 
@@ -13,17 +13,23 @@
 - `identify(input, { palette, metric })` — color → name. `palette` is a `Palette<Name>` object (defaults to `web`).
 - `resolve(name, { palette, format })` — name → color. `palette` defaults to `web`.
 - `convert(input, { format, palette? })` — structural color-format conversion (HEX / RGB / RGBA / HSL / HSV). Optional `palette` makes convert accept palette names as input and support `format: 'NAME'` for exact reverse lookup (throws on miss — use `identify` for fuzzy). Palette data is caller-supplied, so convert-only bundles include zero palette data.
+- `translate(name, { from, to, metric? })` — cross-palette nearest-name sugar. Returns `null` if source name isn't in `from`.
+- `identifyAll(input, { palette?, metric?, k? })` — ranked `{name, distance}[]`, nearest first. `distance` is in the metric's natural units (ΔE for `deltaE*` metrics, channel-unit Euclidean for the others).
 - `toRgba(input, knownFormat?)` / `fromRgba(rgba, format)` — dispatcher primitives.
 - Low-level converters: `hexToRgba`, `rgbaToHex`, `rgbToRgba`, `rgbaToRgb`, `hslToRgba`, `rgbaToHsl`, `hsvToRgba`, `rgbaToHsv`, `pantoneToRgba`, `rgbaToPantone`.
-- Built-in palettes: `web`, `x11`, `pantone` (each a `Palette<Name>` object; `.colors` holds the hex map).
+- Built-in palettes: `web`, `x11`, `pantone`, `crayola` (each a `Palette<Name>` object; `.colors` holds the hex map).
 
 ## Cross-palette translation
 
-Fundamentally nearest-match, so it's `identify`'s job. Chain `convert` (strict name → hex) with `identify` (fuzzy hex → nearest name):
+Fundamentally nearest-match. Use the `translate` sugar or chain `convert` + `identify` manually:
 
 ```ts
+translate('rebeccapurple', { from: web, to: pantone })                 // '267 C'
+translate('Razzmatazz', { from: crayola, to: pantone })                // '213 C'
+translate('acme red', { from: brand, to: pantone })                    // nearest Pantone
+
+// Equivalent chain, useful when you want to keep the intermediate hex:
 identify(convert('rebeccapurple', { palette: web }), { palette: pantone })   // '267 C'
-identify(convert('acme red', { palette: brand }), { palette: pantone })      // nearest Pantone
 ```
 
 ## BYO palettes
