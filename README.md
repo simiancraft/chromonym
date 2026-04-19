@@ -104,7 +104,7 @@ identify('#ff0000')                               // 'red' (web default)
 identify([255, 0, 0])                             // 'red'
 identify({ r: 250, g: 20, b: 60 })                // 'crimson' (nearest)
 identify('#ff0000', { palette: x11 })             // 'red' (x11 also has 'red 1' through 'red 4')
-identify('#e4002b', { palette: pantone })         // '185 C' (exact match — T-Mobile-adjacent magenta)
+identify('#e4002b', { palette: pantone })         // '185 C' (exact match — Target/Coca-Cola red)
 identify('#ff0000', { palette: pantone })         // '172 C' (nearest — pure red isn't a Pantone)
 identify('#ff0080', { metric: 'deltaE2000' })     // force perceptual-accurate match
 identify('#ff0000', { metric: 'euclidean-srgb' }) // force fastest (non-perceptual) match
