@@ -1,15 +1,29 @@
 import { describe, expect, it } from 'bun:test';
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 
 /**
  * Smoke tests proving each package.json "exports" subpath resolves
  * against the emitted dist/ tree (what npm consumers actually see).
  *
+ * Two layers:
+ *   1. Fast dist-path imports (`../dist/…`) — confirms the emitted files
+ *      exist and re-export what's expected. Doesn't exercise the exports
+ *      map or Node's ESM extension rules.
+ *   2. A real Node ESM subprocess that imports every subpath via the
+ *      package specifier (`chromonym/web`, etc.). This IS what an npm
+ *      consumer does, and it's the only check that catches regressions
+ *      like bundler-style extensionless relative imports in emitted
+ *      output. Uses Node self-referencing (the repo's package.json
+ *      declares `name: "chromonym"`, so Node resolves `chromonym/…`
+ *      through our own exports map).
+ *
  * These tests require `bun run build` to have run first — if dist/ is
  * missing, the suite is skipped cleanly rather than false-failing. CI
  * builds before running tests; local devs should run `bun run build`
  * before `bun test` if they want the subpath assertions to execute.
  */
+const PROJECT_ROOT = new URL('../', import.meta.url).pathname;
 const DIST_URL = new URL('../dist/', import.meta.url);
 const DIST_READY = existsSync(new URL('index.js', DIST_URL));
 const PKG_JSON = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
@@ -115,5 +129,62 @@ maybe('subpath exports resolve', () => {
     expect(existsSync(new URL('colorspaces/registry.js', DIST_URL))).toBe(false);
     expect(existsSync(new URL('colorspaces/registry.d.ts', DIST_URL))).toBe(false);
     expect(existsSync(new URL('colorspaces/web.js', DIST_URL))).toBe(false);
+  });
+
+  it('real Node ESM resolves every subpath via the package specifier', () => {
+    // Catches regressions that dist-path imports mask: bundler-style
+    // extensionless relative imports in emitted files, missing "default"
+    // conditions, mis-mapped exports. This spawns Node with `cwd` at the
+    // project root so that `import('chromonym/…')` self-resolves through
+    // our own package.json exports map.
+    const script = [
+      "const { pantone } = await import('chromonym/pantone');",
+      "const { web } = await import('chromonym/web');",
+      "const { x11 } = await import('chromonym/x11');",
+      "const { hexToRgba } = await import('chromonym/conversions/hex');",
+      "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
+      "const { hslToRgba } = await import('chromonym/conversions/hsl');",
+      "const { hsvToRgba } = await import('chromonym/conversions/hsv');",
+      "const p2 = await import('chromonym/conversions/pantone');",
+      "const deltaE = await import('chromonym/math/deltaE');",
+      "const colorSpace = await import('chromonym/math/colorSpace');",
+      "const types = await import('chromonym/types');",
+      "const root = await import('chromonym');",
+      'const out = {',
+      '  pantoneName: pantone.name,',
+      '  webRed: web.colors.red,',
+      '  x11Count: Object.keys(x11.colors).length > 600,',
+      "  hexToRgba: hexToRgba('#ff0000').r === 255,",
+      '  rgb: rgbToRgba([1,2,3]).r === 1,',
+      '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
+      '  hsv: hsvToRgba({ h: 0, s: 100, v: 100 }).r === 255,',
+      "  pantoneConv: typeof p2.pantoneToRgba === 'function',",
+      '  dE: deltaE.deltaE76([50,0,0],[50,0,0]) === 0,',
+      '  cs: colorSpace.srgbToLinear(0) === 0,',
+      "  types: types.COLOR_FORMATS.has('HEX'),",
+      "  root: typeof root.identify === 'function',",
+      '};',
+      'process.stdout.write(JSON.stringify(out));',
+    ].join(' ');
+    const output = execFileSync('node', ['--input-type=module', '-e', script], {
+      cwd: PROJECT_ROOT,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    const result = JSON.parse(output);
+    expect(result).toEqual({
+      pantoneName: 'pantone',
+      webRed: '#ff0000',
+      x11Count: true,
+      hexToRgba: true,
+      rgb: true,
+      hsl: true,
+      hsv: true,
+      pantoneConv: true,
+      dE: true,
+      cs: true,
+      types: true,
+      root: true,
+    });
   });
 });

@@ -1,4 +1,4 @@
-import type { ColorFormat, ColorInput } from './types';
+import type { ColorFormat, ColorInput } from './types.js';
 
 /**
  * A color comes in, a format key comes out.

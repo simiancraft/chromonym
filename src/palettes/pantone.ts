@@ -1,5 +1,5 @@
-import type { Palette } from '../types';
-import { pantoneNormalize } from './normalize';
+import type { Palette } from '../types.js';
+import { pantoneNormalize } from './normalize.js';
 
 /**
  * Pantone Coated (C) colors — community approximations. 907 entries.

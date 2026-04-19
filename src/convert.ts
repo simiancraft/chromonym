@@ -1,9 +1,9 @@
-import { hexToRgba, rgbaToHex } from './conversions/hex';
-import { hslToRgba, rgbaToHsl } from './conversions/hsl';
-import { hsvToRgba, rgbaToHsv } from './conversions/hsv';
-import { rgbaToRgb, rgbToRgba } from './conversions/rgb';
-import { type DetectedFormat, detectFormat } from './detectFormat';
-import { getNameIndex, getReverseNameIndex } from './indexing';
+import { hexToRgba, rgbaToHex } from './conversions/hex.js';
+import { hslToRgba, rgbaToHsl } from './conversions/hsl.js';
+import { hsvToRgba, rgbaToHsv } from './conversions/hsv.js';
+import { rgbaToRgb, rgbToRgba } from './conversions/rgb.js';
+import { type DetectedFormat, detectFormat } from './detectFormat.js';
+import { getNameIndex, getReverseNameIndex } from './indexing.js';
 import type {
   ColorFormat,
   ColorInput,
@@ -15,7 +15,7 @@ import type {
   Rgba,
   RgbaInput,
   RgbInput,
-} from './types';
+} from './types.js';
 
 function safeStringify(x: unknown): string {
   if (x === undefined) return 'undefined';
@@ -165,6 +165,15 @@ export function convert(
   if (format === 'NAME') {
     if (palette === undefined) {
       throw new Error(`convert(_, { format: 'NAME' }) requires a 'palette' option`);
+    }
+    // Palette colors are alpha = 1 by construction; a partially-transparent
+    // input isn't "that named color" in the strict-convert sense. Reject
+    // here rather than silently drop alpha during the reverse lookup.
+    if (rgba.a !== 1) {
+      throw new Error(
+        `format: 'NAME' requires fully-opaque input (a === 1). Got a=${rgba.a}. ` +
+          `Strip alpha first or use identify() for fuzzy matching.`,
+      );
     }
     const hex = rgbaToHex(rgba).toLowerCase();
     const name = getReverseNameIndex(palette).get(hex);

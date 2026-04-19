@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { hslToRgba, rgbaToHsl } from '../../src/conversions/hsl';
+import { hslToRgba, rgbaToHsl } from '../../src/conversions/hsl.js';
 
 describe('hslToRgba', () => {
   it('converts pure red { h:0, s:100, l:50 }', () => {

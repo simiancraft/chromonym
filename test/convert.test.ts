@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
-import { convert } from '../src/convert';
-import { pantone } from '../src/palettes/pantone';
-import { web } from '../src/palettes/web';
+import { convert } from '../src/convert.js';
+import { pantone } from '../src/palettes/pantone.js';
+import { web } from '../src/palettes/web.js';
 
 describe('convert', () => {
   describe('README examples', () => {
@@ -139,6 +139,14 @@ describe('convert', () => {
       expect(() => convert({ r: 255, g: 0, b: 0, a: 1 }, { format: 'NAME' as never })).toThrow(
         /requires a 'palette' option/,
       );
+    });
+    it("format: 'NAME' rejects partially-transparent input (strict-convert contract)", () => {
+      expect(() =>
+        convert({ r: 255, g: 0, b: 0, a: 0.5 }, { palette: web, format: 'NAME' }),
+      ).toThrow(/fully-opaque input/);
+    });
+    it("format: 'NAME' accepts alpha === 1 normally", () => {
+      expect(convert({ r: 255, g: 0, b: 0, a: 1 }, { palette: web, format: 'NAME' })).toBe('red');
     });
   });
 

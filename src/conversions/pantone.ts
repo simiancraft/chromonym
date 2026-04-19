@@ -1,7 +1,7 @@
-import { getNameIndex, nearest } from '../indexing';
-import { type PantoneColorName, pantone } from '../palettes/pantone';
-import type { HexColor, Rgba } from '../types';
-import { hexToRgba } from './hex';
+import { getNameIndex, nearest } from '../indexing.js';
+import { type PantoneColorName, pantone } from '../palettes/pantone.js';
+import type { HexColor, Rgba } from '../types.js';
+import { hexToRgba } from './hex.js';
 
 /**
  * Resolve a Pantone code to Rgba.

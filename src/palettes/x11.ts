@@ -1,5 +1,5 @@
-import type { Palette } from '../types';
-import { standardNormalize } from './normalize';
+import type { Palette } from '../types.js';
+import { standardNormalize } from './normalize.js';
 
 /**
  * X11 / X.Org named colors (from rgb.txt, public domain). 658 entries.

@@ -1,8 +1,8 @@
-import { hexToRgba } from './conversions/hex';
-import { rgbaToLab, rgbaToLinearRgb, rgbaToOklab } from './math/colorSpace';
-import { deltaE76Squared, deltaE94, deltaE2000, deltaEokSquared } from './math/deltaE';
-import { squaredDistanceRgb } from './math/euclideanDistance';
-import type { DistanceMetric, HexColor, NormalizeFn, Palette, Rgba } from './types';
+import { hexToRgba } from './conversions/hex.js';
+import { rgbaToLab, rgbaToLinearRgb, rgbaToOklab } from './math/colorSpace.js';
+import { deltaE76Squared, deltaE94, deltaE2000, deltaEokSquared } from './math/deltaE.js';
+import { squaredDistanceRgb } from './math/euclideanDistance.js';
+import type { DistanceMetric, HexColor, NormalizeFn, Palette, Rgba } from './types.js';
 
 /**
  * Per-palette lookup indexes for name resolution and nearest-match.
@@ -15,7 +15,7 @@ import type { DistanceMetric, HexColor, NormalizeFn, Palette, Rgba } from './typ
 // Re-export normalizers from their own module for backward compat with any
 // caller that expected them here. The functions live in ./palettes/normalize
 // so palette modules can import them without pulling this file's math graph.
-export { pantoneNormalize, standardNormalize } from './palettes/normalize';
+export { pantoneNormalize, standardNormalize } from './palettes/normalize.js';
 export type { NormalizeFn };
 
 type AnyPalette = Palette<string>;

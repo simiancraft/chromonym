@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { rgbaToRgb, rgbToRgba } from '../../src/conversions/rgb';
+import { rgbaToRgb, rgbToRgba } from '../../src/conversions/rgb.js';
 
 describe('rgbToRgba', () => {
   describe('object form', () => {

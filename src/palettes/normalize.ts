@@ -1,4 +1,4 @@
-import type { NormalizeFn } from '../types';
+import type { NormalizeFn } from '../types.js';
 
 /**
  * Name normalizers used by palettes.

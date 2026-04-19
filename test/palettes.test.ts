@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { pantone, web, x11 } from '../src/palettes';
+import { pantone, web, x11 } from '../src/palettes/index.js';
 
 const HEX_RE = /^#[0-9a-f]{6}$/;
 

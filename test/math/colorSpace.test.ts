@@ -11,7 +11,7 @@ import {
   rgbaToOklch,
   srgbToLinear,
   xyzToLab,
-} from '../../src/math/colorSpace';
+} from '../../src/math/colorSpace.js';
 
 describe('srgbToLinear / linearToSrgb', () => {
   it('maps 0 → 0', () => {

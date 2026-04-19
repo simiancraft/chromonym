@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { hueSectorToPrime } from '../../src/math/hueSector';
+import { hueSectorToPrime } from '../../src/math/hueSector.js';
 
 describe('hueSectorToPrime', () => {
   it('returns [chroma, secondary, 0] for sector [0, 1)', () => {

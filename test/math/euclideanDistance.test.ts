@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { euclideanDistance } from '../../src/math/euclideanDistance';
+import { euclideanDistance } from '../../src/math/euclideanDistance.js';
 
 describe('euclideanDistance', () => {
   it('returns 0 for identical colors', () => {

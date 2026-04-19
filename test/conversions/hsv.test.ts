@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { hsvToRgba, rgbaToHsv } from '../../src/conversions/hsv';
+import { hsvToRgba, rgbaToHsv } from '../../src/conversions/hsv.js';
 
 describe('hsvToRgba', () => {
   it('converts pure red { h:0, s:100, v:100 }', () => {

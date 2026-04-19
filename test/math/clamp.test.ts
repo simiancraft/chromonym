@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { clamp, requireFinite } from '../../src/math/clamp';
+import { clamp, requireFinite } from '../../src/math/clamp.js';
 
 describe('clamp', () => {
   it('returns n when within range', () => {

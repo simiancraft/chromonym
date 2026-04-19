@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'bun:test';
-import { pantone } from '../src/palettes/pantone';
-import { web } from '../src/palettes/web';
-import { x11 } from '../src/palettes/x11';
-import { resolve } from '../src/resolve';
+import { pantone } from '../src/palettes/pantone.js';
+import { web } from '../src/palettes/web.js';
+import { x11 } from '../src/palettes/x11.js';
+import { resolve } from '../src/resolve.js';
 
 describe('resolve', () => {
   describe('README examples', () => {

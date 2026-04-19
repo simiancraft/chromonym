@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { detectFormat, isColor } from '../src/detectFormat';
+import { detectFormat, isColor } from '../src/detectFormat.js';
 
 describe('detectFormat', () => {
   describe('HEX', () => {

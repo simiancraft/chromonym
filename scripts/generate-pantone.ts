@@ -85,8 +85,8 @@ const formatKey = (k: string) => (SIMPLE_IDENT.test(k) ? k : `'${k}'`);
 
 const body = sorted.map(([name, hex]) => `  ${formatKey(name)}: '${hex}',`).join('\n');
 
-const output = `import type { Palette } from '../types';
-import { pantoneNormalize } from './normalize';
+const output = `import type { Palette } from '../types.js';
+import { pantoneNormalize } from './normalize.js';
 
 /**
  * Pantone Coated (C) colors — community approximations. ${sorted.length} entries.

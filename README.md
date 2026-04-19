@@ -57,9 +57,11 @@ resolve('Pantone 185 C', { palette: pantone })  // '#e4002b'
 convert('#ff0000', { format: 'HSL' })              // 'hsl(0, 100%, 50%)'
 convert({ h: 120, s: 100, l: 50 }, { format: 'HEX' })  // '#00ff00'
 
-// Same convert API understands palette names both ways when you pass one
+// Same convert API understands palette names both ways when you pass one:
+// name in → any structural format out; color in → exact palette key out.
+// `'NAME'` is an exact reverse lookup (throws on miss; use `identify` for fuzzy).
 convert('185 C', { palette: pantone, format: 'HSL' })     // 'hsl(349, 100%, 45%)'
-convert('#e4002b', { palette: pantone, format: 'NAME' })  // '185 C'
+convert('#e4002b', { palette: pantone, format: 'NAME' })  // '185 C'  (exact match)
 convert('acme red', { palette: brand, format: 'RGB' })    // 'rgb(255, 42, 59)'
 ```
 
@@ -191,13 +193,7 @@ The low-level `pantoneToRgba` / `rgbaToPantone` functions (from `chromonym` or `
 
 ## Palettes
 
-| Name | Entries | Source |
-|---|---|---|
-| `web` (default) | 148 | CSS Color Module Level 4 named colors |
-| `x11` | 658 | X.Org `rgb.txt` (public domain) |
-| `pantone` | 907 | Pantone Coated (C) — community approximations (not Pantone-licensed) |
-
-Each palette is an object matching `Palette<Name>`:
+Every palette — yours or ours — is a `Palette<Name>` object. Define it once, pass it anywhere the three verbs accept one.
 
 ```ts
 type Palette<Name extends string = string> = {
@@ -208,24 +204,9 @@ type Palette<Name extends string = string> = {
 };
 ```
 
-Importable directly, or via subpath exports for stricter tree-shaking:
+### Bring your own
 
-```ts
-import { web, x11, pantone } from 'chromonym';
-// or:  import { pantone } from 'chromonym/pantone';
-
-web.colors.crimson               // '#dc143c'
-web.colors.aliceblue             // '#f0f8ff'   (CSS keyword form — paste-compatible)
-pantone.colors['185 C']          // '#e4002b'
-```
-
-Each palette's keys follow its own domain convention: `web` uses the CSS spec's single-word form (so `identify('#663399') → 'rebeccapurple'` pastes straight into a `color:` declaration); `x11` uses the X.Org docs' spaced form; `pantone` uses the official `'<number> C'` notation.
-
-*Trivia:* `web.colors.rebeccapurple` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 99, so `x11.colors['gray 73']` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
-
-### BYO palette
-
-`identify` / `resolve` take a `Palette<Name>` object — so you can bring your own palette for any domain (brand guidelines, a game's faction colors, chart themes, paint chips). Define it as a plain object, pass it straight in:
+The primary shape. Any object matching `Palette<Name>` works — no registry, no plugin, no side effects. Bundlers only include the palettes you actually import.
 
 ```ts
 import { identify, resolve, type Palette } from 'chromonym';
@@ -251,7 +232,28 @@ resolve('Nurgle Green', { palette: warhammer })
 // → '#748c3f'           (your normalizer handles case + punctuation)
 ```
 
-No registry, no plugin, no side effects. Bundlers only include the palettes you actually import — BYO palettes ride along as whatever code you wrote to define them.
+### The three we ship
+
+| Name | Entries | Source |
+|---|---|---|
+| `web` (default) | 148 | CSS Color Module Level 4 named colors |
+| `x11` | 658 | X.Org `rgb.txt` (public domain) |
+| `pantone` | 907 | Pantone Coated (C) — community approximations (not Pantone-licensed) |
+
+Importable directly, or via subpath exports for stricter tree-shaking:
+
+```ts
+import { web, x11, pantone } from 'chromonym';
+// or:  import { pantone } from 'chromonym/pantone';
+
+web.colors.crimson               // '#dc143c'
+web.colors.aliceblue             // '#f0f8ff'   (CSS keyword form — paste-compatible)
+pantone.colors['185 C']          // '#e4002b'
+```
+
+Each palette's keys follow its own domain convention — so `identify`'s output pastes back into whatever ecosystem the name came from. `web` uses the CSS spec's single-word form (`rebeccapurple`), `x11` uses the X.Org docs' spaced form (`'antique white 1'`), `pantone` uses the official print notation (`'185 C'`).
+
+*Trivia:* `web.colors.rebeccapurple` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 99, so `x11.colors['gray 73']` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
 
 ### Cross-palette translation
 

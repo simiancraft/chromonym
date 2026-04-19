@@ -62,8 +62,8 @@ const formatKey = (k: string) => (SIMPLE_IDENT.test(k) ? k : `'${k}'`);
 
 const body = sorted.map(([name, hex]) => `  ${formatKey(name)}: '${hex}',`).join('\n');
 
-const output = `import type { Palette } from '../types';
-import { standardNormalize } from './normalize';
+const output = `import type { Palette } from '../types.js';
+import { standardNormalize } from './normalize.js';
 
 /**
  * X11 / X.Org named colors (from rgb.txt, public domain). ${sorted.length} entries.

@@ -1,7 +1,7 @@
 {
   "name": "chromonym",
   "version": "1.4.1",
-  "description": "Tree-shakeable color-naming primitive for TypeScript. Identify, resolve, and convert colors across CSS, X11, Pantone, or any palette you bring — with perceptual distance metrics (CIEDE2000).",
+  "description": "One color-naming API for any palette. Identify, resolve, and convert colors across your own palette or the built-in CSS, X11, and Pantone sets — fully typed, tree-shakeable, perceptual distance metrics (CIEDE2000).",
   "keywords": [
     "color",
     "color-name",

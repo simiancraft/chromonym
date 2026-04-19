@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { hexToRgba, rgbaToHex } from '../../src/conversions/hex';
+import { hexToRgba, rgbaToHex } from '../../src/conversions/hex.js';
 
 describe('hexToRgba', () => {
   it('parses 6-digit hex', () => {

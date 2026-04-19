@@ -1,5 +1,5 @@
-import type { Palette } from '../types';
-import { standardNormalize } from './normalize';
+import type { Palette } from '../types.js';
+import { standardNormalize } from './normalize.js';
 
 /**
  * CSS / SVG named colors (CSS Color Module Level 4). 148 entries.

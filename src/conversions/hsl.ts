@@ -1,6 +1,6 @@
-import { requireFinite } from '../math/clamp';
-import { hueSectorToPrime } from '../math/hueSector';
-import type { HslInput, HslString, Rgba } from '../types';
+import { requireFinite } from '../math/clamp.js';
+import { hueSectorToPrime } from '../math/hueSector.js';
+import type { HslInput, HslString, Rgba } from '../types.js';
 
 const HSL_RE =
   /^hsl\s*\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)%?\s*,\s*(-?\d+(?:\.\d+)?)%?\s*\)$/i;

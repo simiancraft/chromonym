@@ -1,8 +1,8 @@
-import { toRgba } from './convert';
-import { detectFormat } from './detectFormat';
-import { nearest } from './indexing';
-import { web } from './palettes/web';
-import type { ColorInput, DistanceMetric, Palette } from './types';
+import { toRgba } from './convert.js';
+import { detectFormat } from './detectFormat.js';
+import { nearest } from './indexing.js';
+import { web } from './palettes/web.js';
+import type { ColorInput, DistanceMetric, Palette } from './types.js';
 
 /** Extract string keys from a Palette's `colors` map. */
 type PaletteKey<P extends Palette> = Extract<keyof P['colors'], string>;

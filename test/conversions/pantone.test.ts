@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { pantoneToRgba, rgbaToPantone } from '../../src/conversions/pantone';
+import { pantoneToRgba, rgbaToPantone } from '../../src/conversions/pantone.js';
 
 describe('pantoneToRgba', () => {
   it('resolves "100 C" (exact canonical key)', () => {

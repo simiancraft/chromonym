@@ -1,8 +1,8 @@
-import { hexToRgba } from './conversions/hex';
-import { fromRgba } from './convert';
-import { getNameIndex } from './indexing';
-import { web } from './palettes/web';
-import type { ColorFormat, ColorValue, HexColor, Palette } from './types';
+import { hexToRgba } from './conversions/hex.js';
+import { fromRgba } from './convert.js';
+import { getNameIndex } from './indexing.js';
+import { web } from './palettes/web.js';
+import type { ColorFormat, ColorValue, HexColor, Palette } from './types.js';
 
 /**
  * Resolve a human-readable name to a color. Normalizes the input using the
