@@ -78,65 +78,113 @@ npm install chromonym
 
 ## API
 
-Three primary functions. All accept an optional `opts` object; defaults fire when omitted.
+Three verbs. All accept an optional `opts` object; defaults fire when omitted.
+
+### Options × verbs, at a glance
+
+chromonym's API is deliberately tight: **three verbs, five options, no new nouns per feature**. Options earn their seat on each verb only where the semantics fit. Same-named options mean the same thing everywhere they appear.
+
+| | `identify` | `resolve` | `convert` |
+|---|:---:|:---:|:---:|
+| `palette` | ✓ target (default: `web`) | ✓ source (default: `web`) | ✓ optional — enables name I/O |
+| `source` | ✓ when input is a name from another palette | — (the palette *is* the source) | — |
+| `metric` | ✓ ΔE dispatch | — (no distance) | ✓ (only when `palette` is set) |
+| `format` | — (returns a name) | ✓ output format | ✓ output format |
+| `k` | ✓ top-k by ΔE | ✓ fuzzy top-k by Levenshtein | ✗ — breaks strict-convert contract |
+
+No aliases, no plugin hooks. Every verb defaults to single-result / strict behavior; supplying `k` opts into the ranked-array return and (for `resolve`) the fuzzy-matching path.
 
 ### `identify(input, opts?)`
 
-**Color → name.** Finds the nearest-match name in the chosen palette using the selected perceptual distance metric.
+**Color (or palette name) → name.** Finds the nearest-match name in the chosen palette using the selected perceptual distance metric.
 
 ```ts
-function identify<C extends Palette = typeof web>(
-  input: ColorInput,
-  opts?: { palette?: C; metric?: DistanceMetric },
-): Extract<keyof C['colors'], string> | null
+// Simple case — single nearest name.
+function identify<P extends Palette = typeof web>(
+  input: ColorInput | string,
+  opts?: { palette?: P; source?: Palette; metric?: DistanceMetric },
+): Extract<keyof P['colors'], string> | null;
+
+// With `k` — ranked top-k matches with distances.
+function identify<P extends Palette = typeof web>(
+  input: ColorInput | string,
+  opts: { palette?: P; source?: Palette; metric?: DistanceMetric; k: number },
+): Array<{ name: Extract<keyof P['colors'], string>; value: HexColor; distance: number }>;
 ```
 
-- **Default palette**: the built-in `web` palette (148 entries, small — included if you call `identify` without a palette).
-- **Default metric**: read from the palette's own `defaultMetric` — `'deltaE76'` for web and x11 (well-separated palettes), `'deltaE2000'` for pantone (dense, perceptually-packed). Override freely via `metric`.
-- Returns the matched name, or `null` if input is unrecognized (`detectFormat` returns `'UNKNOWN'`).
-- Return type is inferred from the palette's `colors` keys — so passing `{ palette: pantone }` narrows to `PantoneColorName | null`, and a BYO palette with a literal key union narrows to that union.
-- Ties go to whichever color was defined first — deterministic across runs, but not semantically meaningful.
+- **`palette`** — target (default: `web`). The palette to search in.
+- **`source`** — when `input` is a string that isn't structurally a color (hex / rgb / hsl / …), parse it as a name in this palette. Enables cross-palette lookups in one verb. Structural inputs always parse structurally even when `source` is set.
+- **`metric`** — distance metric for the nearest-match step. Defaults to the target palette's own `defaultMetric`.
+- **`k`** — when present, return the top-k matches sorted ascending by distance. Return type flips from `Name | null` to `Array<Match>`; each `Match` carries `{ name, value, distance }`. `value` is the palette's stored hex for rendering swatches; `distance` is in the metric's natural units (ΔE units for all `deltaE*` metrics, channel-unit Euclidean for the others).
+- Returns `null` / `[]` when the input can't be parsed. Ties go to whichever color was defined first in the palette.
 
 ```ts
-import { identify, pantone, x11 } from 'chromonym';
+import { identify, pantone, x11, web, crayola } from 'chromonym';
 
-identify('#ff0000')                               // 'red' (web default)
-identify([255, 0, 0])                             // 'red'
-identify({ r: 250, g: 20, b: 60 })                // 'crimson' (nearest)
-identify('#ff0000', { palette: x11 })             // 'red' (x11 also has 'red 1' through 'red 4')
-identify('#e4002b', { palette: pantone })         // '185 C' (exact match — Target/Coca-Cola red)
-identify('#ff0000', { palette: pantone })         // '172 C' (nearest — pure red isn't a Pantone)
-identify('#ff0080', { metric: 'deltaE2000' })     // force perceptual-accurate match
-identify('#ff0000', { metric: 'euclidean-srgb' }) // force fastest (non-perceptual) match
+// Classic color → name
+identify('#ff0000')                                                 // 'red' (web default)
+identify({ r: 250, g: 20, b: 60 })                                  // 'crimson' (nearest)
+identify('#e4002b', { palette: pantone })                           // '185 C' (exact match)
+identify('#ff0000', { palette: pantone })                           // '172 C' (nearest — pure red isn't a Pantone)
+
+// Cross-palette: parse input as a name in `source`, match in `palette`
+identify('rebeccapurple', { palette: pantone, source: web })        // '267 C'
+identify('Razzmatazz',    { palette: pantone, source: crayola })    // '213 C' (same family as T-Mobile magenta)
+identify('dodgerblue',    { palette: x11, source: web })            // 'dodger blue' (shared hex)
+
+// Top-k matches with ΔE distances — powers "did you mean" UIs
+identify('#ff4488', { palette: crayola, k: 3 })
+// [
+//   { name: 'Violet Red',      value: '#f75394', distance: 0.025 },
+//   { name: 'Wild Watermelon', value: '#fc6c85', distance: 0.068 },
+//   { name: 'Cerise',          value: '#dd4492', distance: 0.069 },
+// ]
 ```
 
 ### `resolve(name, opts?)`
 
-**Name → color.** Normalizes the input (lowercases it, strips all non-alphanumeric characters), looks up the canonical key in the chosen palette, and returns the value in the chosen format.
+**Name → color.** Normalizes the input, looks up the canonical key in the chosen palette, and returns the value in the chosen format. With `k`, switches to fuzzy matching via Levenshtein edit distance — perfect for user-typed input where typos, casing, and punctuation vary.
 
 ```ts
+// Strict — exact match via normalizer.
 function resolve(
   name: string,
   opts?: { palette?: Palette; format?: ColorFormat },
-): ColorValue | null
+): ColorValue | null;
+
+// Fuzzy top-k via Levenshtein edit distance.
+function resolve<P extends Palette = typeof web>(
+  name: string,
+  opts: { palette?: P; format?: ColorFormat; k: number },
+): Array<{ name: Extract<keyof P['colors'], string>; value: ColorValue; distance: number }>;
 ```
 
-- **Default palette**: the built-in `web` palette.
-- **Default format**: `'HEX'`.
-- Returns `null` if the normalized name isn't in the palette.
-- Normalization is the palette's own `normalize` function — web/x11 lowercase + strip non-alphanumeric, pantone also strips a `Pantone` / `PMS` prefix. So `'Alice Blue'`, `'alice-blue'`, `'ALICEBLUE'`, `'Pantone 185 C'` all resolve identically in their respective palettes.
+- **`palette`** — source (default: `web`). The palette to look the name up in.
+- **`format`** — output format (default: `'HEX'`). Affects both the strict return and the `value` field in each fuzzy `Match`.
+- **`k`** — when present, bypass strict lookup and do fuzzy top-k. `distance` is the Levenshtein edit count against the palette's normalized key. Strict exact matches have distance `0`.
+- Normalization is always the palette's own `normalize` function, applied to both the input and the keys before comparison. So `'Alice Blue'`, `'alice-blue'`, `'ALICEBLUE'`, `'Pantone 185 C'` all resolve identically in their respective palettes — strict mode uses normalization to reach exact match; fuzzy mode uses it as the input to the edit-distance ranking.
 
 ```ts
-import { resolve, pantone } from 'chromonym';
+import { resolve, pantone, crayola } from 'chromonym';
 
+// Strict (default) — exact match or null
 resolve('crimson')                                 // '#dc143c'
 resolve('Alice Blue')                              // '#f0f8ff'
 resolve('alice-blue!')                             // '#f0f8ff'
-resolve('185 C', { palette: pantone })          // '#e4002b'
-resolve('Pantone 185 C', { palette: pantone })  // '#e4002b' (same, normalized)
+resolve('185 C', { palette: pantone })             // '#e4002b'
+resolve('Pantone 185 C', { palette: pantone })     // '#e4002b' (same, normalized)
 resolve('crimson', { format: 'RGB' })              // 'rgb(220, 20, 60)'
-resolve('crimson', { format: 'RGBA' })             // { r: 220, g: 20, b: 60, a: 1 }
 resolve('not-a-color')                             // null
+
+// Fuzzy — typo-tolerant user input
+resolve('rebecapurple', { palette: web, k: 3 })
+// [
+//   { name: 'rebeccapurple', value: '#663399', distance: 1 },
+//   { name: 'mediumpurple',  value: '#9370db', distance: 5 },
+//   { name: 'purple',        value: '#800080', distance: 6 },
+// ]
+resolve('Razmataz', { palette: crayola, k: 1 })
+// [{ name: 'Razzmatazz', value: '#e3256b', distance: 2 }]
 ```
 
 ### `convert(input, opts?)`
@@ -191,65 +239,6 @@ convert('#ff2a3b', { palette: brand, format: 'NAME' })     // 'acme red'
 ```
 
 The low-level `pantoneToRgba` / `rgbaToPantone` functions (from `chromonym` or `chromonym/conversions/pantone`) remain available for single-purpose Pantone work when you don't need the full `convert` ceremony.
-
-### `translate(name, opts)`
-
-**Name → nearest name, across palettes.** Sugar for `identify(resolve(name, { palette: from }), { palette: to, metric })`. Returns `null` if `name` isn't in the `from` palette.
-
-```ts
-function translate<T extends Palette>(
-  name: string,
-  opts: { from: Palette; to: T; metric?: DistanceMetric },
-): PaletteKey<T> | null;
-```
-
-- Cross-palette is always a nearest-match on the target side — exact round-trips don't generally exist between palettes. The `metric` option controls *how* "nearest" is measured on that side; defaults to `to.defaultMetric`.
-- Source-side name parsing uses the `from` palette's normalizer, so casing / spacing / punctuation are tolerated.
-
-```ts
-import { translate, web, crayola, pantone } from 'chromonym';
-
-translate('rebeccapurple', { from: web, to: pantone })    // '267 C'
-translate('Razzmatazz',    { from: crayola, to: pantone }) // '213 C' (same family as T-Mobile magenta)
-translate('hotpink',       { from: web, to: crayola })     // 'Violet Red'
-translate('acme red',      { from: brand, to: pantone })   // nearest Pantone to your brand color
-translate('not-a-name',    { from: web, to: pantone })     // null
-```
-
-### `identifyAll(input, opts?)`
-
-**Ranked top-k nearest matches with ΔE scores.** Same input as `identify`; returns an array sorted by distance (nearest first).
-
-```ts
-function identifyAll<P extends Palette = typeof web>(
-  input: ColorInput,
-  opts?: { palette?: P; metric?: DistanceMetric; k?: number },
-): Array<{ name: PaletteKey<P>; distance: number }>;
-```
-
-- **Default palette**: `web`. **Default metric**: `palette.defaultMetric`. **Default `k`**: all entries.
-- `distance` is in the selected metric's natural units: ΔE for all `deltaE*` metrics (≈1 = just-noticeable); channel-unit Euclidean distance for `euclidean-srgb` / `euclidean-linear`.
-- Returns `[]` on unrecognized input (consistent with `identify` returning `null`).
-
-Use cases:
-
-```ts
-// "Did you mean" top-3
-identifyAll('#ff4488', { palette: crayola, k: 3 })
-// [
-//   { name: 'Shocking Pink',  distance:  3.1 },
-//   { name: 'Tickle Me Pink', distance:  4.8 },
-//   { name: 'Wild Watermelon', distance: 5.2 },
-// ]
-
-// Quality-gated matching — only accept if best is perceptually close
-const [best] = identifyAll(hex, { palette: pantone, k: 1 });
-if (best && best.distance < 5) useIt(best.name); else warn();
-
-// Exact-hex match produces distance ≈ 0
-identifyAll('#ff0000', { palette: web, k: 1 })
-// [{ name: 'red', distance: 0 }]
-```
 
 ## Palettes
 
@@ -320,47 +309,45 @@ Each palette's keys follow its own domain convention — so `identify`'s output 
 
 ### Cross-palette translation
 
-"What's this CSS color in X11?" / "What's our brand red in Pantone?" is a *nearest-match* question — palettes almost never share exact hex values, so there's no strict round-trip. Use `translate` for the single-verb form, or chain `convert` + `identify` manually when you want finer control.
+"What's this CSS color in X11?" / "What's our brand red in Pantone?" is a *nearest-match* question — palettes almost never share exact hex values, so there's no strict round-trip. `identify` handles it directly via `source`: parse the input as a name from one palette, return the nearest name from another.
 
 ```ts
-import { translate, web, x11, pantone, crayola } from 'chromonym';
+import { identify, web, x11, pantone, crayola } from 'chromonym';
 
-// Single verb, cross-palette nearest-name. Throws nothing; returns null if the
-// source name isn't in the `from` palette.
-translate('rebeccapurple', { from: web, to: x11 })                   // → 'dark orchid 4'
-translate('dodgerblue',    { from: web, to: x11 })                   // → 'dodger blue' (shared hex)
-translate('dark slate gray 4', { from: x11, to: pantone })           // → '5483 C'
-translate('hotpink',       { from: web, to: pantone })               // → '812 C'
-translate('Razzmatazz',    { from: crayola, to: pantone })           // → '213 C' (same family as T-Mobile magenta)
-translate('Razzmatazz',    { from: crayola, to: web })               // → 'deeppink'
-translate('hotpink',       { from: web, to: crayola })               // → 'Violet Red'
-translate('forestgreen',   { from: web, to: crayola })               // → 'Green'
+// Name in one palette → nearest name in another.
+identify('rebeccapurple',    { palette: x11,     source: web })      // 'dark orchid 4'
+identify('dodgerblue',       { palette: x11,     source: web })      // 'dodger blue' (shared hex)
+identify('dark slate gray 4',{ palette: pantone, source: x11 })      // '5483 C'
+identify('hotpink',          { palette: pantone, source: web })      // '812 C'
+identify('Razzmatazz',       { palette: pantone, source: crayola })  // '213 C' (same family as T-Mobile magenta)
+identify('Razzmatazz',       { palette: web,     source: crayola })  // 'deeppink'
+identify('hotpink',          { palette: crayola, source: web })      // 'Violet Red'
+identify('forestgreen',      { palette: crayola, source: web })      // 'Green'
 
 // BYO works on either side — ship your brand palette, find the closest Pantone for print.
-translate('acme red', { from: brand, to: pantone })                  // → '1788 C'
+identify('acme red', { palette: pantone, source: brand })            // '1788 C'
 
-// Override the metric for the target-side nearest-match leg.
-translate('rebeccapurple', { from: web, to: pantone, metric: 'deltaEok' })
-// → '526 C'  (OKLAB disagrees with ΔE2000's '267 C' in the saturated-purple region)
+// Override the metric for the nearest-match side.
+identify('rebeccapurple', { palette: pantone, source: web, metric: 'deltaEok' })
+// '526 C'  (OKLAB disagrees with ΔE2000's '267 C' in the saturated-purple region)
+
+// Top-k across palettes — what are the three closest Pantones to CSS "hotpink"?
+identify('hotpink', { palette: pantone, source: web, k: 3 })
+// [
+//   { name: '812 C', value: '#ff5fa2', distance: 3.56 },
+//   { name: '211 C', value: '#f57eb6', distance: 3.95 },
+//   { name: '218 C', value: '#e56db1', distance: 4.30 },
+// ]
 ```
 
-If you need the underlying chain (e.g., to keep the intermediate hex, or to use the exact-throwing `convert` form for source-name miss behavior), the `identify(convert(…))` pattern is still there:
+If you want the underlying chain — keeping the intermediate hex, or using `convert`'s strict throw-on-miss behavior for unknown source names — `identify(convert(…))` still works:
 
 ```ts
-import { convert, identify, web, pantone } from 'chromonym';
-
-const hex = convert('rebeccapurple', { palette: web });         // '#663399' (throws on miss)
-const nearest = identify(hex, { palette: pantone });            // '267 C'
+const hex = convert('rebeccapurple', { palette: web });   // '#663399' (throws on miss)
+const near = identify(hex, { palette: pantone });         // '267 C'
 ```
 
-Why two calls instead of one: `convert` is the strict verb (throws on a name miss), `identify` is the fuzzy one (always returns a nearest). Keeping them separate lets you decide — per call — whether you want a hard error on an unknown input or a best-effort neighbor.
-
-If this chain shows up often in your code, wrap it in your own helper:
-
-```ts
-const translate = (name: string, from: Palette, to: Palette) =>
-  identify(convert(name, { palette: from }), { palette: to });
-```
+Rule of thumb: use `source` when you want one clean call and `null` on miss; use the chain when you want to inspect the intermediate hex or trigger a loud failure on unknown source names.
 
 ## Distance metrics
 
