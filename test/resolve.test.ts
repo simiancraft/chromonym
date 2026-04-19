@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { crayola } from '../src/palettes/crayola.js';
 import { pantone } from '../src/palettes/pantone.js';
 import { web } from '../src/palettes/web.js';
 import { x11 } from '../src/palettes/x11.js';
@@ -121,6 +122,93 @@ describe('resolve', () => {
     });
     it('returns null for an unknown key', () => {
       expect(resolve('Death Guard', { palette: homebrew })).toBeNull();
+    });
+  });
+
+  describe('k — fuzzy top-k (Levenshtein)', () => {
+    it('returns an array of top-k matches sorted ascending by edit distance', () => {
+      const result = resolve('rebecapurple', { palette: web, k: 3 });
+      expect(result).toHaveLength(3);
+      expect(result[0]?.name).toBe('rebeccapurple');
+      expect(result[0]?.distance).toBe(1);
+      expect(result[0]?.value).toBe('#663399');
+      for (let i = 1; i < result.length; i++) {
+        const prev = result[i - 1];
+        const curr = result[i];
+        if (prev && curr) expect(curr.distance).toBeGreaterThanOrEqual(prev.distance);
+      }
+    });
+
+    it('exact match has distance 0 and appears at the top', () => {
+      const result = resolve('rebeccapurple', { palette: web, k: 1 });
+      expect(result[0]?.name).toBe('rebeccapurple');
+      expect(result[0]?.distance).toBe(0);
+    });
+
+    it('honors the palette normalizer before computing edit distance', () => {
+      // 'Rebecca Porple' normalizes to 'rebeccaporple' — 1 edit from 'rebeccapurple'.
+      const result = resolve('Rebecca Porple', { palette: web, k: 1 });
+      expect(result[0]?.name).toBe('rebeccapurple');
+      expect(result[0]?.distance).toBe(1);
+    });
+
+    it('handles punctuation / whitespace typos via normalization + Levenshtein', () => {
+      const result = resolve('pantone 185c', { palette: pantone, k: 1 });
+      expect(result[0]?.name).toBe('185 C');
+      expect(result[0]?.distance).toBe(0); // '185c' normalizes to exact match
+    });
+
+    it("crayola typo 'Razmataz' finds 'Razzmatazz' within a few edits", () => {
+      const result = resolve('Razmataz', { palette: crayola, k: 1 });
+      expect(result[0]?.name).toBe('Razzmatazz');
+      expect(result[0]?.distance).toBeLessThanOrEqual(3);
+    });
+
+    it('respects the output format option on match values', () => {
+      const result = resolve('rebeccapurple', { palette: web, format: 'RGB', k: 1 });
+      expect(result[0]?.value).toBe('rgb(102, 51, 153)');
+    });
+    it('RGBA format returns the object shape', () => {
+      const result = resolve('red', { palette: web, format: 'RGBA', k: 1 });
+      expect(result[0]?.value).toEqual({ r: 255, g: 0, b: 0, a: 1 });
+    });
+
+    it('k: 0 returns [] without scanning the palette', () => {
+      expect(resolve('rebeccapurple', { palette: web, k: 0 })).toEqual([]);
+    });
+    it('negative k returns []', () => {
+      expect(resolve('rebeccapurple', { palette: web, k: -3 })).toEqual([]);
+    });
+    it('k greater than palette size caps at palette size', () => {
+      const total = Object.keys(web.colors).length;
+      const result = resolve('rebeccapurple', { palette: web, k: total + 100 });
+      expect(result.length).toBe(total);
+    });
+
+    it('defaults to web palette when palette omitted', () => {
+      const result = resolve('crimzon', { k: 1 });
+      expect(result[0]?.name).toBe('crimson');
+    });
+
+    it('fuzzy-resolve works on BYO palettes', () => {
+      const brand = {
+        name: 'acme',
+        colors: { 'acme red': '#ff2a3b', 'acme ink': '#0a0f2c' },
+        normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
+        defaultMetric: 'deltaEok',
+      } as const;
+      // 'akme red' normalizes to 'akmered' — 1 edit from 'acmered'.
+      const result = resolve('akme red', { palette: brand, k: 1 });
+      expect(result[0]?.name).toBe('acme red');
+      expect(result[0]?.distance).toBe(1);
+    });
+
+    it('empty string input returns the full ranked list (all keys 1+ edits away)', () => {
+      const result = resolve('', { palette: web, k: 3 });
+      expect(result).toHaveLength(3);
+      for (const entry of result) {
+        expect(entry.distance).toBeGreaterThan(0);
+      }
     });
   });
 });
