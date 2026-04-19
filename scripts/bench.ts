@@ -9,8 +9,6 @@
  * use for relative comparison (before/after a change), not absolute claims.
  */
 
-import { pantone } from '../src/palettes/pantone';
-import { x11 } from '../src/palettes/x11';
 import { hexToRgba } from '../src/conversions/hex';
 import { hslToRgba } from '../src/conversions/hsl';
 import { hsvToRgba } from '../src/conversions/hsv';
@@ -18,6 +16,8 @@ import { rgbToRgba } from '../src/conversions/rgb';
 import { convert, fromRgba, toRgba } from '../src/convert';
 import { detectFormat } from '../src/detectFormat';
 import { identify } from '../src/identify';
+import { pantone } from '../src/palettes/pantone';
+import { x11 } from '../src/palettes/x11';
 import { resolve } from '../src/resolve';
 
 function bench(label: string, fn: () => unknown, iters: number): void {

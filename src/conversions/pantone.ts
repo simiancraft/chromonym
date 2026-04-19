@@ -1,5 +1,5 @@
-import { pantone, type PantoneColorName } from '../palettes/pantone';
 import { getNameIndex, nearest } from '../indexing';
+import { type PantoneColorName, pantone } from '../palettes/pantone';
 import type { HexColor, Rgba } from '../types';
 import { hexToRgba } from './hex';
 

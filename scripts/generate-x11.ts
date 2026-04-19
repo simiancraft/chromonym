@@ -56,7 +56,11 @@ for (const line of raw.split('\n')) {
 
 const sorted = [...entries.values()].sort(([a], [b]) => a.localeCompare(b));
 
-const body = sorted.map(([name, hex]) => `  '${name}': '${hex}',`).join('\n');
+// Match biome's preferred style: unquoted simple identifier keys, quoted otherwise.
+const SIMPLE_IDENT = /^[a-z_][a-z0-9_]*$/;
+const formatKey = (k: string) => (SIMPLE_IDENT.test(k) ? k : `'${k}'`);
+
+const body = sorted.map(([name, hex]) => `  ${formatKey(name)}: '${hex}',`).join('\n');
 
 const output = `import type { Palette } from '../types';
 import { standardNormalize } from './normalize';

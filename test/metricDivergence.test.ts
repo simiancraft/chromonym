@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
+import { identify } from '../src/identify';
 import { pantone } from '../src/palettes/pantone';
 import { web } from '../src/palettes/web';
-import { identify } from '../src/identify';
 import type { DistanceMetric } from '../src/types';
 
 /**

@@ -1,7 +1,7 @@
-import { web } from './palettes/web';
 import { hexToRgba } from './conversions/hex';
 import { fromRgba } from './convert';
 import { getNameIndex } from './indexing';
+import { web } from './palettes/web';
 import type { ColorFormat, ColorValue, HexColor, Palette } from './types';
 
 /**

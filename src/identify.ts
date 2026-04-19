@@ -1,7 +1,7 @@
-import { web } from './palettes/web';
 import { toRgba } from './convert';
 import { detectFormat } from './detectFormat';
 import { nearest } from './indexing';
+import { web } from './palettes/web';
 import type { ColorInput, DistanceMetric, Palette } from './types';
 
 /** Extract string keys from a Palette's `colors` map. */

@@ -4,16 +4,8 @@ import { pantone, web, x11 } from '../src/palettes';
 const HEX_RE = /^#[0-9a-f]{6}$/;
 
 describe.each([
-  [
-    'web',
-    web,
-    { minCount: 140, spotChecks: { red: '#ff0000', 'alice blue': '#f0f8ff' } },
-  ],
-  [
-    'x11',
-    x11,
-    { minCount: 600, spotChecks: { snow: '#fffafa', 'alice blue': '#f0f8ff' } },
-  ],
+  ['web', web, { minCount: 140, spotChecks: { red: '#ff0000', 'alice blue': '#f0f8ff' } }],
+  ['x11', x11, { minCount: 600, spotChecks: { snow: '#fffafa', 'alice blue': '#f0f8ff' } }],
   [
     'pantone',
     pantone,

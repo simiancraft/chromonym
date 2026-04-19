@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'bun:test';
+import { identify } from '../src/identify';
 import { pantone } from '../src/palettes/pantone';
 import { web } from '../src/palettes/web';
 import { x11 } from '../src/palettes/x11';
-import { identify } from '../src/identify';
 
 describe('identify', () => {
   describe('web palette (default)', () => {

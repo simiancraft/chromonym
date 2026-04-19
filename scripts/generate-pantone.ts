@@ -78,7 +78,12 @@ const sorted = [...entries.entries()].sort(([a], [b]) => {
   return a.localeCompare(b);
 });
 
-const body = sorted.map(([name, hex]) => `  '${name}': '${hex}',`).join('\n');
+// Match biome's preferred style: unquoted simple identifier keys, quoted otherwise.
+// Pantone keys always contain digits-then-letter so none match; kept for parity with x11.
+const SIMPLE_IDENT = /^[a-z_][a-z0-9_]*$/;
+const formatKey = (k: string) => (SIMPLE_IDENT.test(k) ? k : `'${k}'`);
+
+const body = sorted.map(([name, hex]) => `  ${formatKey(name)}: '${hex}',`).join('\n');
 
 const output = `import type { Palette } from '../types';
 import { pantoneNormalize } from './normalize';

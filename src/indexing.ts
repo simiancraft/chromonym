@@ -152,11 +152,7 @@ function squaredDistanceTriple(a: LabTriple, b: LabTriple): number {
  * they want the palette's declared preference. A silent default would
  * hide the distance-metric choice from the hot path.
  */
-export function nearest(
-  target: Rgba,
-  space: AnyPalette,
-  metric: DistanceMetric,
-): string {
+export function nearest(target: Rgba, space: AnyPalette, metric: DistanceMetric): string {
   if (metric === 'euclidean-srgb') return nearestByRgb(target, space);
   if (metric === 'euclidean-linear') {
     return argminBy(getLinearIndex(space), rgbaToLinearRgb(target), squaredDistanceTriple);
