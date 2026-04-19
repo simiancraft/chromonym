@@ -88,7 +88,7 @@ chromonym's API is deliberately tight: **three verbs, five options, no new nouns
 |---|:---:|:---:|:---:|
 | `palette` | ✓ target (default: `web`) | ✓ source (default: `web`) | ✓ optional — enables name I/O |
 | `source` | ✓ when input is a name from another palette | — (the palette *is* the source) | — |
-| `metric` | ✓ ΔE dispatch | — (no distance) | ✓ (only when `palette` is set) |
+| `metric` | ✓ ΔE dispatch | — (no distance) | — (structural / exact-name only) |
 | `format` | — (returns a name) | ✓ output format | ✓ output format |
 | `k` | ✓ top-k by ΔE | ✓ fuzzy top-k by Levenshtein | ✗ — breaks strict-convert contract |
 

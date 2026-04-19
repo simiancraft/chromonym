@@ -5,6 +5,11 @@ import { levenshtein } from './math/editDistance.js';
 import { web } from './palettes/web.js';
 import type { ColorFormat, ColorValue, HexColor, Palette } from './types.js';
 
+// No built-in palette key exceeds ~30 chars post-normalize; anything well past
+// that can't plausibly win a fuzzy match and risks pathological O(n·m) cost
+// across every palette entry. Guard the k-branch input at 64.
+const MAX_FUZZY_INPUT_LENGTH = 64;
+
 /** Extract string keys from a Palette's `colors` map. */
 type PaletteKey<P extends Palette> = Extract<keyof P['colors'], string>;
 
@@ -68,6 +73,7 @@ export function resolve(
   if (opts.k !== undefined) {
     const limit = Math.max(0, opts.k);
     if (limit === 0) return [];
+    if (normalized.length > MAX_FUZZY_INPUT_LENGTH) return [];
     // Iterate the name index's normalized → canonical map once; for each
     // entry compute Levenshtein from the user's normalized input.
     const ranked: Array<[string, number]> = [];

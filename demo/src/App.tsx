@@ -1,6 +1,7 @@
 import {
   COLOR_FORMATS,
   type ColorFormat,
+  type ColorInput,
   type Palette,
   convert,
   crayola,
@@ -157,7 +158,7 @@ export function App() {
     const out: Record<string, unknown> = {};
     for (const fmt of COLOR_FORMATS) {
       try {
-        out[fmt as ColorFormat] = convert(input, { format: fmt as ColorFormat });
+        out[fmt as ColorFormat] = convert(input as ColorInput, { format: fmt as ColorFormat });
       } catch (e) {
         out[fmt as ColorFormat] = `— error: ${(e as Error).message}`;
       }
@@ -172,7 +173,7 @@ export function App() {
           <img src={bannerUrl} alt="chromonym" className="mx-auto w-full max-w-xl" />
           <p className="text-neutral-600">
             Tree-shakeable color naming for TypeScript. Scrub a color — see the nearest name across
-            three built-in palettes, with your choice of perceptual distance metric.
+            four built-in palettes, with your choice of perceptual distance metric.
           </p>
           <div className="flex items-center justify-center gap-3 text-sm">
             <a href="https://github.com/simiancraft/chromonym" className="text-blue-600 hover:underline">
@@ -404,11 +405,9 @@ function CrossPaletteSection({
     });
   }, [input]);
 
-  const metricUnit = (key: PaletteKey) => {
-    const m = PALETTES[key].defaultMetric;
-    if (m === 'euclidean-srgb' || m === 'euclidean-linear') return 'Δ'; // raw sRGB units
-    return 'ΔE'; // all delta-E metrics
-  };
+  // All four built-in palettes use ΔE-family defaults (deltaE76 / deltaE2000 /
+  // deltaEok); there's no Euclidean-default palette to branch on.
+  const metricUnit = (_key: PaletteKey) => 'ΔE';
 
   return (
     <section className="bg-white rounded-xl shadow-sm p-6 space-y-4 border border-neutral-200">
@@ -421,9 +420,9 @@ function CrossPaletteSection({
         </div>
         <p className="text-sm text-neutral-600 mt-1">
           Same input, four answers. Each column runs{' '}
-          <code className="text-xs bg-neutral-100 px-1 rounded">identifyAll</code> against a
-          different built-in palette and shows the nearest match with its perceptual distance
-          (lower = closer). Try a brand color:
+          <code className="text-xs bg-neutral-100 px-1 rounded">identify(…, {'{ k: 1 }'})</code>{' '}
+          against a different built-in palette and shows the nearest match with its perceptual
+          distance (lower = closer). Try a brand color:
         </p>
       </div>
 

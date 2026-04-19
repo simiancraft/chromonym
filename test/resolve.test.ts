@@ -210,5 +210,16 @@ describe('resolve', () => {
         expect(entry.distance).toBeGreaterThan(0);
       }
     });
+
+    it('returns [] for oversized input (> 64 chars post-normalize) — DoS guard', () => {
+      // 65 'a's post-normalize exceeds the fuzzy-input length cap. Without the
+      // guard this would run Levenshtein against every palette entry at
+      // O(n·m) cost per call. See src/resolve.ts MAX_FUZZY_INPUT_LENGTH.
+      const oversized = 'a'.repeat(65);
+      expect(resolve(oversized, { palette: web, k: 3 })).toEqual([]);
+      // Just-at-the-limit (64 chars) still runs.
+      const atLimit = 'a'.repeat(64);
+      expect(resolve(atLimit, { palette: web, k: 1 })).toHaveLength(1);
+    });
   });
 });
