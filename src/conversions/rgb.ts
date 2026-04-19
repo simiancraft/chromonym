@@ -1,5 +1,5 @@
-import { clamp, requireFinite } from '../math/clamp';
-import type { Rgba, RgbaInput, RgbInput, RgbObject, RgbString } from '../types';
+import { clamp, requireFinite } from '../math/clamp.js';
+import type { Rgba, RgbaInput, RgbInput, RgbObject, RgbString } from '../types.js';
 
 const RGB_RE =
   /^rgba?\s*\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*(?:,\s*(\d*\.?\d+)\s*)?\)$/i;

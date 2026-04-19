@@ -11,18 +11,16 @@
 # chromonym
 
 [![npm version](https://img.shields.io/npm/v/chromonym?color=cb3837&logo=npm)](https://www.npmjs.com/package/chromonym)
-[![publish size](https://badgen.net/packagephobia/publish/chromonym?color=green)](https://packagephobia.com/result?p=chromonym)
-[![install size](https://badgen.net/packagephobia/install/chromonym?color=green)](https://packagephobia.com/result?p=chromonym)
 [![Types: included](https://img.shields.io/npm/types/chromonym?color=3178c6&logo=typescript)](https://www.npmjs.com/package/chromonym)
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/simiancraft/chromonym/branch/main/graph/badge.svg)](https://codecov.io/gh/simiancraft/chromonym)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+<sub>[bundle size](https://packagephobia.com/result?p=chromonym) • [coverage](https://codecov.io/github/simiancraft/chromonym) • [MIT license](https://opensource.org/licenses/MIT)</sub>
 
 <p align="center">
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
 </p>
 
-**Tree-shakeable color naming for TypeScript** — across CSS, X11, and Pantone, with six distance metrics (four perceptual).
+**The last color-naming library you'll ever need.** One API — `identify`, `resolve`, `convert` — works against any palette you throw at it. Ships CSS, X11, and Pantone out of the box; bring your own (brand colors, paint chips, game factions, chart themes) with full TypeScript inference and zero registration. Perceptual accuracy via six distance metrics. Tree-shakes to the bone — you only pay for palettes you import.
 
 <p align="center">
   <a href="https://simiancraft.github.io/chromonym/">
@@ -30,30 +28,44 @@
   </a>
 </p>
 
-Because "it's sort of magenta-ish, maybe?" doesn't copy-paste into code, and the nearest Pantone to your brand hex is something you should be able to answer without opening a swatch book.
-
-The identification and resolution mechanism is the same across every colorspace, so future additions (RAL, HKS, NCS, or similar) are one file each. There's no public `registerColorspace` API yet — open an issue if you need a specific set.
+Because "it's sort of magenta-ish, maybe?" doesn't copy-paste into code — and naming a color is the same problem whether your palette is CSS, Pantone, your company's brand kit, or a homebrew set of faction colors. Chromonym treats every palette as a first-class `Palette<Name>` object and runs the same nearest-neighbor machinery over all of them.
 
 For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`](https://gka.github.io/chroma.js/) or [`color.js`](https://colorjs.io/) — chromonym is the tool for *naming*.
 
 ```ts
-import { identify, resolve, convert } from 'chromonym';
+import { identify, resolve, convert, pantone, type Palette } from 'chromonym';
 
-// What Pantone is this brand color closest to? (perceptually, via CIEDE2000)
-identify('#E20074', { colorspace: 'pantone' })     // '213C' — T-Mobile magenta
+// Your palette — defined inline, type-checked, no registration. Works the
+// same as the built-in ones because that's the whole point.
+const brand = {
+  name: 'acme-brand',
+  colors: { 'acme red': '#ff2a3b', 'acme ink': '#0a0f2c', 'acme mist': '#e6ecf5' },
+  normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
+  defaultMetric: 'deltaEok',
+} as const satisfies Palette;
 
-// Resolve any Pantone code back to RGB — prefix, spacing, case all fine
-resolve('Pantone 185 C', { colorspace: 'pantone' })// '#e4002b'
+identify('#ff2b3c', { palette: brand })         // 'acme red'
+resolve('Acme Ink', { palette: brand })         // '#0a0f2c'
 
-// Format conversion, format-detecting input
+// Built-in palettes follow the identical shape — CSS, X11, Pantone out of the box.
+identify('#ff8080')                                // 'lightcoral' (web is the default)
+identify('#663399')                                // 'rebeccapurple'
+identify('#E20074', { palette: pantone })       // '213 C' — T-Mobile magenta
+resolve('Pantone 185 C', { palette: pantone })  // '#e4002b'
+
+// Format conversion: HEX / RGB / RGBA / HSL / HSV (palette-free, tree-shakes cleanly)
 convert('#ff0000', { format: 'HSL' })              // 'hsl(0, 100%, 50%)'
 convert({ h: 120, s: 100, l: 50 }, { format: 'HEX' })  // '#00ff00'
 
-// The classic: nearest CSS name
-identify('#ff8080')                                // 'lightcoral'
-identify('#bada55')                                // 'yellowgreen' — also the best-spelled hex
-identify('#663399')                                // 'rebeccapurple'
+// Same convert API understands palette names both ways when you pass one:
+// name in → any structural format out; color in → exact palette key out.
+// `'NAME'` is an exact reverse lookup (throws on miss; use `identify` for fuzzy).
+convert('185 C', { palette: pantone, format: 'HSL' })     // 'hsl(349, 100%, 45%)'
+convert('#e4002b', { palette: pantone, format: 'NAME' })  // '185 C'  (exact match)
+convert('acme red', { palette: brand, format: 'RGB' })    // 'rgb(255, 42, 59)'
 ```
+
+The identification machinery is palette-agnostic — RAL, HKS, NCS, Munsell, or a bespoke in-house set are the same amount of work (a small file each, or a single object literal). PRs welcome; meanwhile, BYO lets you ship today.
 
 ## Install
 
@@ -70,53 +82,58 @@ Three primary functions. All accept an optional `opts` object; defaults fire whe
 
 ### `identify(input, opts?)`
 
-**Color → name.** Finds the nearest-match name in the chosen colorspace using the selected perceptual distance metric.
+**Color → name.** Finds the nearest-match name in the chosen palette using the selected perceptual distance metric.
 
 ```ts
-function identify<C extends ColorspaceName = 'web'>(
+function identify<C extends Palette = typeof web>(
   input: ColorInput,
-  opts?: { colorspace?: C; metric?: DistanceMetric },
-): WebColorName | X11ColorName | PantoneColorName | null
+  opts?: { palette?: C; metric?: DistanceMetric },
+): Extract<keyof C['colors'], string> | null
 ```
 
-- **Default colorspace**: `'web'`.
-- **Default metric**: picked per colorspace — `'deltaE76'` for web and x11 (well-separated palettes), `'deltaE2000'` for pantone (dense, perceptually-packed). Override freely via `metric`.
+- **Default palette**: the built-in `web` palette (148 entries, small — included if you call `identify` without a palette).
+- **Default metric**: read from the palette's own `defaultMetric` — `'deltaE76'` for web and x11 (well-separated palettes), `'deltaE2000'` for pantone (dense, perceptually-packed). Override freely via `metric`.
 - Returns the matched name, or `null` if input is unrecognized (`detectFormat` returns `'UNKNOWN'`).
-- Return type narrows based on the `colorspace` option — e.g. `identify(hex, { colorspace: 'pantone' })` returns `PantoneColorName | null`, and the no-args call returns `WebColorName | null`.
+- Return type is inferred from the palette's `colors` keys — so passing `{ palette: pantone }` narrows to `PantoneColorName | null`, and a BYO palette with a literal key union narrows to that union.
 - Ties go to whichever color was defined first — deterministic across runs, but not semantically meaningful.
 
 ```ts
-identify('#ff0000')                                // 'red'
-identify([255, 0, 0])                              // 'red'
-identify({ r: 250, g: 20, b: 60 })                 // 'crimson' (nearest)
-identify('#ff0000', { colorspace: 'x11' })         // 'red' (or 'red1', X11 has numbered variants)
-identify('#ff0000', { colorspace: 'pantone' })     // nearest Pantone C code, e.g. '185C'
-identify('#ff0080', { metric: 'deltaE2000' })      // force perceptual-accurate match
-identify('#ff0000', { metric: 'euclidean-srgb' })  // force fastest (non-perceptual) match
+import { identify, pantone, x11 } from 'chromonym';
+
+identify('#ff0000')                               // 'red' (web default)
+identify([255, 0, 0])                             // 'red'
+identify({ r: 250, g: 20, b: 60 })                // 'crimson' (nearest)
+identify('#ff0000', { palette: x11 })             // 'red' (x11 also has 'red 1' through 'red 4')
+identify('#e4002b', { palette: pantone })         // '185 C' (exact match — Target/Coca-Cola red)
+identify('#ff0000', { palette: pantone })         // '172 C' (nearest — pure red isn't a Pantone)
+identify('#ff0080', { metric: 'deltaE2000' })     // force perceptual-accurate match
+identify('#ff0000', { metric: 'euclidean-srgb' }) // force fastest (non-perceptual) match
 ```
 
 ### `resolve(name, opts?)`
 
-**Name → color.** Normalizes the input (lowercases it, strips all non-alphanumeric characters), looks up the canonical key in the chosen colorspace, and returns the value in the chosen format.
+**Name → color.** Normalizes the input (lowercases it, strips all non-alphanumeric characters), looks up the canonical key in the chosen palette, and returns the value in the chosen format.
 
 ```ts
 function resolve(
   name: string,
-  opts?: { colorspace?: ColorspaceName; format?: ColorFormat },
+  opts?: { palette?: Palette; format?: ColorFormat },
 ): ColorValue | null
 ```
 
-- **Default colorspace**: `'web'`.
+- **Default palette**: the built-in `web` palette.
 - **Default format**: `'HEX'`.
-- Returns `null` if the normalized name isn't in the colorspace.
-- Normalization lets users pass `'Alice Blue'`, `'alice-blue'`, `'ALICEBLUE'`, `'Pantone 185 C'` etc. — all resolved identically.
+- Returns `null` if the normalized name isn't in the palette.
+- Normalization is the palette's own `normalize` function — web/x11 lowercase + strip non-alphanumeric, pantone also strips a `Pantone` / `PMS` prefix. So `'Alice Blue'`, `'alice-blue'`, `'ALICEBLUE'`, `'Pantone 185 C'` all resolve identically in their respective palettes.
 
 ```ts
+import { resolve, pantone } from 'chromonym';
+
 resolve('crimson')                                 // '#dc143c'
 resolve('Alice Blue')                              // '#f0f8ff'
 resolve('alice-blue!')                             // '#f0f8ff'
-resolve('185 C', { colorspace: 'pantone' })        // '#e4002b'
-resolve('Pantone 185 C', { colorspace: 'pantone' })// '#e4002b' (same, normalized)
+resolve('185 C', { palette: pantone })          // '#e4002b'
+resolve('Pantone 185 C', { palette: pantone })  // '#e4002b' (same, normalized)
 resolve('crimson', { format: 'RGB' })              // 'rgb(220, 20, 60)'
 resolve('crimson', { format: 'RGBA' })             // { r: 220, g: 20, b: 60, a: 1 }
 resolve('not-a-color')                             // null
@@ -124,52 +141,169 @@ resolve('not-a-color')                             // null
 
 ### `convert(input, opts?)`
 
-**Color → color in a different format.** Detects the input format, normalizes to the canonical internal `Rgba` representation, and returns the value in the target format. Colorspace-independent.
+**Color → color in a different format.** Detects the input format, normalizes to the canonical internal `Rgba`, and returns the value in the target format.
+
+Structural on its own (HEX ↔ RGB ↔ RGBA ↔ HSL ↔ HSV, no palette data bundled). Pass an optional `palette` and the same one API understands palette names both ways — input as a name, or `format: 'NAME'` output for exact reverse lookup.
 
 ```ts
-function convert(
-  input: ColorInput,
-  opts?: { format?: ColorFormat },
-): ColorValue
+// Structural (palette-free, tree-shakes to ~5 KB min)
+function convert(input: ColorInput, opts?: { format?: ColorFormat }): ColorValue;
+
+// With a palette — input can be a palette name, output can be 'NAME' (exact key)
+function convert<P extends Palette>(
+  input: ColorInput | string,
+  opts: { palette: P; format: 'NAME' },
+): PaletteKey<P>;
+function convert<P extends Palette>(
+  input: ColorInput | string,
+  opts: { palette: P; format?: ColorFormat },
+): ColorValue;
 ```
 
 - **Default format**: `'HEX'`.
-- Throws if input format is unrecognized.
-- Alpha information is preserved when converting into RGBA/RGB(A) string forms, and discarded for HEX (6-digit) / HSL / HSV / PANTONE output.
+- Throws on unrecognized input (parser-flavored — `identify` / `resolve` return `null` instead).
+- Alpha is preserved only in `'RGBA'` output (canonical `{ r, g, b, a }` object); dropped by `'HEX'` (6-digit), `'RGB'`, `'HSL'`, `'HSV'`, and `'NAME'`.
+- **Palette is caller-supplied**: no palette is pulled unless you import one and pass it. Tree-shake stays intact — `convert`-only bundles include zero palette data.
+- `format: 'NAME'` is **exact-match only**; it throws if the input isn't a pixel-exact palette entry. Use `identify` for nearest-match.
+- Priority: if the input is structurally valid (hex, rgb, hsl, …), that wins over palette-name lookup. So `convert('#ff0000', { palette: brand })` always means "parse as hex."
 
 ```ts
-convert('#ff0000')                                 // '#ff0000' (identity)
-convert('#ff0000', { format: 'RGB' })              // 'rgb(255, 0, 0)'
-convert('#ff0000', { format: 'RGBA' })             // { r: 255, g: 0, b: 0, a: 1 }
-convert([255, 0, 0], { format: 'HEX' })            // '#ff0000'
-convert('rgb(255, 0, 0)', { format: 'HSL' })       // 'hsl(0, 100%, 50%)'
-convert({ h: 0, s: 100, l: 50 }, { format: 'HEX' })// '#ff0000'
-convert('185 C', { format: 'HEX' })                // '#e4002b'
-convert('#e4002b', { format: 'PANTONE' })          // '185C' (nearest Pantone C)
+// Structural — no palette imported, nothing bundled
+convert('#ff0000')                                    // '#ff0000' (identity)
+convert('#ff0000', { format: 'RGB' })                 // 'rgb(255, 0, 0)'
+convert([255, 0, 0], { format: 'HEX' })               // '#ff0000'
+convert({ h: 0, s: 100, l: 50 }, { format: 'HEX' })   // '#ff0000'
+
+// With a palette — palette-name in, any format out
+import { pantone } from 'chromonym';
+convert('185 C', { palette: pantone })                // '#e4002b'
+convert('Pantone 185 C', { palette: pantone })        // '#e4002b' (normalizer strips prefix)
+convert('185 C', { palette: pantone, format: 'HSL' }) // 'hsl(349, 100%, 45%)'
+
+// With a palette — color in, exact palette key out
+convert('#e4002b', { palette: pantone, format: 'NAME' })  // '185 C'
+convert('#663399', { palette: web, format: 'NAME' })       // 'rebeccapurple'
+convert('#ff0000', { palette: pantone, format: 'NAME' })   // throws — use identify for nearest
+
+// BYO palettes work the same way
+convert('acme red', { palette: brand, format: 'RGB' })     // 'rgb(255, 42, 59)'
+convert('#ff2a3b', { palette: brand, format: 'NAME' })     // 'acme red'
 ```
 
-## Colorspaces
+The low-level `pantoneToRgba` / `rgbaToPantone` functions (from `chromonym` or `chromonym/conversions/pantone`) remain available for single-purpose Pantone work when you don't need the full `convert` ceremony.
+
+## Palettes
+
+Every palette — yours or ours — is a `Palette<Name>` object. Define it once, pass it anywhere the three verbs accept one.
+
+```ts
+type Palette<Name extends string = string> = {
+  readonly name: string;                       // human-readable label
+  readonly colors: Record<Name, HexColor>;     // the lookup data
+  readonly normalize: (s: string) => string;   // user-input → canonical key
+  readonly defaultMetric: DistanceMetric;      // used by identify when no metric override
+};
+```
+
+### Bring your own
+
+The primary shape. Any object matching `Palette<Name>` works — no registry, no plugin, no side effects. Bundlers only include the palettes you actually import.
+
+```ts
+import { identify, resolve, type Palette } from 'chromonym';
+
+const warhammer = {
+  name: 'warhammer40k',
+  colors: {
+    'world eaters red': '#8b1a1a',
+    'adeptus red': '#652022',
+    'sons of malice white': '#e8e4d8',
+    'the flawless host purple': '#6b2d7d',
+    'nurgle green': '#748c3f',
+    'alpha legion teal': '#2a6d7a',
+  },
+  normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
+  defaultMetric: 'deltaE2000',
+} as const satisfies Palette;
+
+identify('#750c0c', { palette: warhammer })
+// → 'world eaters red'  (return type narrows to the palette's key union)
+
+resolve('Nurgle Green', { palette: warhammer })
+// → '#748c3f'           (your normalizer handles case + punctuation)
+```
+
+### The three we ship
 
 | Name | Entries | Source |
 |---|---|---|
-| `'web'` (default) | 148 | CSS Color Module Level 4 named colors |
-| `'x11'` | 658 | X.Org `rgb.txt` (public domain) |
-| `'pantone'` | 907 | Pantone Coated (C) — community approximations (not Pantone-licensed) |
+| `web` (default) | 148 | CSS Color Module Level 4 named colors |
+| `x11` | 658 | X.Org `rgb.txt` (public domain) |
+| `pantone` | 907 | Pantone Coated (C) — community approximations (not Pantone-licensed) |
 
-Each colorspace is a pure data object: `Record<string, HexColor>`. Importable directly:
+Importable directly, or via subpath exports for stricter tree-shaking:
 
 ```ts
 import { web, x11, pantone } from 'chromonym';
-web.crimson                      // '#dc143c'
+// or:  import { pantone } from 'chromonym/pantone';
+
+web.colors.crimson               // '#dc143c'
+web.colors.aliceblue             // '#f0f8ff'   (CSS keyword form — paste-compatible)
+pantone.colors['185 C']          // '#e4002b'
 ```
 
-*Trivia:* `web.rebeccapurple` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 99, so `x11.gray73` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
+Each palette's keys follow its own domain convention — so `identify`'s output pastes back into whatever ecosystem the name came from. `web` uses the CSS spec's single-word form (`rebeccapurple`), `x11` uses the X.Org docs' spaced form (`'antique white 1'`), `pantone` uses the official print notation (`'185 C'`).
+
+*Trivia:* `web.colors.rebeccapurple` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 99, so `x11.colors['gray 73']` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
+
+### Cross-palette translation
+
+"What's this CSS color in X11?" / "What's our brand red in Pantone?" is a *nearest-match* question — palettes almost never share exact hex values, so there's no strict round-trip. That's `identify`'s job. Chain `convert` (strict name → hex) with `identify` (fuzzy hex → nearest name):
+
+```ts
+import { convert, identify, web, x11, pantone } from 'chromonym';
+
+// web → x11
+identify(convert('rebeccapurple', { palette: web }), { palette: x11 })
+// → 'dark orchid 4'
+
+identify(convert('dodgerblue', { palette: web }), { palette: x11 })
+// → 'dodger blue'   (hex shared across both palettes — exact hit)
+
+// x11 → pantone
+identify(convert('dark slate gray 4', { palette: x11 }), { palette: pantone })
+// → '5483 C'
+
+identify(convert('debian red', { palette: x11 }), { palette: pantone })
+// → '1925 C'
+
+// web → pantone  (the classic brand-matching case)
+identify(convert('hotpink', { palette: web }), { palette: pantone })        // → '812 C'
+identify(convert('dodgerblue', { palette: web }), { palette: pantone })     // → '279 C'
+
+// BYO → pantone  (ship your brand palette, find the closest Pantone for print)
+identify(convert('acme red', { palette: brand }), { palette: pantone })     // → '1788 C'
+
+// Override the metric for the *nearest-match* leg if you want — input parsing
+// is always exact, so only the second call takes `metric`.
+identify(convert('rebeccapurple', { palette: web }), { palette: pantone, metric: 'deltaEok' })
+// → '526 C'  (OKLAB disagrees with ΔE2000's '267 C' in the saturated-purple region)
+```
+
+Why two calls instead of one: `convert` is the strict verb (throws on a name miss), `identify` is the fuzzy one (always returns a nearest). Keeping them separate lets you decide — per call — whether you want a hard error on an unknown input or a best-effort neighbor.
+
+If this chain shows up often in your code, wrap it in your own helper:
+
+```ts
+const translate = (name: string, from: Palette, to: Palette) =>
+  identify(convert(name, { palette: from }), { palette: to });
+```
 
 ## Distance metrics
 
 *Six ways to ask "how different are two colors?"*
 
-`identify` picks the nearest-named color by comparing your input to every entry in the chosen colorspace. *How* it measures "nearest" is controlled by `metric`. Six options, roughly ordered from fast-and-approximate to slow-and-correct:
+`identify` picks the nearest-named color by comparing your input to every entry in the chosen palette. *How* it measures "nearest" is controlled by `metric`. Six options, roughly ordered from fast-and-approximate to slow-and-correct:
 
 | Metric | What it does | When to use |
 |---|---|---|
@@ -182,18 +316,20 @@ web.crimson                      // '#dc143c'
 
 Each metric trades cost for accuracy — the full scan over 907 Pantone entries is well under 1 ms even with ΔE2000. For interactive UIs, cost is usually irrelevant; drop to a cheaper metric when batch-processing millions of colors or when you need specific tie-breaking behavior.
 
+> **Note on x11's default (ΔE76):** x11 has 658 entries, many of them saturated blue/purple ramps where ΔE76 is a known weak spot. The default optimizes for UI scrubbing speed (~5 µs vs ~90 µs for ΔE2000). If perceptual accuracy matters more than latency, override per call with `{ metric: 'deltaEok' }` — same cost as ΔE76 on cached Lab/OKLAB indexes, better separation in blues.
+
 ```ts
-// Defaults: deltaE76 for web/x11, deltaE2000 for pantone.
+// Defaults: read from the palette's own `defaultMetric`.
 identify('#ff8080')                                // deltaE76 (web default)
-identify('#ff8080', { colorspace: 'pantone' })     // deltaE2000 (pantone default)
+identify('#ff8080', { palette: pantone })       // deltaE2000 (pantone default)
 
 // Override per-call:
 identify('#ff8080', { metric: 'euclidean-srgb' })  // fastest
 identify('#ff8080', { metric: 'deltaE2000' })      // most accurate
-identify('#ff8080', { colorspace: 'pantone', metric: 'euclidean-srgb' })  // force fast for Pantone
+identify('#ff8080', { palette: pantone, metric: 'euclidean-srgb' })  // force fast for Pantone
 ```
 
-The low-level `rgbaToPantone` always uses `'deltaE2000'`.
+The low-level `rgbaToPantone` reads `pantone.defaultMetric` (currently `'deltaE2000'`).
 
 ## Formats
 
@@ -204,7 +340,6 @@ The low-level `rgbaToPantone` always uses `'deltaE2000'`.
 | `'RGBA'` | `'rgba(r, g, b, a)'`, `[r, g, b, a]`, `{ r, g, b, a }` | `{ r, g, b, a }` object |
 | `'HSL'` | `'hsl(h, s%, l%)'`, `{ h, s, l }` | `'hsl(h, s%, l%)'` string |
 | `'HSV'` | `'hsv(h, s%, v%)'`, `{ h, s, v }` | `'hsv(h, s%, v%)'` string |
-| `'PANTONE'` | `'185 C'`, `'185C'`, `'Pantone 185 C'`, etc. | `'185C'`-style string |
 
 ## Error handling
 
@@ -229,6 +364,7 @@ const tryConvert = (input: ColorInput, opts = {}) => {
 ## Utilities
 
 - **`detectFormat(input): DetectedFormat`** — runtime format detection. Returns one of the format keys or `'UNKNOWN'`.
+- **`isColor(input): boolean`** — type-guard wrapper around `detectFormat`. Returns `true` if the input is a recognized structural color shape.
 - **`COLOR_FORMATS: ReadonlySet<ColorFormat>`** — the Set of valid format keys.
 - **Per-format converters** (tree-shakeable) — `hexToRgba`, `rgbaToHex`, `rgbToRgba`, `rgbaToRgb`, `hslToRgba`, `rgbaToHsl`, `hsvToRgba`, `rgbaToHsv`, `pantoneToRgba`, `rgbaToPantone`. Use these directly if you only need one conversion and want maximum tree-shaking.
 
@@ -237,7 +373,9 @@ const tryConvert = (input: ColorInput, opts = {}) => {
 - `sideEffects: false` in `package.json`.
 - All exports are named; no default export.
 - Barrel uses explicit re-exports.
-- Importing `{ resolve }` or `{ identify }` pulls in all three colorspaces (necessary for the string-keyed `colorspace` option). For strict tree-shaking of colorspace data, use the low-level converters and colorspace objects directly.
+- `identify` / `resolve` take the palette **as an object**, not a string key. You only pay for palettes you actually import: calling `identify(hex)` with no override pulls in `web` (148 entries) and nothing else; passing `{ palette: pantone }` adds pantone. X11 and pantone are *not* bundled unless you reference them.
+- BYO palettes have zero library cost beyond your own data.
+- Subpath exports (`chromonym/web`, `chromonym/x11`, `chromonym/pantone`, `chromonym/conversions/hex`, `chromonym/math/deltaE`, etc.) let you import a single palette or converter without going through the root barrel.
 
 ## Types
 
@@ -246,9 +384,10 @@ Re-exported from the root barrel — `import type { ... } from 'chromonym'`:
 | Category | Types |
 |---|---|
 | Input / output unions | `ColorInput`, `ColorValue` |
-| Format & colorspace keys | `ColorFormat`, `ColorspaceName` |
-| Per-format shapes | `HexColor`, `Rgba`, `RgbInput`, `RgbaInput`, `HslInput`, `HsvInput`, `PantoneCode` |
-| Palette container | `Colorspace` |
+| Format keys | `ColorFormat` |
+| Per-format shapes | `HexColor`, `Rgba`, `RgbInput`, `RgbaInput`, `HslInput`, `HsvInput` |
+| Palette container | `Palette<Name>`, `NormalizeFn` |
+| Distance selector | `DistanceMetric` |
 | Color-name unions | `WebColorName`, `X11ColorName`, `PantoneColorName` |
 
 ## Development
@@ -261,7 +400,7 @@ bun test
 bun run build
 ```
 
-Regenerating colorspace data:
+Regenerating palette data:
 
 ```sh
 bun run scripts/generate-x11.ts        # reads /usr/share/X11/rgb.txt
@@ -284,8 +423,10 @@ chromonym deliberately limits its scope to color *naming* (resolving and identif
 
 MIT © [the-simian](https://github.com/the-simian)
 
+<p align="center"><sub>Crafted with care by <a href="https://simiancraft.com">Simiancraft</a>.</sub></p>
+
 ---
 
 > ### Pantone® trademark notice
 >
-> **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is **not affiliated with, endorsed by, or certified by Pantone LLC**. The `pantone` colorspace ships **community-derived sRGB approximations** of the Pantone Coated (C) set. Values will **not** match a licensed Pantone reference exactly and are unsuitable for print color specification. See [`NOTICE.md`](./NOTICE.md) for full text.
+> **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is **not affiliated with, endorsed by, or certified by Pantone LLC**. The `pantone` palette ships **community-derived sRGB approximations** of the Pantone Coated (C) set. Values will **not** match a licensed Pantone reference exactly and are unsuitable for print color specification. See [`NOTICE.md`](./NOTICE.md) for full text.

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { rgbaToLab, rgbaToOklab } from '../../src/math/colorSpace';
-import type { Lab } from '../../src/math/deltaE';
+import { rgbaToLab, rgbaToOklab } from '../../src/math/colorSpace.js';
+import type { Lab } from '../../src/math/deltaE.js';
 import {
   deltaE76,
   deltaE76Squared,
@@ -8,7 +8,7 @@ import {
   deltaE2000,
   deltaEok,
   deltaEokSquared,
-} from '../../src/math/deltaE';
+} from '../../src/math/deltaE.js';
 
 describe('deltaE76', () => {
   it('identity: d(x, x) === 0', () => {

@@ -1,6 +1,6 @@
-import { HEX_RE } from '../detectFormat';
-import { clamp } from '../math/clamp';
-import type { HexColor, Rgba } from '../types';
+import { HEX_RE } from '../detectFormat.js';
+import { clamp } from '../math/clamp.js';
+import type { HexColor, Rgba } from '../types.js';
 
 /**
  * Parse a hex color string into the canonical Rgba representation.

@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'bun:test';
-import { identify } from '../src/identify';
-import type { DistanceMetric } from '../src/types';
+import { identify } from '../src/identify.js';
+import { pantone } from '../src/palettes/pantone.js';
+import { web } from '../src/palettes/web.js';
+import type { DistanceMetric } from '../src/types.js';
 
 /**
  * Documents that chromonym's distance metrics aren't interchangeable —
@@ -15,17 +17,17 @@ import type { DistanceMetric } from '../src/types';
  */
 
 const IDENTIFY = (hex: string, metric: DistanceMetric) =>
-  identify(hex, { colorspace: 'pantone', metric });
+  identify(hex, { palette: pantone, metric });
 
 describe('cross-metric divergence (pantone, saturated blue region)', () => {
   it('#0000ff: non-perceptual metrics pick 2736C; OKLAB picks 2728C', () => {
     // sRGB Euclidean + CIELAB Euclidean (ΔE76) + CIEDE2000 all agree on
     // 2736C here. OKLAB disagrees because its uniformity correction in the
     // blue region shifts which candidate is perceived as closer.
-    expect(IDENTIFY('#0000ff', 'euclidean-srgb')).toBe('2736C');
-    expect(IDENTIFY('#0000ff', 'deltaE76')).toBe('2736C');
-    expect(IDENTIFY('#0000ff', 'deltaE2000')).toBe('2736C');
-    expect(IDENTIFY('#0000ff', 'deltaEok')).toBe('2728C');
+    expect(IDENTIFY('#0000ff', 'euclidean-srgb')).toBe('2736 C');
+    expect(IDENTIFY('#0000ff', 'deltaE76')).toBe('2736 C');
+    expect(IDENTIFY('#0000ff', 'deltaE2000')).toBe('2736 C');
+    expect(IDENTIFY('#0000ff', 'deltaEok')).toBe('2728 C');
   });
 
   it('#1e90ff: perceptual metrics pick 279C; non-perceptual pick 2727C', () => {
@@ -33,23 +35,23 @@ describe('cross-metric divergence (pantone, saturated blue region)', () => {
     // and OKLAB agree, both Euclidean-in-sRGB and ΔE76 agree — but the two
     // groups disagree with each other. Exactly the kind of disagreement
     // the `metric` option exists to let callers control.
-    expect(IDENTIFY('#1e90ff', 'euclidean-srgb')).toBe('2727C');
-    expect(IDENTIFY('#1e90ff', 'deltaE76')).toBe('2727C');
-    expect(IDENTIFY('#1e90ff', 'deltaE2000')).toBe('279C');
-    expect(IDENTIFY('#1e90ff', 'deltaEok')).toBe('279C');
+    expect(IDENTIFY('#1e90ff', 'euclidean-srgb')).toBe('2727 C');
+    expect(IDENTIFY('#1e90ff', 'deltaE76')).toBe('2727 C');
+    expect(IDENTIFY('#1e90ff', 'deltaE2000')).toBe('279 C');
+    expect(IDENTIFY('#1e90ff', 'deltaEok')).toBe('279 C');
   });
 
   it('#8a2be2 (blueviolet): ΔE76 diverges from the other three', () => {
     // ΔE76's known failure in saturated violet: picks 2592C while the
     // newer metrics agree on 266C. Documents that ΔE76 is not always
     // sufficient for dense palettes in this region.
-    expect(IDENTIFY('#8a2be2', 'deltaE76')).toBe('2592C');
-    expect(IDENTIFY('#8a2be2', 'euclidean-srgb')).toBe('266C');
-    expect(IDENTIFY('#8a2be2', 'deltaE2000')).toBe('266C');
-    expect(IDENTIFY('#8a2be2', 'deltaEok')).toBe('266C');
+    expect(IDENTIFY('#8a2be2', 'deltaE76')).toBe('2592 C');
+    expect(IDENTIFY('#8a2be2', 'euclidean-srgb')).toBe('266 C');
+    expect(IDENTIFY('#8a2be2', 'deltaE2000')).toBe('266 C');
+    expect(IDENTIFY('#8a2be2', 'deltaEok')).toBe('266 C');
   });
 
-  it('pure primaries on web colorspace: all metrics agree', () => {
+  it('pure primaries on web palette: all metrics agree', () => {
     // Sanity: on a well-separated palette like web (148 entries),
     // the metric choice should NOT matter for obvious inputs.
     for (const metric of [
@@ -60,9 +62,9 @@ describe('cross-metric divergence (pantone, saturated blue region)', () => {
       'deltaE2000',
       'deltaEok',
     ] as const) {
-      expect(identify('#ff0000', { colorspace: 'web', metric })).toBe('red');
-      expect(identify('#00ff00', { colorspace: 'web', metric })).toBe('lime');
-      expect(identify('#0000ff', { colorspace: 'web', metric })).toBe('blue');
+      expect(identify('#ff0000', { palette: web, metric })).toBe('red');
+      expect(identify('#00ff00', { palette: web, metric })).toBe('lime');
+      expect(identify('#0000ff', { palette: web, metric })).toBe('blue');
     }
   });
 });

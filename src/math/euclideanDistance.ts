@@ -1,4 +1,4 @@
-import type { Rgba } from '../types';
+import type { Rgba } from '../types.js';
 
 /**
  * Squared Euclidean distance between two colors in RGB space.

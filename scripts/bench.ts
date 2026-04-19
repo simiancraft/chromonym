@@ -9,14 +9,16 @@
  * use for relative comparison (before/after a change), not absolute claims.
  */
 
-import { hexToRgba } from '../src/conversions/hex';
-import { hslToRgba } from '../src/conversions/hsl';
-import { hsvToRgba } from '../src/conversions/hsv';
-import { rgbToRgba } from '../src/conversions/rgb';
-import { convert, fromRgba, toRgba } from '../src/convert';
-import { detectFormat } from '../src/detectFormat';
-import { identify } from '../src/identify';
-import { resolve } from '../src/resolve';
+import { hexToRgba } from '../src/conversions/hex.js';
+import { hslToRgba } from '../src/conversions/hsl.js';
+import { hsvToRgba } from '../src/conversions/hsv.js';
+import { rgbToRgba } from '../src/conversions/rgb.js';
+import { convert, fromRgba, toRgba } from '../src/convert.js';
+import { detectFormat } from '../src/detectFormat.js';
+import { identify } from '../src/identify.js';
+import { pantone } from '../src/palettes/pantone.js';
+import { x11 } from '../src/palettes/x11.js';
+import { resolve } from '../src/resolve.js';
 
 function bench(label: string, fn: () => unknown, iters: number): void {
   for (let i = 0; i < 1000; i++) fn();
@@ -43,12 +45,12 @@ bench('fromRgba(rgba, HEX)', () => fromRgba({ r: 255, g: 0, b: 0, a: 1 }, 'HEX')
 bench('convert(#ff0000 → HEX)', () => convert('#ff0000'), 50000);
 bench('convert(#ff0000 → HSL)', () => convert('#ff0000', { format: 'HSL' }), 50000);
 bench('resolve(crimson, web)', () => resolve('crimson'), 50000);
-bench('resolve(185C, pantone)', () => resolve('185 C', { colorspace: 'pantone' }), 50000);
+bench('resolve(185 C, pantone)', () => resolve('185 C', { palette: pantone }), 50000);
 
-console.log('\n— nearest-match (colorspace defaults) —');
+console.log('\n— nearest-match (palette defaults) —');
 bench('identify(#ff0000, web)', () => identify('#ff0000'), 20000);
-bench('identify(#ff0000, x11)', () => identify('#ff0000', { colorspace: 'x11' }), 5000);
-bench('identify(#ff0000, pantone)', () => identify('#ff0000', { colorspace: 'pantone' }), 3000);
+bench('identify(#ff0000, x11)', () => identify('#ff0000', { palette: x11 }), 5000);
+bench('identify(#ff0000, pantone)', () => identify('#ff0000', { palette: pantone }), 3000);
 
 console.log('\n— nearest-match (metric comparison, pantone 907 entries) —');
 for (const metric of [
@@ -61,7 +63,7 @@ for (const metric of [
 ] as const) {
   bench(
     `identify(#ff0080, pantone, ${metric})`,
-    () => identify('#ff0080', { colorspace: 'pantone', metric }),
+    () => identify('#ff0080', { palette: pantone, metric }),
     metric.startsWith('deltaE') && metric !== 'deltaE76' ? 1000 : 3000,
   );
 }

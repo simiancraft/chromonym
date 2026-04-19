@@ -1,4 +1,4 @@
-import type { Rgba } from '../types';
+import type { Rgba } from '../types.js';
 
 /**
  * Color-space conversions needed by the perceptual distance metrics.

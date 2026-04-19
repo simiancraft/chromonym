@@ -1,0 +1,42 @@
+# Codecov configuration. Source of truth for the PR status checks
+# `codecov/project` and `codecov/patch`, and the README coverage badge.
+#
+# We run at 100% line coverage on src/. The thresholds below encode that
+# as policy — any regression below 100% fails the PR's status check.
+
+codecov:
+  # Wait for the GH Actions upload before posting status checks.
+  require_ci_to_pass: true
+  notify:
+    wait_for_ci: true
+
+coverage:
+  # Report-level precision. 2 decimal places so small drifts are visible.
+  precision: 2
+  round: down
+  range: '95...100'
+  status:
+    project:
+      default:
+        target: 100%
+        threshold: 0.5% # Tiny tolerance for floating-point line-counting nits.
+        if_ci_failed: error
+    patch:
+      default:
+        target: 100%
+        threshold: 0.5%
+
+# Ignore dist/ — it's build output, tested only via the subpath-exports
+# smoke tests (which exist to prove package.json exports resolve, not to
+# re-measure src/ logic).
+ignore:
+  - 'dist/**/*'
+  - 'demo/**/*'
+  - 'scripts/**/*'
+  - 'test/**/*'
+  - '*.config.*'
+
+comment:
+  layout: 'reach, diff, flags, files'
+  behavior: default
+  require_changes: false

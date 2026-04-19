@@ -1,42 +1,36 @@
-import type { PantoneColorName } from './colorspaces/pantone';
-import { COLORSPACE_NAMES, COLORSPACES, DEFAULT_METRICS } from './colorspaces/registry';
-import type { WebColorName } from './colorspaces/web';
-import type { X11ColorName } from './colorspaces/x11';
-import { toRgba } from './convert';
-import { detectFormat } from './detectFormat';
-import { nearest } from './indexing';
-import type { ColorInput, ColorspaceName, DistanceMetric } from './types';
+import { toRgba } from './convert.js';
+import { detectFormat } from './detectFormat.js';
+import { nearest } from './indexing.js';
+import { web } from './palettes/web.js';
+import type { ColorInput, DistanceMetric, Palette } from './types.js';
 
-type ColorNameByColorspace = {
-  web: WebColorName;
-  x11: X11ColorName;
-  pantone: PantoneColorName;
-};
+/** Extract string keys from a Palette's `colors` map. */
+type PaletteKey<P extends Palette> = Extract<keyof P['colors'], string>;
 
 /**
  * Identify the nearest-named color for any color input.
  *
- * The distance metric defaults to the colorspace's recommended choice
+ * The distance metric defaults to the palette's own `defaultMetric`
  * (web/x11: `deltaE76`, pantone: `deltaE2000`). Override with the `metric`
  * option — e.g. `{ metric: 'euclidean-srgb' }` for maximum speed, or
  * `{ metric: 'deltaE2000' }` for strictest perceptual accuracy.
  *
- * Returns `null` if the input isn't a recognized color shape or the
- * colorspace name isn't one of `web` / `x11` / `pantone`.
+ * Returns `null` if the input isn't a recognized color shape.
  *
- * Defaults: colorspace = 'web', metric = DEFAULT_METRICS[colorspace].
+ * Defaults: palette = `web`.
+ *
+ * BYO palettes: pass any object matching `Palette<Name>` and the
+ * return type is inferred from its `colors` keys — no registration needed.
  */
-export function identify<C extends ColorspaceName = 'web'>(
+export function identify<P extends Palette = typeof web>(
   input: ColorInput,
-  opts: { colorspace?: C; metric?: DistanceMetric } = {},
-): ColorNameByColorspace[C] | null {
+  opts: { palette?: P; metric?: DistanceMetric } = {},
+): PaletteKey<P> | null {
   const format = detectFormat(input);
   if (format === 'UNKNOWN') return null;
 
-  const colorspace = (opts.colorspace ?? 'web') as C;
-  if (!COLORSPACE_NAMES.has(colorspace)) return null;
-
+  const palette = (opts.palette ?? web) as P;
   const rgba = toRgba(input, format);
-  const name = nearest(rgba, COLORSPACES[colorspace], opts.metric ?? DEFAULT_METRICS[colorspace]);
-  return (name as ColorNameByColorspace[C]) || null;
+  const name = nearest(rgba, palette, opts.metric ?? palette.defaultMetric);
+  return (name as PaletteKey<P>) || null;
 }

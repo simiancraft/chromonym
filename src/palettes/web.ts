@@ -1,10 +1,19 @@
-import type { Colorspace } from '../types';
+import type { Palette } from '../types.js';
+import { standardNormalize } from './normalize.js';
 
 /**
- * CSS / SVG named colors (CSS Color Module Level 4).
- * 148 entries. Pure data — no imports beyond the type.
+ * CSS / SVG named colors (CSS Color Module Level 4). 148 entries.
+ *
+ * Keys match the CSS spec's single-word, lowercase keyword form
+ * (`rebeccapurple`, `aliceblue`) so `identify`'s return value can be
+ * pasted straight into a `color: …;` declaration. `resolve` / `convert`
+ * still accept any casing / punctuation / whitespace on input because
+ * `standardNormalize` strips non-alphanumerics before matching.
+ *
+ * Pantone and x11 palettes keep their native spaced forms (`185 C`,
+ * `antique white 1`) — each palette follows its own domain's convention.
  */
-export const web = {
+const webColors = {
   aliceblue: '#f0f8ff',
   antiquewhite: '#faebd7',
   aqua: '#00ffff',
@@ -153,6 +162,13 @@ export const web = {
   whitesmoke: '#f5f5f5',
   yellow: '#ffff00',
   yellowgreen: '#9acd32',
-} as const satisfies Colorspace;
+} as const;
 
-export type WebColorName = keyof typeof web;
+export type WebColorName = keyof typeof webColors;
+
+export const web = {
+  name: 'web',
+  colors: webColors,
+  normalize: standardNormalize,
+  defaultMetric: 'deltaE76',
+} as const satisfies Palette<WebColorName>;
