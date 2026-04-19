@@ -1,6 +1,6 @@
 {
   "name": "chromonym",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "One color-naming API for any palette. Identify, resolve, and convert colors across your own palette or the built-in CSS, X11, Pantone, and Crayola sets — fully typed, tree-shakeable, perceptual distance metrics (CIEDE2000 / OKLAB).",
   "keywords": [
     "color",

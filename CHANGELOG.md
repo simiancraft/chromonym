@@ -1,3 +1,27 @@
+# [3.0.0](https://github.com/simiancraft/chromonym/compare/v2.0.0...v3.0.0) (2026-04-19)
+
+
+* refactor(api)!: fold translate + identifyAll into identify; add fuzzy resolve via k ([5d60b9e](https://github.com/simiancraft/chromonym/commit/5d60b9e611e7ed3413211451b651f877bd539b4f))
+
+
+### Bug Fixes
+
+* panel-review blockers (demo strings, tsc, grid cell, fuzzy-input cap) ([c7e846c](https://github.com/simiancraft/chromonym/commit/c7e846cd9e47b0e44532cb7893d855c715a1b505)), closes [#9](https://github.com/simiancraft/chromonym/issues/9)
+
+
+### Features
+
+* **palettes:** add crayola palette (~85 entries) ([212ab5c](https://github.com/simiancraft/chromonym/commit/212ab5cb495e870b83d70e195be1dc383545ba04))
+* translate + identifyAll verbs; cross-palette demo section ([fc4b3fa](https://github.com/simiancraft/chromonym/commit/fc4b3fa42b413fd16a0eac43dae26dd320aa7676)), closes [#E20074](https://github.com/simiancraft/chromonym/issues/E20074)
+
+
+### BREAKING CHANGES
+
+* `translate` and `identifyAll` are removed from the
+public API. Replace:
+  translate(name, { from, to, metric })  →  identify(name, { palette: to, source: from, metric })
+  identifyAll(input, { palette, k })     →  identify(input, { palette, k })
+
 # [2.0.0](https://github.com/simiancraft/chromonym/compare/v1.4.1...v2.0.0) (2026-04-19)
 
 
