@@ -405,10 +405,6 @@ function CrossPaletteSection({
     });
   }, [input]);
 
-  // All four built-in palettes use ΔE-family defaults (deltaE76 / deltaE2000 /
-  // deltaEok); there's no Euclidean-default palette to branch on.
-  const metricUnit = (_key: PaletteKey) => 'ΔE';
-
   return (
     <section className="bg-white rounded-xl shadow-sm p-6 space-y-4 border border-neutral-200">
       <div>
@@ -463,9 +459,7 @@ function CrossPaletteSection({
               <div className="text-[10px] text-neutral-500">
                 <code>{hex ?? '—'}</code>
                 {distance !== null && (
-                  <span className="ml-1 text-neutral-400">
-                    · {metricUnit(key)} {distance.toFixed(2)}
-                  </span>
+                  <span className="ml-1 text-neutral-500">· ΔE {distance.toFixed(2)}</span>
                 )}
               </div>
             </div>

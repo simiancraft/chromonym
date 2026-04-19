@@ -20,7 +20,7 @@
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
 </p>
 
-**The last color-naming library you'll ever need.** One API — `identify`, `resolve`, `convert` — works against any palette you throw at it. Ships CSS, X11, and Pantone out of the box; bring your own (brand colors, paint chips, game factions, chart themes) with full TypeScript inference and zero registration. Perceptual accuracy via six distance metrics. Tree-shakes to the bone — you only pay for palettes you import.
+**The last color-naming library you'll ever need.** One API — `identify`, `resolve`, `convert` — works against any palette you throw at it. Ships CSS, X11, Pantone, and Crayola out of the box; bring your own (brand colors, paint chips, game factions, chart themes) with full TypeScript inference and zero registration. Six distance metrics — from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone — you only pay for palettes you import.
 
 <p align="center">
   <a href="https://simiancraft.github.io/chromonym/">
@@ -33,7 +33,7 @@ Because "it's sort of magenta-ish, maybe?" doesn't copy-paste into code — and 
 For color *manipulation* (mixing, scales, gamut mapping), reach for [`chroma-js`](https://gka.github.io/chroma.js/) or [`color.js`](https://colorjs.io/) — chromonym is the tool for *naming*.
 
 ```ts
-import { identify, resolve, convert, pantone, type Palette } from 'chromonym';
+import { identify, resolve, convert, pantone, crayola, web, type Palette } from 'chromonym';
 
 // Your palette — defined inline, type-checked, no registration. Works the
 // same as the built-in ones because that's the whole point.
@@ -47,11 +47,15 @@ const brand = {
 identify('#ff2b3c', { palette: brand })         // 'acme red'
 resolve('Acme Ink', { palette: brand })         // '#0a0f2c'
 
-// Built-in palettes follow the identical shape — CSS, X11, Pantone out of the box.
+// Built-in palettes follow the identical shape — CSS, X11, Pantone, Crayola out of the box.
 identify('#ff8080')                                // 'lightcoral' (web is the default)
 identify('#663399')                                // 'rebeccapurple'
 identify('#E20074', { palette: pantone })       // '213 C' — T-Mobile magenta
+identify('#E20074', { palette: crayola })       // 'Razzmatazz' — the closest Crayon
 resolve('Pantone 185 C', { palette: pantone })  // '#e4002b'
+
+// Cross-palette in one call: parse input as a name from `source`, return nearest in `palette`.
+identify('rebeccapurple', { palette: pantone, source: web })  // '267 C'
 
 // Format conversion: HEX / RGB / RGBA / HSL / HSV (palette-free, tree-shakes cleanly)
 convert('#ff0000', { format: 'HSL' })              // 'hsl(0, 100%, 50%)'
@@ -76,6 +80,18 @@ yarn add chromonym
 npm install chromonym
 ```
 
+## Migrating from 1.x
+
+v2 collapsed the five-verb draft API (`identify`, `identifyAll`, `translate`, `resolve`, `convert`) into **three verbs** by folding the duplicates into options on existing verbs. Mechanical rewrites:
+
+```ts
+// v1 → v2
+identifyAll(color, { palette, k: 3 })          // → identify(color, { palette, k: 3 })
+translate(name, { from: web, to: pantone })    // → identify(name, { palette: pantone, source: web })
+```
+
+`resolve` and `convert` are unchanged. If you were only using those two, no edits are needed. See `CHANGELOG.md` for the full list of breaking changes.
+
 ## API
 
 Three verbs. All accept an optional `opts` object; defaults fire when omitted.
@@ -90,7 +106,7 @@ chromonym's API is deliberately tight: **three verbs, five options, no new nouns
 | `source` | ✓ when input is a name from another palette | — (the palette *is* the source) | — |
 | `metric` | ✓ ΔE dispatch | — (no distance) | — (structural / exact-name only) |
 | `format` | — (returns a name) | ✓ output format | ✓ output format |
-| `k` | ✓ top-k by ΔE | ✓ fuzzy top-k by Levenshtein | ✗ — breaks strict-convert contract |
+| `k` | ✓ top-k (in the chosen metric's units) | ✓ fuzzy top-k by Levenshtein | ✗ — breaks strict-convert contract |
 
 No aliases, no plugin hooks. Every verb defaults to single-result / strict behavior; supplying `k` opts into the ranked-array return and (for `resolve`) the fuzzy-matching path.
 
@@ -135,9 +151,9 @@ identify('dodgerblue',    { palette: x11, source: web })            // 'dodger b
 // Top-k matches with ΔE distances — powers "did you mean" UIs
 identify('#ff4488', { palette: crayola, k: 3 })
 // [
-//   { name: 'Violet Red',      value: '#f75394', distance: 0.025 },
-//   { name: 'Wild Watermelon', value: '#fc6c85', distance: 0.068 },
-//   { name: 'Cerise',          value: '#dd4492', distance: 0.069 },
+//   { name: 'Violet Red',      value: '#f75394', distance: 0.0251 },
+//   { name: 'Wild Watermelon', value: '#fc6c85', distance: 0.0682 },
+//   { name: 'Cerise',          value: '#dd4492', distance: 0.0685 },
 // ]
 ```
 
@@ -359,7 +375,7 @@ Rule of thumb: use `source` when you want one clean call and `null` on miss; use
 |---|---|---|
 | `'euclidean-srgb'` | Raw `sqrt(Δr² + Δg² + Δb²)` in sRGB. Fastest. Not perceptually uniform — a unit of distance doesn't mean a unit of "visual difference." | Tight perf budgets; well-separated palettes where you just need the obvious answer. |
 | `'euclidean-linear'` | Same math, but on linearized (gamma-removed) RGB. Somewhat better in dark regions. Still not perceptual. | Physical-light mixing contexts; incremental upgrade from sRGB Euclidean. |
-| `'deltaE76'` | Euclidean in CIELAB (CIE 1976). Simple perceptual metric. 1 ΔE ≈ "just noticeable difference" for most of the gamut. | **Default for web and x11.** Meaningful perceptual accuracy at low cost. |
+| `'deltaE76'` | Euclidean in CIELAB (CIE 1976). Simple perceptual metric. 1 ΔE is often cited as roughly a just-noticeable difference, though uniformity breaks down in saturated blues/purples — which is the reason ΔE2000 exists. | **Default for web and x11.** Meaningful perceptual accuracy at low cost. |
 | `'deltaE94'` | ΔE76 + chroma/hue weighting (CIE 1994). Fixes "saturated colors feel too far apart." | When ΔE76 is over-penalizing saturated matches in your use case. |
 | `'deltaE2000'` | Full CIEDE2000 formula with blue/purple rotation correction. Industry standard for print, design tools, Pantone workflows. | **Default for pantone.** Use whenever accuracy matters, especially in the blue region where ΔE76/94 break down. |
 | `'deltaEok'` | Euclidean distance in OKLAB (Björn Ottosson, 2020). OKLAB is perceptually uniform by construction — no weighting formula needed. Strictly more uniform than CIELAB; often a better nearest-match than ΔE2000 in saturated-blue regions, and cheaper to compute. | Use when you want perceptual accuracy without the CIEDE2000 rotation-term complexity. |
