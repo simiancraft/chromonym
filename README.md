@@ -14,7 +14,7 @@
 [![Types: included](https://img.shields.io/npm/types/chromonym?color=3178c6&logo=typescript)](https://www.npmjs.com/package/chromonym)
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
 
-<sub>[bundle size](https://packagephobia.com/result?p=chromonym) • [coverage](https://codecov.io/gh/simiancraft/chromonym) • [MIT license](https://opensource.org/licenses/MIT)</sub>
+<sub>[bundle size](https://packagephobia.com/result?p=chromonym) • [coverage](https://codecov.io/github/simiancraft/chromonym) • [MIT license](https://opensource.org/licenses/MIT)</sub>
 
 <p align="center">
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
@@ -103,8 +103,9 @@ import { identify, pantone, x11 } from 'chromonym';
 identify('#ff0000')                               // 'red' (web default)
 identify([255, 0, 0])                             // 'red'
 identify({ r: 250, g: 20, b: 60 })                // 'crimson' (nearest)
-identify('#ff0000', { palette: x11 })          // 'red' (or 'red1', X11 has numbered variants)
-identify('#ff0000', { palette: pantone })      // nearest Pantone C code, e.g. '185 C'
+identify('#ff0000', { palette: x11 })             // 'red' (x11 also has 'red 1' through 'red 4')
+identify('#e4002b', { palette: pantone })         // '185 C' (exact match — T-Mobile-adjacent magenta)
+identify('#ff0000', { palette: pantone })         // '172 C' (nearest — pure red isn't a Pantone)
 identify('#ff0080', { metric: 'deltaE2000' })     // force perceptual-accurate match
 identify('#ff0000', { metric: 'euclidean-srgb' }) // force fastest (non-perceptual) match
 ```
@@ -161,7 +162,7 @@ function convert<P extends Palette>(
 
 - **Default format**: `'HEX'`.
 - Throws on unrecognized input (parser-flavored — `identify` / `resolve` return `null` instead).
-- Alpha is preserved in RGBA / RGB(A) string outputs; discarded for HEX (6-digit) / HSL / HSV / NAME.
+- Alpha is preserved only in `'RGBA'` output (canonical `{ r, g, b, a }` object); dropped by `'HEX'` (6-digit), `'RGB'`, `'HSL'`, `'HSV'`, and `'NAME'`.
 - **Palette is caller-supplied**: no palette is pulled unless you import one and pass it. Tree-shake stays intact — `convert`-only bundles include zero palette data.
 - `format: 'NAME'` is **exact-match only**; it throws if the input isn't a pixel-exact palette entry. Use `identify` for nearest-match.
 - Priority: if the input is structurally valid (hex, rgb, hsl, …), that wins over palette-name lookup. So `convert('#ff0000', { palette: brand })` always means "parse as hex."
@@ -363,6 +364,7 @@ const tryConvert = (input: ColorInput, opts = {}) => {
 ## Utilities
 
 - **`detectFormat(input): DetectedFormat`** — runtime format detection. Returns one of the format keys or `'UNKNOWN'`.
+- **`isColor(input): boolean`** — type-guard wrapper around `detectFormat`. Returns `true` if the input is a recognized structural color shape.
 - **`COLOR_FORMATS: ReadonlySet<ColorFormat>`** — the Set of valid format keys.
 - **Per-format converters** (tree-shakeable) — `hexToRgba`, `rgbaToHex`, `rgbToRgba`, `rgbaToRgb`, `hslToRgba`, `rgbaToHsl`, `hsvToRgba`, `rgbaToHsv`, `pantoneToRgba`, `rgbaToPantone`. Use these directly if you only need one conversion and want maximum tree-shaking.
 

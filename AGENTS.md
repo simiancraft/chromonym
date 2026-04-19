@@ -29,7 +29,7 @@ src/
 
 ## Conventions (follow these)
 
-- **Format keys are SCREAMING_CAPS**: `'HEX' | 'RGB' | 'RGBA' | 'HSL' | 'HSV' | 'PANTONE'`. These are dispatch keys — treat them as identifiers, not labels.
+- **Format keys are SCREAMING_CAPS**: `'HEX' | 'RGB' | 'RGBA' | 'HSL' | 'HSV'`. These are dispatch keys — treat them as identifiers, not labels. `convert` also accepts `'NAME'` when a `palette` option is supplied (exact reverse lookup).
 - **Palettes are objects, not strings**: `identify` / `resolve` take a `Palette<Name>` object (import `web`, `x11`, `pantone` — or BYO). There is **no** registry of string keys to look up. Each palette carries its own `name`, `colors`, `normalize`, and `defaultMetric`.
 - **Canonical internal representation**: `Rgba = { r: number; g: number; b: number; a: number }`. All paths normalize to this.
 - **Error semantics**:
