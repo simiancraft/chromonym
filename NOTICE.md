@@ -51,6 +51,38 @@ color-library lookup that rounds it through sRGB loses information.
 If you need Pantone-certified color values, consult Pantone directly:
 <https://www.pantone.com/>.
 
+## Crayola®
+
+**Crayola®** is a registered trademark of **Crayola LLC**. Chromonym is
+**not affiliated with, endorsed by, licensed by, or certified by Crayola
+LLC**.
+
+The `crayola` palette in this library ships a **community-curated
+subset** of Crayola crayon-color names with sRGB approximations of their
+wrappers. The names are used as **nominative references** to publicly
+identified Crayola colors — there is no trademark claim, and no
+endorsement is implied. Hex values are derived from the widely-cited
+Wikipedia list of Crayola crayon colors (CC BY-SA), which itself cites
+Crayola's published approximations.
+
+### Scope
+
+The shipped set is ~85 entries — the current 64-standard box, the
+iconic fluorescent "Neon" range, and widely-recognized modern
+additions. It is not exhaustive: historical, retired, specialty-box
+(Gem Tones, Heads 'N Tails, Multicultural, etc.), and regional-variant
+colors are not included. If you need a specific Crayola color that
+isn't present, open an issue or define a BYO palette.
+
+### Accuracy
+
+- Fluorescents and neons saturate outside sRGB by design; on-screen
+  sRGB approximations are necessarily softer than the physical crayons.
+- Metallics (Silver, Gold, Copper) are flat sRGB approximations; the
+  physical crayons' reflective behavior is lost.
+- Classic hues are close enough for comparative UI / identification
+  work but should not be used as a reference for print color matching.
+
 ## X11 / X.Org
 
 The `x11` palette is derived from the X.Org `rgb.txt` file, which is in

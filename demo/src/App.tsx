@@ -1,8 +1,10 @@
 import {
   COLOR_FORMATS,
   type ColorFormat,
+  type ColorInput,
   type Palette,
   convert,
+  crayola,
   type DistanceMetric,
   identify,
   pantone,
@@ -13,9 +15,29 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import bannerUrl from '../../.github/assets/banner.png';
 
-const PALETTES = { web, x11, pantone } as const;
+const PALETTES = { web, x11, pantone, crayola } as const;
 type PaletteKey = keyof typeof PALETTES;
 const PALETTE_KEYS = Object.keys(PALETTES) as PaletteKey[];
+
+// Brand hex presets for the "translate this color" section. Each is a
+// widely-recognizable brand mark; the demo shows how it lands in all
+// four built-in palettes at once.
+const BRAND_PRESETS: Array<{ label: string; hex: string }> = [
+  { label: 'T-Mobile magenta', hex: '#E20074' },
+  { label: 'Spotify green', hex: '#1DB954' },
+  { label: 'Slack aubergine', hex: '#4A154B' },
+  { label: 'Coca-Cola red', hex: '#E4002B' },
+  { label: 'IBM blue', hex: '#0F62FE' },
+  { label: 'Facebook blue', hex: '#1877F2' },
+  { label: 'YouTube red', hex: '#FF0000' },
+  { label: 'Stripe indigo', hex: '#635BFF' },
+];
+const BUILT_IN_PALETTES: ReadonlyArray<{ key: PaletteKey; label: string }> = [
+  { key: 'web', label: 'CSS / SVG' },
+  { key: 'x11', label: 'X11' },
+  { key: 'pantone', label: 'Pantone' },
+  { key: 'crayola', label: 'Crayola' },
+];
 
 const METRICS: DistanceMetric[] = [
   'euclidean-srgb',
@@ -136,7 +158,7 @@ export function App() {
     const out: Record<string, unknown> = {};
     for (const fmt of COLOR_FORMATS) {
       try {
-        out[fmt as ColorFormat] = convert(input, { format: fmt as ColorFormat });
+        out[fmt as ColorFormat] = convert(input as ColorInput, { format: fmt as ColorFormat });
       } catch (e) {
         out[fmt as ColorFormat] = `— error: ${(e as Error).message}`;
       }
@@ -151,7 +173,7 @@ export function App() {
           <img src={bannerUrl} alt="chromonym" className="mx-auto w-full max-w-xl" />
           <p className="text-neutral-600">
             Tree-shakeable color naming for TypeScript. Scrub a color — see the nearest name across
-            three built-in palettes, with your choice of perceptual distance metric.
+            four built-in palettes, with your choice of perceptual distance metric.
           </p>
           <div className="flex items-center justify-center gap-3 text-sm">
             <a href="https://github.com/simiancraft/chromonym" className="text-blue-600 hover:underline">
@@ -259,6 +281,8 @@ export function App() {
           </div>
         </section>
 
+        <CrossPaletteSection input={input} setInput={setInput} />
+
         <section className="bg-amber-50/60 rounded-xl shadow-sm p-6 space-y-4 border-2 border-dashed border-amber-300">
           <div>
             <div className="flex items-baseline justify-between">
@@ -358,5 +382,96 @@ identify(${JSON.stringify(input)}, { palette: warhammer })
         </footer>
       </div>
     </div>
+  );
+}
+
+// --- Cross-palette translation: one color → nearest in all four palettes ---
+// Uses `identify` with `k: 1` to pull the single best match in each built-in
+// palette along with its ΔE distance to the input, so users can see at a
+// glance how faithful each representation is.
+function CrossPaletteSection({
+  input,
+  setInput,
+}: {
+  input: string;
+  setInput: (hex: string) => void;
+}) {
+  const perPalette = useMemo(() => {
+    return BUILT_IN_PALETTES.map(({ key, label }) => {
+      const palette = PALETTES[key];
+      const [best] = identify(input, { palette, k: 1 });
+      if (!best) return { key, label, name: null, hex: null, distance: null };
+      return { key, label, name: best.name, hex: best.value, distance: best.distance };
+    });
+  }, [input]);
+
+  return (
+    <section className="bg-white rounded-xl shadow-sm p-6 space-y-4 border border-neutral-200">
+      <div>
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-lg font-semibold">Translate this color across every palette</h2>
+          <span className="text-[10px] uppercase tracking-wider font-semibold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded">
+            cross-palette
+          </span>
+        </div>
+        <p className="text-sm text-neutral-600 mt-1">
+          Same input, four answers. Each column runs{' '}
+          <code className="text-xs bg-neutral-100 px-1 rounded">identify(…, {'{ k: 1 }'})</code>{' '}
+          against a different built-in palette and shows the nearest match with its perceptual
+          distance (lower = closer). Try a brand color:
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {BRAND_PRESETS.map((p) => (
+          <button
+            type="button"
+            key={p.label}
+            onClick={() => setInput(p.hex)}
+            className="text-xs px-3 py-1 rounded-full border border-neutral-300 bg-neutral-50 hover:bg-neutral-100 transition"
+          >
+            <span
+              className="inline-block w-3 h-3 rounded-sm mr-1 align-middle border border-neutral-300"
+              style={{ backgroundColor: p.hex }}
+              aria-hidden
+            />
+            {p.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
+        {perPalette.map(({ key, label, name, hex, distance }) => (
+          <div
+            key={key}
+            className="border border-neutral-200 rounded-lg overflow-hidden flex flex-col"
+          >
+            <div
+              className="h-20"
+              style={{ backgroundColor: hex ?? 'transparent' }}
+              aria-label={`${label} nearest-match swatch`}
+            />
+            <div className="p-2 space-y-0.5">
+              <div className="text-[10px] uppercase tracking-wide text-neutral-500">{label}</div>
+              <div className="text-sm font-mono text-neutral-800 break-words leading-tight">
+                {name ?? '—'}
+              </div>
+              <div className="text-[10px] text-neutral-500">
+                <code>{hex ?? '—'}</code>
+                {distance !== null && (
+                  <span className="ml-1 text-neutral-500">· ΔE {distance.toFixed(2)}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p className="text-xs text-neutral-500 pt-1 italic">
+        Each palette uses its own <code>defaultMetric</code>. Distance units vary by metric —
+        ΔE values are in ΔE space (≈1 = just-noticeable for most of the gamut); the
+        Euclidean metrics are raw channel distances.
+      </p>
+    </section>
   );
 }

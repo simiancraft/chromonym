@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { identify } from '../src/identify.js';
+import { crayola } from '../src/palettes/crayola.js';
 import { pantone } from '../src/palettes/pantone.js';
 import { web } from '../src/palettes/web.js';
 import { x11 } from '../src/palettes/x11.js';
@@ -170,6 +171,101 @@ describe('identify', () => {
     });
     it('returns null regardless of palette when input is unrecognized', () => {
       expect(identify('garbage' as never, { palette: pantone })).toBeNull();
+    });
+  });
+
+  describe('source — cross-palette (name in, nearest name out)', () => {
+    it("web name → pantone: 'rebeccapurple' → '267 C'", () => {
+      expect(identify('rebeccapurple', { palette: pantone, source: web })).toBe('267 C');
+    });
+    it("crayola name → pantone: 'Razzmatazz' → '213 C'", () => {
+      expect(identify('Razzmatazz', { palette: pantone, source: crayola })).toBe('213 C');
+    });
+    it("web name → x11: 'dodgerblue' → 'dodger blue' (shared hex, exact neighbor)", () => {
+      expect(identify('dodgerblue', { palette: x11, source: web })).toBe('dodger blue');
+    });
+    it('source palette normalizer is applied to the input (case/punctuation tolerant)', () => {
+      expect(identify('Rebecca Purple', { palette: pantone, source: web })).toBe('267 C');
+      expect(identify('rebecca-purple!', { palette: pantone, source: web })).toBe('267 C');
+    });
+    it("metric override works on the target side: 'rebeccapurple' → '526 C' under deltaEok", () => {
+      expect(identify('rebeccapurple', { palette: pantone, source: web, metric: 'deltaEok' })).toBe(
+        '526 C',
+      );
+    });
+    it('returns null when the name is not in the source palette', () => {
+      expect(identify('not-a-real-web-name', { palette: pantone, source: web })).toBeNull();
+    });
+    it('structural input still wins when source is present — hex parses as hex', () => {
+      expect(identify('#663399', { palette: pantone, source: web })).toBe('267 C');
+    });
+  });
+
+  describe('k — ranked top-k matches', () => {
+    it('returns a single-entry array with k: 1', () => {
+      const result = identify('#ff0000', { palette: pantone, k: 1 });
+      expect(result).toHaveLength(1);
+      expect(result[0]?.name).toMatch(/^\d+ C$/);
+      expect(typeof result[0]?.distance).toBe('number');
+      expect(result[0]?.value).toMatch(/^#[0-9a-f]{6}$/);
+    });
+    it('returns k entries sorted ascending by distance', () => {
+      const result = identify('#ff0080', { palette: pantone, k: 5 });
+      expect(result).toHaveLength(5);
+      for (let i = 1; i < result.length; i++) {
+        const prev = result[i - 1];
+        const curr = result[i];
+        if (prev && curr) expect(curr.distance).toBeGreaterThanOrEqual(prev.distance);
+      }
+    });
+    it('exact-hex match has distance 0', () => {
+      const result = identify('#ff0000', { palette: web, k: 1 });
+      expect(result[0]?.name).toBe('red');
+      expect(result[0]?.value).toBe('#ff0000');
+      expect(result[0]?.distance).toBeLessThan(1e-9);
+    });
+    it('k: 0 returns []', () => {
+      expect(identify('#ff0000', { palette: web, k: 0 })).toEqual([]);
+    });
+    it('k > palette size caps at palette size', () => {
+      const total = Object.keys(web.colors).length;
+      expect(identify('#ff0000', { palette: web, k: total + 50 }).length).toBe(total);
+    });
+    it('k with unrecognized input returns []', () => {
+      expect(identify('garbage' as never, { palette: web, k: 3 })).toEqual([]);
+    });
+    it('k honors metric override', () => {
+      // rebeccapurple under deltaE2000 picks 267 C; under deltaEok picks 526 C.
+      const def = identify('#663399', { palette: pantone, k: 1, metric: 'deltaE2000' });
+      const ok = identify('#663399', { palette: pantone, k: 1, metric: 'deltaEok' });
+      expect(def[0]?.name).toBe('267 C');
+      expect(ok[0]?.name).toBe('526 C');
+    });
+    it('k combines with source — cross-palette top-k', () => {
+      const result = identify('Razzmatazz', { palette: pantone, source: crayola, k: 3 });
+      expect(result).toHaveLength(3);
+      expect(result[0]?.name).toBe('213 C');
+    });
+    it('euclidean-srgb metric ranks in sRGB channel-unit distance', () => {
+      const result = identify('#ff0000', { palette: web, metric: 'euclidean-srgb', k: 1 });
+      expect(result[0]?.name).toBe('red');
+      expect(result[0]?.distance).toBeLessThan(1e-9);
+    });
+    it('euclidean-linear metric ranks in linear-RGB distance units', () => {
+      const result = identify('#ff0000', {
+        palette: web,
+        metric: 'euclidean-linear',
+        k: 1,
+      });
+      expect(result[0]?.name).toBe('red');
+      expect(result[0]?.distance).toBeLessThan(1e-9);
+    });
+    it('deltaE94 ranks in ΔE94 units', () => {
+      const result = identify('#ff0000', { palette: pantone, metric: 'deltaE94', k: 3 });
+      expect(result).toHaveLength(3);
+      for (const entry of result) {
+        expect(entry.distance).toBeGreaterThanOrEqual(0);
+      }
     });
   });
 });

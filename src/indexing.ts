@@ -190,3 +190,67 @@ export function nearest(target: Rgba, space: AnyPalette, metric: DistanceMetric)
   if (metric === 'deltaE94') return argminBy(labIndex, labTarget, deltaE94);
   return argminBy(labIndex, labTarget, deltaE2000);
 }
+
+/**
+ * Rank every palette entry by distance to `target`. Returns an array of
+ * `{ name, distance }` sorted ascending (nearest first). Optional `k`
+ * truncates to the top-k matches.
+ *
+ * Distances are **real** metric values (not squared) — ΔE76 / ΔE94 /
+ * ΔE2000 / ΔE-OK are in standard ΔE units (≈1 = just-noticeable for
+ * most of the gamut on ΔE76/2000); `euclidean-srgb` / `euclidean-linear`
+ * are in their respective channel-unit Euclidean distances.
+ *
+ * Cost: O(n log n) for the sort vs O(n) for `nearest` — acceptable for
+ * top-K queries. For strict "what's the single nearest?" stay on
+ * `nearest` / `identify`.
+ */
+export function nearestAll(
+  target: Rgba,
+  space: AnyPalette,
+  metric: DistanceMetric,
+  k?: number,
+): Array<{ name: string; distance: number }> {
+  const ranked: Array<[string, number]> = [];
+
+  if (metric === 'euclidean-srgb') {
+    for (const [name, candidate] of getRgbaIndex(space)) {
+      ranked.push([name, Math.sqrt(squaredDistanceRgb(target, candidate))]);
+    }
+  } else if (metric === 'euclidean-linear') {
+    const tgt = rgbaToLinearRgb(target);
+    for (const [name, candidate] of getLinearIndex(space)) {
+      ranked.push([name, Math.sqrt(squaredDistanceTriple(tgt, candidate))]);
+    }
+  } else if (metric === 'deltaEok') {
+    const tgt = rgbaToOklab(target);
+    for (const [name, candidate] of getOklabIndex(space)) {
+      ranked.push([name, Math.sqrt(deltaEokSquared(tgt, candidate))]);
+    }
+  } else {
+    const tgt = rgbaToLab(target);
+    const labIndex = getLabIndex(space);
+    if (metric === 'deltaE76') {
+      for (const [name, candidate] of labIndex) {
+        ranked.push([name, Math.sqrt(deltaE76Squared(tgt, candidate))]);
+      }
+    } else if (metric === 'deltaE94') {
+      for (const [name, candidate] of labIndex) {
+        ranked.push([name, deltaE94(tgt, candidate)]);
+      }
+    } else {
+      for (const [name, candidate] of labIndex) {
+        ranked.push([name, deltaE2000(tgt, candidate)]);
+      }
+    }
+  }
+
+  ranked.sort((a, b) => a[1] - b[1]);
+  const limit = k === undefined ? ranked.length : Math.min(Math.max(k, 0), ranked.length);
+  const result: Array<{ name: string; distance: number }> = new Array(limit);
+  for (let i = 0; i < limit; i++) {
+    const entry = ranked[i];
+    if (entry !== undefined) result[i] = { name: entry[0], distance: entry[1] };
+  }
+  return result;
+}

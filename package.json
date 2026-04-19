@@ -1,7 +1,7 @@
 {
   "name": "chromonym",
   "version": "2.0.0",
-  "description": "One color-naming API for any palette. Identify, resolve, and convert colors across your own palette or the built-in CSS, X11, and Pantone sets — fully typed, tree-shakeable, perceptual distance metrics (CIEDE2000).",
+  "description": "One color-naming API for any palette. Identify, resolve, and convert colors across your own palette or the built-in CSS, X11, Pantone, and Crayola sets — fully typed, tree-shakeable, perceptual distance metrics (CIEDE2000 / OKLAB).",
   "keywords": [
     "color",
     "color-name",
@@ -13,6 +13,7 @@
     "css-colors",
     "x11-colors",
     "pantone",
+    "crayola",
     "deltaE",
     "ciede2000",
     "lab",
@@ -63,6 +64,11 @@
       "types": "./dist/palettes/pantone.d.ts",
       "import": "./dist/palettes/pantone.js",
       "default": "./dist/palettes/pantone.js"
+    },
+    "./crayola": {
+      "types": "./dist/palettes/crayola.d.ts",
+      "import": "./dist/palettes/crayola.js",
+      "default": "./dist/palettes/crayola.js"
     },
     "./conversions/hex": {
       "types": "./dist/conversions/hex.d.ts",

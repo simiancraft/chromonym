@@ -1,34 +1,57 @@
 # chromonym
 
-> The last color-naming library you'll ever need. One API — `identify` (color → name), `resolve` (name → color), `convert` (color → color format) — works against any palette matching `Palette<Name>`. Ships CSS, X11, Pantone; bring your own (brand colors, paint chips, game factions). Tree-shakes: you only pay for palettes you import. Not a general-purpose manipulation library — for mixing / scales / gamut mapping, use chroma.js or color.js.
+> The last color-naming library you'll ever need. Three verbs — `identify` (color → name), `resolve` (name → color), `convert` (color → color format) — work against any palette matching `Palette<Name>`. Ships CSS, X11, Pantone, Crayola; bring your own (brand colors, paint chips, game factions). Tree-shakes: you only pay for palettes you import. Not a general-purpose manipulation library — for mixing / scales / gamut mapping, use chroma.js or color.js.
 
 ## Key files
 
-- [README](./README.md) — user-facing docs, API examples
+- [README](./README.md) — user-facing docs, API examples, Options × verbs grid
 - [AGENTS.md](./AGENTS.md) — agent/contributor orientation, conventions
-- [NOTICE.md](./NOTICE.md) — Pantone trademark notice, upstream attribution
+- [NOTICE.md](./NOTICE.md) — Pantone + Crayola trademark notices
 
 ## Primary API
 
-- `identify(input, { palette, metric })` — color → name. `palette` is a `Palette<Name>` object (defaults to `web`).
-- `resolve(name, { palette, format })` — name → color. `palette` defaults to `web`.
-- `convert(input, { format, palette? })` — structural color-format conversion (HEX / RGB / RGBA / HSL / HSV). Optional `palette` makes convert accept palette names as input and support `format: 'NAME'` for exact reverse lookup (throws on miss — use `identify` for fuzzy). Palette data is caller-supplied, so convert-only bundles include zero palette data.
-- `toRgba(input, knownFormat?)` / `fromRgba(rgba, format)` — dispatcher primitives.
+Three verbs, five options, deliberately tight. Each option earns its seat on each verb only where semantics fit.
+
+- `identify(input, { palette?, source?, metric?, k? })` — color-or-name → nearest-name(s). `palette` is the target (defaults to `web`). `source` parses a string input as a name from that palette (enables cross-palette lookups in one call). `k` switches to ranked top-k `{name, value, distance}[]` by ΔE.
+- `resolve(name, { palette?, format?, k? })` — name → color. Strict exact match by default (uses palette's normalizer). With `k`, fuzzy top-k `{name, value, distance}[]` by Levenshtein edit distance against normalized keys.
+- `convert(input, { format?, palette?, metric? })` — structural color-format conversion (HEX / RGB / RGBA / HSL / HSV). Optional `palette` enables name I/O and `format: 'NAME'` exact reverse-lookup (throws on miss — use `identify` for fuzzy). Palette data is caller-supplied, so convert-only bundles include zero palette data.
+- Dispatcher primitives: `toRgba(input, knownFormat?)`, `fromRgba(rgba, format)`.
 - Low-level converters: `hexToRgba`, `rgbaToHex`, `rgbToRgba`, `rgbaToRgb`, `hslToRgba`, `rgbaToHsl`, `hsvToRgba`, `rgbaToHsv`, `pantoneToRgba`, `rgbaToPantone`.
-- Built-in palettes: `web`, `x11`, `pantone` (each a `Palette<Name>` object; `.colors` holds the hex map).
+- Built-in palettes: `web`, `x11`, `pantone`, `crayola` (each a `Palette<Name>` object; `.colors` holds the hex map).
+
+## Options × verbs (summary grid)
+
+- `palette` — on all three (target for identify, source for resolve, optional for convert).
+- `source` — identify only (cross-palette string-name input).
+- `metric` — identify + convert-with-palette (ΔE dispatch).
+- `format` — resolve + convert (output format).
+- `k` — identify (ΔE top-k) + resolve (Levenshtein fuzzy top-k). Not on convert — breaks strict-convert contract.
+
+Same-named options mean the same thing everywhere they appear.
 
 ## Cross-palette translation
 
-Fundamentally nearest-match, so it's `identify`'s job. Chain `convert` (strict name → hex) with `identify` (fuzzy hex → nearest name):
+Use `source` on `identify`:
 
 ```ts
-identify(convert('rebeccapurple', { palette: web }), { palette: pantone })   // '267 C'
-identify(convert('acme red', { palette: brand }), { palette: pantone })      // nearest Pantone
+identify('rebeccapurple', { palette: pantone, source: web })   // '267 C'
+identify('Razzmatazz',    { palette: pantone, source: crayola }) // '213 C'
+identify('acme red',      { palette: pantone, source: brand })  // nearest Pantone to your brand color
+identify('hotpink',       { palette: pantone, source: web, k: 3 }) // top-3 ranked by ΔE
+```
+
+## Fuzzy name matching
+
+Use `k` on `resolve`:
+
+```ts
+resolve('rebecapurple', { palette: web, k: 3 })
+// [{ name: 'rebeccapurple', value: '#663399', distance: 1 }, …]
 ```
 
 ## BYO palettes
 
-`identify` / `resolve` / `convert` take a `Palette<Name>` object literal — no registration. Shape:
+Any object matching `Palette<Name>` works — no registration:
 
 ```ts
 type Palette<Name extends string = string> = {
@@ -44,6 +67,6 @@ type Palette<Name extends string = string> = {
 - Format keys are SCREAMING_CAPS (`'HEX'`, `'RGB'`, etc.) — dispatch keys.
 - Palette identity is the object itself; there is no string-keyed registry.
 - Canonical internal color: `Rgba = { r, g, b, a }`.
-- Low-level converters throw on invalid input. High-level `identify` / `resolve` return `null`. `convert` throws.
+- Low-level converters throw on invalid input. High-level `identify` / `resolve` return `null` (or `[]` with `k`). `convert` throws.
 - `sideEffects: false` — no module-scope side effects anywhere.
 - Test suite target: 100% line + function coverage across `src/`.
