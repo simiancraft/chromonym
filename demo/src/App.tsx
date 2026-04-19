@@ -6,10 +6,8 @@ import {
   crayola,
   type DistanceMetric,
   identify,
-  identifyAll,
   pantone,
   resolve,
-  translate,
   web,
   x11,
 } from 'chromonym';
@@ -387,9 +385,9 @@ identify(${JSON.stringify(input)}, { palette: warhammer })
 }
 
 // --- Cross-palette translation: one color → nearest in all four palettes ---
-// Uses `identifyAll` to pull the single best match in each built-in palette
-// along with its ΔE distance to the input, so users can see at a glance
-// how faithful each representation is.
+// Uses `identify` with `k: 1` to pull the single best match in each built-in
+// palette along with its ΔE distance to the input, so users can see at a
+// glance how faithful each representation is.
 function CrossPaletteSection({
   input,
   setInput,
@@ -400,10 +398,9 @@ function CrossPaletteSection({
   const perPalette = useMemo(() => {
     return BUILT_IN_PALETTES.map(({ key, label }) => {
       const palette = PALETTES[key];
-      const [best] = identifyAll(input, { palette, k: 1 });
+      const [best] = identify(input, { palette, k: 1 });
       if (!best) return { key, label, name: null, hex: null, distance: null };
-      const hex = resolve(best.name, { palette }) as string | null;
-      return { key, label, name: best.name, hex, distance: best.distance };
+      return { key, label, name: best.name, hex: best.value, distance: best.distance };
     });
   }, [input]);
 
