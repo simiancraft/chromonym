@@ -40,6 +40,30 @@ export function getNameIndex(space: AnyPalette): Map<string, string> {
   return idx;
 }
 
+const reverseIndexCache = new WeakMap<AnyPalette, Map<string, string>>();
+
+/**
+ * Hex → canonical-key map (reverse of `palette.colors`). Built once per
+ * palette. Used by `convert(color, { palette, format: 'NAME' })` for
+ * O(1) exact reverse lookup. Returns `undefined` on miss — the caller
+ * decides whether that's an error (convert throws; use `identify` for
+ * nearest-match semantics).
+ *
+ * Hex values are lowercased for the key so callers can normalize their
+ * input with `rgbaToHex(...).toLowerCase()` before lookup.
+ */
+export function getReverseNameIndex(space: AnyPalette): Map<string, string> {
+  let idx = reverseIndexCache.get(space);
+  if (idx === undefined) {
+    idx = new Map();
+    for (const [name, hex] of Object.entries(space.colors)) {
+      idx.set((hex as string).toLowerCase(), name);
+    }
+    reverseIndexCache.set(space, idx);
+  }
+  return idx;
+}
+
 /**
  * Canonical-key → Rgba entries for a given palette, built by parsing
  * each hex value once. Used by nearest-match lookups (identify, rgbaToPantone).

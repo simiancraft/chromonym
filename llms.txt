@@ -12,14 +12,23 @@
 
 - `identify(input, { palette, metric })` — color → name. `palette` is a `Palette<Name>` object (defaults to `web`).
 - `resolve(name, { palette, format })` — name → color. `palette` defaults to `web`.
-- `convert(input, { format })` — structural color-format conversion (HEX / RGB / RGBA / HSL / HSV). Intentionally does NOT handle PANTONE (palette-data dependent) — use `pantoneToRgba` / `rgbaToPantone` from `chromonym/conversions/pantone`.
+- `convert(input, { format, palette? })` — structural color-format conversion (HEX / RGB / RGBA / HSL / HSV). Optional `palette` makes convert accept palette names as input and support `format: 'NAME'` for exact reverse lookup (throws on miss — use `identify` for fuzzy). Palette data is caller-supplied, so convert-only bundles include zero palette data.
 - `toRgba(input, knownFormat?)` / `fromRgba(rgba, format)` — dispatcher primitives.
 - Low-level converters: `hexToRgba`, `rgbaToHex`, `rgbToRgba`, `rgbaToRgb`, `hslToRgba`, `rgbaToHsl`, `hsvToRgba`, `rgbaToHsv`, `pantoneToRgba`, `rgbaToPantone`.
 - Built-in palettes: `web`, `x11`, `pantone` (each a `Palette<Name>` object; `.colors` holds the hex map).
 
+## Cross-palette translation
+
+Fundamentally nearest-match, so it's `identify`'s job. Chain `convert` (strict name → hex) with `identify` (fuzzy hex → nearest name):
+
+```ts
+identify(convert('rebecca purple', { palette: web }), { palette: pantone })  // '267 C'
+identify(convert('acme red', { palette: brand }), { palette: pantone })      // nearest Pantone
+```
+
 ## BYO palettes
 
-`identify` / `resolve` take a `Palette<Name>` object literal — no registration. Shape:
+`identify` / `resolve` / `convert` take a `Palette<Name>` object literal — no registration. Shape:
 
 ```ts
 type Palette<Name extends string = string> = {

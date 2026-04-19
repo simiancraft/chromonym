@@ -53,9 +53,14 @@ identify('#663399')                                // 'rebecca purple'
 identify('#E20074', { palette: pantone })       // '213 C' — T-Mobile magenta
 resolve('Pantone 185 C', { palette: pantone })  // '#e4002b'
 
-// Format conversion: HEX / RGB / RGBA / HSL / HSV (palette-free, tree-shakes cleanly).
+// Format conversion: HEX / RGB / RGBA / HSL / HSV (palette-free, tree-shakes cleanly)
 convert('#ff0000', { format: 'HSL' })              // 'hsl(0, 100%, 50%)'
 convert({ h: 120, s: 100, l: 50 }, { format: 'HEX' })  // '#00ff00'
+
+// Same convert API understands palette names both ways when you pass one
+convert('185 C', { palette: pantone, format: 'HSL' })     // 'hsl(349, 100%, 45%)'
+convert('#e4002b', { palette: pantone, format: 'NAME' })  // '185 C'
+convert('acme red', { palette: brand, format: 'RGB' })    // 'rgb(255, 42, 59)'
 ```
 
 The identification machinery is palette-agnostic — RAL, HKS, NCS, Munsell, or a bespoke in-house set are the same amount of work (a small file each, or a single object literal). PRs welcome; meanwhile, BYO lets you ship today.
@@ -133,33 +138,56 @@ resolve('not-a-color')                             // null
 
 ### `convert(input, opts?)`
 
-**Color → color in a different format.** Detects the input format, normalizes to the canonical internal `Rgba` representation, and returns the value in the target format. Palette-independent.
+**Color → color in a different format.** Detects the input format, normalizes to the canonical internal `Rgba`, and returns the value in the target format.
+
+Structural on its own (HEX ↔ RGB ↔ RGBA ↔ HSL ↔ HSV, no palette data bundled). Pass an optional `palette` and the same one API understands palette names both ways — input as a name, or `format: 'NAME'` output for exact reverse lookup.
 
 ```ts
-function convert(
-  input: ColorInput,
-  opts?: { format?: ColorFormat },
-): ColorValue
+// Structural (palette-free, tree-shakes to ~5 KB min)
+function convert(input: ColorInput, opts?: { format?: ColorFormat }): ColorValue;
+
+// With a palette — input can be a palette name, output can be 'NAME' (exact key)
+function convert<P extends Palette>(
+  input: ColorInput | string,
+  opts: { palette: P; format: 'NAME' },
+): PaletteKey<P>;
+function convert<P extends Palette>(
+  input: ColorInput | string,
+  opts: { palette: P; format?: ColorFormat },
+): ColorValue;
 ```
 
 - **Default format**: `'HEX'`.
-- Throws if input format is unrecognized.
-- Alpha information is preserved when converting into RGBA/RGB(A) string forms, and discarded for HEX (6-digit) / HSL / HSV output.
-- **PANTONE is deliberately not a `convert` format.** Pantone round-tripping requires the palette data; routing it through `convert` would force every `convert` / `identify` bundle to include ~6 KB gzipped of Pantone table even when the caller never uses it. Use `pantoneToRgba` / `rgbaToPantone` from `chromonym/conversions/pantone` — they tree-shake independently.
+- Throws on unrecognized input (parser-flavored — `identify` / `resolve` return `null` instead).
+- Alpha is preserved in RGBA / RGB(A) string outputs; discarded for HEX (6-digit) / HSL / HSV / NAME.
+- **Palette is caller-supplied**: no palette is pulled unless you import one and pass it. Tree-shake stays intact — `convert`-only bundles include zero palette data.
+- `format: 'NAME'` is **exact-match only**; it throws if the input isn't a pixel-exact palette entry. Use `identify` for nearest-match.
+- Priority: if the input is structurally valid (hex, rgb, hsl, …), that wins over palette-name lookup. So `convert('#ff0000', { palette: brand })` always means "parse as hex."
 
 ```ts
-convert('#ff0000')                                 // '#ff0000' (identity)
-convert('#ff0000', { format: 'RGB' })              // 'rgb(255, 0, 0)'
-convert('#ff0000', { format: 'RGBA' })             // { r: 255, g: 0, b: 0, a: 1 }
-convert([255, 0, 0], { format: 'HEX' })            // '#ff0000'
-convert('rgb(255, 0, 0)', { format: 'HSL' })       // 'hsl(0, 100%, 50%)'
-convert({ h: 0, s: 100, l: 50 }, { format: 'HEX' })// '#ff0000'
+// Structural — no palette imported, nothing bundled
+convert('#ff0000')                                    // '#ff0000' (identity)
+convert('#ff0000', { format: 'RGB' })                 // 'rgb(255, 0, 0)'
+convert([255, 0, 0], { format: 'HEX' })               // '#ff0000'
+convert({ h: 0, s: 100, l: 50 }, { format: 'HEX' })   // '#ff0000'
 
-// Pantone: opt-in, tree-shakes with its palette data
-import { pantoneToRgba, rgbaToPantone } from 'chromonym/conversions/pantone';
-convert(pantoneToRgba('185 C'), { format: 'HEX' }) // '#e4002b'
-rgbaToPantone({ r: 228, g: 0, b: 43, a: 1 })       // '185 C'
+// With a palette — palette-name in, any format out
+import { pantone } from 'chromonym';
+convert('185 C', { palette: pantone })                // '#e4002b'
+convert('Pantone 185 C', { palette: pantone })        // '#e4002b' (normalizer strips prefix)
+convert('185 C', { palette: pantone, format: 'HSL' }) // 'hsl(349, 100%, 45%)'
+
+// With a palette — color in, exact palette key out
+convert('#e4002b', { palette: pantone, format: 'NAME' })  // '185 C'
+convert('#663399', { palette: web, format: 'NAME' })       // 'rebecca purple'
+convert('#ff0000', { palette: pantone, format: 'NAME' })   // throws — use identify for nearest
+
+// BYO palettes work the same way
+convert('acme red', { palette: brand, format: 'RGB' })     // 'rgb(255, 42, 59)'
+convert('#ff2a3b', { palette: brand, format: 'NAME' })     // 'acme red'
 ```
+
+The low-level `pantoneToRgba` / `rgbaToPantone` functions (from `chromonym` or `chromonym/conversions/pantone`) remain available for single-purpose Pantone work when you don't need the full `convert` ceremony.
 
 ## Palettes
 
@@ -222,6 +250,49 @@ resolve('Nurgle Green', { palette: warhammer })
 ```
 
 No registry, no plugin, no side effects. Bundlers only include the palettes you actually import — BYO palettes ride along as whatever code you wrote to define them.
+
+### Cross-palette translation
+
+"What's this CSS color in X11?" / "What's our brand red in Pantone?" is a *nearest-match* question — palettes almost never share exact hex values, so there's no strict round-trip. That's `identify`'s job. Chain `convert` (strict name → hex) with `identify` (fuzzy hex → nearest name):
+
+```ts
+import { convert, identify, web, x11, pantone } from 'chromonym';
+
+// web → x11
+identify(convert('rebecca purple', { palette: web }), { palette: x11 })
+// → 'dark orchid 4'
+
+identify(convert('dodger blue', { palette: web }), { palette: x11 })
+// → 'dodger blue'   (name shared across both palettes — exact hex too)
+
+// x11 → pantone
+identify(convert('dark slate gray 4', { palette: x11 }), { palette: pantone })
+// → '5483 C'
+
+identify(convert('debian red', { palette: x11 }), { palette: pantone })
+// → '1925 C'
+
+// web → pantone  (the classic brand-matching case)
+identify(convert('hot pink', { palette: web }), { palette: pantone })       // → '812 C'
+identify(convert('dodger blue', { palette: web }), { palette: pantone })    // → '279 C'
+
+// BYO → pantone  (ship your brand palette, find the closest Pantone for print)
+identify(convert('acme red', { palette: brand }), { palette: pantone })     // → '1788 C'
+
+// Override the metric for the *nearest-match* leg if you want — input parsing
+// is always exact, so only the second call takes `metric`.
+identify(convert('rebecca purple', { palette: web }), { palette: pantone, metric: 'deltaEok' })
+// → '267 C'
+```
+
+Why two calls instead of one: `convert` is the strict verb (throws on a name miss), `identify` is the fuzzy one (always returns a nearest). Keeping them separate lets you decide — per call — whether you want a hard error on an unknown input or a best-effort neighbor.
+
+If this chain shows up often in your code, wrap it in your own helper:
+
+```ts
+const translate = (name: string, from: Palette, to: Palette) =>
+  identify(convert(name, { palette: from }), { palette: to });
+```
 
 ## Distance metrics
 

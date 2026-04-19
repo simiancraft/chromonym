@@ -3,6 +3,7 @@ import { hslToRgba, rgbaToHsl } from './conversions/hsl';
 import { hsvToRgba, rgbaToHsv } from './conversions/hsv';
 import { rgbaToRgb, rgbToRgba } from './conversions/rgb';
 import { type DetectedFormat, detectFormat } from './detectFormat';
+import { getNameIndex, getReverseNameIndex } from './indexing';
 import type {
   ColorFormat,
   ColorInput,
@@ -10,6 +11,7 @@ import type {
   HexColor,
   HslInput,
   HsvInput,
+  Palette,
   Rgba,
   RgbaInput,
   RgbInput,
@@ -30,9 +32,9 @@ function safeStringify(x: unknown): string {
  * Pass `knownFormat` when the caller has already run `detectFormat` to skip
  * the redundant detection. Throws on `UNKNOWN` input.
  *
- * Pantone strings are not accepted here — parsing them requires the
- * `pantone` palette data. Call `pantoneToRgba(code)` from
- * `chromonym/conversions/pantone` and pass the result.
+ * Palette names (Pantone codes, BYO keys) are not accepted here — they
+ * require palette data to parse. Use `convert(name, { palette })` or
+ * `resolve(name, { palette })` at the higher level.
  */
 export function toRgba(input: ColorInput, knownFormat?: DetectedFormat): Rgba {
   const format = knownFormat ?? detectFormat(input);
@@ -53,11 +55,11 @@ export function toRgba(input: ColorInput, knownFormat?: DetectedFormat): Rgba {
 }
 
 /**
- * Emit a canonical `Rgba` in the target format. Palette-independent.
+ * Emit a canonical `Rgba` in the target structural format. Palette-independent.
  *
- * PANTONE output lives in `rgbaToPantone` (from
- * `chromonym/conversions/pantone`) — keeping it out of here is what lets
- * `convert` / `identify` tree-shake down to pure structural math.
+ * For palette-key output (e.g. nearest Pantone code, brand name), use
+ * `convert(rgba, { format: 'NAME', palette })` — or `identify` for fuzzy,
+ * `rgbaToPantone` for the low-level Pantone-only path.
  */
 export function fromRgba(rgba: Rgba, format: ColorFormat = 'HEX'): ColorValue {
   switch (format) {
@@ -72,10 +74,10 @@ export function fromRgba(rgba: Rgba, format: ColorFormat = 'HEX'): ColorValue {
     case 'HSV':
       return rgbaToHsv(rgba);
     default: {
-      // Runtime safety for JS callers who bypass the ColorFormat union.
+      // Runtime safety for JS callers bypassing the ColorFormat union.
       const hint =
         format === ('PANTONE' as unknown)
-          ? ` — use rgbaToPantone from 'chromonym/conversions/pantone'`
+          ? ` — use convert(rgba, { palette: pantone, format: 'NAME' }) or rgbaToPantone from 'chromonym/conversions/pantone'`
           : '';
       throw new Error(`Unsupported format: ${safeStringify(format)}${hint}`);
     }
@@ -83,10 +85,95 @@ export function fromRgba(rgba: Rgba, format: ColorFormat = 'HEX'): ColorValue {
 }
 
 /**
- * Detect the input color format, normalize to Rgba, and emit the result
- * in the requested output format. Palette-independent.
- * Throws if the input isn't a recognized color shape.
+ * Extract string keys from a Palette's `colors` map.
+ * Matches the `PaletteKey<P>` helper in `identify.ts` — kept local so
+ * `convert` doesn't depend on `identify`.
  */
-export function convert(input: ColorInput, opts: { format?: ColorFormat } = {}): ColorValue {
-  return fromRgba(toRgba(input), opts.format ?? 'HEX');
+type PaletteKey<P extends Palette> = Extract<keyof P['colors'], string>;
+
+/**
+ * Detect the input color format, normalize to Rgba, and emit the result
+ * in the requested output format.
+ *
+ * Without a `palette` option, `convert` is strictly structural —
+ * HEX ↔ RGB ↔ RGBA ↔ HSL ↔ HSV, no palette data ever touched, tree-shakes
+ * to the bone.
+ *
+ * With a `palette` option, `convert` understands the palette's naming
+ * scheme both ways:
+ * - Input can be a palette name (`'185 C'`, `'Acme Red'`) — parsed via
+ *   `palette.normalize` and looked up in `palette.colors`.
+ * - Output can be `format: 'NAME'` — the exact canonical key from
+ *   `palette.colors`, throws if the color isn't a pixel-exact match (use
+ *   `identify` for nearest-match).
+ *
+ * The palette data comes from the caller's own import, so tree-shaking
+ * is preserved: callers who don't pass `palette` never pull a palette.
+ *
+ * Throws on unrecognized input (parser-flavored — `identify`/`resolve`
+ * are the `null`-returning alternatives).
+ */
+
+// Overload 1: no palette — structural only. Input is strictly ColorInput.
+export function convert(input: ColorInput, opts?: { format?: ColorFormat }): ColorValue;
+
+// Overload 2: palette present, format 'NAME' — returns a palette key.
+export function convert<P extends Palette>(
+  input: ColorInput | string,
+  opts: { palette: P; format: 'NAME' },
+): PaletteKey<P>;
+
+// Overload 3: palette present, structural format — returns ColorValue.
+export function convert<P extends Palette>(
+  input: ColorInput | string,
+  opts: { palette: P; format?: ColorFormat },
+): ColorValue;
+
+// Implementation
+export function convert(
+  input: ColorInput | string,
+  opts: { format?: ColorFormat | 'NAME'; palette?: Palette } = {},
+): ColorValue | string {
+  const { format = 'HEX', palette } = opts;
+
+  // --- Parse input → Rgba ---
+  // Structural detection first; palette lookup only as a fallback. This
+  // way `convert('#ff0000', { palette: brand })` always means "parse hex,"
+  // even if the brand palette happens to have a key that normalizes to
+  // "ff0000".
+  const detected = detectFormat(input as ColorInput);
+  let rgba: Rgba;
+  if (detected !== 'UNKNOWN') {
+    rgba = toRgba(input as ColorInput, detected);
+  } else if (palette !== undefined && typeof input === 'string') {
+    const canonical = getNameIndex(palette).get(palette.normalize(input));
+    if (canonical === undefined) {
+      throw new Error(
+        `Unrecognized color input: ${safeStringify(input)} (not structural, and not found in palette '${palette.name}')`,
+      );
+    }
+    const hex = (palette.colors as Record<string, HexColor>)[canonical];
+    if (hex === undefined) {
+      throw new Error(`Unrecognized color input: ${safeStringify(input)}`);
+    }
+    rgba = hexToRgba(hex);
+  } else {
+    throw new Error(`Unrecognized color input: ${safeStringify(input)}`);
+  }
+
+  // --- Emit ---
+  if (format === 'NAME') {
+    if (palette === undefined) {
+      throw new Error(`convert(_, { format: 'NAME' }) requires a 'palette' option`);
+    }
+    const hex = rgbaToHex(rgba).toLowerCase();
+    const name = getReverseNameIndex(palette).get(hex);
+    if (name === undefined) {
+      throw new Error(
+        `No exact match for ${hex} in palette '${palette.name}'. Use identify() for nearest-match semantics.`,
+      );
+    }
+    return name;
+  }
+  return fromRgba(rgba, format);
 }

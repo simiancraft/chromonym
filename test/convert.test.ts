@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { convert } from '../src/convert';
+import { pantone } from '../src/palettes/pantone';
+import { web } from '../src/palettes/web';
 
 describe('convert', () => {
   describe('README examples', () => {
@@ -66,15 +68,76 @@ describe('convert', () => {
     });
   });
 
-  describe('PANTONE is off the core path (requires explicit pantone import)', () => {
-    it('rejects a pantone-code string as input — convert stays palette-free', () => {
-      // Users who want Pantone round-tripping chain through pantoneToRgba
-      // from `chromonym/conversions/pantone`. This isolation is what lets
-      // `convert` / `identify` tree-shake without dragging the Pantone palette.
+  describe('structural-only (no palette) rejects palette-name inputs', () => {
+    it('rejects a pantone-code string as input when no palette is supplied', () => {
       expect(() => convert('185 C' as never, { format: 'HEX' })).toThrow();
     });
-    it("the 'PANTONE' format key is no longer accepted — it would require palette data", () => {
+    it("the 'PANTONE' format key is no longer accepted — supply a palette instead", () => {
       expect(() => convert({ r: 228, g: 0, b: 43 }, { format: 'PANTONE' as never })).toThrow();
+    });
+  });
+
+  describe('unified palette option — palette name → color', () => {
+    it('accepts a pantone name as input when a palette is supplied', () => {
+      expect(convert('185 C', { palette: pantone })).toBe('#e4002b');
+    });
+    it('honors the palette normalizer (case / punctuation / prefix)', () => {
+      expect(convert('Pantone 185 C', { palette: pantone })).toBe('#e4002b');
+      expect(convert('pms185c', { palette: pantone })).toBe('#e4002b');
+    });
+    it('emits a non-HEX format from a palette-name input', () => {
+      expect(convert('185 C', { palette: pantone, format: 'RGB' })).toBe('rgb(228, 0, 43)');
+      expect(convert('185 C', { palette: pantone, format: 'RGBA' })).toEqual({
+        r: 228,
+        g: 0,
+        b: 43,
+        a: 1,
+      });
+    });
+    it('accepts a web name with the web palette', () => {
+      expect(convert('rebecca purple', { palette: web })).toBe('#663399');
+      expect(convert('alice blue', { palette: web, format: 'HSL' })).toMatch(/^hsl\(/);
+    });
+    it('works for BYO palettes inline', () => {
+      const brand = {
+        name: 'acme',
+        colors: { 'acme red': '#ff2a3b', 'acme ink': '#0a0f2c' },
+        normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
+        defaultMetric: 'deltaEok',
+      } as const;
+      expect(convert('acme red', { palette: brand })).toBe('#ff2a3b');
+      expect(convert('Acme Ink', { palette: brand, format: 'RGB' })).toBe('rgb(10, 15, 44)');
+    });
+    it('throws if the name is not in the palette', () => {
+      expect(() => convert('not a pantone', { palette: pantone })).toThrow();
+    });
+    it('structural format wins over palette lookup (priority rule)', () => {
+      // Even if a BYO palette had a weird key that could collide, a
+      // structurally-valid input takes precedence. #ff0000 is always parsed as hex.
+      expect(convert('#ff0000', { palette: web })).toBe('#ff0000');
+    });
+  });
+
+  describe("unified palette option — format: 'NAME' emits the exact canonical key", () => {
+    it("convert('#e4002b', { palette: pantone, format: 'NAME' }) → '185 C'", () => {
+      expect(convert('#e4002b', { palette: pantone, format: 'NAME' })).toBe('185 C');
+    });
+    it('round-trips name → rgba → name through a palette', () => {
+      const rgba = convert('100 C', { palette: pantone, format: 'RGBA' });
+      expect(convert(rgba, { palette: pantone, format: 'NAME' })).toBe('100 C');
+    });
+    it('web name round-trip', () => {
+      expect(convert('#663399', { palette: web, format: 'NAME' })).toBe('rebecca purple');
+    });
+    it('throws when the input has no exact palette match (use identify for fuzzy)', () => {
+      expect(() => convert('#ff0000', { palette: pantone, format: 'NAME' })).toThrow(
+        /No exact match/,
+      );
+    });
+    it("format: 'NAME' without a palette throws at runtime (type error at compile time)", () => {
+      expect(() => convert({ r: 255, g: 0, b: 0, a: 1 }, { format: 'NAME' as never })).toThrow(
+        /requires a 'palette' option/,
+      );
     });
   });
 
