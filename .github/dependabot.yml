@@ -1,0 +1,16 @@
+version: 2
+updates:
+  # chromonym has zero runtime deps. npm-ecosystem updates on the root would
+  # only churn devDeps (isolated to CI) and add noise. GitHub Actions is the
+  # one ecosystem with real surface — SHA-pinned actions need automated bumps.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      actions:
+        patterns:
+          - "*"
