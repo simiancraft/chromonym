@@ -3,8 +3,14 @@
 // rounded-rectangle swatch row. The currently-matched cutout pulses with a
 // phosphor glow, so as the user scrubs the main input, the composition
 // breathes in sync with the identify() result.
+//
+// This is the demo's "resolve" act: the pulsing shape's fill is pulled by
+// `resolve(matchedName, { palette: warhammer })` — a name-to-hex lookup on
+// a user-supplied palette object. The canonical code block below shows the
+// exact resolve call the live render is using.
 
 import type { ReactNode } from 'react';
+import { LiveSnippet } from './LiveSnippet.js';
 
 interface KandinskyBYOProps {
   input: string;
@@ -239,24 +245,31 @@ export function KandinskyBYO({ input, matchedName, matchedHex, colors }: Kandins
             </code>
           </div>
 
-          <pre
-            className="font-mono text-[11px] leading-relaxed p-3 overflow-x-auto mt-auto"
-            style={{
-              backgroundColor: 'var(--bh-ink)',
-              color: 'var(--crt-g)',
-              border: '1px solid var(--bh-ink)',
-            }}
-          >
-{`identify(${JSON.stringify(input)}, {
-  palette: warhammer,
-})
-// → ${JSON.stringify(matchedName)}`}
-          </pre>
-
-          <div className="font-mono text-[10px] tracking-[0.15em] uppercase opacity-60 text-center">
+          <div className="font-mono text-[10px] tracking-[0.15em] uppercase opacity-60 text-center mt-auto">
             for the glory of the omnissiah
           </div>
         </aside>
+      </div>
+
+      <div style={{ borderTop: '1px solid var(--bh-ink)' }}>
+        <LiveSnippet
+          label="signal · resolve · BYO"
+          tintHex={matchedHex ?? undefined}
+          displayText={[
+            `import { resolve } from 'chromonym';`,
+            ``,
+            `resolve(${matchedName ? `'${matchedName}'` : '/* …pending match… */'}, {`,
+            `  palette: warhammer,   // your BYO Palette<Name>`,
+            `})`,
+            `// → ${matchedHex ? `'${matchedHex}'` : 'null'}`,
+          ].join('\n')}
+          copyText={[
+            `import { resolve } from 'chromonym';`,
+            ``,
+            `resolve(${matchedName ? `'${matchedName}'` : "'name'"}, { palette: warhammer });`,
+          ].join('\n')}
+          ariaLabel="live chromonym resolve call for the BYO palette"
+        />
       </div>
     </section>
   );

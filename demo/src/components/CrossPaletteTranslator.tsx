@@ -214,6 +214,8 @@ function TranslatorSnippet({
     <LiveSnippet
       displayText={displayText}
       copyText={copyText}
+      label="signal · translate"
+      tintHex={matches[0]?.value}
       ariaLabel="live chromonym call for the current selection"
     />
   );

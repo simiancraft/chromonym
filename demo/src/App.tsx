@@ -18,6 +18,7 @@ import { ConversionsScope } from './components/ConversionsScope.js';
 import { CrossPaletteTranslator } from './components/CrossPaletteTranslator.js';
 import { Eyedropper } from './components/Eyedropper.js';
 import { KandinskyBYO } from './components/KandinskyBYO.js';
+import { LiveSnippet } from './components/LiveSnippet.js';
 import { PaletteTiles } from './components/PaletteTiles.js';
 import { StageGels } from './components/StageGels.js';
 import { Wordmark } from './components/Wordmark.js';
@@ -25,24 +26,6 @@ import { Wordmark } from './components/Wordmark.js';
 const PALETTES = { web, x11, pantone, crayola } as const;
 type PaletteKey = keyof typeof PALETTES;
 const PALETTE_KEYS = Object.keys(PALETTES) as PaletteKey[];
-
-const BRAND_PRESETS: Array<{ label: string; hex: string }> = [
-  { label: 'T-Mobile magenta', hex: '#E20074' },
-  { label: 'Spotify green', hex: '#1DB954' },
-  { label: 'Slack aubergine', hex: '#4A154B' },
-  { label: 'Coca-Cola red', hex: '#E4002B' },
-  { label: 'IBM blue', hex: '#0F62FE' },
-  { label: 'Facebook blue', hex: '#1877F2' },
-  { label: 'YouTube red', hex: '#FF0000' },
-  { label: 'Stripe indigo', hex: '#635BFF' },
-];
-
-const BUILT_IN_PALETTES: ReadonlyArray<{ key: PaletteKey; label: string }> = [
-  { key: 'web', label: 'CSS / SVG' },
-  { key: 'x11', label: 'X11' },
-  { key: 'pantone', label: 'Pantone' },
-  { key: 'crayola', label: 'Crayola' },
-];
 
 const METRICS: DistanceMetric[] = [
   'euclidean-srgb',
@@ -134,9 +117,8 @@ export function App() {
     }
   }, [input, paletteKey, metric]);
 
-  // `identify(..., { k: 1 })` so we get both the name and its ΔE distance —
-  // the distance feeds the ConvergenceStrip. Rank-0 match is the same value
-  // a non-`k` call would return, so no semantic drift.
+  // `identify(..., { k: 1 })` so we get both the name and its distance.
+  // Rank-0 matches the value a non-`k` call would return — no semantic drift.
   const primary = useMemo(() => {
     const [best] = identify(input, { palette, metric, k: 1 });
     return best ?? null;
@@ -144,7 +126,6 @@ export function App() {
 
   const matchedName = primary?.name ?? null;
   const matchedHex = primary?.value ?? null;
-  const matchedDistance = primary?.distance ?? null;
 
   // Secondary palette for the background triangle — if the user's current
   // palette is pantone, we show crayola's opinion; otherwise pantone. This
@@ -229,33 +210,19 @@ export function App() {
           <div className="bh-rule bh-rule-draw mt-2" />
         </header>
 
-        {/* ===== hero · identifier ===== */}
+        {/* ===== act 01 · IDENTIFY — hero identifier ===== */}
+        <div className="mt-12">
+          <ActHeader act="act 01" title="identify" kicker="color → name" />
+        </div>
+
         <section
-          className="mt-10 relative"
+          className="mt-4 relative"
           style={{
             backgroundColor: 'var(--bh-paper)',
             border: '1px solid var(--bh-ink)',
           }}
         >
-          <header
-            className="flex items-center justify-between px-5 py-3"
-            style={{ backgroundColor: 'var(--bh-ink)', color: 'var(--bh-cream)' }}
-          >
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-[10px] tracking-[0.3em] uppercase opacity-60">
-                chapter 01
-              </span>
-              <h2
-                className="text-lg lowercase bh-caps"
-                style={{ fontFamily: "'Unbounded', sans-serif" }}
-              >
-                identify
-              </h2>
-            </div>
-            <span className="font-mono text-[10px] tracking-[0.24em] uppercase opacity-70">
-              color → name
-            </span>
-          </header>
+          <SubChapterHeader eyebrow="identify" title="scrub" kicker="color picker" inline />
 
           <div className="p-6 md:p-8 space-y-8">
             {/* controls row: input + tiles + metric */}
@@ -326,9 +293,6 @@ export function App() {
               ))}
             </div>
 
-            {/* convergence strip */}
-            <ConvergenceStrip distance={matchedDistance} metric={metric} />
-
             <div className="bh-rule" />
 
             {/* result — input / match / name */}
@@ -375,63 +339,69 @@ export function App() {
                 </div>
               </div>
             </div>
+
+            <LiveSnippet
+              label="signal · identify"
+              tintHex={matchedHex ?? input}
+              displayText={[
+                `import { identify, ${paletteKey} } from 'chromonym';`,
+                ``,
+                `identify('${input}', {`,
+                `  palette: ${paletteKey},`,
+                `  metric:  '${metric}',`,
+                `})`,
+                `// → ${matchedName ? `'${matchedName}'` : 'null'}`,
+              ].join('\n')}
+              copyText={[
+                `import { identify, ${paletteKey} } from 'chromonym';`,
+                ``,
+                `identify('${input}', { palette: ${paletteKey}, metric: '${metric}' });`,
+              ].join('\n')}
+              ariaLabel="live chromonym identify call for the current input"
+            />
           </div>
         </section>
 
-        {/* ===== cross-palette (built-in) ===== */}
+        {/* ===== identify · translate (palette ↔ palette) ===== */}
         <div className="mt-10">
-          <CrossPaletteSection input={input} setInput={setInput} />
-        </div>
-
-        {/* ===== interactive translator ===== */}
-        <div className="mt-10">
-          <div
-            className="px-5 py-3 flex items-center justify-between"
-            style={{ backgroundColor: 'var(--bh-ink)', color: 'var(--bh-cream)' }}
-          >
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-[10px] tracking-[0.3em] uppercase opacity-60">
-                chapter 03
-              </span>
-              <h2 className="text-lg lowercase bh-caps" style={{ fontFamily: "'Unbounded', sans-serif" }}>
-                translate
-              </h2>
-            </div>
-            <span className="font-mono text-[10px] tracking-[0.24em] uppercase opacity-70">
-              palette ↔ palette
-            </span>
-          </div>
+          <SubChapterHeader eyebrow="identify · cont." title="translate" kicker="palette ↔ palette" />
           <div style={{ border: '1px solid var(--bh-ink)', borderTop: 0 }}>
             <CrossPaletteTranslator />
           </div>
         </div>
 
-        {/* ===== eyedropper · pixel → name ===== */}
+        {/* ===== identify · eyedropper (pixel → name) ===== */}
         <div className="mt-10">
-          <div className="bh-rule-thick flex items-baseline justify-between pb-2">
-            <span className="bh-eyebrow">apparatus · iv</span>
-            <span className="font-mono text-[10px] tracking-[0.24em] uppercase opacity-70">
-              pixel · eyedropper
-            </span>
-          </div>
+          <SubChapterHeader eyebrow="identify · cont." title="eyedropper" kicker="pixel → name" />
           <div style={{ border: '1px solid var(--bh-ink)', borderTop: 0 }}>
-            <Eyedropper />
+            <Eyedropper onPick={setInput} />
           </div>
         </div>
 
-        {/* ===== byo · kandinsky ===== */}
-        <div className="mt-10">
-          <KandinskyBYO
-            input={input}
-            matchedName={warhammerMatch}
-            matchedHex={warhammerHex}
-            colors={warhammer.colors}
-          />
+        {/* ===== divider: RGB channels of current input ===== */}
+        <div className="mt-12">
+          <ConvergenceStrip hex={input} />
         </div>
 
-        {/* ===== conversions · crt ===== */}
-        <div className="mt-10">
-          <ConversionsScope conversions={conversions} tintHex={input} />
+        {/* ===== act 02 · RESOLVE ===== */}
+        <div className="mt-12">
+          <ActHeader act="act 02" title="resolve" kicker="name → color" />
+          <div className="mt-4">
+            <KandinskyBYO
+              input={input}
+              matchedName={warhammerMatch}
+              matchedHex={warhammerHex}
+              colors={warhammer.colors}
+            />
+          </div>
+        </div>
+
+        {/* ===== act 03 · CONVERT ===== */}
+        <div className="mt-12">
+          <ActHeader act="act 03" title="convert" kicker="format ↔ format" />
+          <div className="mt-4">
+            <ConversionsScope conversions={conversions} tintHex={input} input={input} />
+          </div>
         </div>
 
         <footer className="mt-14 pt-6 bh-rule space-y-3 text-center">
@@ -467,104 +437,76 @@ export function App() {
   );
 }
 
-// Cross-palette translation: one color → nearest in all four built-in palettes.
-// Restyled to fit the Bauhaus manual: black header bar, 4-column grid of
-// primary-colored tiles with distance readouts in monospace.
-function CrossPaletteSection({
-  input,
-  setInput,
+// ---- Section markers ----------------------------------------------------
+// Three "acts" structure the page into identify → resolve → convert. Sub-
+// chapters live inside each act when a verb has multiple demos (identify
+// has three: hero, translator, eyedropper). Both headers share the same
+// Bauhaus treatment so the hierarchy reads by weight, not by novelty.
+
+function ActHeader({
+  act,
+  title,
+  kicker,
 }: {
-  input: string;
-  setInput: (hex: string) => void;
+  act: string;
+  title: string;
+  kicker: string;
 }) {
-  const perPalette = useMemo(() => {
-    return BUILT_IN_PALETTES.map(({ key, label }) => {
-      const palette = PALETTES[key];
-      const [best] = identify(input, { palette, k: 1 });
-      if (!best) return { key, label, name: null, hex: null, distance: null };
-      return { key, label, name: best.name, hex: best.value, distance: best.distance };
-    });
-  }, [input]);
-
   return (
-    <section style={{ border: '1px solid var(--bh-ink)', backgroundColor: 'var(--bh-paper)' }}>
-      <header
-        className="flex items-center justify-between px-5 py-3"
-        style={{ backgroundColor: 'var(--bh-ink)', color: 'var(--bh-cream)' }}
-      >
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-[10px] tracking-[0.3em] uppercase opacity-60">
-            chapter 02
-          </span>
-          <h2 className="text-lg lowercase bh-caps" style={{ fontFamily: "'Unbounded', sans-serif" }}>
-            cross-palette
-          </h2>
-        </div>
-        <span className="font-mono text-[10px] tracking-[0.24em] uppercase opacity-70">
-          one color · four answers
-        </span>
-      </header>
-
-      <div className="p-6 space-y-4">
-        <p className="text-sm leading-snug max-w-2xl">
-          each column runs{' '}
-          <code className="font-mono text-xs px-1" style={{ backgroundColor: 'var(--bh-cream)' }}>
-            identify(…, {'{ k: 1 }'})
-          </code>{' '}
-          against a different built-in palette. same input, different vocabulary.
-          try a brand mark:
-        </p>
-
-        <div className="flex flex-wrap gap-2">
-          {BRAND_PRESETS.map((p) => (
-            <button
-              type="button"
-              key={p.label}
-              onClick={() => setInput(p.hex)}
-              className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider px-3 py-[6px] hover:bg-[var(--bh-ink)] hover:text-[var(--bh-cream)] transition-colors"
-              style={{ border: '1px solid var(--bh-ink)' }}
-            >
-              <span
-                className="w-3 h-3 shrink-0"
-                style={{ backgroundColor: p.hex, border: '1px solid var(--bh-ink)' }}
-                aria-hidden
-              />
-              {p.label}
-            </button>
-          ))}
-        </div>
-
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[1px]"
-          style={{ backgroundColor: 'var(--bh-ink)', border: '1px solid var(--bh-ink)' }}
+    <div
+      className="flex items-end justify-between gap-4 pb-3"
+      style={{ borderBottom: '3px solid var(--bh-ink)' }}
+    >
+      <div className="flex items-baseline gap-3 md:gap-5 flex-wrap">
+        <span className="bh-eyebrow">{act}</span>
+        <h2
+          className="lowercase bh-caps leading-none"
+          style={{
+            fontFamily: "'Bauhaus Modern', 'Unbounded', sans-serif",
+            fontSize: 'clamp(2.2rem, 6vw, 4rem)',
+          }}
         >
-          {perPalette.map(({ key, label, name, hex, distance }) => (
-            <div
-              key={key}
-              className="flex flex-col"
-              style={{ backgroundColor: 'var(--bh-cream)' }}
-            >
-              <div
-                className="h-20"
-                style={{ backgroundColor: hex ?? 'transparent' }}
-                aria-label={`${label} nearest-match swatch`}
-              />
-              <div className="p-3 space-y-1 flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="bh-eyebrow opacity-70">{label}</div>
-                  <div className="text-sm font-mono mt-1 break-words leading-tight">
-                    {name ?? '—'}
-                  </div>
-                </div>
-                <div className="font-mono text-[10px] opacity-60 pt-2 flex items-center justify-between">
-                  <code>{hex ?? '—'}</code>
-                  {distance !== null && <span>ΔE {distance.toFixed(2)}</span>}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+          {title}
+        </h2>
       </div>
-    </section>
+      <span className="bh-eyebrow text-right shrink-0">{kicker}</span>
+    </div>
+  );
+}
+
+function SubChapterHeader({
+  eyebrow,
+  title,
+  kicker,
+  inline = false,
+}: {
+  eyebrow: string;
+  title: string;
+  kicker: string;
+  inline?: boolean;
+}) {
+  // `inline` renders the header as the top bar *inside* a bordered section
+  // (matches the hero identifier look). Otherwise it renders as a stand-
+  // alone bar sitting above a bordered-bottom card (translator / eyedropper).
+  return (
+    <header
+      className={`flex items-center justify-between px-5 py-3 ${inline ? '' : ''}`}
+      style={{ backgroundColor: 'var(--bh-ink)', color: 'var(--bh-cream)' }}
+    >
+      <div className="flex items-center gap-3">
+        <span className="font-mono text-[10px] tracking-[0.3em] uppercase opacity-60">
+          {eyebrow}
+        </span>
+        <h3
+          className="text-lg lowercase bh-caps"
+          style={{ fontFamily: "'Bauhaus Modern', 'Unbounded', sans-serif" }}
+        >
+          {title}
+        </h3>
+      </div>
+      <span className="font-mono text-[10px] tracking-[0.24em] uppercase opacity-70">
+        {kicker}
+      </span>
+    </header>
   );
 }

@@ -1,109 +1,97 @@
-// Convergence strip — the signature visualization. Three R/G/B bars whose
-// horizontal offset literally encodes the current match's ΔE distance.
-// Perfect match → bars converge, multiply to near-black, readout reads TUNED.
-// Poor fit → bars spread apart into separable red/green/blue beams.
-//
-// Each metric has its own "reference worst" distance so the spread reads
-// consistently whether you're in deltaE2000 (typical 0–10) or euclidean-sRGB
-// (0–441). MAX_OFFSET caps the maximum visual spread.
+// Channel strip — three R/G/B bars whose widths encode the channel values
+// of the *currently-selected* input color. Meant to run as a full-width
+// line-break between the above-fold identify demos and everything below;
+// when the user scrubs the color picker or pins a pixel via the eyedropper,
+// this strip animates in lockstep so the divider is visibly part of the demo.
 
-import type { DistanceMetric } from 'chromonym';
-
-const METRIC_WORST: Record<DistanceMetric, number> = {
-  'euclidean-srgb': 80,
-  'euclidean-linear': 80,
-  deltaE76: 15,
-  deltaE94: 12,
-  deltaE2000: 10,
-  deltaEok: 0.12,
-};
-
-const MAX_OFFSET_PX = 34;
+const CHANNELS = [
+  { key: 'r', label: 'R', color: 'var(--crt-r)' },
+  { key: 'g', label: 'G', color: 'var(--crt-g)' },
+  { key: 'b', label: 'B', color: 'var(--crt-b)' },
+] as const;
 
 interface ConvergenceStripProps {
-  distance: number | null;
-  metric: DistanceMetric;
+  hex: string;
 }
 
-export function ConvergenceStrip({ distance, metric }: ConvergenceStripProps) {
-  const normalized = distance == null ? 0 : Math.min(distance / METRIC_WORST[metric], 1);
-  const offset = normalized * MAX_OFFSET_PX;
-  const tuned = distance != null && distance < 0.001;
+export function ConvergenceStrip({ hex }: ConvergenceStripProps) {
+  const { r, g, b } = parseHex(hex);
+  const vals = { r, g, b };
 
   return (
-    <div className="relative w-full">
-      <div className="flex items-stretch gap-4">
-        <div className="flex items-center">
-          <span className="bh-eyebrow">convergence</span>
+    <div
+      className="relative w-full py-3 md:py-4"
+      style={{
+        borderTop: '1px solid var(--bh-ink)',
+        borderBottom: '1px solid var(--bh-ink)',
+      }}
+      role="img"
+      aria-label={`RGB channels for ${hex}: R ${r}, G ${g}, B ${b}`}
+    >
+      <div className="flex items-center gap-4 md:gap-6">
+        <span className="bh-eyebrow shrink-0">channels</span>
+
+        <div className="flex-1 flex flex-col gap-[6px] min-w-0">
+          {CHANNELS.map(({ key, label, color }) => {
+            const v = vals[key];
+            const pct = (v / 255) * 100;
+            return (
+              <div key={key} className="flex items-center gap-3">
+                <span
+                  className="font-mono text-[10px] tracking-[0.24em] uppercase w-3 text-center shrink-0"
+                  style={{ color: 'var(--bh-ink)' }}
+                >
+                  {label}
+                </span>
+                <div
+                  className="flex-1 h-[6px] relative"
+                  style={{ backgroundColor: 'var(--bh-paper)' }}
+                >
+                  <div
+                    className="absolute left-0 top-0 bottom-0"
+                    style={{
+                      width: `${pct}%`,
+                      backgroundColor: color,
+                      mixBlendMode: 'multiply',
+                      transition: 'width 450ms cubic-bezier(0.22,1,0.36,1)',
+                    }}
+                  />
+                </div>
+                <span className="font-mono text-[10px] tabular-nums w-8 text-right shrink-0">
+                  {v}
+                </span>
+              </div>
+            );
+          })}
         </div>
 
-        <div
-          className="flex-1 relative h-12 overflow-hidden"
-          style={{ backgroundColor: 'var(--bh-cream)' }}
-          role="img"
-          aria-label={
-            distance == null
-              ? 'no match — bars undefined'
-              : `delta-E ${distance.toFixed(2)}; convergence offset ${offset.toFixed(1)} pixels`
-          }
+        <span
+          className="bh-eyebrow shrink-0 hidden sm:inline font-mono"
+          style={{ color: 'var(--bh-ink)' }}
         >
-          {/* R bar — pushed left as distance grows */}
-          <div
-            className="absolute left-0 right-0"
-            style={{
-              top: '14px',
-              height: '4px',
-              backgroundColor: 'var(--crt-r)',
-              transform: `translateX(${-offset}px)`,
-              transition: 'transform 450ms cubic-bezier(0.22,1,0.36,1)',
-              mixBlendMode: 'multiply',
-            }}
-          />
-          {/* G bar — holds the center */}
-          <div
-            className="absolute left-0 right-0"
-            style={{
-              top: '21px',
-              height: '4px',
-              backgroundColor: 'var(--crt-g)',
-              transform: `translateX(${offset * 0.2}px)`,
-              transition: 'transform 450ms cubic-bezier(0.22,1,0.36,1)',
-              mixBlendMode: 'multiply',
-            }}
-          />
-          {/* B bar — pushed right as distance grows */}
-          <div
-            className="absolute left-0 right-0"
-            style={{
-              top: '28px',
-              height: '4px',
-              backgroundColor: 'var(--crt-b)',
-              transform: `translateX(${offset}px)`,
-              transition: 'transform 450ms cubic-bezier(0.22,1,0.36,1)',
-              mixBlendMode: 'multiply',
-            }}
-          />
-
-          {/* tick marks at 0 / half / full spread, for scale reference */}
-          <div className="absolute inset-x-0 bottom-0 h-[1px] bg-[var(--bh-ink)] opacity-40" />
-          {[0, 0.25, 0.5, 0.75, 1].map((t) => (
-            <div
-              key={t}
-              className="absolute bottom-0 w-[1px] bg-[var(--bh-ink)] opacity-40"
-              style={{ left: `${t * 100}%`, height: t === 0.5 ? '8px' : '4px' }}
-            />
-          ))}
-        </div>
-
-        <div className="flex items-center min-w-[96px] justify-end">
-          <span
-            className="bh-eyebrow"
-            style={{ color: tuned ? 'var(--bh-blue)' : 'var(--bh-ink)' }}
-          >
-            {distance == null ? '—' : tuned ? 'tuned' : `ΔE ${distance.toFixed(2)}`}
-          </span>
-        </div>
+          {hex.toLowerCase()}
+        </span>
       </div>
     </div>
   );
+}
+
+// Tolerates #rgb, #rrggbb, #rrggbbaa. Returns {0,0,0} on parse failure so
+// the strip silently no-ops instead of throwing during a bad input moment.
+function parseHex(hex: string): { r: number; g: number; b: number } {
+  const m = /^#?([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.exec(hex);
+  if (!m) return { r: 0, g: 0, b: 0 };
+  const h = m[1];
+  if (h.length === 3) {
+    return {
+      r: parseInt(h[0] + h[0], 16),
+      g: parseInt(h[1] + h[1], 16),
+      b: parseInt(h[2] + h[2], 16),
+    };
+  }
+  return {
+    r: parseInt(h.slice(0, 2), 16),
+    g: parseInt(h.slice(2, 4), 16),
+    b: parseInt(h.slice(4, 6), 16),
+  };
 }

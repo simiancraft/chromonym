@@ -58,7 +58,13 @@ interface PickedPixel {
   hex: string;
 }
 
-export function Eyedropper() {
+interface EyedropperProps {
+  /** Called when the user pins a pixel — so the picked color can drive the
+   *  rest of the demo's shared input state. */
+  onPick?: (hex: string) => void;
+}
+
+export function Eyedropper({ onPick }: EyedropperProps = {}) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -183,8 +189,15 @@ export function Eyedropper() {
   const onCanvasClick = (e: ReactMouseEvent<HTMLCanvasElement>) => {
     const p = pixelFromEvent(e);
     if (!p) return;
-    if (pinned && pinned.x === p.x && pinned.y === p.y) setPinned(null);
-    else setPinned(p);
+    if (pinned && pinned.x === p.x && pinned.y === p.y) {
+      setPinned(null);
+    } else {
+      setPinned(p);
+      // Propagate to the shared demo input so the hero, translator, etc.
+      // react in lockstep — pinning here *is* the same act as scrubbing
+      // the color picker in the identify section.
+      onPick?.(p.hex);
+    }
   };
 
   const picked = pinned ?? hover;
@@ -425,6 +438,8 @@ export function Eyedropper() {
       <LiveSnippet
         displayText={displayLines.join('\n')}
         copyText={copyLines.join('\n')}
+        label="signal · identify · eyedropper"
+        tintHex={pickedHex ?? undefined}
         ariaLabel="live chromonym call for the eyedropper"
       />
 
