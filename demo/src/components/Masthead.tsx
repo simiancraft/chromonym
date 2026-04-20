@@ -20,12 +20,11 @@ export function Masthead({ metric }: MastheadProps) {
       <Wordmark metric={metric} className="mt-2" />
 
       <div className="grid grid-cols-[1fr_auto] items-end gap-6 pt-2">
-        <p
-          className="text-base md:text-lg leading-snug max-w-xl"
-          style={{ fontWeight: 400 }}
-        >
-          a typeset manual for naming colors. scrub an input; read the
-          nearest name across every palette; watch the signal lock in.
+        <p className="text-base md:text-lg leading-snug max-w-2xl" style={{ fontWeight: 400 }}>
+          One color-naming API for any palette. Identify, resolve, and convert
+          colors across your own palette or the built-in CSS, X11, Pantone,
+          and Crayola sets — fully typed, tree-shakeable, perceptual distance
+          metrics (CIEDE2000 / OKLAB).
         </p>
         <div className="flex items-center gap-4 text-sm font-mono uppercase tracking-wider">
           <a
