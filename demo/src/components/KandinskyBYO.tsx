@@ -1,152 +1,96 @@
-// Bring-your-own palette, visualized as a Kandinsky-style composition. The
-// six Warhammer 40k colors render as overlapping abstract shapes — not as a
-// rounded-rectangle swatch row. The currently-matched cutout pulses with a
-// phosphor glow, so as the user scrubs the main input, the composition
-// breathes in sync with the identify() result.
+// Bring-your-own palette visualized as a full-width row of six Kandinsky-
+// inflected shapes — one per Warhammer faction. Each shape is clickable:
+// clicking commits that faction's hex to the shared demo input. When the
+// user scrubs the BYO picker, whichever faction is the nearest match pulses
+// with a random-direction offset + 10% scale + phosphor glow, so the page
+// animates along with the identify result.
 //
-// This is the demo's "resolve" act: the pulsing shape's fill is pulled by
-// `resolve(matchedName, { palette: warhammer })` — a name-to-hex lookup on
-// a user-supplied palette object. The canonical code block below shows the
-// exact resolve call the live render is using.
+// Below the row: input picker on the left, nearest readout on the right,
+// then the canonical LiveSnippet with the same per-faction invocation as
+// before.
 
-import type { ReactNode } from 'react';
-import type { WarhammerName } from '../data/warhammer.js';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { type WarhammerName } from '../data/warhammer.js';
 import { LiveSnippet } from './LiveSnippet.js';
 
-// The composition is specific to the six Warhammer factions — the SVG shape
-// list is hand-tuned to their names. Typing `matchedName` / `colors` /
-// `invocations` to `WarhammerName` means a typo anywhere in the dispatch
-// chain fails the compile rather than silently falling through to black.
 interface KandinskyBYOProps {
   input: string;
-  /** Writes back to the shared demo input — the BYO picker is a second
-   *  interface to the same `input` state that the hero + eyedropper drive. */
   setInput: (hex: string) => void;
   matchedName: WarhammerName | null;
   matchedHex: string | null;
   colors: Readonly<Record<WarhammerName, string>>;
-  /** Per-palette-entry flavor lines rendered in the displayed (not copied)
-   *  snippet. Makes the code block feel alive: different match → different
-   *  invocation. Stays out of the copy payload. */
   invocations?: Readonly<Record<WarhammerName, string>>;
 }
 
-const SHAPES: Array<{
-  name: WarhammerName;
-  node: (fill: string, pulse: boolean) => ReactNode;
-  label: { x: number; y: number; align: 'start' | 'middle' | 'end' };
-}> = [
+// Layout grid — six equal-width cells in a wide viewBox. Each shape sits at
+// its cell center; the label sits beneath. Cells are 200 wide → viewBox
+// width 1200, labels at y=210, shape center at y=108.
+const CELL_W = 200;
+const CY = 108;
+const LABEL_Y = 200;
+const VB_W = 1200;
+const VB_H = 240;
+
+type ShapeNode = (args: {
+  cx: number;
+  fill: string;
+  style: React.CSSProperties;
+}) => ReactNode;
+
+// Each faction gets its own shape constructor. The shape constructor takes
+// a cell center x, a fill, and a style (for pulse transform + glow). All
+// shapes center around (cx, CY) so swapping the shape function doesn't
+// require moving anything else.
+const SHAPES: Array<{ name: WarhammerName; node: ShapeNode }> = [
   {
-    // 'world eaters red' — big red disc, top-left anchor
     name: 'world eaters red',
-    node: (fill, pulse) => (
-      <circle
-        cx={115}
-        cy={130}
-        r={86}
-        fill={fill}
-        style={{
-          transition: 'transform 500ms ease, filter 500ms ease',
-          transformOrigin: '115px 130px',
-          transform: pulse ? 'scale(1.04)' : 'scale(1)',
-          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
-        }}
-      />
+    node: ({ cx, fill, style }) => (
+      <circle cx={cx} cy={CY} r={58} fill={fill} style={style} />
     ),
-    label: { x: 115, y: 245, align: 'middle' },
   },
   {
-    // 'adeptus red' — small hard square sitting atop the disc
     name: 'adeptus red',
-    node: (fill, pulse) => (
-      <rect
-        x={160}
-        y={52}
-        width={78}
-        height={78}
-        fill={fill}
-        style={{
-          transition: 'transform 500ms ease, filter 500ms ease',
-          transformOrigin: '199px 91px',
-          transform: pulse ? 'rotate(4deg) scale(1.04)' : 'rotate(0deg) scale(1)',
-          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
-        }}
-      />
+    node: ({ cx, fill, style }) => (
+      <rect x={cx - 48} y={CY - 48} width={96} height={96} fill={fill} style={style} />
     ),
-    label: { x: 199, y: 44, align: 'middle' },
   },
   {
-    // 'sons of malice white' — off-white triangle, mid-upper
     name: 'sons of malice white',
-    node: (fill, pulse) => (
+    node: ({ cx, fill, style }) => (
       <polygon
-        points="340,40 420,190 260,190"
+        points={`${cx},${CY - 64} ${cx + 58},${CY + 48} ${cx - 58},${CY + 48}`}
         fill={fill}
         stroke="var(--bh-ink)"
         strokeWidth={1.5}
-        style={{
-          transition: 'transform 500ms ease, filter 500ms ease',
-          transformOrigin: '340px 115px',
-          transform: pulse ? 'scale(1.04)' : 'scale(1)',
-          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
-        }}
+        style={style}
       />
     ),
-    label: { x: 340, y: 210, align: 'middle' },
   },
   {
-    // 'the flawless host purple' — tall rectangle, right-of-center
     name: 'the flawless host purple',
-    node: (fill, pulse) => (
-      <rect
-        x={460}
-        y={60}
-        width={52}
-        height={170}
-        fill={fill}
-        style={{
-          transition: 'transform 500ms ease, filter 500ms ease',
-          transformOrigin: '486px 145px',
-          transform: pulse ? 'scale(1.04, 1.06)' : 'scale(1)',
-          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
-        }}
-      />
+    node: ({ cx, fill, style }) => (
+      <rect x={cx - 28} y={CY - 64} width={56} height={128} fill={fill} style={style} />
     ),
-    label: { x: 486, y: 250, align: 'middle' },
   },
   {
-    // 'nurgle green' — arc (semi-circle open top), right side
     name: 'nurgle green',
-    node: (fill, pulse) => (
+    node: ({ cx, fill, style }) => (
       <path
-        d="M 560 220 A 80 80 0 0 1 720 220 Z"
+        d={`M ${cx - 62} ${CY + 44} A 62 62 0 0 1 ${cx + 62} ${CY + 44} Z`}
         fill={fill}
-        style={{
-          transition: 'transform 500ms ease, filter 500ms ease',
-          transformOrigin: '640px 220px',
-          transform: pulse ? 'scale(1.05)' : 'scale(1)',
-          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
-        }}
+        style={style}
       />
     ),
-    label: { x: 640, y: 245, align: 'middle' },
   },
   {
-    // 'alpha legion teal' — diagonal slash bar crossing the composition
     name: 'alpha legion teal',
-    node: (fill, pulse) => (
+    node: ({ cx, fill, style }) => (
       <polygon
-        points="570,30 660,30 620,130 530,130"
+        points={`${cx - 30},${CY - 56} ${cx + 56},${CY - 56} ${cx + 30},${CY + 56} ${cx - 56},${CY + 56}`}
         fill={fill}
-        style={{
-          transition: 'transform 500ms ease, filter 500ms ease',
-          transformOrigin: '595px 80px',
-          transform: pulse ? 'scale(1.04)' : 'scale(1)',
-          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
-        }}
+        style={style}
       />
     ),
-    label: { x: 595, y: 20, align: 'middle' },
   },
 ];
 
@@ -158,106 +102,145 @@ export function KandinskyBYO({
   colors,
   invocations,
 }: KandinskyBYOProps) {
-  // No inline section wrapper or header here — the parent <DemoPanel />
-  // provides the bordered card + Bauhaus "act 02 · resolve · bring your
-  // own" chrome. This component is content only.
+  // Random per-selection offset. Fires on every matchedName change so
+  // scrubbing across faction regions keeps the pulse feeling alive; same
+  // faction twice still re-randomizes. Distance 8–18px in a random
+  // direction around the shape's center.
+  const [offset, setOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  useEffect(() => {
+    if (!matchedName) return;
+    const angle = Math.random() * Math.PI * 2;
+    const d = 8 + Math.random() * 10;
+    setOffset({ x: Math.cos(angle) * d, y: Math.sin(angle) * d });
+  }, [matchedName]);
+
+  const styleFor = useMemo(
+    () =>
+      (name: WarhammerName, fill: string): React.CSSProperties => {
+        const pulse = matchedName === name;
+        return {
+          transition:
+            'transform 420ms cubic-bezier(0.22,1,0.36,1), filter 420ms ease',
+          transformBox: 'fill-box',
+          transformOrigin: 'center',
+          transform: pulse
+            ? `translate(${offset.x}px, ${offset.y}px) scale(1.1)`
+            : 'translate(0, 0) scale(1)',
+          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
+          cursor: 'pointer',
+        };
+      },
+    [matchedName, offset.x, offset.y],
+  );
+
   return (
-    <div
-      className="relative overflow-hidden"
-      style={{ backgroundColor: 'var(--bh-paper)' }}
-    >
-      <div className="grid md:grid-cols-[1.4fr_1fr] gap-0 divide-x divide-[var(--bh-ink)]">
-        <div className="relative p-6">
-          <svg
-            viewBox="0 0 760 300"
-            role="img"
-            aria-label="Kandinsky composition of warhammer palette entries"
-            className="w-full h-auto"
-          >
-            {/* grid ticks */}
-            <g opacity={0.15} stroke="var(--bh-ink)" strokeWidth={0.6}>
-              {Array.from({ length: 11 }).map((_, i) => (
-                <line
-                  // biome-ignore lint/suspicious/noArrayIndexKey: deterministic
-                  key={`v${i}`}
-                  x1={i * 76}
-                  y1={0}
-                  x2={i * 76}
-                  y2={300}
-                />
-              ))}
-              {Array.from({ length: 5 }).map((_, i) => (
-                <line
-                  // biome-ignore lint/suspicious/noArrayIndexKey: deterministic
-                  key={`h${i}`}
-                  x1={0}
-                  y1={i * 75}
-                  x2={760}
-                  y2={i * 75}
-                />
-              ))}
-            </g>
+    <div style={{ backgroundColor: 'var(--bh-paper)' }}>
+      {/* ─── Full-width shape row ─── */}
+      <div className="px-4 md:px-6 pt-5 pb-2">
+        <svg
+          viewBox={`0 0 ${VB_W} ${VB_H}`}
+          role="img"
+          aria-label="Kandinsky composition of warhammer palette entries"
+          className="w-full h-auto"
+        >
+          {/* faint cell guides for compositional rhythm */}
+          <g opacity={0.08} stroke="var(--bh-ink)" strokeWidth={1}>
+            {SHAPES.map((_, i) => (
+              <line
+                // biome-ignore lint/suspicious/noArrayIndexKey: deterministic
+                key={i}
+                x1={(i + 1) * CELL_W}
+                y1={8}
+                x2={(i + 1) * CELL_W}
+                y2={VB_H - 8}
+              />
+            ))}
+          </g>
 
-            {/* shapes — ordered back-to-front for overlap semantics */}
-            {SHAPES.map(({ name, node, label }) => {
-              const fill = colors[name] ?? '#000';
-              const pulse = matchedName === name;
-              return (
-                <g key={name}>
-                  {node(fill, pulse)}
-                  <text
-                    x={label.x}
-                    y={label.y}
-                    textAnchor={label.align}
-                    fontFamily="'JetBrains Mono', monospace"
-                    fontSize={9.5}
-                    letterSpacing={1.4}
-                    fill="var(--bh-ink)"
-                    opacity={pulse ? 1 : 0.55}
-                  >
-                    {name.toUpperCase()}
-                  </text>
-                </g>
-              );
-            })}
-          </svg>
-        </div>
+          {SHAPES.map((shape, idx) => {
+            const cx = idx * CELL_W + CELL_W / 2;
+            const fill = colors[shape.name];
+            const pulse = matchedName === shape.name;
+            return (
+              <g key={shape.name}>
+                {/* invisible full-cell hit rect so clicking near the shape
+                    (or on its label) still registers */}
+                <rect
+                  x={idx * CELL_W}
+                  y={0}
+                  width={CELL_W}
+                  height={VB_H}
+                  fill="transparent"
+                  onClick={() => setInput(fill)}
+                  style={{ cursor: 'pointer' }}
+                  aria-label={`select ${shape.name}`}
+                />
+                {shape.node({ cx, fill, style: styleFor(shape.name, fill) })}
+                <text
+                  x={cx}
+                  y={LABEL_Y}
+                  textAnchor="middle"
+                  fontFamily="'JetBrains Mono', monospace"
+                  fontSize={14}
+                  letterSpacing={2}
+                  fill="var(--bh-ink)"
+                  opacity={pulse ? 1 : 0.6}
+                  style={{ pointerEvents: 'none' }}
+                >
+                  {shape.name.toUpperCase()}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
 
-        <aside className="p-6 flex flex-col gap-4" style={{ backgroundColor: 'var(--bh-cream)' }}>
-          <label className="block">
-            <div className="bh-eyebrow mb-2">scrub · your input</div>
+      {/* ─── Input (left) · Nearest (right) ─── */}
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 px-5 md:px-6 pt-4 pb-5"
+        style={{
+          borderTop: '1px solid var(--bh-ink)',
+          backgroundColor: 'var(--bh-cream)',
+        }}
+      >
+        <label className="block">
+          <div className="bh-eyebrow mb-2">input</div>
+          <div className="flex items-center gap-3">
             <input
               type="color"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="w-full h-10 cursor-pointer appearance-none"
+              className="w-16 h-10 cursor-pointer appearance-none"
               style={{ border: '1px solid var(--bh-ink)', padding: 0 }}
               aria-label="BYO color picker"
             />
-            <code className="font-mono text-xs block mt-1">{input}</code>
-          </label>
+            <code className="font-mono text-xs">{input}</code>
+          </div>
+        </label>
 
-          <div>
-            <div className="bh-eyebrow mb-2">nearest warhammer</div>
+        <div>
+          <div className="bh-eyebrow mb-2">nearest</div>
+          <div className="flex items-center gap-3">
             <div
-              className="h-10"
+              className="w-10 h-10 shrink-0"
               style={{
                 backgroundColor: matchedHex ?? 'transparent',
                 border: '1px solid var(--bh-ink)',
               }}
             />
-            <code className="font-mono text-xs block mt-1">
-              {matchedName ?? '—'} {matchedHex ? `· ${matchedHex}` : ''}
-            </code>
+            <div className="min-w-0">
+              <div className="font-mono text-xs lowercase truncate">
+                {matchedName ?? '—'}
+              </div>
+              <div className="font-mono text-[10px] opacity-60 truncate">
+                {matchedHex ?? ''}
+              </div>
+            </div>
           </div>
-
-          <div className="font-mono text-[10px] tracking-[0.15em] uppercase opacity-70 leading-relaxed mt-auto">
-            scrub the picker — as the input crosses a faction's region, the
-            matching shape pulses and the snippet below swaps its chant.
-          </div>
-        </aside>
+        </div>
       </div>
 
+      {/* ─── LiveSnippet ─── */}
       <div style={{ borderTop: '1px solid var(--bh-ink)' }}>
         <LiveSnippet
           label="signal · resolve · BYO"
@@ -272,9 +255,7 @@ export function KandinskyBYO({
 }
 
 // The BYO snippet is self-contained: it includes the inline `warhammer`
-// palette literal so pasting it into a file yields runnable code. The copy
-// payload strips the `// → …` result comment; the on-screen display keeps
-// it so the reader sees the match live.
+// palette literal so pasting it into a file yields runnable code.
 function buildDisplaySnippet(
   matchedName: string | null,
   matchedHex: string | null,
