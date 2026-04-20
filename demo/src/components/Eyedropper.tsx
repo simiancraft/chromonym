@@ -14,6 +14,7 @@ import {
   useState,
 } from 'react';
 import { METRICS, METRIC_LABELS } from '../lib/metrics.js';
+import { buildEyedropperSnippet } from '../lib/snippets.js';
 import { LiveSnippet } from './LiveSnippet.js';
 import { PaletteGrid, PALETTES, type PaletteKey } from './PaletteGrid.js';
 
@@ -237,17 +238,67 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
     pendingHoverEventRef.current = null;
     setHover(null);
   };
+  const pinAt = useCallback(
+    (p: PickedPixel) => {
+      setPinned((prev) => {
+        if (prev && prev.x === p.x && prev.y === p.y) return null;
+        // Propagate to the shared demo input so the hero, translator, etc.
+        // react in lockstep — pinning here *is* the same act as scrubbing
+        // the color picker in the identify section.
+        onPick?.(p.hex);
+        return p;
+      });
+    },
+    [onPick],
+  );
+
   const onCanvasClick = (e: ReactMouseEvent<HTMLCanvasElement>) => {
     const p = pickPixelAt(e.clientX, e.clientY);
-    if (!p) return;
-    if (pinned && pinned.x === p.x && pinned.y === p.y) {
-      setPinned(null);
-    } else {
-      setPinned(p);
-      // Propagate to the shared demo input so the hero, translator, etc.
-      // react in lockstep — pinning here *is* the same act as scrubbing
-      // the color picker in the identify section.
-      onPick?.(p.hex);
+    if (p) pinAt(p);
+  };
+
+  // Keyboard navigation for the canvas: arrow keys nudge a focused cursor
+  // by one canvas-pixel (Shift = 10px for faster traversal); Enter/Space
+  // pin the current pixel. Canvases are pointer-only by default — this
+  // promotes the eyedropper to keyboard-usable.
+  const onCanvasKeyDown = (e: React.KeyboardEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const step = e.shiftKey ? 10 : 1;
+    const current = pinned ?? hover ?? { x: Math.floor(CANVAS_W / 2), y: Math.floor(CANVAS_H / 2), hex: '#000000' };
+    let nx = current.x;
+    let ny = current.y;
+    switch (e.key) {
+      case 'ArrowLeft':
+        nx = Math.max(0, current.x - step);
+        break;
+      case 'ArrowRight':
+        nx = Math.min(CANVAS_W - 1, current.x + step);
+        break;
+      case 'ArrowUp':
+        ny = Math.max(0, current.y - step);
+        break;
+      case 'ArrowDown':
+        ny = Math.min(CANVAS_H - 1, current.y + step);
+        break;
+      case 'Enter':
+      case ' ': {
+        if (current) pinAt(current);
+        e.preventDefault();
+        return;
+      }
+      default:
+        return;
+    }
+    e.preventDefault();
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    if (!ctx) return;
+    try {
+      const [r, g, b] = ctx.getImageData(nx, ny, 1, 1).data;
+      const hex = `#${[r, g, b].map((v) => (v ?? 0).toString(16).padStart(2, '0')).join('')}`;
+      setHover({ x: nx, y: ny, hex });
+    } catch {
+      /* tainted canvas — ignore */
     }
   };
 
@@ -286,28 +337,7 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
 
   // ---- Code snippet -----------------------------------------------------
 
-  const displayLines = [
-    `import { identify, ${paletteKey} } from 'chromonym';`,
-    ``,
-    `identify(${pickedHex ? `'${pickedHex}'` : '/* hover the canvas */'}, {`,
-    `  palette: ${paletteKey},`,
-    `  metric:  '${metric}',`,
-    `  k:       ${k},`,
-    `})`,
-  ];
-  const copyLines = [...displayLines];
-  if (matches.length > 0) {
-    const shown = Math.min(matches.length, 3);
-    displayLines.push('// → [');
-    for (let i = 0; i < shown; i++) {
-      const m = matches[i];
-      displayLines.push(
-        `//     { name: '${m.name}', value: '${m.value}', distance: ${m.distance.toFixed(3)} },`,
-      );
-    }
-    if (matches.length > shown) displayLines.push('//     // …');
-    displayLines.push('// ]');
-  }
+  const snippet = buildEyedropperSnippet({ paletteKey, pickedHex, metric, k, matches });
 
   // ---- Render -----------------------------------------------------------
 
@@ -400,16 +430,18 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
             ref={canvasRef}
             width={CANVAS_W}
             height={CANVAS_H}
+            tabIndex={0}
             onMouseMove={onCanvasMove}
             onMouseLeave={onCanvasLeave}
             onClick={onCanvasClick}
-            className="w-full h-auto cursor-crosshair"
+            onKeyDown={onCanvasKeyDown}
+            className="w-full h-auto cursor-crosshair focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--bh-ink)]"
             style={{
               aspectRatio: `${CANVAS_W} / ${CANVAS_H}`,
               border: '1px solid var(--bh-ink)',
               backgroundColor: 'var(--bh-cream)',
             }}
-            aria-label="image to pick colors from"
+            aria-label="image to pick colors from; arrow keys to nudge, Enter to pin"
           />
           {pinned && <PinnedMarker x={pinned.x} y={pinned.y} />}
           {/* Hidden video for webcam; off-screen instead of display:none
@@ -452,17 +484,17 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
               />
               <div className="truncate">
                 <div className="text-sm font-mono truncate">{bestName ?? '—'}</div>
-                <div className="text-[10px] text-neutral-500 font-mono truncate">
+                <div className="text-[10px] font-mono opacity-60 truncate">
                   {bestHex ?? ''} {matches[0] && `· Δ ${matches[0].distance.toFixed(2)}`}
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="text-[10px] text-neutral-500 font-mono">
+          <div className="text-[10px] font-mono opacity-60">
             lookup: {elapsedMs < 0.01 ? '<0.01' : elapsedMs.toFixed(2)} ms
             {pinned && (
-              <span className="ml-2 text-neutral-400">· pinned — click again to unpin</span>
+              <span className="ml-2 opacity-70">· pinned — click again to unpin</span>
             )}
           </div>
         </div>
@@ -513,10 +545,9 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
       />
 
       <LiveSnippet
-        displayText={displayLines.join('\n')}
-        copyText={copyLines.join('\n')}
         label="signal · identify · eyedropper"
         tintHex={pickedHex ?? undefined}
+        {...snippet}
         ariaLabel="live chromonym call for the eyedropper"
       />
     </div>

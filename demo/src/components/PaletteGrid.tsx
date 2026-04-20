@@ -3,12 +3,16 @@
 // mode), the grid a flex-wrap. Shared by the translator (both sides) and the
 // eyedropper (result-only).
 
-import { type Palette, crayola, pantone, web, x11 } from 'chromonym';
+import { crayola, pantone, web, x11 } from 'chromonym';
 import { memo, useMemo } from 'react';
 
-export type PaletteKey = 'web' | 'x11' | 'pantone' | 'crayola';
-
-export const PALETTES: Record<PaletteKey, Palette> = { web, x11, pantone, crayola };
+// `as const` is load-bearing: it preserves each palette's literal name union
+// through `PALETTES[k].colors`, so `Object.entries(...)` downstream doesn't
+// decay to `string[]`. Without this the demo would need an `as Record<string,
+// string>` laundered cast at every lookup site — exactly what chromonym's
+// `Palette<Name>` generics exist to eliminate.
+export const PALETTES = { web, x11, pantone, crayola } as const;
+export type PaletteKey = keyof typeof PALETTES;
 
 export const PALETTE_LABELS: Record<PaletteKey, string> = {
   web: 'CSS / web',
@@ -17,7 +21,7 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   crayola: 'Crayola',
 };
 
-export const PALETTE_KEYS: readonly PaletteKey[] = ['web', 'x11', 'pantone', 'crayola'];
+export const PALETTE_KEYS = ['web', 'x11', 'pantone', 'crayola'] as const satisfies readonly PaletteKey[];
 
 interface PaletteGridProps {
   paletteKey: PaletteKey;
@@ -64,17 +68,21 @@ export function PaletteGrid({
   );
 
   const selectedHex = selectedName
-    ? (palette.colors as Record<string, string>)[selectedName]
+    ? (palette.colors as Readonly<Record<string, string>>)[selectedName]
     : null;
 
   return (
     <div className={`flex flex-col min-h-0 ${className}`}>
       <label className="block mb-2">
-        <span className="text-xs uppercase tracking-wide text-neutral-500">palette</span>
+        <span className="bh-eyebrow">palette</span>
         <select
           value={paletteKey}
           onChange={(e) => onPaletteChange(e.target.value as PaletteKey)}
-          className="w-full h-10 rounded border border-neutral-300 px-2 mt-1 bg-white text-sm"
+          className="w-full h-10 px-2 mt-1 text-sm font-mono"
+          style={{
+            border: '1px solid var(--bh-ink)',
+            backgroundColor: 'var(--bh-cream)',
+          }}
           aria-label={`${ariaLabel} palette selector`}
         >
           {PALETTE_KEYS.map((k) => (
@@ -86,7 +94,11 @@ export function PaletteGrid({
       </label>
 
       <div
-        className="flex-1 min-h-0 max-h-80 overflow-y-auto rounded-lg border border-neutral-200 bg-neutral-50 p-2"
+        className="flex-1 min-h-0 max-h-80 overflow-y-auto p-2"
+        style={{
+          border: '1px solid var(--bh-ink)',
+          backgroundColor: 'var(--bh-cream)',
+        }}
         aria-label={`${ariaLabel} swatch grid`}
       >
         <div className="flex flex-wrap gap-[5px]">
@@ -106,7 +118,7 @@ export function PaletteGrid({
       </div>
 
       <div
-        className="text-xs text-neutral-500 mt-2 font-mono truncate"
+        className="text-xs mt-2 font-mono truncate opacity-60"
         title={selectedName ?? undefined}
       >
         {selectedName && selectedHex

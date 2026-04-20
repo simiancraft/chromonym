@@ -7,6 +7,7 @@
 // fixed per palette for recognition; `ink` flips to black/cream based on tone
 // luminance so the display text stays legible.
 
+import { useRef } from 'react';
 import { PALETTES, PALETTE_LABELS, type PaletteKey } from './PaletteGrid.js';
 
 interface PaletteTilesProps {
@@ -24,12 +25,45 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
 const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola'];
 
 export function PaletteTiles({ selected, onSelect }: PaletteTilesProps) {
+  const tileRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  // ARIA radio-group keyboard model: arrow keys move focus + selection
+  // through the group; Tab moves out. Home/End jump to first/last.
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const currentIdx = ORDER.indexOf(selected);
+    let nextIdx = currentIdx;
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        nextIdx = (currentIdx + 1) % ORDER.length;
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        nextIdx = (currentIdx - 1 + ORDER.length) % ORDER.length;
+        break;
+      case 'Home':
+        nextIdx = 0;
+        break;
+      case 'End':
+        nextIdx = ORDER.length - 1;
+        break;
+      default:
+        return;
+    }
+    e.preventDefault();
+    const nextKey = ORDER[nextIdx];
+    if (!nextKey) return;
+    onSelect(nextKey);
+    tileRefs.current[nextIdx]?.focus();
+  };
+
   return (
     <div
       className="grid grid-cols-2 gap-[3px] p-[3px]"
       style={{ backgroundColor: 'var(--bh-ink)' }}
       role="radiogroup"
       aria-label="palette selector"
+      onKeyDown={handleKeyDown}
     >
       {ORDER.map((key, idx) => {
         const { tone, ink } = TILE_META[key];
@@ -43,9 +77,15 @@ export function PaletteTiles({ selected, onSelect }: PaletteTilesProps) {
         return (
           <button
             key={key}
+            ref={(el) => {
+              tileRefs.current[idx] = el;
+            }}
             type="button"
             role="radio"
             aria-checked={isSelected}
+            // Roving tabindex: only the active tile takes Tab focus; arrow
+            // keys move focus + selection through the others.
+            tabIndex={isSelected ? 0 : -1}
             onClick={() => onSelect(key)}
             className="relative p-4 flex flex-col justify-between text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
             style={{

@@ -4,12 +4,22 @@
 // ΔE2000 in saturated blues, for example).
 
 import { type DistanceMetric, identify } from 'chromonym';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { METRICS, METRIC_LABELS } from '../lib/metrics.js';
+import { buildTranslateSnippet } from '../lib/snippets.js';
 import { LiveSnippet } from './LiveSnippet.js';
 import { PaletteGrid, PALETTES, type PaletteKey } from './PaletteGrid.js';
 
 type Side = 'left' | 'right';
+
+// Safe palette-entry lookup: the caller passes any string; we return the
+// stored hex or `undefined`. Keeps `PALETTES[k].colors` typed with its
+// literal name union at the source while tolerating unknown keys here.
+function colorAt(paletteKey: PaletteKey, name: string | null): string | undefined {
+  if (name == null) return undefined;
+  const colors = PALETTES[paletteKey].colors as Readonly<Record<string, string>>;
+  return colors[name];
+}
 
 export function CrossPaletteTranslator() {
   const [leftPalette, setLeftPalette] = useState<PaletteKey>('crayola');
@@ -58,28 +68,34 @@ export function CrossPaletteTranslator() {
   const leftShownRanks = lastEdited === 'right' ? highlightRanks : undefined;
   const rightShownRanks = lastEdited === 'left' ? highlightRanks : undefined;
 
-  // Color hexes for the arrow gradient.
-  const leftHex =
-    leftShownSelected != null
-      ? (PALETTES[leftPalette].colors as Record<string, string>)[leftShownSelected] ?? '#cccccc'
-      : '#cccccc';
-  const rightHex =
-    rightShownSelected != null
-      ? (PALETTES[rightPalette].colors as Record<string, string>)[rightShownSelected] ?? '#cccccc'
-      : '#cccccc';
+  // Color hexes for the arrow gradient. `colorAt` normalizes the per-palette
+  // literal-name-union lookup into a string → string | undefined shape, so
+  // the nullish-coalesce fallback does real work without a cast at each site.
+  const leftHex = colorAt(leftPalette, leftShownSelected) ?? '#cccccc';
+  const rightHex = colorAt(rightPalette, rightShownSelected) ?? '#cccccc';
 
-  const onLeftPaletteChange = (key: PaletteKey) => {
+  // useCallback keeps the reference stable across renders so PaletteGrid's
+  // memoized Swatch doesn't re-render all 907 pantone buttons on every parent
+  // tick. Without this, React.memo is free to pass on — every Swatch sees a
+  // fresh `onSelect` prop and rerenders anyway.
+  const onLeftPaletteChange = useCallback((key: PaletteKey) => {
     setLeftPalette(key);
-    const first = Object.keys(PALETTES[key].colors)[0] ?? null;
-    setLeftSelected(first);
+    setLeftSelected(Object.keys(PALETTES[key].colors)[0] ?? null);
     setLastEdited('left');
-  };
-  const onRightPaletteChange = (key: PaletteKey) => {
+  }, []);
+  const onRightPaletteChange = useCallback((key: PaletteKey) => {
     setRightPalette(key);
-    const first = Object.keys(PALETTES[key].colors)[0] ?? null;
-    setRightSelected(first);
+    setRightSelected(Object.keys(PALETTES[key].colors)[0] ?? null);
     setLastEdited('right');
-  };
+  }, []);
+  const onLeftSelect = useCallback((name: string) => {
+    setLeftSelected(name);
+    setLastEdited('left');
+  }, []);
+  const onRightSelect = useCallback((name: string) => {
+    setRightSelected(name);
+    setLastEdited('right');
+  }, []);
 
   return (
     <div
@@ -98,10 +114,7 @@ export function CrossPaletteTranslator() {
           paletteKey={leftPalette}
           onPaletteChange={onLeftPaletteChange}
           selectedName={leftShownSelected}
-          onSelect={(name) => {
-            setLeftSelected(name);
-            setLastEdited('left');
-          }}
+          onSelect={onLeftSelect}
           highlightedNames={leftShownHighlights}
           highlightRanks={leftShownRanks}
         />
@@ -122,22 +135,24 @@ export function CrossPaletteTranslator() {
           paletteKey={rightPalette}
           onPaletteChange={onRightPaletteChange}
           selectedName={rightShownSelected}
-          onSelect={(name) => {
-            setRightSelected(name);
-            setLastEdited('right');
-          }}
+          onSelect={onRightSelect}
           highlightedNames={rightShownHighlights}
           highlightRanks={rightShownRanks}
         />
       </div>
 
-      <TranslatorSnippet
-        srcPalette={srcPaletteKey}
-        dstPalette={dstPaletteKey}
-        srcSelected={srcSelected}
-        metric={metric}
-        k={k}
-        matches={matches}
+      <LiveSnippet
+        label="signal · translate"
+        tintHex={matches[0]?.value}
+        {...buildTranslateSnippet({
+          srcPalette: srcPaletteKey,
+          dstPalette: dstPaletteKey,
+          srcSelected,
+          metric,
+          k,
+          matches,
+        })}
+        ariaLabel="live chromonym call for the current selection"
       />
 
       <p className="bh-eyebrow pt-1 opacity-70">
@@ -147,56 +162,6 @@ export function CrossPaletteTranslator() {
   );
 }
 
-interface TranslatorSnippetProps {
-  srcPalette: PaletteKey;
-  dstPalette: PaletteKey;
-  srcSelected: string | null;
-  metric: DistanceMetric;
-  k: number;
-  matches: ReadonlyArray<{ name: string; value: string; distance: number }>;
-}
-
-// Translator-flavored call — builds a display + copy text pair and hands
-// them to the generic LiveSnippet. The pair split means the `// → [...]`
-// comment is visible but not part of what the copy button sends.
-function TranslatorSnippet({
-  srcPalette,
-  dstPalette,
-  srcSelected,
-  metric,
-  k,
-  matches,
-}: TranslatorSnippetProps) {
-  const shown = Math.min(matches.length, 3);
-  const resultLines = matches.slice(0, shown).map(
-    (m) => `//     { name: '${m.name}', value: '${m.value}', distance: ${m.distance.toFixed(3)} },`,
-  );
-  if (matches.length > shown) resultLines.push('//     // …');
-
-  const codeLines = [
-    `import { identify, ${srcPalette}, ${dstPalette} } from 'chromonym';`,
-    ``,
-    `identify(${srcSelected ? `'${srcSelected}'` : '/* pick a swatch */'}, {`,
-    `  source:  ${srcPalette},`,
-    `  palette: ${dstPalette},`,
-    `  metric:  '${metric}',`,
-    `  k:       ${k},`,
-    `})`,
-  ];
-  const resultBlock = matches.length > 0 ? ['// → [', ...resultLines, '// ]'] : [];
-  const displayText = [...codeLines, ...resultBlock].join('\n');
-  const copyText = codeLines.join('\n');
-
-  return (
-    <LiveSnippet
-      displayText={displayText}
-      copyText={copyText}
-      label="signal · translate"
-      tintHex={matches[0]?.value}
-      ariaLabel="live chromonym call for the current selection"
-    />
-  );
-}
 
 interface ArrowColumnProps {
   leftHex: string;
@@ -224,11 +189,15 @@ function ArrowColumn({
     <div className="flex flex-col items-stretch justify-between gap-3 md:w-56 md:min-w-[14rem]">
       <div className="space-y-2">
         <label className="block">
-          <span className="text-xs uppercase tracking-wide text-neutral-500">metric</span>
+          <span className="bh-eyebrow">metric</span>
           <select
             value={metric}
             onChange={(e) => onMetricChange(e.target.value as DistanceMetric)}
-            className="w-full h-10 rounded border border-neutral-300 px-2 mt-1 bg-white text-sm"
+            className="w-full h-10 px-2 mt-1 text-sm font-mono"
+            style={{
+              border: '1px solid var(--bh-ink)',
+              backgroundColor: 'var(--bh-cream)',
+            }}
           >
             {METRICS.map((m) => (
               <option key={m} value={m}>
@@ -239,9 +208,7 @@ function ArrowColumn({
         </label>
 
         <label className="block">
-          <span className="text-xs uppercase tracking-wide text-neutral-500">
-            k: {k} nearest
-          </span>
+          <span className="bh-eyebrow">k: {k} nearest</span>
           <input
             type="range"
             min={1}
@@ -279,16 +246,16 @@ function ArrowColumn({
       </div>
 
       <div className="text-center space-y-1">
-        <div className="text-xs text-neutral-500">
+        <div className="text-xs font-mono opacity-60">
           lookup:{' '}
-          <span className="font-mono text-neutral-800">
+          <span className="opacity-100">
             {elapsedMs < 0.01 ? '<0.01' : elapsedMs.toFixed(2)} ms
           </span>
         </div>
         {matches[0] && (
-          <div className="text-xs text-neutral-500">
+          <div className="text-xs font-mono opacity-60">
             nearest distance:{' '}
-            <span className="font-mono text-neutral-800">{matches[0].distance.toFixed(3)}</span>
+            <span className="opacity-100">{matches[0].distance.toFixed(3)}</span>
           </div>
         )}
       </div>

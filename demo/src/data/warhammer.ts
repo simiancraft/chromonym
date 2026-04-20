@@ -26,14 +26,26 @@ export const warhammer = {
   | 'alpha legion teal'
 >;
 
+// Canonical warhammer color-name union, derived from the palette literal
+// above. Exported so every consumer of this data (invocations map, the
+// Kandinsky SVG shape list, the KandinskyBYO component's generic prop)
+// reads from the same source — adding or removing a color on the palette
+// fails the compile at every affected call site.
+export type WarhammerName = keyof (typeof warhammer)['colors'];
+
 // In-universe battle-cry for each faction. Rendered only in the *displayed*
 // BYO snippet (not the copy payload) so scrubbing the input across factions
 // swaps the flavor line. Half easter egg, half interactive: the code block
 // reads differently depending on what the user just matched.
-export const WARHAMMER_INVOCATIONS: Record<keyof (typeof warhammer)['colors'], string> = {
+//
+// Sons of Malice is the one Chaos Space Marine renegade chapter that rejects
+// the four Chaos gods outright; "we are the damned" is the canonical in-
+// universe framing of that opposition, which is why it replaces the looser
+// "spite the gods" draft.
+export const WARHAMMER_INVOCATIONS: Record<WarhammerName, string> = {
   'world eaters red': 'blood for the blood god',
   'adeptus red': 'for the glory of the omnissiah',
-  'sons of malice white': 'spite the gods',
+  'sons of malice white': 'we are the damned',
   'the flawless host purple': 'perfection in all things',
   'nurgle green': 'grandfather nurgle smiles',
   'alpha legion teal': 'hydra dominatus',

@@ -20,7 +20,7 @@ import {
   identify,
   resolve,
 } from 'chromonym';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { PALETTES, type PaletteKey, PALETTE_KEYS } from '../components/PaletteGrid.js';
 import { METRICS } from '../lib/metrics.js';
 import type { Preset } from '../data/presets.js';
@@ -42,25 +42,36 @@ function readParams(): { color: string; palette: PaletteKey; metric: DistanceMet
 }
 
 export function useDemoState() {
-  // readParams runs once via the lazy initializer — we don't re-parse on
-  // every render.
-  const [input, setInput] = useState<string>(() => readParams().color);
-  const [paletteKey, setPaletteKey] = useState<PaletteKey>(() => readParams().palette);
-  const [metric, setMetric] = useState<DistanceMetric>(() => readParams().metric);
+  // readParams is called exactly once — a lazy tuple initializer so each
+  // useState seeds from the same parse. (Prior versions called it three
+  // times, which worked but re-parsed URLSearchParams each time.)
+  const [initial] = useState(readParams);
+  const [input, setInput] = useState<string>(initial.color);
+  const [paletteKey, setPaletteKey] = useState<PaletteKey>(initial.palette);
+  const [metric, setMetric] = useState<DistanceMetric>(initial.metric);
 
   const palette = PALETTES[paletteKey];
 
-  // URL sync. replaceState keeps the history stack clean — scrubbing a color
-  // picker shouldn't fill Back with a hundred hex values.
+  // URL sync, lightly debounced. A color-picker scrub emits changes at ~60 Hz;
+  // writing to history that often is wasteful and spams DevTools. 150 ms is
+  // imperceptible for share-link copy UX, cheap for scrubbing. replaceState
+  // keeps the history stack clean — scrubbing shouldn't fill Back.
+  const urlDebounceRef = useRef<number | null>(null);
   useEffect(() => {
-    const p = new URLSearchParams();
-    p.set('c', input);
-    p.set('cs', paletteKey);
-    p.set('m', metric);
-    const qs = `?${p.toString()}`;
-    if (window.location.search !== qs) {
-      window.history.replaceState({}, '', `${window.location.pathname}${qs}`);
-    }
+    if (urlDebounceRef.current !== null) window.clearTimeout(urlDebounceRef.current);
+    urlDebounceRef.current = window.setTimeout(() => {
+      const p = new URLSearchParams();
+      p.set('c', input);
+      p.set('cs', paletteKey);
+      p.set('m', metric);
+      const qs = `?${p.toString()}`;
+      if (window.location.search !== qs) {
+        window.history.replaceState({}, '', `${window.location.pathname}${qs}`);
+      }
+    }, 150);
+    return () => {
+      if (urlDebounceRef.current !== null) window.clearTimeout(urlDebounceRef.current);
+    };
   }, [input, paletteKey, metric]);
 
   // Primary identify match — rank-0 of a k=1 call, so we get both the name
@@ -90,7 +101,12 @@ export function useDemoState() {
   );
   const warhammerHex = useMemo(() => {
     if (!warhammerMatch) return null;
-    return resolve(warhammerMatch, { palette: warhammer }) as string | null;
+    // `resolve` returns `ColorValue | null`, which for the default HEX
+    // format narrows to `HexColor | null`. We narrow via `typeof` instead
+    // of asserting — the cast-shaped fix would lie the day a caller passes
+    // `format: 'RGBA'` and resolve starts returning an Rgba object.
+    const v = resolve(warhammerMatch, { palette: warhammer });
+    return typeof v === 'string' ? v : null;
   }, [warhammerMatch]);
 
   // Convert act — all five format outputs for the current input.

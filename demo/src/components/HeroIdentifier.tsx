@@ -9,6 +9,7 @@
 import type { DistanceMetric } from 'chromonym';
 import { type Preset, PRESETS } from '../data/presets.js';
 import { METRICS, METRIC_LABELS } from '../lib/metrics.js';
+import { buildIdentifySnippet } from '../lib/snippets.js';
 import { LiveSnippet } from './LiveSnippet.js';
 import { type PaletteKey } from './PaletteGrid.js';
 import { PaletteTiles } from './PaletteTiles.js';
@@ -152,20 +153,7 @@ export function HeroIdentifier({
       <LiveSnippet
         label="signal · identify"
         tintHex={matchedHex ?? input}
-        displayText={[
-          `import { identify, ${paletteKey} } from 'chromonym';`,
-          ``,
-          `identify('${input}', {`,
-          `  palette: ${paletteKey},`,
-          `  metric:  '${metric}',`,
-          `})`,
-          `// → ${matchedName ? `'${matchedName}'` : 'null'}`,
-        ].join('\n')}
-        copyText={[
-          `import { identify, ${paletteKey} } from 'chromonym';`,
-          ``,
-          `identify('${input}', { palette: ${paletteKey}, metric: '${metric}' });`,
-        ].join('\n')}
+        {...buildIdentifySnippet({ input, paletteKey, metric, matchedName })}
         ariaLabel="live chromonym identify call for the current input"
       />
     </div>

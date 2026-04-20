@@ -10,24 +10,29 @@
 // exact resolve call the live render is using.
 
 import type { ReactNode } from 'react';
+import type { WarhammerName } from '../data/warhammer.js';
 import { LiveSnippet } from './LiveSnippet.js';
 
+// The composition is specific to the six Warhammer factions — the SVG shape
+// list is hand-tuned to their names. Typing `matchedName` / `colors` /
+// `invocations` to `WarhammerName` means a typo anywhere in the dispatch
+// chain fails the compile rather than silently falling through to black.
 interface KandinskyBYOProps {
   input: string;
   /** Writes back to the shared demo input — the BYO picker is a second
    *  interface to the same `input` state that the hero + eyedropper drive. */
   setInput: (hex: string) => void;
-  matchedName: string | null;
+  matchedName: WarhammerName | null;
   matchedHex: string | null;
-  colors: Readonly<Record<string, string>>;
+  colors: Readonly<Record<WarhammerName, string>>;
   /** Per-palette-entry flavor lines rendered in the displayed (not copied)
    *  snippet. Makes the code block feel alive: different match → different
    *  invocation. Stays out of the copy payload. */
-  invocations?: Readonly<Record<string, string>>;
+  invocations?: Readonly<Record<WarhammerName, string>>;
 }
 
 const SHAPES: Array<{
-  name: string;
+  name: WarhammerName;
   node: (fill: string, pulse: boolean) => ReactNode;
   label: { x: number; y: number; align: 'start' | 'middle' | 'end' };
 }> = [

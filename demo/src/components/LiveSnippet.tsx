@@ -81,10 +81,18 @@ function CopyButton({ text }: { text: string }) {
     <button
       type="button"
       onClick={() => {
-        navigator.clipboard.writeText(text).then(() => {
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1500);
-        });
+        // Insecure contexts + permission-denied both reject; swallow the
+        // rejection so it doesn't surface as an unhandled promise. The
+        // UI not flashing "copied" is already the visible failure mode.
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1500);
+          })
+          .catch(() => {
+            /* clipboard denied — silently no-op */
+          });
       }}
       aria-label={copied ? 'Copied to clipboard' : 'Copy code to clipboard'}
       className="relative font-mono text-[10px] tracking-[0.25em] uppercase px-3 py-1 border border-neutral-700 hover:border-[var(--crt-g)] transition-colors"
