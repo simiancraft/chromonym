@@ -13,6 +13,10 @@ import { PALETTES, PALETTE_LABELS, type PaletteKey } from './PaletteGrid.js';
 interface PaletteTilesProps {
   selected: PaletteKey;
   onSelect: (key: PaletteKey) => void;
+  /** `grid` = 2×2 block (the original, used when vertical space is cheap).
+   *  `row`  = 4×1 horizontal strip — use when the tiles share a row with
+   *  other controls and we're saving vertical space. */
+  layout?: 'grid' | 'row';
 }
 
 const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
@@ -24,7 +28,7 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
 
 const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola'];
 
-export function PaletteTiles({ selected, onSelect }: PaletteTilesProps) {
+export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTilesProps) {
   const tileRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   // ARIA radio-group keyboard model: arrow keys move focus + selection
@@ -57,9 +61,14 @@ export function PaletteTiles({ selected, onSelect }: PaletteTilesProps) {
     tileRefs.current[nextIdx]?.focus();
   };
 
+  const gridClass =
+    layout === 'row'
+      ? 'grid grid-cols-2 sm:grid-cols-4 gap-[3px] p-[3px]'
+      : 'grid grid-cols-2 gap-[3px] p-[3px]';
+
   return (
     <div
-      className="grid grid-cols-2 gap-[3px] p-[3px]"
+      className={gridClass}
       style={{ backgroundColor: 'var(--bh-ink)' }}
       role="radiogroup"
       aria-label="palette selector"
@@ -87,15 +96,15 @@ export function PaletteTiles({ selected, onSelect }: PaletteTilesProps) {
             // keys move focus + selection through the others.
             tabIndex={isSelected ? 0 : -1}
             onClick={() => onSelect(key)}
-            className="relative p-4 flex flex-col justify-between text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            className={`relative flex flex-col justify-between text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${layout === 'row' ? 'p-3' : 'p-4'}`}
             style={{
               backgroundColor: tone,
               color: ink,
-              minHeight: '132px',
+              minHeight: layout === 'row' ? '96px' : '132px',
             }}
           >
             <div className="flex items-start justify-between gap-2">
-              <div className="space-y-1">
+              <div className="space-y-1 min-w-0">
                 <div
                   className="font-mono text-[10px] tracking-[0.2em] uppercase opacity-70"
                   style={{ color: ink }}
@@ -103,8 +112,8 @@ export function PaletteTiles({ selected, onSelect }: PaletteTilesProps) {
                   palette / {String(idx + 1).padStart(2, '0')}
                 </div>
                 <div
-                  className="text-2xl lowercase bh-caps"
-                  style={{ color: ink, fontFamily: "'Unbounded', sans-serif" }}
+                  className={`lowercase font-semibold tracking-[-0.02em] ${layout === 'row' ? 'text-lg' : 'text-2xl'}`}
+                  style={{ color: ink }}
                 >
                   {PALETTE_LABELS[key]}
                 </div>

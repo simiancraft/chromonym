@@ -1,15 +1,19 @@
-// Hero identify panel — color picker, palette tiles, metric selector,
-// presets, result swatches, and a LiveSnippet. All three controls are
-// connected to the shared demo state; applyPreset sets all three at once.
+// Combined identify panel — the above-the-fold demo. Two input modalities
+// (color picker + image-canvas eyedropper) feed the same shared `input`
+// state; last-in wins. Shared palette tiles (row) + metric selector drive
+// the identify call; the output is a full-width scrubbed/nearest/BIG NAME
+// row plus one LiveSnippet for the act.
 //
-// Kept as a plain presentation component: no local state, no effects.
-// Each prop corresponds directly to a value / action from useDemoState(),
-// so the mapping from state → view is visible at the call site.
+// Before this consolidation, scrub and eyedropper were separate demos
+// doing the same thing (color → name) through different input UIs. Merging
+// them puts both inputs side-by-side and gives the user one canonical
+// identify interaction with two ways to drive it.
 
 import type { DistanceMetric } from 'chromonym';
 import { type Preset, PRESETS } from '../data/presets.js';
 import { METRICS, METRIC_LABELS } from '../lib/metrics.js';
 import { buildIdentifySnippet } from '../lib/snippets.js';
+import { Eyedropper } from './Eyedropper.js';
 import { LiveSnippet } from './LiveSnippet.js';
 import { type PaletteKey } from './PaletteGrid.js';
 import { PaletteTiles } from './PaletteTiles.js';
@@ -24,6 +28,7 @@ interface HeroIdentifierProps {
   applyPreset: (p: Preset) => void;
   matchedName: string | null;
   matchedHex: string | null;
+  elapsedMs: number;
 }
 
 export function HeroIdentifier({
@@ -36,16 +41,17 @@ export function HeroIdentifier({
   applyPreset,
   matchedName,
   matchedHex,
+  elapsedMs,
 }: HeroIdentifierProps) {
   return (
     <div
-      className="p-6 md:p-8 space-y-8"
+      className="p-5 md:p-6 space-y-6"
       style={{ backgroundColor: 'var(--bh-paper)' }}
     >
-      {/* controls row: input + tiles + metric */}
-      <div className="grid md:grid-cols-[220px_1fr_240px] gap-6">
+      {/* ── Inputs: color picker · eyedropper canvas (last-in wins) ── */}
+      <div className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 items-start">
         <div>
-          <div className="bh-eyebrow mb-2">input</div>
+          <div className="bh-eyebrow mb-2">scrub</div>
           <label className="block">
             <input
               type="color"
@@ -60,17 +66,27 @@ export function HeroIdentifier({
         </div>
 
         <div>
-          <div className="bh-eyebrow mb-2">palette</div>
-          <PaletteTiles selected={paletteKey} onSelect={setPaletteKey} />
+          <div className="bh-eyebrow mb-2">pixel · from image</div>
+          <Eyedropper onPick={setInput} />
         </div>
+      </div>
 
+      {/* ── Palette tiles (row) + metric ── */}
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_240px] gap-6 items-start">
+        <div>
+          <div className="bh-eyebrow mb-2">palette</div>
+          <PaletteTiles selected={paletteKey} onSelect={setPaletteKey} layout="row" />
+        </div>
         <div>
           <div className="bh-eyebrow mb-2">metric</div>
           <select
             value={metric}
             onChange={(e) => setMetric(e.target.value as DistanceMetric)}
-            className="w-full h-12 px-3 text-sm font-mono bg-[var(--bh-cream)] focus:outline-none focus-visible:ring-2"
-            style={{ border: '1px solid var(--bh-ink)' }}
+            className="w-full h-10 px-2 text-sm font-mono"
+            style={{
+              border: '1px solid var(--bh-ink)',
+              backgroundColor: 'var(--bh-cream)',
+            }}
           >
             {METRICS.map((m) => (
               <option key={m} value={m}>
@@ -85,9 +101,7 @@ export function HeroIdentifier({
         </div>
       </div>
 
-      <div className="bh-rule" />
-
-      {/* presets */}
+      {/* ── Presets ── */}
       <div className="flex flex-wrap gap-2 items-center">
         <span className="bh-eyebrow">presets</span>
         {PRESETS.map((p) => (
@@ -105,7 +119,7 @@ export function HeroIdentifier({
 
       <div className="bh-rule" />
 
-      {/* result — input / match / name */}
+      {/* ── Output row (full width): scrubbed · nearest · BIG NAME ── */}
       <div className="grid md:grid-cols-[1fr_1fr_1.6fr] gap-6 items-end">
         <div>
           <div className="bh-eyebrow mb-2">scrubbed</div>
@@ -133,7 +147,7 @@ export function HeroIdentifier({
             name
           </div>
           <div
-            className="bh-caps break-words leading-[0.9]"
+            className="break-words leading-[0.9] font-semibold lowercase tracking-[-0.02em]"
             role="status"
             aria-live="polite"
             aria-labelledby="match-name-label"
@@ -144,12 +158,20 @@ export function HeroIdentifier({
           >
             {matchedName ?? 'unknown'}
           </div>
-          <div className="font-mono text-xs uppercase tracking-wider mt-3 opacity-70">
-            via {METRIC_LABELS[metric]}
+          <div className="font-mono text-xs uppercase tracking-wider mt-3 opacity-70 flex flex-wrap gap-x-3">
+            <span>via {METRIC_LABELS[metric]}</span>
+            <span>·</span>
+            <span>
+              lookup{' '}
+              <span className="opacity-100">
+                {elapsedMs < 0.01 ? '<0.01' : elapsedMs.toFixed(2)} ms
+              </span>
+            </span>
           </div>
         </div>
       </div>
 
+      {/* ── One snippet for the whole act ── */}
       <LiveSnippet
         label="signal · identify"
         tintHex={matchedHex ?? input}

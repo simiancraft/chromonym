@@ -1,13 +1,13 @@
 // Composition root. All state lives in useDemoState; every panel below is a
 // presentational component that receives just what it needs. The page reads
-// top-down as the user will: masthead → act 01 (identify) → RGB channel
-// divider → act 02 (resolve) → act 03 (convert) → footer.
+// top-down as the user will: masthead → live RGB channel strip → act 01
+// (identify, with color-picker + eyedropper both feeding the same input)
+// → act 02 (resolve) → act 03 (convert) → footer.
 
 import { ConvergenceStrip } from './components/ConvergenceStrip.js';
 import { ConversionsScope } from './components/ConversionsScope.js';
 import { CrossPaletteTranslator } from './components/CrossPaletteTranslator.js';
 import { ActHeader, DemoPanel } from './components/DemoPanel.js';
-import { Eyedropper } from './components/Eyedropper.js';
 import { Footer } from './components/Footer.js';
 import { HeroIdentifier } from './components/HeroIdentifier.js';
 import { KandinskyBYO } from './components/KandinskyBYO.js';
@@ -30,12 +30,19 @@ export function App() {
       >
         <Masthead metric={demo.metric} />
 
-        {/* ===== act 01 · identify ===== */}
-        <div className="mt-12">
+        {/* Live RGB channel strip — the divider between masthead and
+            the above-the-fold identify demo. Driven by the current input
+            color, so it reads as part of the demo, not inert chrome. */}
+        <div className="mt-6">
+          <ConvergenceStrip hex={demo.input} />
+        </div>
+
+        {/* ===== act 01 · identify (above the fold) ===== */}
+        <div className="mt-10">
           <ActHeader act="act 01" title="identify" kicker="color → name" />
         </div>
 
-        <DemoPanel className="mt-4" eyebrow="identify" title="scrub" kicker="color picker">
+        <div className="mt-4" style={{ border: '1px solid var(--bh-ink)' }}>
           <HeroIdentifier
             input={demo.input}
             setInput={demo.setInput}
@@ -46,11 +53,12 @@ export function App() {
             applyPreset={demo.applyPreset}
             matchedName={demo.matchedName}
             matchedHex={demo.matchedHex}
+            elapsedMs={demo.identifyElapsedMs}
           />
-        </DemoPanel>
+        </div>
 
         <DemoPanel
-          className="mt-10"
+          className="mt-8"
           eyebrow="identify · cont."
           title="translate"
           kicker="palette ↔ palette"
@@ -58,22 +66,8 @@ export function App() {
           <CrossPaletteTranslator />
         </DemoPanel>
 
-        <DemoPanel
-          className="mt-10"
-          eyebrow="identify · cont."
-          title="eyedropper"
-          kicker="pixel → name"
-        >
-          <Eyedropper onPick={demo.setInput} />
-        </DemoPanel>
-
-        {/* RGB channel strip — visible divider driven by current input */}
-        <div className="mt-12">
-          <ConvergenceStrip hex={demo.input} />
-        </div>
-
         {/* ===== act 02 · resolve ===== */}
-        <div className="mt-12">
+        <div className="mt-10">
           <ActHeader act="act 02" title="resolve" kicker="name → color" />
           <div className="mt-4">
             <KandinskyBYO
@@ -88,7 +82,7 @@ export function App() {
         </div>
 
         {/* ===== act 03 · convert ===== */}
-        <div className="mt-12">
+        <div className="mt-10">
           <ActHeader act="act 03" title="convert" kicker="format ↔ format" />
           <div className="mt-4">
             <ConversionsScope

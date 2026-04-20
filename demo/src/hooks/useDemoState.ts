@@ -75,13 +75,19 @@ export function useDemoState() {
   }, [input, paletteKey, metric]);
 
   // Primary identify match — rank-0 of a k=1 call, so we get both the name
-  // and its ΔE distance in one shot.
+  // and its ΔE distance in one shot. elapsedMs is captured inside the memo
+  // so it reflects the *actual* identify work for this input/palette/metric
+  // combo. A stable-deps render returns the cached reading, which reads as
+  // "time of the most recent lookup" — accurate, not real-time.
   const primary = useMemo(() => {
+    const t0 = performance.now();
     const [best] = identify(input, { palette, metric, k: 1 });
-    return best ?? null;
+    const elapsedMs = performance.now() - t0;
+    return { best: best ?? null, elapsedMs };
   }, [input, palette, metric]);
-  const matchedName = primary?.name ?? null;
-  const matchedHex = primary?.value ?? null;
+  const matchedName = primary.best?.name ?? null;
+  const matchedHex = primary.best?.value ?? null;
+  const identifyElapsedMs = primary.elapsedMs;
 
   // Secondary palette for the background triangle: if the user's palette is
   // pantone, we show crayola's opinion, otherwise pantone. Reinforces the
@@ -152,6 +158,7 @@ export function useDemoState() {
     applyPreset,
     matchedName,
     matchedHex,
+    identifyElapsedMs,
     warhammerMatch,
     warhammerHex,
     conversions,

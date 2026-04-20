@@ -44,7 +44,8 @@ export function Masthead({ metric }: MastheadProps) {
           </a>
         </div>
       </div>
-      <div className="bh-rule bh-rule-draw mt-2" />
+      {/* The masthead-to-act divider is the ConvergenceStrip below, driven
+          by the current input color — no inert `bh-rule` here. */}
     </header>
   );
 }
