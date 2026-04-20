@@ -5,26 +5,9 @@
 
 import { type DistanceMetric, identify } from 'chromonym';
 import { useMemo, useState } from 'react';
+import { METRICS, METRIC_LABELS } from '../lib/metrics.js';
 import { LiveSnippet } from './LiveSnippet.js';
 import { PaletteGrid, PALETTES, type PaletteKey } from './PaletteGrid.js';
-
-const METRICS: readonly DistanceMetric[] = [
-  'euclidean-srgb',
-  'euclidean-linear',
-  'deltaE76',
-  'deltaE94',
-  'deltaE2000',
-  'deltaEok',
-];
-
-const METRIC_LABELS: Record<DistanceMetric, string> = {
-  'euclidean-srgb': 'Euclidean (sRGB) — fastest',
-  'euclidean-linear': 'Euclidean (linear RGB)',
-  deltaE76: 'ΔE*76',
-  deltaE94: 'ΔE*94',
-  deltaE2000: 'ΔE*00 (CIEDE2000)',
-  deltaEok: 'ΔE OKLAB',
-};
 
 type Side = 'left' | 'right';
 
@@ -99,20 +82,15 @@ export function CrossPaletteTranslator() {
   };
 
   return (
-    <section className="bg-white rounded-xl shadow-sm p-6 space-y-4 border border-neutral-200">
-      <div>
-        <div className="flex items-baseline justify-between">
-          <h2 className="text-lg font-semibold">Palette-to-palette translator</h2>
-          <span className="text-[10px] uppercase tracking-wider font-semibold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
-            interactive
-          </span>
-        </div>
-        <p className="text-sm text-neutral-600 mt-1">
-          Click any swatch on either side — the top-{k} nearest matches highlight on the other.
-          Switch metrics to see which ΔE formulation picks different neighbours (ΔE76 and ΔE2000
-          can disagree hard in saturated blue/purple regions).
-        </p>
-      </div>
+    <div
+      className="p-5 md:p-6 space-y-4"
+      style={{ backgroundColor: 'var(--bh-paper)' }}
+    >
+      <p className="text-sm max-w-2xl leading-snug">
+        Click any swatch on either side — the top-{k} nearest matches highlight on the other.
+        Switch metrics to see which ΔE formulation picks different neighbours (ΔE76 and ΔE2000
+        can disagree hard in saturated blue/purple regions).
+      </p>
 
       <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-6 items-stretch">
         <PaletteGrid
@@ -162,11 +140,10 @@ export function CrossPaletteTranslator() {
         matches={matches}
       />
 
-      <p className="text-xs text-neutral-500 italic pt-1">
-        Blue ring = the color you picked. Amber rings = top-{k} nearest matches ranked by the
-        chosen metric (thicker ring = closer).
+      <p className="bh-eyebrow pt-1 opacity-70">
+        ink ring · the color you picked — red rings · top-{k} nearest matches (thicker = closer)
       </p>
-    </section>
+    </div>
   );
 }
 
@@ -272,7 +249,8 @@ function ArrowColumn({
             step={1}
             value={k}
             onChange={(e) => onKChange(Number(e.target.value))}
-            className="w-full mt-1 accent-indigo-600"
+            className="w-full mt-1"
+            style={{ accentColor: 'var(--bh-red)' }}
             aria-label={`top-k matches, currently ${k}`}
           />
         </label>

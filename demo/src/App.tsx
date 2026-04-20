@@ -19,6 +19,7 @@ import { CrossPaletteTranslator } from './components/CrossPaletteTranslator.js';
 import { Eyedropper } from './components/Eyedropper.js';
 import { KandinskyBYO } from './components/KandinskyBYO.js';
 import { LiveSnippet } from './components/LiveSnippet.js';
+import { METRICS, METRIC_LABELS } from './lib/metrics.js';
 import { PaletteTiles } from './components/PaletteTiles.js';
 import { StageGels } from './components/StageGels.js';
 import { Wordmark } from './components/Wordmark.js';
@@ -26,24 +27,6 @@ import { Wordmark } from './components/Wordmark.js';
 const PALETTES = { web, x11, pantone, crayola } as const;
 type PaletteKey = keyof typeof PALETTES;
 const PALETTE_KEYS = Object.keys(PALETTES) as PaletteKey[];
-
-const METRICS: DistanceMetric[] = [
-  'euclidean-srgb',
-  'euclidean-linear',
-  'deltaE76',
-  'deltaE94',
-  'deltaE2000',
-  'deltaEok',
-];
-
-const METRIC_LABELS: Record<DistanceMetric, string> = {
-  'euclidean-srgb': 'Euclidean · sRGB (fastest)',
-  'euclidean-linear': 'Euclidean · linear RGB',
-  deltaE76: 'ΔE*76 · CIELAB',
-  deltaE94: 'ΔE*94 · CIE 1994',
-  deltaE2000: 'ΔE*00 · CIEDE2000',
-  deltaEok: 'ΔE OKLAB · modern',
-};
 
 const warhammer = {
   name: 'warhammer40k',
@@ -99,10 +82,11 @@ const PRESETS: Array<{
 ];
 
 export function App() {
-  const initial = readParams();
-  const [input, setInput] = useState(initial.color);
-  const [paletteKey, setPaletteKey] = useState<PaletteKey>(initial.palette);
-  const [metric, setMetric] = useState<DistanceMetric>(initial.metric);
+  // readParams runs once via the lazy initializer so we don't re-parse
+  // the URL on every render.
+  const [input, setInput] = useState(() => readParams().color);
+  const [paletteKey, setPaletteKey] = useState<PaletteKey>(() => readParams().palette);
+  const [metric, setMetric] = useState<DistanceMetric>(() => readParams().metric);
 
   const palette = PALETTES[paletteKey];
 
@@ -195,12 +179,14 @@ export function App() {
             <div className="flex items-center gap-4 text-sm font-mono uppercase tracking-wider">
               <a
                 href="https://github.com/simiancraft/chromonym"
+                rel="noopener"
                 className="underline decoration-[2px] underline-offset-[6px] hover:text-[var(--bh-red)]"
               >
                 github
               </a>
               <a
                 href="https://www.npmjs.com/package/chromonym"
+                rel="noopener"
                 className="underline decoration-[2px] underline-offset-[6px] hover:text-[var(--bh-red)]"
               >
                 npm
@@ -222,7 +208,7 @@ export function App() {
             border: '1px solid var(--bh-ink)',
           }}
         >
-          <SubChapterHeader eyebrow="identify" title="scrub" kicker="color picker" inline />
+          <SubChapterHeader eyebrow="identify" title="scrub" kicker="color picker" />
 
           <div className="p-6 md:p-8 space-y-8">
             {/* controls row: input + tiles + metric */}
@@ -414,6 +400,7 @@ export function App() {
             Display type:{' '}
             <a
               href="https://www.dafont.com/bauhaus-modern.font"
+              rel="noopener"
               className="underline"
             >
               Bauhaus Modern
@@ -425,9 +412,21 @@ export function App() {
             affiliated with Pantone; values are community approximations. See{' '}
             <a
               href="https://github.com/simiancraft/chromonym/blob/main/NOTICE.md"
+              rel="noopener"
               className="underline"
             >
               NOTICE.md
+            </a>
+            .
+          </div>
+          <div className="font-mono text-[10px] tracking-wider opacity-80 pt-2">
+            Made with care by{' '}
+            <a
+              href="https://simiancraft.com"
+              rel="noopener"
+              className="underline"
+            >
+              Simiancraft
             </a>
             .
           </div>
@@ -474,23 +473,18 @@ function ActHeader({
   );
 }
 
-function SubChapterHeader({
+export function SubChapterHeader({
   eyebrow,
   title,
   kicker,
-  inline = false,
 }: {
   eyebrow: string;
   title: string;
   kicker: string;
-  inline?: boolean;
 }) {
-  // `inline` renders the header as the top bar *inside* a bordered section
-  // (matches the hero identifier look). Otherwise it renders as a stand-
-  // alone bar sitting above a bordered-bottom card (translator / eyedropper).
   return (
     <header
-      className={`flex items-center justify-between px-5 py-3 ${inline ? '' : ''}`}
+      className="flex items-center justify-between px-5 py-3"
       style={{ backgroundColor: 'var(--bh-ink)', color: 'var(--bh-cream)' }}
     >
       <div className="flex items-center gap-3">

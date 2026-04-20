@@ -13,6 +13,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { METRICS, METRIC_LABELS } from '../lib/metrics.js';
 import { LiveSnippet } from './LiveSnippet.js';
 import { PaletteGrid, PALETTES, type PaletteKey } from './PaletteGrid.js';
 
@@ -27,28 +28,14 @@ const PRESETS = [
 
 type PresetKey = (typeof PRESETS)[number]['key'];
 
-const METRICS: readonly DistanceMetric[] = [
-  'euclidean-srgb',
-  'euclidean-linear',
-  'deltaE76',
-  'deltaE94',
-  'deltaE2000',
-  'deltaEok',
-];
-
-const METRIC_LABELS: Record<DistanceMetric, string> = {
-  'euclidean-srgb': 'Euclidean · sRGB (fastest)',
-  'euclidean-linear': 'Euclidean · linear RGB',
-  deltaE76: 'ΔE*76 · CIELAB',
-  deltaE94: 'ΔE*94 · CIE 1994',
-  deltaE2000: 'ΔE*00 · CIEDE2000',
-  deltaEok: 'ΔE OKLAB · modern',
-};
-
 // Intrinsic canvas dimensions. CSS scales it down responsively; mouse coords
 // are mapped back to these via the bounding-rect ratio on every event.
 const CANVAS_W = 640;
 const CANVAS_H = 480;
+
+// Cap an uploaded image at 10 MB — well below what'd break the tab but big
+// enough for any phone camera roll. Larger files get rejected with a toast.
+const MAX_FILE_BYTES = 10 * 1024 * 1024;
 
 type SourceKind = 'preset' | 'file' | 'webcam';
 
@@ -70,11 +57,16 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
   const streamRef = useRef<MediaStream | null>(null);
   const rafRef = useRef<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  // Throttle pointer-driven pixel reads to one per animation frame so a fast
+  // mouse doesn't trip getImageData + setState + identify at 100+ Hz.
+  const hoverRafRef = useRef<number | null>(null);
+  const pendingHoverEventRef = useRef<{ clientX: number; clientY: number } | null>(null);
 
   const [sourceKind, setSourceKind] = useState<SourceKind>('preset');
   const [presetKey, setPresetKey] = useState<PresetKey>('simian');
   const [fileDataUrl, setFileDataUrl] = useState<string | null>(null);
   const [webcamError, setWebcamError] = useState<string | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
 
   const [pinned, setPinned] = useState<PickedPixel | null>(null);
   const [hover, setHover] = useState<PickedPixel | null>(null);
@@ -91,7 +83,7 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return;
-    ctx.fillStyle = '#f2ebdd';
+    ctx.fillStyle = 'var(--bh-paper)';
     ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
     const scale = Math.min(CANVAS_W / iw, CANVAS_H / ih);
     const dw = iw * scale;
@@ -109,8 +101,11 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
     const url = sourceKind === 'file' ? fileDataUrl : PRESETS.find((p) => p.key === presetKey)?.url;
     if (!url) return;
     const img = new Image();
-    img.crossOrigin = 'anonymous';
+    // Only set CORS for remote URLs; data: URLs from FileReader are same-
+    // origin-equivalent and don't need the hint.
+    if (!url.startsWith('data:')) img.crossOrigin = 'anonymous';
     img.onload = () => drawImageCover(img, img.naturalWidth, img.naturalHeight);
+    img.onerror = () => setFileError('Could not load that image.');
     img.src = url;
   }, [sourceKind, presetKey, fileDataUrl, drawImageCover]);
 
@@ -129,65 +124,121 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
     if (video) video.srcObject = null;
   }, []);
 
-  const startWebcam = useCallback(async () => {
-    setWebcamError(null);
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
-      streamRef.current = stream;
-      const video = videoRef.current;
-      if (!video) return;
-      video.srcObject = stream;
-      await video.play();
-
-      const tick = () => {
-        const canvas = canvasRef.current;
-        if (!canvas || !streamRef.current) return;
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        if (ctx && video.videoWidth > 0) {
-          drawImageCover(video, video.videoWidth, video.videoHeight);
-        }
-        rafRef.current = requestAnimationFrame(tick);
-      };
-      rafRef.current = requestAnimationFrame(tick);
-    } catch (err) {
-      const name = (err as DOMException).name;
-      if (name === 'NotAllowedError') setWebcamError('Camera permission denied.');
-      else if (name === 'NotFoundError') setWebcamError('No camera found.');
-      else setWebcamError(`Camera error: ${name}`);
-      setSourceKind('preset');
-    }
-  }, [drawImageCover]);
-
-  // Manage webcam start/stop whenever sourceKind flips.
+  // Manage webcam start/stop whenever sourceKind flips. The `cancelled` flag
+  // closes the async race where a fast source-toggle lets getUserMedia
+  // resolve *after* the effect's cleanup already ran — without it, the
+  // stream would leak the camera LED on.
   useEffect(() => {
-    if (sourceKind === 'webcam') {
-      startWebcam();
-    } else {
+    if (sourceKind !== 'webcam') {
       stopWebcam();
+      return;
     }
-    return () => stopWebcam();
-  }, [sourceKind, startWebcam, stopWebcam]);
+
+    let cancelled = false;
+    setWebcamError(null);
+
+    (async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user' },
+        });
+        if (cancelled) {
+          for (const t of stream.getTracks()) t.stop();
+          return;
+        }
+        streamRef.current = stream;
+        const video = videoRef.current;
+        if (!video) return;
+        video.srcObject = stream;
+        try {
+          await video.play();
+        } catch {
+          // play() can reject on autoplay policies — fall back to stop.
+          stopWebcam();
+          if (!cancelled) {
+            setWebcamError('Could not start camera playback.');
+            setSourceKind('preset');
+          }
+          return;
+        }
+        if (cancelled) {
+          stopWebcam();
+          return;
+        }
+
+        const tick = () => {
+          const canvas = canvasRef.current;
+          if (!canvas || !streamRef.current) return;
+          if (video.videoWidth > 0) {
+            drawImageCover(video, video.videoWidth, video.videoHeight);
+          }
+          rafRef.current = requestAnimationFrame(tick);
+        };
+        rafRef.current = requestAnimationFrame(tick);
+      } catch (err) {
+        if (cancelled) return;
+        const name = (err as DOMException).name;
+        if (name === 'NotAllowedError') setWebcamError('Camera permission denied.');
+        else if (name === 'NotFoundError') setWebcamError('No camera found.');
+        else setWebcamError(`Camera error: ${name}`);
+        setSourceKind('preset');
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      stopWebcam();
+    };
+  }, [sourceKind, drawImageCover, stopWebcam]);
 
   // ---- Pixel reading ----------------------------------------------------
 
-  const pixelFromEvent = (e: ReactMouseEvent<HTMLCanvasElement>): PickedPixel | null => {
+  // Reads the pixel under (clientX, clientY) off the canvas and returns a
+  // PickedPixel or null if out of bounds. Wrapped in try/catch so a tainted
+  // canvas (shouldn't happen with our source set, but future-proof) degrades
+  // to null instead of throwing on every mousemove.
+  const pickPixelAt = useCallback((clientX: number, clientY: number): PickedPixel | null => {
     const canvas = canvasRef.current;
     if (!canvas) return null;
     const rect = canvas.getBoundingClientRect();
-    const x = Math.floor(((e.clientX - rect.left) / rect.width) * CANVAS_W);
-    const y = Math.floor(((e.clientY - rect.top) / rect.height) * CANVAS_H);
+    const x = Math.floor(((clientX - rect.left) / rect.width) * CANVAS_W);
+    const y = Math.floor(((clientY - rect.top) / rect.height) * CANVAS_H);
     if (x < 0 || y < 0 || x >= CANVAS_W || y >= CANVAS_H) return null;
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return null;
-    const [r, g, b] = ctx.getImageData(x, y, 1, 1).data;
-    const hex = `#${[r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')}`;
-    return { x, y, hex };
-  };
+    try {
+      const [r, g, b] = ctx.getImageData(x, y, 1, 1).data;
+      const hex = `#${[r, g, b].map((v) => (v ?? 0).toString(16).padStart(2, '0')).join('')}`;
+      return { x, y, hex };
+    } catch {
+      return null;
+    }
+  }, []);
 
-  const onCanvasMove = (e: ReactMouseEvent<HTMLCanvasElement>) => setHover(pixelFromEvent(e));
-  const onCanvasLeave = () => setHover(null);
+  // rAF-throttled hover read. A fast mouse generates many mousemove events
+  // per frame; we coalesce them and only do the getImageData + setState once
+  // per animation frame.
+  const onCanvasMove = (e: ReactMouseEvent<HTMLCanvasElement>) => {
+    pendingHoverEventRef.current = { clientX: e.clientX, clientY: e.clientY };
+    if (hoverRafRef.current !== null) return;
+    hoverRafRef.current = requestAnimationFrame(() => {
+      hoverRafRef.current = null;
+      const evt = pendingHoverEventRef.current;
+      pendingHoverEventRef.current = null;
+      if (!evt) return;
+      setHover(pickPixelAt(evt.clientX, evt.clientY));
+    });
+  };
+  const onCanvasLeave = () => {
+    if (hoverRafRef.current !== null) {
+      cancelAnimationFrame(hoverRafRef.current);
+      hoverRafRef.current = null;
+    }
+    pendingHoverEventRef.current = null;
+    setHover(null);
+  };
   const onCanvasClick = (e: ReactMouseEvent<HTMLCanvasElement>) => {
-    const p = pixelFromEvent(e);
+    const p = pickPixelAt(e.clientX, e.clientY);
     if (!p) return;
     if (pinned && pinned.x === p.x && pinned.y === p.y) {
       setPinned(null);
@@ -200,25 +251,36 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
     }
   };
 
+  // Clean up any dangling hover rAF on unmount.
+  useEffect(() => () => {
+    if (hoverRafRef.current !== null) cancelAnimationFrame(hoverRafRef.current);
+  }, []);
+
   const picked = pinned ?? hover;
   const pickedHex = picked?.hex ?? null;
 
   // ---- Identify + palette highlight ------------------------------------
 
-  const { matches, elapsedMs } = useMemo(() => {
-    if (!pickedHex)
+  const { matches, elapsedMs, highlightedNames, highlightRanks } = useMemo(() => {
+    if (!pickedHex) {
       return {
         matches: [] as Array<{ name: string; value: string; distance: number }>,
         elapsedMs: 0,
+        highlightedNames: [] as string[],
+        highlightRanks: new Map<string, number>(),
       };
+    }
     const t0 = performance.now();
     const m = identify(pickedHex, { palette: PALETTES[paletteKey], metric, k });
     const t1 = performance.now();
-    return { matches: m, elapsedMs: t1 - t0 };
+    return {
+      matches: m,
+      elapsedMs: t1 - t0,
+      highlightedNames: m.map((x) => x.name),
+      highlightRanks: new Map(m.map((x, i) => [x.name, i] as const)),
+    };
   }, [pickedHex, paletteKey, metric, k]);
 
-  const highlightedNames = matches.map((m) => m.name);
-  const highlightRanks = new Map(matches.map((m, i) => [m.name, i] as const));
   const bestName = matches[0]?.name ?? null;
   const bestHex = matches[0]?.value ?? null;
 
@@ -250,52 +312,38 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
   // ---- Render -----------------------------------------------------------
 
   return (
-    <section className="bg-white rounded-xl shadow-sm p-6 space-y-4 border border-neutral-200">
-      <div>
-        <div className="flex items-baseline justify-between">
-          <h2 className="text-lg font-semibold">Eyedropper</h2>
-          <span className="text-[10px] uppercase tracking-wider font-semibold bg-rose-100 text-rose-800 px-2 py-0.5 rounded">
-            pixel pick
-          </span>
-        </div>
-        <p className="text-sm text-neutral-600 mt-1">
-          Pick a pixel from any image. Hover previews, click pins. Reads straight off an HTML
-          canvas — works the same on a preset, a file you drag in, or a live webcam frame.
-        </p>
-      </div>
+    <div
+      className="p-5 md:p-6 space-y-4"
+      style={{ backgroundColor: 'var(--bh-paper)' }}
+    >
+      <p className="text-sm max-w-2xl leading-snug">
+        Pick a pixel from any image. Hover previews, click pins. Reads straight off an HTML
+        canvas — works the same on a preset, a file you drag in, or a live webcam frame.
+      </p>
 
       {/* Source row */}
       <div className="flex flex-wrap gap-2 items-center">
-        <span className="text-[10px] uppercase tracking-wide text-neutral-500 mr-1">source:</span>
+        <span className="bh-eyebrow mr-1">source</span>
         {PRESETS.map((p) => (
-          <button
-            type="button"
+          <SourceButton
             key={p.key}
+            active={sourceKind === 'preset' && presetKey === p.key}
             onClick={() => {
               setSourceKind('preset');
               setPresetKey(p.key);
               setPinned(null);
+              setFileError(null);
             }}
-            className={`text-xs px-3 py-1 rounded-full border transition ${
-              sourceKind === 'preset' && presetKey === p.key
-                ? 'bg-neutral-900 text-neutral-50 border-neutral-900'
-                : 'bg-neutral-50 border-neutral-300 hover:bg-neutral-100'
-            }`}
           >
             {p.label}
-          </button>
+          </SourceButton>
         ))}
-        <button
-          type="button"
+        <SourceButton
+          active={sourceKind === 'file'}
           onClick={() => fileInputRef.current?.click()}
-          className={`text-xs px-3 py-1 rounded-full border transition ${
-            sourceKind === 'file'
-              ? 'bg-neutral-900 text-neutral-50 border-neutral-900'
-              : 'bg-neutral-50 border-neutral-300 hover:bg-neutral-100'
-          }`}
         >
-          📁 open file
-        </button>
+          <FolderGlyph /> open file
+        </SourceButton>
         <input
           type="file"
           accept="image/*"
@@ -304,34 +352,44 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             const f = e.target.files?.[0];
             if (!f) return;
+            if (f.size > MAX_FILE_BYTES) {
+              setFileError(`File too large (${(f.size / 1024 / 1024).toFixed(1)} MB). Max 10 MB.`);
+              e.target.value = '';
+              return;
+            }
+            setFileError(null);
             const reader = new FileReader();
             reader.onload = () => {
               setFileDataUrl(reader.result as string);
               setSourceKind('file');
               setPinned(null);
             };
+            reader.onerror = () => setFileError('Could not read file.');
             reader.readAsDataURL(f);
           }}
         />
-        <button
-          type="button"
+        <SourceButton
+          active={sourceKind === 'webcam'}
           onClick={() => {
             setSourceKind((prev) => (prev === 'webcam' ? 'preset' : 'webcam'));
             setPinned(null);
           }}
-          className={`text-xs px-3 py-1 rounded-full border transition ${
-            sourceKind === 'webcam'
-              ? 'bg-neutral-900 text-neutral-50 border-neutral-900'
-              : 'bg-neutral-50 border-neutral-300 hover:bg-neutral-100'
-          }`}
         >
-          {sourceKind === 'webcam' ? '■ stop camera' : '📷 webcam'}
-        </button>
+          {sourceKind === 'webcam' ? <><StopGlyph /> stop camera</> : <><CameraGlyph /> webcam</>}
+        </SourceButton>
       </div>
 
-      {webcamError && (
-        <div className="text-xs text-rose-700 bg-rose-50 border border-rose-200 rounded px-3 py-2">
-          {webcamError}
+      {(webcamError || fileError) && (
+        <div
+          className="bh-eyebrow px-3 py-2"
+          style={{
+            backgroundColor: 'var(--bh-cream)',
+            border: '1px solid var(--bh-red)',
+            color: 'var(--bh-red)',
+          }}
+          role="alert"
+        >
+          {webcamError ?? fileError}
         </div>
       )}
 
@@ -345,36 +403,52 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
             onMouseMove={onCanvasMove}
             onMouseLeave={onCanvasLeave}
             onClick={onCanvasClick}
-            className="w-full h-auto rounded-lg border border-neutral-300 cursor-crosshair bg-neutral-100"
-            style={{ aspectRatio: `${CANVAS_W} / ${CANVAS_H}` }}
+            className="w-full h-auto cursor-crosshair"
+            style={{
+              aspectRatio: `${CANVAS_W} / ${CANVAS_H}`,
+              border: '1px solid var(--bh-ink)',
+              backgroundColor: 'var(--bh-cream)',
+            }}
             aria-label="image to pick colors from"
           />
-          {/* Pinned marker */}
-          {pinned && (
-            <PinnedMarker x={pinned.x} y={pinned.y} />
-          )}
-          {/* Hidden video for webcam */}
-          <video ref={videoRef} playsInline muted className="hidden" />
+          {pinned && <PinnedMarker x={pinned.x} y={pinned.y} />}
+          {/* Hidden video for webcam; off-screen instead of display:none
+              because Safari has historically dropped frames from hidden video. */}
+          <video
+            ref={videoRef}
+            playsInline
+            muted
+            aria-hidden
+            style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }}
+          />
         </div>
 
         <div className="space-y-3 min-w-0">
           <div>
-            <div className="text-xs uppercase tracking-wide text-neutral-500">picked</div>
+            <div className="bh-eyebrow">picked</div>
             <div className="mt-1 flex items-center gap-2">
               <div
-                className="w-10 h-10 rounded border border-neutral-300 shrink-0"
-                style={{ backgroundColor: pickedHex ?? 'transparent' }}
+                className="w-10 h-10 shrink-0"
+                style={{
+                  backgroundColor: pickedHex ?? 'transparent',
+                  border: '1px solid var(--bh-ink)',
+                }}
               />
-              <code className="text-sm font-mono truncate">{pickedHex ?? '— hover canvas —'}</code>
+              <code className="text-sm font-mono truncate">
+                {pickedHex ?? '— hover canvas —'}
+              </code>
             </div>
           </div>
 
           <div>
-            <div className="text-xs uppercase tracking-wide text-neutral-500">nearest name</div>
+            <div className="bh-eyebrow">nearest name</div>
             <div className="mt-1 flex items-center gap-2">
               <div
-                className="w-10 h-10 rounded border border-neutral-300 shrink-0"
-                style={{ backgroundColor: bestHex ?? 'transparent' }}
+                className="w-10 h-10 shrink-0"
+                style={{
+                  backgroundColor: bestHex ?? 'transparent',
+                  border: '1px solid var(--bh-ink)',
+                }}
               />
               <div className="truncate">
                 <div className="text-sm font-mono truncate">{bestName ?? '—'}</div>
@@ -387,7 +461,9 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
 
           <div className="text-[10px] text-neutral-500 font-mono">
             lookup: {elapsedMs < 0.01 ? '<0.01' : elapsedMs.toFixed(2)} ms
-            {pinned && <span className="ml-2 text-neutral-400">· pinned — click again to unpin</span>}
+            {pinned && (
+              <span className="ml-2 text-neutral-400">· pinned — click again to unpin</span>
+            )}
           </div>
         </div>
       </div>
@@ -395,11 +471,12 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
       {/* Controls: metric + k (palette lives inside PaletteGrid below) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <label className="block">
-          <span className="text-xs uppercase tracking-wide text-neutral-500">metric</span>
+          <span className="bh-eyebrow">metric</span>
           <select
             value={metric}
             onChange={(e) => setMetric(e.target.value as DistanceMetric)}
-            className="w-full h-10 rounded border border-neutral-300 px-2 mt-1 bg-white text-sm"
+            className="w-full h-10 px-2 mt-1 text-sm font-mono"
+            style={{ border: '1px solid var(--bh-ink)', backgroundColor: 'var(--bh-cream)' }}
           >
             {METRICS.map((m) => (
               <option key={m} value={m}>
@@ -409,7 +486,7 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
           </select>
         </label>
         <label className="block">
-          <span className="text-xs uppercase tracking-wide text-neutral-500">k: {k} nearest</span>
+          <span className="bh-eyebrow">k: {k} nearest</span>
           <input
             type="range"
             min={1}
@@ -417,22 +494,22 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
             step={1}
             value={k}
             onChange={(e) => setK(Number(e.target.value))}
-            className="w-full mt-1 accent-indigo-600"
+            className="w-full mt-1"
+            style={{ accentColor: 'var(--bh-red)' }}
           />
         </label>
       </div>
 
-      {/* Palette grid (reused) with the nearest match highlighted */}
+      {/* Palette grid — the swatches here are driven by the canvas pick, so
+          they render read-only (no click handler, no pointer affordance). */}
       <PaletteGrid
         ariaLabel="eyedropper target"
         paletteKey={paletteKey}
         onPaletteChange={setPaletteKey}
         selectedName={bestName}
-        onSelect={() => {
-          /* no-op — this grid reads from the eyedropper's picked color */
-        }}
         highlightedNames={highlightedNames}
         highlightRanks={highlightRanks}
+        readOnly
       />
 
       <LiveSnippet
@@ -442,12 +519,58 @@ export function Eyedropper({ onPick }: EyedropperProps = {}) {
         tintHex={pickedHex ?? undefined}
         ariaLabel="live chromonym call for the eyedropper"
       />
+    </div>
+  );
+}
 
-      <p className="text-xs text-neutral-500 italic pt-1">
-        Canvas-native: `ctx.getImageData(x, y, 1, 1)` → hex → `identify`. Works on any image
-        source that draws to a 2D canvas, which is almost everything.
-      </p>
-    </section>
+// ---- Source-row button + glyph primitives ------------------------------
+
+function SourceButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider px-3 py-[6px] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--bh-ink)] focus-visible:ring-offset-1"
+      style={{
+        border: '1px solid var(--bh-ink)',
+        backgroundColor: active ? 'var(--bh-ink)' : 'transparent',
+        color: active ? 'var(--bh-cream)' : 'var(--bh-ink)',
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function FolderGlyph() {
+  return (
+    <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+      <path d="M1 4a1 1 0 0 1 1-1h4l2 2h6a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4z" />
+    </svg>
+  );
+}
+
+function CameraGlyph() {
+  return (
+    <svg width="12" height="11" viewBox="0 0 18 14" fill="currentColor" aria-hidden>
+      <path d="M5 0L3 2H1a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-2l-2-2H5zm4 4a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z" />
+    </svg>
+  );
+}
+
+function StopGlyph() {
+  return (
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" aria-hidden>
+      <rect x="1" y="1" width="8" height="8" />
+    </svg>
   );
 }
 

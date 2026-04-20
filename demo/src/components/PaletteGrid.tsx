@@ -1,8 +1,10 @@
 // Reusable palette visualizer — selector + scrollable swatch grid + selection.
-// Designed for reuse across demo sections; zero external deps (the grid is
-// literally <div>s with flex-wrap, the swatch a plain <button>).
+// Zero external deps; the swatch is a plain <button> (or a <div> in readOnly
+// mode), the grid a flex-wrap. Shared by the translator (both sides) and the
+// eyedropper (result-only).
 
 import { type Palette, crayola, pantone, web, x11 } from 'chromonym';
+import { memo, useMemo } from 'react';
 
 export type PaletteKey = 'web' | 'x11' | 'pantone' | 'crayola';
 
@@ -21,11 +23,15 @@ interface PaletteGridProps {
   paletteKey: PaletteKey;
   onPaletteChange: (key: PaletteKey) => void;
   selectedName: string | null;
-  onSelect: (name: string) => void;
+  onSelect?: (name: string) => void;
   highlightedNames?: readonly string[];
-  // The rank (0 = best) of each highlighted entry — used to dim runners-up.
+  /** The rank (0 = best) of each highlighted entry — used to dim runners-up. */
   highlightRanks?: ReadonlyMap<string, number>;
   ariaLabel: string;
+  /** When true, swatches are non-interactive display primitives — used by the
+   *  eyedropper's result grid where the picked color comes from the canvas,
+   *  not from clicking a swatch. */
+  readOnly?: boolean;
   className?: string;
 }
 
@@ -37,12 +43,29 @@ export function PaletteGrid({
   highlightedNames,
   highlightRanks,
   ariaLabel,
+  readOnly = false,
   className = '',
 }: PaletteGridProps) {
   const palette = PALETTES[paletteKey];
-  const entries = Object.entries(palette.colors) as Array<[string, string]>;
-  const highlightSet = new Set(highlightedNames ?? []);
-  const selectedHex = selectedName ? (palette.colors as Record<string, string>)[selectedName] : null;
+
+  // Memoize the entries array so flex-wrap doesn't get a fresh array identity
+  // on every parent render; pantone's 907 tuples stay stable while only the
+  // palette key is unchanged.
+  const entries = useMemo(
+    () => Object.entries(palette.colors) as Array<[string, string]>,
+    [palette],
+  );
+
+  // Set + render-selected derivation. Set identity matters because Swatch
+  // is memoized on the `isHighlighted` boolean (stable primitive).
+  const highlightSet = useMemo(
+    () => new Set(highlightedNames ?? []),
+    [highlightedNames],
+  );
+
+  const selectedHex = selectedName
+    ? (palette.colors as Record<string, string>)[selectedName]
+    : null;
 
   return (
     <div className={`flex flex-col min-h-0 ${className}`}>
@@ -67,22 +90,18 @@ export function PaletteGrid({
         aria-label={`${ariaLabel} swatch grid`}
       >
         <div className="flex flex-wrap gap-[5px]">
-          {entries.map(([name, hex]) => {
-            const isSelected = name === selectedName;
-            const isHighlighted = highlightSet.has(name);
-            const rank = highlightRanks?.get(name);
-            return (
-              <Swatch
-                key={name}
-                name={name}
-                hex={hex}
-                isSelected={isSelected}
-                isHighlighted={isHighlighted}
-                rank={rank}
-                onClick={() => onSelect(name)}
-              />
-            );
-          })}
+          {entries.map(([name, hex]) => (
+            <Swatch
+              key={name}
+              name={name}
+              hex={hex}
+              isSelected={name === selectedName}
+              isHighlighted={highlightSet.has(name)}
+              rank={highlightRanks?.get(name)}
+              readOnly={readOnly}
+              onSelect={onSelect}
+            />
+          ))}
         </div>
       </div>
 
@@ -90,7 +109,9 @@ export function PaletteGrid({
         className="text-xs text-neutral-500 mt-2 font-mono truncate"
         title={selectedName ?? undefined}
       >
-        {selectedName && selectedHex ? `${selectedName} · ${selectedHex}` : '— nothing selected —'}
+        {selectedName && selectedHex
+          ? `${selectedName} · ${selectedHex}`
+          : '— nothing selected —'}
       </div>
     </div>
   );
@@ -102,19 +123,30 @@ interface SwatchProps {
   isSelected: boolean;
   isHighlighted: boolean;
   rank?: number;
-  onClick: () => void;
+  readOnly: boolean;
+  onSelect?: (name: string) => void;
 }
 
-function Swatch({ name, hex, isSelected, isHighlighted, rank, onClick }: SwatchProps) {
-  // Ring style priority: selected > highlighted (by rank) > default.
+// React.memo on Swatch means pantone's 907 swatches only re-render when their
+// own state flips (selected/highlighted/rank), not when the parent re-renders
+// for an unrelated reason.
+const Swatch = memo(function Swatch({
+  name,
+  hex,
+  isSelected,
+  isHighlighted,
+  rank,
+  readOnly,
+  onSelect,
+}: SwatchProps) {
   let ringClass = '';
   if (isSelected) {
-    ringClass = 'ring-2 ring-offset-1 ring-blue-600 z-10';
+    ringClass = 'ring-2 ring-offset-1 ring-[var(--bh-ink)] z-10';
   } else if (isHighlighted) {
     ringClass =
       rank === 0
-        ? 'ring-2 ring-offset-1 ring-amber-500 z-10'
-        : 'ring-2 ring-amber-300';
+        ? 'ring-2 ring-offset-1 ring-[var(--bh-red)] z-10'
+        : 'ring-2 ring-[var(--bh-red)]/60';
   }
 
   const rankSuffix = rank !== undefined ? ` · #${rank + 1}` : '';
@@ -123,15 +155,30 @@ function Swatch({ name, hex, isSelected, isHighlighted, rank, onClick }: SwatchP
     : isHighlighted
       ? ` (nearest match #${(rank ?? 0) + 1})`
       : '';
+  const commonStyle = { backgroundColor: hex };
+  const commonClass = `w-[15px] h-[15px] rounded-[2px] ${ringClass}`;
+  const commonTitle = `${name} · ${hex}${rankSuffix}`;
+  const commonAria = `${name} ${hex}${ariaSuffix}`;
+
+  if (readOnly) {
+    return (
+      <div
+        aria-label={commonAria}
+        title={commonTitle}
+        style={commonStyle}
+        className={commonClass}
+      />
+    );
+  }
 
   return (
     <button
       type="button"
-      onClick={onClick}
-      title={`${name} · ${hex}${rankSuffix}`}
-      aria-label={`${name} ${hex}${ariaSuffix}`}
-      style={{ backgroundColor: hex }}
-      className={`w-[15px] h-[15px] rounded-[2px] cursor-pointer outline-none hover:scale-110 transition-transform ${ringClass}`}
+      onClick={() => onSelect?.(name)}
+      title={commonTitle}
+      aria-label={commonAria}
+      style={commonStyle}
+      className={`${commonClass} cursor-pointer hover:scale-110 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--bh-ink)] focus-visible:ring-offset-1`}
     />
   );
-}
+});

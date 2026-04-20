@@ -150,11 +150,14 @@ export function KandinskyBYO({ input, matchedName, matchedHex, colors }: Kandins
       >
         <div className="flex items-center gap-3">
           <span className="font-mono text-[10px] tracking-[0.3em] uppercase opacity-60">
-            chapter 04
+            resolve
           </span>
-          <h2 className="text-lg lowercase bh-caps" style={{ fontFamily: "'Unbounded', sans-serif" }}>
+          <h3
+            className="text-lg lowercase bh-caps"
+            style={{ fontFamily: "'Bauhaus Modern', 'Unbounded', sans-serif" }}
+          >
             bring your own
-          </h2>
+          </h3>
         </div>
         <span
           className="font-mono text-[10px] tracking-[0.24em] uppercase px-2 py-[2px]"
@@ -245,9 +248,6 @@ export function KandinskyBYO({ input, matchedName, matchedHex, colors }: Kandins
             </code>
           </div>
 
-          <div className="font-mono text-[10px] tracking-[0.15em] uppercase opacity-60 text-center mt-auto">
-            for the glory of the omnissiah
-          </div>
         </aside>
       </div>
 
@@ -255,22 +255,61 @@ export function KandinskyBYO({ input, matchedName, matchedHex, colors }: Kandins
         <LiveSnippet
           label="signal · resolve · BYO"
           tintHex={matchedHex ?? undefined}
-          displayText={[
-            `import { resolve } from 'chromonym';`,
-            ``,
-            `resolve(${matchedName ? `'${matchedName}'` : '/* …pending match… */'}, {`,
-            `  palette: warhammer,   // your BYO Palette<Name>`,
-            `})`,
-            `// → ${matchedHex ? `'${matchedHex}'` : 'null'}`,
-          ].join('\n')}
-          copyText={[
-            `import { resolve } from 'chromonym';`,
-            ``,
-            `resolve(${matchedName ? `'${matchedName}'` : "'name'"}, { palette: warhammer });`,
-          ].join('\n')}
+          displayText={buildDisplaySnippet(matchedName, matchedHex, colors)}
+          copyText={buildCopySnippet(matchedName, colors)}
           ariaLabel="live chromonym resolve call for the BYO palette"
         />
       </div>
     </section>
   );
+}
+
+// The BYO snippet is self-contained: it includes the inline `warhammer`
+// palette literal so pasting it into a file yields runnable code. The copy
+// payload strips the `// → …` result comment; the on-screen display keeps
+// it so the reader sees the match live.
+function buildDisplaySnippet(
+  matchedName: string | null,
+  matchedHex: string | null,
+  colors: Readonly<Record<string, string>>,
+): string {
+  const lines: string[] = [
+    `import { resolve, type Palette } from 'chromonym';`,
+    ``,
+    `const warhammer = {`,
+    `  name: 'warhammer40k',`,
+    `  colors: {`,
+    ...Object.entries(colors).map(([n, h]) => `    '${n}': '${h}',`),
+    `  },`,
+    `  normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),`,
+    `  defaultMetric: 'deltaE2000',`,
+    `} as const satisfies Palette;`,
+    ``,
+    `resolve(${matchedName ? `'${matchedName}'` : '/* …pending match… */'}, {`,
+    `  palette: warhammer,`,
+    `})`,
+    `// → ${matchedHex ? `'${matchedHex}'` : 'null'}`,
+  ];
+  return lines.join('\n');
+}
+
+function buildCopySnippet(
+  matchedName: string | null,
+  colors: Readonly<Record<string, string>>,
+): string {
+  const lines: string[] = [
+    `import { resolve, type Palette } from 'chromonym';`,
+    ``,
+    `const warhammer = {`,
+    `  name: 'warhammer40k',`,
+    `  colors: {`,
+    ...Object.entries(colors).map(([n, h]) => `    '${n}': '${h}',`),
+    `  },`,
+    `  normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),`,
+    `  defaultMetric: 'deltaE2000',`,
+    `} as const satisfies Palette;`,
+    ``,
+    `resolve('${matchedName ?? 'world eaters red'}', { palette: warhammer });`,
+  ];
+  return lines.join('\n');
 }
