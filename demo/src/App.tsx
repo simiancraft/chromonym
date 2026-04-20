@@ -3,11 +3,15 @@
 // top-down as the user will: masthead → live RGB channel strip → act 01
 // (identify, with color-picker + eyedropper both feeding the same input)
 // → act 02 (resolve) → act 03 (convert) → footer.
+//
+// Every content box uses the same header treatment — the SubChapterHeader
+// black bar. There is no separate large "act" header; the act identifier
+// lives in the eyebrow slot of each box's header.
 
 import { ConvergenceStrip } from './components/ConvergenceStrip.js';
 import { ConversionsScope } from './components/ConversionsScope.js';
 import { CrossPaletteTranslator } from './components/CrossPaletteTranslator.js';
-import { ActHeader, DemoPanel } from './components/DemoPanel.js';
+import { DemoPanel } from './components/DemoPanel.js';
 import { Footer } from './components/Footer.js';
 import { HeroIdentifier } from './components/HeroIdentifier.js';
 import { KandinskyBYO } from './components/KandinskyBYO.js';
@@ -38,11 +42,12 @@ export function App() {
         </div>
 
         {/* ===== act 01 · identify (above the fold) ===== */}
-        <div className="mt-10">
-          <ActHeader act="act 01" title="identify" kicker="color → name" />
-        </div>
-
-        <div className="mt-4" style={{ border: '1px solid var(--bh-ink)' }}>
+        <DemoPanel
+          className="mt-10"
+          eyebrow="act 01"
+          title="identify"
+          kicker="color → name"
+        >
           <HeroIdentifier
             input={demo.input}
             setInput={demo.setInput}
@@ -56,7 +61,7 @@ export function App() {
             elapsedMs={demo.identifyElapsedMs}
             conversions={demo.conversions}
           />
-        </div>
+        </DemoPanel>
 
         <DemoPanel
           className="mt-8"
@@ -68,31 +73,35 @@ export function App() {
         </DemoPanel>
 
         {/* ===== act 02 · resolve ===== */}
-        <div className="mt-10">
-          <ActHeader act="act 02" title="resolve" kicker="name → color" />
-          <div className="mt-4">
-            <KandinskyBYO
-              input={demo.input}
-              setInput={demo.setInput}
-              matchedName={demo.warhammerMatch}
-              matchedHex={demo.warhammerHex}
-              colors={warhammer.colors}
-              invocations={WARHAMMER_INVOCATIONS}
-            />
-          </div>
-        </div>
+        <DemoPanel
+          className="mt-8"
+          eyebrow="act 02"
+          title="resolve"
+          kicker="bring your own"
+        >
+          <KandinskyBYO
+            input={demo.input}
+            setInput={demo.setInput}
+            matchedName={demo.warhammerMatch}
+            matchedHex={demo.warhammerHex}
+            colors={warhammer.colors}
+            invocations={WARHAMMER_INVOCATIONS}
+          />
+        </DemoPanel>
 
         {/* ===== act 03 · convert ===== */}
-        <div className="mt-10">
-          <ActHeader act="act 03" title="convert" kicker="format ↔ format" />
-          <div className="mt-4">
-            <ConversionsScope
-              conversions={demo.conversions}
-              tintHex={demo.input}
-              input={demo.input}
-            />
-          </div>
-        </div>
+        <DemoPanel
+          className="mt-8"
+          eyebrow="act 03"
+          title="convert"
+          kicker="format ↔ format"
+        >
+          <ConversionsScope
+            conversions={demo.conversions}
+            tintHex={demo.input}
+            input={demo.input}
+          />
+        </DemoPanel>
 
         <Footer />
       </main>

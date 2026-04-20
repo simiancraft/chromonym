@@ -1,44 +1,18 @@
 // Layout primitives shared across the three demo acts.
 //
-//   <ActHeader>         — flat mono header strip: "act 01 · identify · color → name"
-//   <SubChapterHeader>  — black bar with eyebrow + title + kicker, mono throughout
+//   <SubChapterHeader> — black bar with eyebrow + title + kicker, mono
+//                         throughout. Used by every box in the demo.
 //   <DemoPanel>         — composed: SubChapterHeader above a bordered card
 //
 // Typography rule: Bauhaus Modern is reserved for the masthead wordmark at
-// the top of the page. Every other header in the demo uses the same mono
-// eyebrow-style typography (JetBrains Mono, tracked, uppercase). Keeps
-// the type hierarchy flat so the content, not the chrome, carries weight.
+// the top of the page. Every box-header in the demo uses this single flat
+// mono style — act, sub-chapter, all the same. Hierarchy comes from reading
+// order, not from type weight.
 //
 // Content components own their own padding and background fill; DemoPanel
 // only provides the chrome (header + bottom/side borders).
 
 import type { ReactNode } from 'react';
-
-interface ActHeaderProps {
-  act: string;
-  title: string;
-  kicker: string;
-}
-
-export function ActHeader({ act, title, kicker }: ActHeaderProps) {
-  return (
-    <div
-      className="flex items-baseline justify-between gap-4 pb-2 flex-wrap"
-      style={{ borderBottom: '3px solid var(--bh-ink)' }}
-    >
-      <div className="flex items-baseline gap-3 flex-wrap">
-        <span className="bh-eyebrow">{act}</span>
-        <span className="bh-eyebrow" style={{ opacity: 0.4 }}>
-          ·
-        </span>
-        <span className="font-mono text-sm font-semibold uppercase tracking-[0.2em]">
-          {title}
-        </span>
-      </div>
-      <span className="bh-eyebrow">{kicker}</span>
-    </div>
-  );
-}
 
 interface SubChapterHeaderProps {
   eyebrow: string;

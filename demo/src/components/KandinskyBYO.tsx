@@ -158,34 +158,14 @@ export function KandinskyBYO({
   colors,
   invocations,
 }: KandinskyBYOProps) {
+  // No inline section wrapper or header here — the parent <DemoPanel />
+  // provides the bordered card + Bauhaus "act 02 · resolve · bring your
+  // own" chrome. This component is content only.
   return (
-    <section
+    <div
       className="relative overflow-hidden"
-      style={{ backgroundColor: 'var(--bh-paper)', border: '1px solid var(--bh-ink)' }}
+      style={{ backgroundColor: 'var(--bh-paper)' }}
     >
-      <header
-        className="flex items-center justify-between px-5 py-3"
-        style={{ backgroundColor: 'var(--bh-ink)', color: 'var(--bh-cream)' }}
-      >
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-[10px] tracking-[0.3em] uppercase opacity-60">
-            resolve
-          </span>
-          <h3
-            className="text-lg lowercase bh-caps"
-            style={{ fontFamily: "'Bauhaus Modern', 'Unbounded', sans-serif" }}
-          >
-            bring your own
-          </h3>
-        </div>
-        <span
-          className="font-mono text-[10px] tracking-[0.24em] uppercase px-2 py-[2px]"
-          style={{ backgroundColor: 'var(--bh-yellow)', color: 'var(--bh-ink)' }}
-        >
-          user-supplied
-        </span>
-      </header>
-
       <div className="grid md:grid-cols-[1.4fr_1fr] gap-0 divide-x divide-[var(--bh-ink)]">
         <div className="relative p-6">
           <svg
@@ -287,7 +267,7 @@ export function KandinskyBYO({
           ariaLabel="live chromonym resolve call for the BYO palette"
         />
       </div>
-    </section>
+    </div>
   );
 }
 
