@@ -1,9 +1,14 @@
-// Palette selector as a 2×2 Bauhaus tile grid (or 4×1 row). Each tile is a
-// flat-color poster for its palette carrying a 5-swatch sample strip as
-// proof of its flavor. Unselected tiles wear a hairline border; the selected
-// tile wears a thicker border plus a small ink block flush with its top-
-// right corner — quieter than the old "ACTIVE" text pill but reads at a
-// glance because it connects to the border itself.
+// Palette selector as a 2×2 Bauhaus tile grid (or 4×1 row). Each tile is
+// a flat-color poster for its palette with a three-row internal layout:
+//
+//   row 1:  selection indicator (left) · entry count (right)
+//   row 2:  palette name (lowercase, full width)
+//   row 3:  5-swatch sample strip
+//
+// The selection indicator is a small ink square that only renders when the
+// tile is selected. When it's missing, the row still holds its space so the
+// other rows don't jump. Unselected tiles wear a 1px inset border; the
+// selected tile wears a 3px inset border — selection reads at a glance.
 
 import { useRef } from 'react';
 import { PALETTES, PALETTE_LABELS, type PaletteKey } from './PaletteGrid.js';
@@ -23,10 +28,8 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
 
 const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola'];
 
-// Indicator square lives flush to the top-right corner when a tile is
-// selected — same scale as a sample swatch (12px) so the visual language
-// inside the tile is consistent.
-const CORNER_SIZE = 14;
+// Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).
+const INDICATOR = 12;
 
 export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTilesProps) {
   const tileRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -92,38 +95,50 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
             aria-checked={isSelected}
             tabIndex={isSelected ? 0 : -1}
             onClick={() => onSelect(key)}
-            className={`relative flex flex-col text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${layout === 'row' ? 'p-[12px]' : 'p-4'}`}
+            className={`flex flex-col text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${layout === 'row' ? 'p-[12px] gap-2' : 'p-4 gap-3'}`}
             style={{
               backgroundColor: tone,
               color: ink,
-              minHeight: layout === 'row' ? '88px' : '132px',
+              minHeight: layout === 'row' ? '92px' : '132px',
               boxShadow: isSelected
                 ? 'inset 0 0 0 3px var(--bh-ink)'
                 : 'inset 0 0 0 1px var(--bh-ink)',
             }}
           >
-            {/* Title spans full width; upper-right corner is owned by the
-                count (unselected) or the ink indicator (selected), so the
-                two can't clash. The right padding on the title reserves
-                the corner slot. */}
+            {/* Row 1 — selection indicator (left) · count (right). The
+                indicator slot is always rendered so unselected tiles
+                keep the same row height as selected ones. */}
+            <div className="flex items-center justify-between">
+              {isSelected ? (
+                <span
+                  aria-hidden
+                  style={{
+                    width: INDICATOR,
+                    height: INDICATOR,
+                    backgroundColor: 'var(--bh-ink)',
+                  }}
+                />
+              ) : (
+                <span aria-hidden style={{ width: INDICATOR, height: INDICATOR }} />
+              )}
+              <span
+                className="font-mono text-[10px] tracking-[0.15em] opacity-80"
+                style={{ color: ink }}
+              >
+                {count}
+              </span>
+            </div>
+
+            {/* Row 2 — palette name, full width. */}
             <div
-              className={`lowercase font-semibold tracking-[-0.02em] ${layout === 'row' ? 'text-base leading-none' : 'text-2xl'}`}
-              style={{ color: ink, paddingRight: CORNER_SIZE + 8 }}
+              className={`lowercase font-semibold tracking-[-0.02em] leading-none ${layout === 'row' ? 'text-base' : 'text-2xl'}`}
+              style={{ color: ink }}
             >
               {PALETTE_LABELS[key]}
             </div>
 
-            {layout === 'grid' && (
-              <div
-                className="font-mono text-[10px] tracking-[0.2em] uppercase opacity-70 mt-1"
-                style={{ color: ink }}
-              >
-                palette / {String(idx + 1).padStart(2, '0')}
-              </div>
-            )}
-
-            {/* Sample strip pushed to the bottom; spacer above it. */}
-            <div className={`flex gap-[2px] mt-auto ${layout === 'row' ? 'pt-3' : 'pt-4'}`} aria-hidden>
+            {/* Row 3 — 5-swatch sample strip, pinned to the bottom. */}
+            <div className="flex gap-[2px] mt-auto" aria-hidden>
               {sample.map((hex, i) => (
                 <div
                   // biome-ignore lint/suspicious/noArrayIndexKey: fixed-length deterministic
@@ -133,33 +148,6 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
                 />
               ))}
             </div>
-
-            {/* Upper-right corner — swaps between the entry count (idle)
-                and a flush ink block (selected). Both absolute so the
-                title above can claim full width. */}
-            {isSelected ? (
-              <span
-                aria-hidden
-                className="absolute top-0 right-0"
-                style={{
-                  width: CORNER_SIZE,
-                  height: CORNER_SIZE,
-                  backgroundColor: 'var(--bh-ink)',
-                }}
-              />
-            ) : (
-              <span
-                aria-hidden
-                className="absolute font-mono text-[10px] tracking-[0.15em] opacity-80"
-                style={{
-                  top: 6,
-                  right: 8,
-                  color: ink,
-                }}
-              >
-                {count}
-              </span>
-            )}
           </button>
         );
       })}

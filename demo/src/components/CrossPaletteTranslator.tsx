@@ -155,9 +155,6 @@ export function CrossPaletteTranslator() {
         ariaLabel="live chromonym call for the current selection"
       />
 
-      <p className="bh-eyebrow pt-1 opacity-70">
-        ink ring · the color you picked — red rings · top-{k} nearest matches (thicker = closer)
-      </p>
     </div>
   );
 }

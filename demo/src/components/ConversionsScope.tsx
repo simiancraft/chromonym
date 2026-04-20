@@ -46,9 +46,15 @@ export function ConversionsScope({ conversions, tintHex, input, setInput }: Conv
           aria-hidden
         />
         <code className="font-mono text-xs">{input}</code>
-        <span className="font-mono text-[10px] tracking-[0.2em] uppercase opacity-60 ml-auto">
-          everything upstream reacts
-        </span>
+        <p className="font-mono text-[10px] leading-snug opacity-70 ml-auto max-w-md">
+          Every basic format is exposed — <span className="uppercase tracking-wider">hex</span>,
+          {' '}<span className="uppercase tracking-wider">rgb</span>,
+          {' '}<span className="uppercase tracking-wider">rgba</span>,
+          {' '}<span className="uppercase tracking-wider">hsl</span>,
+          {' '}<span className="uppercase tracking-wider">hsv</span> — through one
+          {' '}<code className="font-mono">convert</code> call. Completes the
+          color toolbelt next to identify and resolve.
+        </p>
       </div>
 
       <LiveSnippet
