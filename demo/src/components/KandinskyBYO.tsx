@@ -14,9 +14,16 @@ import { LiveSnippet } from './LiveSnippet.js';
 
 interface KandinskyBYOProps {
   input: string;
+  /** Writes back to the shared demo input — the BYO picker is a second
+   *  interface to the same `input` state that the hero + eyedropper drive. */
+  setInput: (hex: string) => void;
   matchedName: string | null;
   matchedHex: string | null;
   colors: Readonly<Record<string, string>>;
+  /** Per-palette-entry flavor lines rendered in the displayed (not copied)
+   *  snippet. Makes the code block feel alive: different match → different
+   *  invocation. Stays out of the copy payload. */
+  invocations?: Readonly<Record<string, string>>;
 }
 
 const SHAPES: Array<{
@@ -138,7 +145,14 @@ const SHAPES: Array<{
   },
 ];
 
-export function KandinskyBYO({ input, matchedName, matchedHex, colors }: KandinskyBYOProps) {
+export function KandinskyBYO({
+  input,
+  setInput,
+  matchedName,
+  matchedHex,
+  colors,
+  invocations,
+}: KandinskyBYOProps) {
   return (
     <section
       className="relative overflow-hidden"
@@ -225,22 +239,26 @@ export function KandinskyBYO({ input, matchedName, matchedHex, colors }: Kandins
         </div>
 
         <aside className="p-6 flex flex-col gap-4" style={{ backgroundColor: 'var(--bh-cream)' }}>
-          <div>
-            <div className="bh-eyebrow mb-2">your input</div>
-            <div
-              className="h-10 border"
-              style={{ backgroundColor: input, borderColor: 'var(--bh-ink)' }}
+          <label className="block">
+            <div className="bh-eyebrow mb-2">scrub · your input</div>
+            <input
+              type="color"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="w-full h-10 cursor-pointer appearance-none"
+              style={{ border: '1px solid var(--bh-ink)', padding: 0 }}
+              aria-label="BYO color picker"
             />
             <code className="font-mono text-xs block mt-1">{input}</code>
-          </div>
+          </label>
 
           <div>
             <div className="bh-eyebrow mb-2">nearest warhammer</div>
             <div
-              className="h-10 border"
+              className="h-10"
               style={{
                 backgroundColor: matchedHex ?? 'transparent',
-                borderColor: 'var(--bh-ink)',
+                border: '1px solid var(--bh-ink)',
               }}
             />
             <code className="font-mono text-xs block mt-1">
@@ -248,6 +266,10 @@ export function KandinskyBYO({ input, matchedName, matchedHex, colors }: Kandins
             </code>
           </div>
 
+          <div className="font-mono text-[10px] tracking-[0.15em] uppercase opacity-70 leading-relaxed mt-auto">
+            scrub the picker — as the input crosses a faction's region, the
+            matching shape pulses and the snippet below swaps its chant.
+          </div>
         </aside>
       </div>
 
@@ -255,7 +277,7 @@ export function KandinskyBYO({ input, matchedName, matchedHex, colors }: Kandins
         <LiveSnippet
           label="signal · resolve · BYO"
           tintHex={matchedHex ?? undefined}
-          displayText={buildDisplaySnippet(matchedName, matchedHex, colors)}
+          displayText={buildDisplaySnippet(matchedName, matchedHex, colors, invocations)}
           copyText={buildCopySnippet(matchedName, colors)}
           ariaLabel="live chromonym resolve call for the BYO palette"
         />
@@ -272,7 +294,9 @@ function buildDisplaySnippet(
   matchedName: string | null,
   matchedHex: string | null,
   colors: Readonly<Record<string, string>>,
+  invocations: Readonly<Record<string, string>> | undefined,
 ): string {
+  const invocation = matchedName ? invocations?.[matchedName] : undefined;
   const lines: string[] = [
     `import { resolve, type Palette } from 'chromonym';`,
     ``,
@@ -290,6 +314,7 @@ function buildDisplaySnippet(
     `})`,
     `// → ${matchedHex ? `'${matchedHex}'` : 'null'}`,
   ];
+  if (invocation) lines.push(`// ${invocation}`);
   return lines.join('\n');
 }
 

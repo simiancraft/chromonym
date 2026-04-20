@@ -49,6 +49,19 @@ const warhammer = {
   | 'alpha legion teal'
 >;
 
+// In-universe battle-cry for each faction. Rendered only in the *displayed*
+// BYO snippet (not the copy payload) so scrubbing the input across factions
+// swaps the flavor line. Half easter egg, half interactive: the code block
+// reads differently depending on what the user just matched.
+const WARHAMMER_INVOCATIONS: Record<keyof (typeof warhammer)['colors'], string> = {
+  'world eaters red': 'blood for the blood god',
+  'adeptus red': 'for the glory of the omnissiah',
+  'sons of malice white': 'spite the gods',
+  'the flawless host purple': 'perfection in all things',
+  'nurgle green': 'grandfather nurgle smiles',
+  'alpha legion teal': 'hydra dominatus',
+};
+
 function readParams() {
   if (typeof window === 'undefined') {
     return {
@@ -375,9 +388,11 @@ export function App() {
           <div className="mt-4">
             <KandinskyBYO
               input={input}
+              setInput={setInput}
               matchedName={warhammerMatch}
               matchedHex={warhammerHex}
               colors={warhammer.colors}
+              invocations={WARHAMMER_INVOCATIONS}
             />
           </div>
         </div>
