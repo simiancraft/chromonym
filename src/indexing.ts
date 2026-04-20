@@ -2,7 +2,7 @@ import { hexToRgba } from './conversions/hex.js';
 import { rgbaToLab, rgbaToLinearRgb, rgbaToOklab } from './math/colorSpace.js';
 import { deltaE76Squared, deltaE94, deltaE2000, deltaEokSquared } from './math/deltaE.js';
 import { squaredDistanceRgb } from './math/euclideanDistance.js';
-import type { DistanceMetric, HexColor, NormalizeFn, Palette, Rgba } from './types.js';
+import type { DistanceMetric, Palette, Rgba } from './types.js';
 
 /**
  * Per-palette lookup indexes for name resolution and nearest-match.
@@ -16,7 +16,7 @@ import type { DistanceMetric, HexColor, NormalizeFn, Palette, Rgba } from './typ
 // caller that expected them here. The functions live in ./palettes/normalize
 // so palette modules can import them without pulling this file's math graph.
 export { pantoneNormalize, standardNormalize } from './palettes/normalize.js';
-export type { NormalizeFn };
+export type { NormalizeFn } from './types.js';
 
 type AnyPalette = Palette<string>;
 
@@ -71,9 +71,7 @@ export function getReverseNameIndex(space: AnyPalette): Map<string, string> {
 export function getRgbaIndex(space: AnyPalette): Array<readonly [string, Rgba]> {
   let idx = rgbaIndexCache.get(space);
   if (idx === undefined) {
-    idx = Object.entries(space.colors).map(
-      ([name, hex]) => [name, hexToRgba(hex as HexColor)] as const,
-    );
+    idx = Object.entries(space.colors).map(([name, hex]) => [name, hexToRgba(hex)] as const);
     rgbaIndexCache.set(space, idx);
   }
   return idx;

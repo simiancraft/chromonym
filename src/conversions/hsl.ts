@@ -76,5 +76,5 @@ export function rgbaToHsl(rgba: Rgba): HslString {
   }
   hue *= 60;
 
-  return `hsl(${Math.round(hue)}, ${Math.round(saturation * 100)}%, ${Math.round(lightness * 100)}%)` as HslString;
+  return `hsl(${Math.round(hue)}, ${Math.round(saturation * 100)}%, ${Math.round(lightness * 100)}%)`;
 }
