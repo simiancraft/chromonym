@@ -1,9 +1,12 @@
-// Minimal canvas-based color picker. Pick a pixel from any image source
-// (preset / local file / live webcam), hover previews, click pins. On pin,
-// writes the hex back to the shared demo `input` via `onPick` — so the
-// surrounding IdentifyPanel's picker, palette tiles, result swatches, and
-// code snippet all react to the same state. No local controls (palette,
-// metric, k): those live at the panel level.
+// Minimal canvas-based color picker. Press-and-drag the canvas to sample;
+// the picked color updates live during the drag and stays committed when
+// the mouse is released (no separate click-to-pin step). Image source can
+// be a preset / local file / live webcam frame — all routes end at the
+// same getImageData read.
+//
+// Every commit calls `onPick(hex)` so the surrounding IdentifyPanel's
+// picker, palette tiles, result swatches, and code snippet all react to
+// the same state. No local controls (palette, metric, k) live here.
 
 import {
   type ChangeEvent,
@@ -60,8 +63,12 @@ export function Eyedropper({ onPick }: EyedropperProps) {
   const [webcamError, setWebcamError] = useState<string | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
 
+  // `pinned` is the committed pick — stays after the user releases the mouse.
+  // `dragging` is true while the user is actively dragging the picker across
+  // the canvas; during a drag, `pinned` updates live with the cursor. On
+  // release it stays at the final drag position (no separate "commit" step).
   const [pinned, setPinned] = useState<PickedPixel | null>(null);
-  const [hover, setHover] = useState<PickedPixel | null>(null);
+  const [dragging, setDragging] = useState(false);
 
   // ---- Canvas drawing ---------------------------------------------------
 
@@ -185,18 +192,30 @@ export function Eyedropper({ onPick }: EyedropperProps) {
     }
   }, []);
 
-  const pinAt = useCallback(
+  // Press + drag = live pick. Release commits whatever pixel the cursor was
+  // over when the user let go. There's no idle-hover preview anymore: an
+  // untouched canvas is "at rest" and only reacts while the user is
+  // explicitly driving it.
+  const applyPick = useCallback(
     (p: PickedPixel) => {
-      setPinned((prev) => {
-        if (prev && prev.x === p.x && prev.y === p.y) return null;
-        onPick(p.hex);
-        return p;
-      });
+      setPinned(p);
+      onPick(p.hex);
     },
     [onPick],
   );
 
-  const onCanvasMove = (e: ReactMouseEvent<HTMLCanvasElement>) => {
+  const onCanvasMouseDown = (e: ReactMouseEvent<HTMLCanvasElement>) => {
+    const p = pickPixelAt(e.clientX, e.clientY);
+    if (!p) return;
+    setDragging(true);
+    applyPick(p);
+  };
+
+  // While a drag is active, rAF-throttle the sample so fast mouse travel
+  // doesn't trip getImageData + setState at 100+ Hz. Outside a drag this
+  // handler is a no-op.
+  const onCanvasMouseMove = (e: ReactMouseEvent<HTMLCanvasElement>) => {
+    if (!dragging) return;
     pendingHoverEventRef.current = { clientX: e.clientX, clientY: e.clientY };
     if (hoverRafRef.current !== null) return;
     hoverRafRef.current = requestAnimationFrame(() => {
@@ -204,31 +223,34 @@ export function Eyedropper({ onPick }: EyedropperProps) {
       const evt = pendingHoverEventRef.current;
       pendingHoverEventRef.current = null;
       if (!evt) return;
-      setHover(pickPixelAt(evt.clientX, evt.clientY));
+      const p = pickPixelAt(evt.clientX, evt.clientY);
+      if (p) applyPick(p);
     });
   };
 
-  const onCanvasLeave = () => {
-    if (hoverRafRef.current !== null) {
-      cancelAnimationFrame(hoverRafRef.current);
-      hoverRafRef.current = null;
-    }
-    pendingHoverEventRef.current = null;
-    setHover(null);
-  };
-
-  const onCanvasClick = (e: ReactMouseEvent<HTMLCanvasElement>) => {
-    const p = pickPixelAt(e.clientX, e.clientY);
-    if (p) pinAt(p);
-  };
+  // Global mouseup — if the user drags off the canvas and releases, the
+  // drag still ends cleanly. Attached only while `dragging` so there's no
+  // listener churn the rest of the time.
+  useEffect(() => {
+    if (!dragging) return;
+    const stop = () => {
+      setDragging(false);
+      if (hoverRafRef.current !== null) {
+        cancelAnimationFrame(hoverRafRef.current);
+        hoverRafRef.current = null;
+      }
+      pendingHoverEventRef.current = null;
+    };
+    window.addEventListener('mouseup', stop);
+    return () => window.removeEventListener('mouseup', stop);
+  }, [dragging]);
 
   const onCanvasKeyDown = (e: React.KeyboardEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const step = e.shiftKey ? 10 : 1;
     const current =
-      pinned ??
-      hover ?? { x: Math.floor(CANVAS_W / 2), y: Math.floor(CANVAS_H / 2), hex: '#000000' };
+      pinned ?? { x: Math.floor(CANVAS_W / 2), y: Math.floor(CANVAS_H / 2), hex: '#000000' };
     let nx = current.x;
     let ny = current.y;
     switch (e.key) {
@@ -246,7 +268,8 @@ export function Eyedropper({ onPick }: EyedropperProps) {
         break;
       case 'Enter':
       case ' ':
-        if (current) pinAt(current);
+        // No-op: every nudge already commits via applyPick below. Enter
+        // stays bound so screen readers don't see it as a dead key.
         e.preventDefault();
         return;
       default:
@@ -258,7 +281,7 @@ export function Eyedropper({ onPick }: EyedropperProps) {
     try {
       const [r, g, b] = ctx.getImageData(nx, ny, 1, 1).data;
       const hex = `#${[r, g, b].map((v) => (v ?? 0).toString(16).padStart(2, '0')).join('')}`;
-      setHover({ x: nx, y: ny, hex });
+      applyPick({ x: nx, y: ny, hex });
     } catch {
       /* tainted canvas — ignore */
     }
@@ -362,17 +385,18 @@ export function Eyedropper({ onPick }: EyedropperProps) {
           width={CANVAS_W}
           height={CANVAS_H}
           tabIndex={0}
-          onMouseMove={onCanvasMove}
-          onMouseLeave={onCanvasLeave}
-          onClick={onCanvasClick}
+          onMouseDown={onCanvasMouseDown}
+          onMouseMove={onCanvasMouseMove}
           onKeyDown={onCanvasKeyDown}
-          className="w-full h-auto cursor-crosshair focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--bh-ink)]"
+          className={`w-full h-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--bh-ink)] ${dragging ? 'cursor-grabbing' : 'cursor-crosshair'}`}
           style={{
             aspectRatio: `${CANVAS_W} / ${CANVAS_H}`,
             border: '1px solid var(--bh-ink)',
             backgroundColor: 'var(--bh-cream)',
+            userSelect: 'none',
+            touchAction: 'none',
           }}
-          aria-label="image to pick colors from; arrow keys nudge, Enter pins"
+          aria-label="image to pick colors from; press and drag to sample, arrow keys to nudge"
         />
         {pinned && <PinnedMarker x={pinned.x} y={pinned.y} />}
         <video
@@ -390,21 +414,16 @@ export function Eyedropper({ onPick }: EyedropperProps) {
         />
       </div>
 
-      {/* Micro-readout: pinned vs hover, so the user knows which mode is active */}
+      {/* Micro-readout — reflects the current pick, or prompts if there isn't one. */}
       <div className="font-mono text-[10px] opacity-60 flex items-center gap-2">
         {pinned ? (
           <>
-            <span>pinned</span>
+            <span>{dragging ? 'sampling' : 'picked'}</span>
             <code>{pinned.hex}</code>
-            <span className="opacity-70">· click again to unpin</span>
-          </>
-        ) : hover ? (
-          <>
-            <span>hover</span>
-            <code>{hover.hex}</code>
+            {!dragging && <span className="opacity-70">· press and drag to re-sample</span>}
           </>
         ) : (
-          <span>hover the canvas · arrows to nudge · enter to pin</span>
+          <span>press and drag the canvas · arrow keys to nudge</span>
         )}
       </div>
     </div>
