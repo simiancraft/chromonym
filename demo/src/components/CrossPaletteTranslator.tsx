@@ -3,7 +3,7 @@
 // user can watch how metric choice swings results in edge regions (ΔE76 vs
 // ΔE2000 in saturated blues, for example).
 
-import { type DistanceMetric, identify, resolve } from 'chromonym';
+import { type DistanceMetric, identify } from 'chromonym';
 import { useMemo, useState } from 'react';
 import { PaletteGrid, PALETTES, type PaletteKey } from './PaletteGrid.js';
 
@@ -46,11 +46,15 @@ export function CrossPaletteTranslator() {
   const srcSelected = lastEdited === 'left' ? leftSelected : rightSelected;
 
   const { matches, elapsedMs } = useMemo(() => {
-    if (!srcSelected) return { matches: [] as Array<{ name: string; value: string; distance: number }>, elapsedMs: 0 };
-    const srcHex = resolve(srcSelected, { palette: PALETTES[srcPaletteKey] }) as string | null;
-    if (!srcHex) return { matches: [], elapsedMs: 0 };
+    if (!srcSelected)
+      return { matches: [] as Array<{ name: string; value: string; distance: number }>, elapsedMs: 0 };
     const t0 = performance.now();
-    const m = identify(srcHex, { palette: PALETTES[dstPaletteKey], metric, k });
+    const m = identify(srcSelected, {
+      source: PALETTES[srcPaletteKey],
+      palette: PALETTES[dstPaletteKey],
+      metric,
+      k,
+    });
     const t1 = performance.now();
     return { matches: m, elapsedMs: t1 - t0 };
   }, [srcPaletteKey, dstPaletteKey, srcSelected, metric, k]);
@@ -148,11 +152,63 @@ export function CrossPaletteTranslator() {
         />
       </div>
 
+      <LiveSnippet
+        srcPalette={srcPaletteKey}
+        dstPalette={dstPaletteKey}
+        srcSelected={srcSelected}
+        metric={metric}
+        k={k}
+        matches={matches}
+      />
+
       <p className="text-xs text-neutral-500 italic pt-1">
         Blue ring = the color you picked. Amber rings = top-{k} nearest matches ranked by the
         chosen metric (thicker ring = closer).
       </p>
     </section>
+  );
+}
+
+interface LiveSnippetProps {
+  srcPalette: PaletteKey;
+  dstPalette: PaletteKey;
+  srcSelected: string | null;
+  metric: DistanceMetric;
+  k: number;
+  matches: ReadonlyArray<{ name: string; value: string; distance: number }>;
+}
+
+// The exact chromonym call the translator just ran, reformatted for a
+// screen reader. Rebuilds on every state change so the block *is* the
+// API reference — there's no "this is what it would look like" gap.
+function LiveSnippet({ srcPalette, dstPalette, srcSelected, metric, k, matches }: LiveSnippetProps) {
+  const shown = Math.min(matches.length, 3);
+  const resultLines = matches.slice(0, shown).map(
+    (m) => `//     { name: '${m.name}', value: '${m.value}', distance: ${m.distance.toFixed(3)} },`,
+  );
+  if (matches.length > shown) resultLines.push('//     // …');
+
+  const lines = [
+    `import { identify, ${srcPalette}, ${dstPalette} } from 'chromonym';`,
+    ``,
+    `identify(${srcSelected ? `'${srcSelected}'` : '/* pick a swatch */'}, {`,
+    `  source:  ${srcPalette},`,
+    `  palette: ${dstPalette},`,
+    `  metric:  '${metric}',`,
+    `  k:       ${k},`,
+    `})`,
+    ...(matches.length > 0
+      ? ['// → [', ...resultLines, '// ]']
+      : []),
+  ];
+
+  return (
+    <pre
+      aria-label="live chromonym call for the current selection"
+      className="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed"
+    >
+      <code>{lines.join('\n')}</code>
+    </pre>
   );
 }
 
