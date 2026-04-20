@@ -1,15 +1,15 @@
-// Page header: volume/issue eyebrow, wordmark, tagline, and the
-// Github/npm link row. Takes `metric` so the Wordmark's CMYK channel
-// offsets can animate in lockstep with the current distance-metric choice.
+// Page header: volume/issue eyebrow, wordmark, tagline, and the Github/npm
+// link row. Takes `hex` so the Wordmark's R / G / B ghost layers can each
+// animate their x-offset in lockstep with the demo's currently selected
+// color — the masthead is part of the interaction, not a static logo.
 
-import type { DistanceMetric } from 'chromonym';
 import { Wordmark } from './Wordmark.js';
 
 interface MastheadProps {
-  metric: DistanceMetric;
+  hex: string;
 }
 
-export function Masthead({ metric }: MastheadProps) {
+export function Masthead({ hex }: MastheadProps) {
   return (
     <header className="bh-rise space-y-4">
       <div className="flex items-baseline justify-between bh-rule-thick pt-2">
@@ -17,7 +17,7 @@ export function Masthead({ metric }: MastheadProps) {
         <span className="bh-eyebrow">2026 · typescript</span>
       </div>
 
-      <Wordmark metric={metric} className="mt-2" />
+      <Wordmark hex={hex} className="mt-2" />
 
       <div className="grid grid-cols-[1fr_auto] items-end gap-6 pt-2">
         <div className="max-w-2xl">

@@ -32,7 +32,7 @@ export function App() {
         className="relative mx-auto max-w-4xl px-6 md:px-10 py-10 md:py-14"
         style={{ zIndex: 10 }}
       >
-        <Masthead metric={demo.metric} />
+        <Masthead hex={demo.input} />
 
         {/* Live RGB channel strip — the divider between masthead and
             the above-the-fold identify demo. Driven by the current input

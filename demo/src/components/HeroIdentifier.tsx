@@ -162,7 +162,7 @@ export function HeroIdentifier({
       {/* ── Output row (full width): scrubbed · nearest · BIG NAME ── */}
       <div className="grid md:grid-cols-[1fr_1fr_1.6fr] gap-6 items-end">
         <div>
-          <div className="bh-eyebrow mb-2">scrubbed</div>
+          <div className="bh-eyebrow mb-2">selected</div>
           <div
             className="aspect-[4/3]"
             style={{ backgroundColor: input, border: '1px solid var(--bh-ink)' }}

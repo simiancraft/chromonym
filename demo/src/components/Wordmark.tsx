@@ -1,28 +1,46 @@
-// Live SVG rendering of the chromonym wordmark with CMYK print-misregistration
-// ghosts. The channel-offset magnitude is bound to the current distance metric:
-// crude metrics (euclidean-sRGB) read as a badly-tuned CRT / poorly-registered
-// press; perceptual metrics (ΔE2000, OKLAB) converge to near-zero offset. The
-// metric dropdown thus has a visible, viscerally tangible effect on the title
-// itself — "accuracy = tuning."
+// Live SVG rendering of the chromonym wordmark with three RGB ghost layers
+// that shift apart as the user manipulates the demo's input color.
+//
+// Each R / G / B channel (0–255) linearly scales the x-offset of its own
+// ghost layer — pure black converges everything to the black key at dead
+// center; brighter / chromatic inputs push the ghosts outward, making the
+// wordmark read as a live "R G B convergence" driven by whatever color is
+// currently selected in the demo.
 
-import type { DistanceMetric } from 'chromonym';
-
-const OFFSET_PX: Record<DistanceMetric, number> = {
-  'euclidean-srgb': 9,
-  'euclidean-linear': 7,
-  deltaE76: 5,
-  deltaE94: 3.5,
-  deltaE2000: 1.6,
-  deltaEok: 0.8,
-};
+import { useMemo } from 'react';
 
 interface WordmarkProps {
-  metric: DistanceMetric;
+  hex: string;
   className?: string;
 }
 
-export function Wordmark({ metric, className = '' }: WordmarkProps) {
-  const d = OFFSET_PX[metric];
+// Max pixel offset in each direction. The scales per channel differ so the
+// three layers go in different directions — R to the right, G to the left,
+// B a smaller step right — which makes the "spread" read as three distinct
+// halos at the wordmark's edges instead of three layers moving in lockstep.
+const OFFSET_MAX = 14;
+const SCALE_R = 1.0;
+const SCALE_G = -1.0;
+const SCALE_B = 0.6;
+
+function parseHex(hex: string): { r: number; g: number; b: number } {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex);
+  if (!m) return { r: 0, g: 0, b: 0 };
+  const h = m[1];
+  return {
+    r: parseInt(h.slice(0, 2), 16),
+    g: parseInt(h.slice(2, 4), 16),
+    b: parseInt(h.slice(4, 6), 16),
+  };
+}
+
+const channelToOffset = (v: number, scale: number) => (v / 255) * OFFSET_MAX * scale;
+
+export function Wordmark({ hex, className = '' }: WordmarkProps) {
+  const { r, g, b } = useMemo(() => parseHex(hex), [hex]);
+  const dR = channelToOffset(r, SCALE_R);
+  const dG = channelToOffset(g, SCALE_G);
+  const dB = channelToOffset(b, SCALE_B);
 
   return (
     <svg
@@ -40,57 +58,55 @@ export function Wordmark({ metric, className = '' }: WordmarkProps) {
               font-size: 148px;
               letter-spacing: -3px;
             }
+            .wm-ghost {
+              transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+            }
           `}
         </style>
       </defs>
 
       {/*
-        Stacked ghosts. In CMYK press misregistration, three plates fail to
-        align — producing cyan/magenta/yellow fringes at the edges of the
-        black key plate. We paint each channel separately with an offset,
-        then lay the black plate on top. Because the ghosts extend past the
-        black silhouette only at the offset margins, you only see them as
-        edge halos, not as muddy overlaps.
+        Three ghost layers tinted with the CRT R / G / B phosphor colors.
+        mix-blend-mode: multiply on cream paper means R·G·B at the same
+        x-position collapses to near-black — so a converged (e.g. #000)
+        input reads as a clean black wordmark; a chromatic / white input
+        pushes the ghosts apart, revealing R / G / B fringes at the edges.
       */}
       <g style={{ mixBlendMode: 'multiply' }}>
         <text
-          x={650 - d * 0.8}
-          y={168 + d * 0.4}
+          x={650}
+          y={168}
           textAnchor="middle"
-          className="wm-text"
-          fill="var(--cmy-y)"
-          style={{ transition: 'transform 500ms cubic-bezier(0.22,1,0.36,1)' }}
+          className="wm-text wm-ghost"
+          fill="var(--crt-r)"
+          style={{ transform: `translateX(${dR}px)` }}
         >
           chromonym
         </text>
         <text
-          x={650 + d}
-          y={168 + d * 0.1}
+          x={650}
+          y={168}
           textAnchor="middle"
-          className="wm-text"
-          fill="var(--cmy-m)"
-          style={{ transition: 'transform 500ms cubic-bezier(0.22,1,0.36,1)' }}
+          className="wm-text wm-ghost"
+          fill="var(--crt-g)"
+          style={{ transform: `translateX(${dG}px)` }}
         >
           chromonym
         </text>
         <text
-          x={650 + d * 0.3}
-          y={168 - d * 0.5}
+          x={650}
+          y={168}
           textAnchor="middle"
-          className="wm-text"
-          fill="var(--cmy-c)"
-          style={{ transition: 'transform 500ms cubic-bezier(0.22,1,0.36,1)' }}
+          className="wm-text wm-ghost"
+          fill="var(--crt-b)"
+          style={{ transform: `translateX(${dB}px)` }}
         >
           chromonym
         </text>
       </g>
-      <text
-        x={650}
-        y={168}
-        textAnchor="middle"
-        className="wm-text"
-        fill="var(--bh-ink)"
-      >
+
+      {/* Black key plate on top — the anchor the ghosts spread around. */}
+      <text x={650} y={168} textAnchor="middle" className="wm-text" fill="var(--bh-ink)">
         chromonym
       </text>
     </svg>
