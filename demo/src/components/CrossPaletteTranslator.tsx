@@ -5,6 +5,7 @@
 
 import { type DistanceMetric, identify } from 'chromonym';
 import { useMemo, useState } from 'react';
+import { LiveSnippet } from './LiveSnippet.js';
 import { PaletteGrid, PALETTES, type PaletteKey } from './PaletteGrid.js';
 
 const METRICS: readonly DistanceMetric[] = [
@@ -152,7 +153,7 @@ export function CrossPaletteTranslator() {
         />
       </div>
 
-      <LiveSnippet
+      <TranslatorSnippet
         srcPalette={srcPaletteKey}
         dstPalette={dstPaletteKey}
         srcSelected={srcSelected}
@@ -169,7 +170,7 @@ export function CrossPaletteTranslator() {
   );
 }
 
-interface LiveSnippetProps {
+interface TranslatorSnippetProps {
   srcPalette: PaletteKey;
   dstPalette: PaletteKey;
   srcSelected: string | null;
@@ -178,12 +179,17 @@ interface LiveSnippetProps {
   matches: ReadonlyArray<{ name: string; value: string; distance: number }>;
 }
 
-// The exact chromonym call the translator just ran, reformatted for a
-// screen reader. Rebuilds on every state change so the block *is* the
-// API reference — there's no "this is what it would look like" gap.
-// The "copy" button copies only the real code (import + call), not the
-// `// → [...]` trailing result lines, so pasting yields runnable code.
-function LiveSnippet({ srcPalette, dstPalette, srcSelected, metric, k, matches }: LiveSnippetProps) {
+// Translator-flavored call — builds a display + copy text pair and hands
+// them to the generic LiveSnippet. The pair split means the `// → [...]`
+// comment is visible but not part of what the copy button sends.
+function TranslatorSnippet({
+  srcPalette,
+  dstPalette,
+  srcSelected,
+  metric,
+  k,
+  matches,
+}: TranslatorSnippetProps) {
   const shown = Math.min(matches.length, 3);
   const resultLines = matches.slice(0, shown).map(
     (m) => `//     { name: '${m.name}', value: '${m.value}', distance: ${m.distance.toFixed(3)} },`,
@@ -205,34 +211,11 @@ function LiveSnippet({ srcPalette, dstPalette, srcSelected, metric, k, matches }
   const copyText = codeLines.join('\n');
 
   return (
-    <div className="relative group">
-      <pre
-        aria-label="live chromonym call for the current selection"
-        className="bg-neutral-900 text-neutral-100 rounded-lg p-4 pr-16 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed"
-      >
-        <code>{displayText}</code>
-      </pre>
-      <CopyButton text={copyText} />
-    </div>
-  );
-}
-
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      type="button"
-      onClick={() => {
-        navigator.clipboard.writeText(text).then(() => {
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1500);
-        });
-      }}
-      aria-label={copied ? 'Copied to clipboard' : 'Copy code to clipboard'}
-      className="absolute top-2 right-2 text-[10px] uppercase tracking-wide px-2 py-1 rounded bg-neutral-700 hover:bg-neutral-600 text-neutral-100 md:opacity-0 md:group-hover:opacity-100 focus:opacity-100 transition"
-    >
-      {copied ? 'copied!' : 'copy'}
-    </button>
+    <LiveSnippet
+      displayText={displayText}
+      copyText={copyText}
+      ariaLabel="live chromonym call for the current selection"
+    />
   );
 }
 

@@ -16,6 +16,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ConvergenceStrip } from './components/ConvergenceStrip.js';
 import { ConversionsScope } from './components/ConversionsScope.js';
 import { CrossPaletteTranslator } from './components/CrossPaletteTranslator.js';
+import { Eyedropper } from './components/Eyedropper.js';
 import { KandinskyBYO } from './components/KandinskyBYO.js';
 import { PaletteTiles } from './components/PaletteTiles.js';
 import { StageGels } from './components/StageGels.js';
@@ -402,6 +403,19 @@ export function App() {
           </div>
           <div style={{ border: '1px solid var(--bh-ink)', borderTop: 0 }}>
             <CrossPaletteTranslator />
+          </div>
+        </div>
+
+        {/* ===== eyedropper · pixel → name ===== */}
+        <div className="mt-10">
+          <div className="bh-rule-thick flex items-baseline justify-between pb-2">
+            <span className="bh-eyebrow">apparatus · iv</span>
+            <span className="font-mono text-[10px] tracking-[0.24em] uppercase opacity-70">
+              pixel · eyedropper
+            </span>
+          </div>
+          <div style={{ border: '1px solid var(--bh-ink)', borderTop: 0 }}>
+            <Eyedropper />
           </div>
         </div>
 
