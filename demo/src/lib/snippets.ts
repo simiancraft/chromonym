@@ -116,6 +116,40 @@ export function buildEyedropperSnippet(args: {
   return { displayText: display.join('\n'), copyText: code.join('\n') };
 }
 
+// ---- resolve · fuzzy (name → top-k Levenshtein matches) ---------------
+
+export function buildResolveFuzzySnippet(args: {
+  query: string;
+  paletteKey: PaletteKey;
+  k: number;
+  matches: ReadonlyArray<{ name: string; value: unknown; distance: number }>;
+}): SnippetPair {
+  const { query, paletteKey, k, matches } = args;
+  const code = [
+    `import { resolve, ${paletteKey} } from 'chromonym';`,
+    ``,
+    `resolve(${query ? `'${query}'` : '/* type a name */'}, {`,
+    `  palette: ${paletteKey},`,
+    `  k:       ${k},`,
+    `})`,
+  ];
+  const display = [...code];
+  if (matches.length > 0) {
+    const shown = Math.min(matches.length, 3);
+    display.push('// → [');
+    for (let i = 0; i < shown; i++) {
+      const m = matches[i];
+      const valStr = typeof m.value === 'string' ? `'${m.value}'` : JSON.stringify(m.value);
+      display.push(
+        `//     { name: '${m.name}', value: ${valStr}, distance: ${m.distance} },`,
+      );
+    }
+    if (matches.length > shown) display.push('//     // …');
+    display.push('// ]');
+  }
+  return { displayText: display.join('\n'), copyText: code.join('\n') };
+}
+
 // ---- convert · format ↔ format ----------------------------------------
 
 export function buildConvertSnippet(args: {

@@ -13,6 +13,7 @@ import { ConversionsScope } from './components/ConversionsScope.js';
 import { CrossPaletteTranslator } from './components/CrossPaletteTranslator.js';
 import { DemoPanel } from './components/DemoPanel.js';
 import { Footer } from './components/Footer.js';
+import { FuzzyResolver } from './components/FuzzyResolver.js';
 import { HeroIdentifier } from './components/HeroIdentifier.js';
 import { KandinskyBYO } from './components/KandinskyBYO.js';
 import { Masthead } from './components/Masthead.js';
@@ -89,6 +90,15 @@ export function App() {
           />
         </DemoPanel>
 
+        <DemoPanel
+          className="mt-8"
+          eyebrow="resolve · cont."
+          title="fuzzy"
+          kicker="typo-tolerant name lookup"
+        >
+          <FuzzyResolver setInput={demo.setInput} />
+        </DemoPanel>
+
         {/* ===== act 03 · convert ===== */}
         <DemoPanel
           className="mt-8"
@@ -100,6 +110,7 @@ export function App() {
             conversions={demo.conversions}
             tintHex={demo.input}
             input={demo.input}
+            setInput={demo.setInput}
           />
         </DemoPanel>
 
