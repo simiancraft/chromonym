@@ -106,12 +106,13 @@ export function KandinskyBYO({
 }: KandinskyBYOProps) {
   // Random per-selection offset. Fires on every matchedName change so
   // scrubbing across faction regions keeps the pulse feeling alive; same
-  // faction twice still re-randomizes. Distance 8–18px in a random
-  // direction around the shape's center.
+  // faction twice still re-randomizes. Angle clamped to the upper half
+  // (π to 2π radians) so the shape only drifts up, left, or right — never
+  // down into the label beneath it. Distance 8–18px.
   const [offset, setOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   useEffect(() => {
     if (!matchedName) return;
-    const angle = Math.random() * Math.PI * 2;
+    const angle = Math.PI + Math.random() * Math.PI;
     const d = 8 + Math.random() * 10;
     setOffset({ x: Math.cos(angle) * d, y: Math.sin(angle) * d });
   }, [matchedName]);

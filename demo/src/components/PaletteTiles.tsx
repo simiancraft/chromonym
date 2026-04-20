@@ -23,7 +23,12 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   web: { tone: 'var(--bh-red)', ink: 'var(--bh-cream)' },
   x11: { tone: 'var(--bh-yellow)', ink: 'var(--bh-ink)' },
   pantone: { tone: 'var(--bh-blue)', ink: 'var(--bh-cream)' },
-  crayola: { tone: 'var(--bh-ink)', ink: 'var(--bh-cream)' },
+  // Crayola was --bh-ink (pure black), which hid the selection indicator
+  // entirely (ink square on ink background). Swap in a saturated warm
+  // orange — keeps the primary-poster look, sits in the fourth quadrant
+  // next to red/yellow/blue, and gives the ink indicator somewhere to
+  // be seen.
+  crayola: { tone: '#E8751A', ink: 'var(--bh-ink)' },
 };
 
 const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola'];
@@ -100,14 +105,18 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
               backgroundColor: tone,
               color: ink,
               minHeight: layout === 'row' ? '92px' : '132px',
-              boxShadow: isSelected
-                ? 'inset 0 0 0 3px var(--bh-ink)'
-                : 'inset 0 0 0 1px var(--bh-ink)',
+              // Unselected tiles lean on the 3px inked gap between tiles
+              // (the grid's own background) for separation, so selection
+              // reads as a real visual event — a 4px inset frame appears
+              // around exactly one tile.
+              boxShadow: isSelected ? 'inset 0 0 0 4px var(--bh-ink)' : 'none',
             }}
           >
             {/* Row 1 — selection indicator (left) · count (right). The
-                indicator slot is always rendered so unselected tiles
-                keep the same row height as selected ones. */}
+                indicator is sized to the row-3 swatch height and uses
+                the tile's own ink token so it contrasts with whatever
+                tone the tile runs. The slot is always rendered so
+                unselected tiles keep the same row height. */}
             <div className="flex items-center justify-between">
               {isSelected ? (
                 <span
@@ -115,7 +124,7 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
                   style={{
                     width: INDICATOR,
                     height: INDICATOR,
-                    backgroundColor: 'var(--bh-ink)',
+                    backgroundColor: ink,
                   }}
                 />
               ) : (
