@@ -181,6 +181,8 @@ interface LiveSnippetProps {
 // The exact chromonym call the translator just ran, reformatted for a
 // screen reader. Rebuilds on every state change so the block *is* the
 // API reference — there's no "this is what it would look like" gap.
+// The "copy" button copies only the real code (import + call), not the
+// `// → [...]` trailing result lines, so pasting yields runnable code.
 function LiveSnippet({ srcPalette, dstPalette, srcSelected, metric, k, matches }: LiveSnippetProps) {
   const shown = Math.min(matches.length, 3);
   const resultLines = matches.slice(0, shown).map(
@@ -188,7 +190,7 @@ function LiveSnippet({ srcPalette, dstPalette, srcSelected, metric, k, matches }
   );
   if (matches.length > shown) resultLines.push('//     // …');
 
-  const lines = [
+  const codeLines = [
     `import { identify, ${srcPalette}, ${dstPalette} } from 'chromonym';`,
     ``,
     `identify(${srcSelected ? `'${srcSelected}'` : '/* pick a swatch */'}, {`,
@@ -197,18 +199,40 @@ function LiveSnippet({ srcPalette, dstPalette, srcSelected, metric, k, matches }
     `  metric:  '${metric}',`,
     `  k:       ${k},`,
     `})`,
-    ...(matches.length > 0
-      ? ['// → [', ...resultLines, '// ]']
-      : []),
   ];
+  const resultBlock = matches.length > 0 ? ['// → [', ...resultLines, '// ]'] : [];
+  const displayText = [...codeLines, ...resultBlock].join('\n');
+  const copyText = codeLines.join('\n');
 
   return (
-    <pre
-      aria-label="live chromonym call for the current selection"
-      className="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed"
+    <div className="relative group">
+      <pre
+        aria-label="live chromonym call for the current selection"
+        className="bg-neutral-900 text-neutral-100 rounded-lg p-4 pr-16 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed"
+      >
+        <code>{displayText}</code>
+      </pre>
+      <CopyButton text={copyText} />
+    </div>
+  );
+}
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        navigator.clipboard.writeText(text).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1500);
+        });
+      }}
+      aria-label={copied ? 'Copied to clipboard' : 'Copy code to clipboard'}
+      className="absolute top-2 right-2 text-[10px] uppercase tracking-wide px-2 py-1 rounded bg-neutral-700 hover:bg-neutral-600 text-neutral-100 md:opacity-0 md:group-hover:opacity-100 focus:opacity-100 transition"
     >
-      <code>{lines.join('\n')}</code>
-    </pre>
+      {copied ? 'copied!' : 'copy'}
+    </button>
   );
 }
 
