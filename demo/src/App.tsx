@@ -54,6 +54,7 @@ export function App() {
             matchedName={demo.matchedName}
             matchedHex={demo.matchedHex}
             elapsedMs={demo.identifyElapsedMs}
+            conversions={demo.conversions}
           />
         </div>
 

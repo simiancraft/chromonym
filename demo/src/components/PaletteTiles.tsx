@@ -96,37 +96,39 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
             // keys move focus + selection through the others.
             tabIndex={isSelected ? 0 : -1}
             onClick={() => onSelect(key)}
-            className={`relative flex flex-col justify-between text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${layout === 'row' ? 'p-3' : 'p-4'}`}
+            className={`relative flex flex-col justify-between text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${layout === 'row' ? 'p-[10px]' : 'p-4'}`}
             style={{
               backgroundColor: tone,
               color: ink,
-              minHeight: layout === 'row' ? '96px' : '132px',
+              minHeight: layout === 'row' ? '74px' : '132px',
             }}
           >
             <div className="flex items-start justify-between gap-2">
-              <div className="space-y-1 min-w-0">
+              <div className="space-y-[1px] min-w-0">
+                {layout === 'grid' && (
+                  <div
+                    className="font-mono text-[10px] tracking-[0.2em] uppercase opacity-70"
+                    style={{ color: ink }}
+                  >
+                    palette / {String(idx + 1).padStart(2, '0')}
+                  </div>
+                )}
                 <div
-                  className="font-mono text-[10px] tracking-[0.2em] uppercase opacity-70"
-                  style={{ color: ink }}
-                >
-                  palette / {String(idx + 1).padStart(2, '0')}
-                </div>
-                <div
-                  className={`lowercase font-semibold tracking-[-0.02em] ${layout === 'row' ? 'text-lg' : 'text-2xl'}`}
+                  className={`lowercase font-semibold tracking-[-0.02em] ${layout === 'row' ? 'text-base leading-none' : 'text-2xl'}`}
                   style={{ color: ink }}
                 >
                   {PALETTE_LABELS[key]}
                 </div>
               </div>
               <div
-                className="font-mono text-[10px] tracking-[0.15em] opacity-80 mt-1"
+                className="font-mono text-[10px] tracking-[0.15em] opacity-80"
                 style={{ color: ink }}
               >
                 {count}
               </div>
             </div>
 
-            <div className="flex gap-[2px] mt-3" aria-hidden>
+            <div className={`flex gap-[2px] ${layout === 'row' ? 'mt-2' : 'mt-3'}`} aria-hidden>
               {sample.map((hex, i) => (
                 <div
                   // biome-ignore lint/suspicious/noArrayIndexKey: fixed-length deterministic
