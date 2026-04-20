@@ -12,12 +12,6 @@ import type { DistanceMetric, Palette, Rgba } from './types.js';
  * including BYO palettes the user supplies.
  */
 
-// Re-export normalizers from their own module for backward compat with any
-// caller that expected them here. The functions live in ./palettes/normalize
-// so palette modules can import them without pulling this file's math graph.
-export { pantoneNormalize, standardNormalize } from './palettes/normalize.js';
-export type { NormalizeFn } from './types.js';
-
 type AnyPalette = Palette<string>;
 
 const nameIndexCache = new WeakMap<AnyPalette, Map<string, string>>();
@@ -68,7 +62,7 @@ export function getReverseNameIndex(space: AnyPalette): Map<string, string> {
  * Canonical-key → Rgba entries for a given palette, built by parsing
  * each hex value once. Used by nearest-match lookups (identify, rgbaToPantone).
  */
-export function getRgbaIndex(space: AnyPalette): Array<readonly [string, Rgba]> {
+function getRgbaIndex(space: AnyPalette): Array<readonly [string, Rgba]> {
   let idx = rgbaIndexCache.get(space);
   if (idx === undefined) {
     idx = Object.entries(space.colors).map(([name, hex]) => [name, hexToRgba(hex)] as const);
@@ -82,7 +76,7 @@ export function getRgbaIndex(space: AnyPalette): Array<readonly [string, Rgba]> 
  * squared Euclidean distance in sRGB (alpha ignored). Used by `identify`
  * and `rgbaToPantone` when metric === 'euclidean-srgb'.
  */
-export function nearestByRgb(target: Rgba, space: AnyPalette): string {
+function nearestByRgb(target: Rgba, space: AnyPalette): string {
   const entries = getRgbaIndex(space);
   let bestName = entries[0]?.[0] ?? '';
   let bestDistance = Number.POSITIVE_INFINITY;
