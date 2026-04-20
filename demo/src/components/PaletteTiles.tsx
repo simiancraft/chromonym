@@ -1,11 +1,9 @@
-// Palette selector as a 2×2 Bauhaus tile grid. Replaces a generic <select>
-// with four primary-block tiles — each a flat-color poster for its palette,
-// carrying a 5-swatch sample strip as proof of its flavor. The selected tile
-// is framed by a heavy black rule; the unselected tiles stay crisp and flat.
-//
-// Four palettes on four tiles. The `tone` is the tile's Bauhaus block color,
-// fixed per palette for recognition; `ink` flips to black/cream based on tone
-// luminance so the display text stays legible.
+// Palette selector as a 2×2 Bauhaus tile grid (or 4×1 row). Each tile is a
+// flat-color poster for its palette carrying a 5-swatch sample strip as
+// proof of its flavor. Unselected tiles wear a hairline border; the selected
+// tile wears a thicker border plus a small ink block flush with its top-
+// right corner — quieter than the old "ACTIVE" text pill but reads at a
+// glance because it connects to the border itself.
 
 import { useRef } from 'react';
 import { PALETTES, PALETTE_LABELS, type PaletteKey } from './PaletteGrid.js';
@@ -13,9 +11,6 @@ import { PALETTES, PALETTE_LABELS, type PaletteKey } from './PaletteGrid.js';
 interface PaletteTilesProps {
   selected: PaletteKey;
   onSelect: (key: PaletteKey) => void;
-  /** `grid` = 2×2 block (the original, used when vertical space is cheap).
-   *  `row`  = 4×1 horizontal strip — use when the tiles share a row with
-   *  other controls and we're saving vertical space. */
   layout?: 'grid' | 'row';
 }
 
@@ -28,11 +23,14 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
 
 const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola'];
 
+// Indicator square lives flush to the top-right corner when a tile is
+// selected — same scale as a sample swatch (12px) so the visual language
+// inside the tile is consistent.
+const CORNER_SIZE = 14;
+
 export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTilesProps) {
   const tileRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
-  // ARIA radio-group keyboard model: arrow keys move focus + selection
-  // through the group; Tab moves out. Home/End jump to first/last.
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const currentIdx = ORDER.indexOf(selected);
     let nextIdx = currentIdx;
@@ -92,43 +90,40 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
             type="button"
             role="radio"
             aria-checked={isSelected}
-            // Roving tabindex: only the active tile takes Tab focus; arrow
-            // keys move focus + selection through the others.
             tabIndex={isSelected ? 0 : -1}
             onClick={() => onSelect(key)}
-            className={`relative flex flex-col justify-between text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${layout === 'row' ? 'p-[10px]' : 'p-4'}`}
+            className={`relative flex flex-col text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${layout === 'row' ? 'p-[12px]' : 'p-4'}`}
             style={{
               backgroundColor: tone,
               color: ink,
-              minHeight: layout === 'row' ? '74px' : '132px',
+              minHeight: layout === 'row' ? '88px' : '132px',
+              boxShadow: isSelected
+                ? 'inset 0 0 0 3px var(--bh-ink)'
+                : 'inset 0 0 0 1px var(--bh-ink)',
             }}
           >
-            <div className="flex items-start justify-between gap-2">
-              <div className="space-y-[1px] min-w-0">
-                {layout === 'grid' && (
-                  <div
-                    className="font-mono text-[10px] tracking-[0.2em] uppercase opacity-70"
-                    style={{ color: ink }}
-                  >
-                    palette / {String(idx + 1).padStart(2, '0')}
-                  </div>
-                )}
-                <div
-                  className={`lowercase font-semibold tracking-[-0.02em] ${layout === 'row' ? 'text-base leading-none' : 'text-2xl'}`}
-                  style={{ color: ink }}
-                >
-                  {PALETTE_LABELS[key]}
-                </div>
-              </div>
-              <div
-                className="font-mono text-[10px] tracking-[0.15em] opacity-80"
-                style={{ color: ink }}
-              >
-                {count}
-              </div>
+            {/* Title spans full width; upper-right corner is owned by the
+                count (unselected) or the ink indicator (selected), so the
+                two can't clash. The right padding on the title reserves
+                the corner slot. */}
+            <div
+              className={`lowercase font-semibold tracking-[-0.02em] ${layout === 'row' ? 'text-base leading-none' : 'text-2xl'}`}
+              style={{ color: ink, paddingRight: CORNER_SIZE + 8 }}
+            >
+              {PALETTE_LABELS[key]}
             </div>
 
-            <div className={`flex gap-[2px] ${layout === 'row' ? 'mt-2' : 'mt-3'}`} aria-hidden>
+            {layout === 'grid' && (
+              <div
+                className="font-mono text-[10px] tracking-[0.2em] uppercase opacity-70 mt-1"
+                style={{ color: ink }}
+              >
+                palette / {String(idx + 1).padStart(2, '0')}
+              </div>
+            )}
+
+            {/* Sample strip pushed to the bottom; spacer above it. */}
+            <div className={`flex gap-[2px] mt-auto ${layout === 'row' ? 'pt-3' : 'pt-4'}`} aria-hidden>
               {sample.map((hex, i) => (
                 <div
                   // biome-ignore lint/suspicious/noArrayIndexKey: fixed-length deterministic
@@ -139,25 +134,30 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
               ))}
             </div>
 
-            {isSelected && (
+            {/* Upper-right corner — swaps between the entry count (idle)
+                and a flush ink block (selected). Both absolute so the
+                title above can claim full width. */}
+            {isSelected ? (
               <span
                 aria-hidden
-                className="absolute inset-0 pointer-events-none"
+                className="absolute top-0 right-0"
                 style={{
-                  boxShadow: 'inset 0 0 0 3px var(--bh-ink)',
+                  width: CORNER_SIZE,
+                  height: CORNER_SIZE,
+                  backgroundColor: 'var(--bh-ink)',
                 }}
               />
-            )}
-            {isSelected && (
+            ) : (
               <span
                 aria-hidden
-                className="absolute top-2 right-2 font-mono text-[9px] tracking-[0.2em] uppercase px-1.5 py-[2px]"
+                className="absolute font-mono text-[10px] tracking-[0.15em] opacity-80"
                 style={{
-                  backgroundColor: 'var(--bh-ink)',
-                  color: 'var(--bh-cream)',
+                  top: 6,
+                  right: 8,
+                  color: ink,
                 }}
               >
-                active
+                {count}
               </span>
             )}
           </button>

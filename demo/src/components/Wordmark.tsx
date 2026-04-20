@@ -67,45 +67,44 @@ export function Wordmark({ hex, className = '' }: WordmarkProps) {
 
       {/*
         Three ghost layers tinted with the CRT R / G / B phosphor colors.
-        mix-blend-mode: multiply on cream paper means R·G·B at the same
-        x-position collapses to near-black — so a converged (e.g. #000)
-        input reads as a clean black wordmark; a chromatic / white input
-        pushes the ghosts apart, revealing R / G / B fringes at the edges.
+        Each sits in its own blend-mode: difference pass so it inverts
+        against whatever pixels are already under it — creating sharp
+        complementary fringes instead of the softer multiply darken.
+        The black key plate stays in normal blending to anchor the
+        wordmark's silhouette.
       */}
-      <g style={{ mixBlendMode: 'multiply' }}>
-        <text
-          x={650}
-          y={168}
-          textAnchor="middle"
-          className="wm-text wm-ghost"
-          fill="var(--crt-r)"
-          style={{ transform: `translateX(${dR}px)` }}
-        >
-          chromonym
-        </text>
-        <text
-          x={650}
-          y={168}
-          textAnchor="middle"
-          className="wm-text wm-ghost"
-          fill="var(--crt-g)"
-          style={{ transform: `translateX(${dG}px)` }}
-        >
-          chromonym
-        </text>
-        <text
-          x={650}
-          y={168}
-          textAnchor="middle"
-          className="wm-text wm-ghost"
-          fill="var(--crt-b)"
-          style={{ transform: `translateX(${dB}px)` }}
-        >
-          chromonym
-        </text>
-      </g>
+      <text
+        x={650}
+        y={168}
+        textAnchor="middle"
+        className="wm-text wm-ghost"
+        fill="var(--crt-r)"
+        style={{ transform: `translateX(${dR}px)`, mixBlendMode: 'difference' }}
+      >
+        chromonym
+      </text>
+      <text
+        x={650}
+        y={168}
+        textAnchor="middle"
+        className="wm-text wm-ghost"
+        fill="var(--crt-g)"
+        style={{ transform: `translateX(${dG}px)`, mixBlendMode: 'difference' }}
+      >
+        chromonym
+      </text>
+      <text
+        x={650}
+        y={168}
+        textAnchor="middle"
+        className="wm-text wm-ghost"
+        fill="var(--crt-b)"
+        style={{ transform: `translateX(${dB}px)`, mixBlendMode: 'difference' }}
+      >
+        chromonym
+      </text>
 
-      {/* Black key plate on top — the anchor the ghosts spread around. */}
+      {/* Black key plate on top — anchors the silhouette. */}
       <text x={650} y={168} textAnchor="middle" className="wm-text" fill="var(--bh-ink)">
         chromonym
       </text>

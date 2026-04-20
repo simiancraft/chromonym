@@ -30,8 +30,11 @@ type PresetKey = (typeof PRESETS)[number]['key'];
 
 // Intrinsic canvas dimensions. CSS scales responsively; mouse coords are
 // mapped back to these via the bounding-rect ratio on every event.
-const CANVAS_W = 640;
-const CANVAS_H = 480;
+// Square because the preset images (simian / bauhaus / spectrum) are all
+// square and the old 4:3 canvas letterboxed them. Webcam sources (typically
+// 16:9) still draw centered; the letterboxing is fine there.
+const CANVAS_W = 512;
+const CANVAS_H = 512;
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 

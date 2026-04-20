@@ -66,9 +66,9 @@ export function HeroIdentifier({
       className="p-5 md:p-6 space-y-6"
       style={{ backgroundColor: 'var(--bh-paper)' }}
     >
-      {/* ── Inputs: left 2/3 image eyedropper · right 1/3 scrub+value+presets ── */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-        <div className="md:col-span-2">
+      {/* ── Inputs: left column is sized to the square canvas, right grows ── */}
+      <div className="grid grid-cols-1 md:grid-cols-[minmax(0,_480px)_1fr] gap-4 md:gap-6">
+        <div className="min-w-0">
           <Eyedropper onPick={setInput} />
         </div>
 
