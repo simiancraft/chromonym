@@ -13,16 +13,18 @@ import {
   x11,
 } from 'chromonym';
 import { useEffect, useMemo, useState } from 'react';
-import bannerUrl from '../../.github/assets/banner.png';
+import { ConvergenceStrip } from './components/ConvergenceStrip.js';
+import { ConversionsScope } from './components/ConversionsScope.js';
 import { CrossPaletteTranslator } from './components/CrossPaletteTranslator.js';
+import { KandinskyBYO } from './components/KandinskyBYO.js';
+import { PaletteTiles } from './components/PaletteTiles.js';
+import { StageGels } from './components/StageGels.js';
+import { Wordmark } from './components/Wordmark.js';
 
 const PALETTES = { web, x11, pantone, crayola } as const;
 type PaletteKey = keyof typeof PALETTES;
 const PALETTE_KEYS = Object.keys(PALETTES) as PaletteKey[];
 
-// Brand hex presets for the "translate this color" section. Each is a
-// widely-recognizable brand mark; the demo shows how it lands in all
-// four built-in palettes at once.
 const BRAND_PRESETS: Array<{ label: string; hex: string }> = [
   { label: 'T-Mobile magenta', hex: '#E20074' },
   { label: 'Spotify green', hex: '#1DB954' },
@@ -33,6 +35,7 @@ const BRAND_PRESETS: Array<{ label: string; hex: string }> = [
   { label: 'YouTube red', hex: '#FF0000' },
   { label: 'Stripe indigo', hex: '#635BFF' },
 ];
+
 const BUILT_IN_PALETTES: ReadonlyArray<{ key: PaletteKey; label: string }> = [
   { key: 'web', label: 'CSS / SVG' },
   { key: 'x11', label: 'X11' },
@@ -50,16 +53,14 @@ const METRICS: DistanceMetric[] = [
 ];
 
 const METRIC_LABELS: Record<DistanceMetric, string> = {
-  'euclidean-srgb': 'Euclidean (sRGB) — fastest, non-perceptual',
-  'euclidean-linear': 'Euclidean (linear RGB)',
-  deltaE76: 'ΔE*76 — CIELAB Euclidean',
-  deltaE94: 'ΔE*94 — CIE 1994',
-  deltaE2000: 'ΔE*00 / CIEDE2000 — industry standard',
-  deltaEok: 'ΔE OKLAB — modern, perceptually uniform',
+  'euclidean-srgb': 'Euclidean · sRGB (fastest)',
+  'euclidean-linear': 'Euclidean · linear RGB',
+  deltaE76: 'ΔE*76 · CIELAB',
+  deltaE94: 'ΔE*94 · CIE 1994',
+  deltaE2000: 'ΔE*00 · CIEDE2000',
+  deltaEok: 'ΔE OKLAB · modern',
 };
 
-// Warhammer 40k–flavored BYO palette. Defined inline in the demo source —
-// passed straight to `identify`/`resolve` without registering anything.
 const warhammer = {
   name: 'warhammer40k',
   colors: {
@@ -81,7 +82,6 @@ const warhammer = {
   | 'alpha legion teal'
 >;
 
-// Read initial state from the URL so shared links reproduce the demo state.
 function readParams() {
   if (typeof window === 'undefined') {
     return {
@@ -122,7 +122,6 @@ export function App() {
 
   const palette = PALETTES[paletteKey];
 
-  // Write state to URL on every change (replaceState — don't pollute history).
   useEffect(() => {
     const p = new URLSearchParams();
     p.set('c', input);
@@ -134,18 +133,28 @@ export function App() {
     }
   }, [input, paletteKey, metric]);
 
-  const matchedName = useMemo(
-    () => identify(input, { palette, metric }),
-    [input, palette, metric],
-  );
+  // `identify(..., { k: 1 })` so we get both the name and its ΔE distance —
+  // the distance feeds the ConvergenceStrip. Rank-0 match is the same value
+  // a non-`k` call would return, so no semantic drift.
+  const primary = useMemo(() => {
+    const [best] = identify(input, { palette, metric, k: 1 });
+    return best ?? null;
+  }, [input, palette, metric]);
 
-  const matchedHex = useMemo(() => {
-    if (!matchedName) return null;
-    return resolve(matchedName, { palette }) as string | null;
-  }, [matchedName, palette]);
+  const matchedName = primary?.name ?? null;
+  const matchedHex = primary?.value ?? null;
+  const matchedDistance = primary?.distance ?? null;
 
-  // `warhammer` is module-scope const — included in deps for hygiene in case
-  // it's ever lifted into state.
+  // Secondary palette for the background triangle — if the user's current
+  // palette is pantone, we show crayola's opinion; otherwise pantone. This
+  // reinforces the "same color, many names" thesis passively.
+  const secondaryKey: PaletteKey = paletteKey === 'pantone' ? 'crayola' : 'pantone';
+  const secondary = useMemo(() => {
+    const [best] = identify(input, { palette: PALETTES[secondaryKey], k: 1 });
+    return best ?? null;
+  }, [input, secondaryKey]);
+  const secondaryHex = secondary?.value ?? null;
+
   const warhammerMatch = useMemo(
     () => identify(input, { palette: warhammer }),
     [input],
@@ -167,213 +176,269 @@ export function App() {
     return out;
   }, [input]);
 
+  // Default gel colors are the Bauhaus primaries; they shift only when the
+  // user actually has a match to display. When matchedHex is null (shouldn't
+  // happen from the color picker, but defensive), the gel stays Bauhaus.
+  const circleColor = input;
+  const squareColor = matchedHex ?? '#ffd500';
+  const triangleColor = secondaryHex ?? '#0038a8';
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="w-full max-w-3xl space-y-6">
-        <header className="text-center space-y-3">
-          <img src={bannerUrl} alt="chromonym" className="mx-auto w-full max-w-xl" />
-          <p className="text-neutral-600">
-            Tree-shakeable color naming for TypeScript. Scrub a color — see the nearest name across
-            four built-in palettes, with your choice of perceptual distance metric.
-          </p>
-          <div className="flex items-center justify-center gap-3 text-sm">
-            <a href="https://github.com/simiancraft/chromonym" className="text-blue-600 hover:underline">
-              GitHub →
-            </a>
-            <span className="text-neutral-300">·</span>
-            <a href="https://www.npmjs.com/package/chromonym" className="text-blue-600 hover:underline">
-              npm
-            </a>
+    <div className="relative min-h-screen overflow-x-hidden">
+      <StageGels
+        circleColor={circleColor}
+        squareColor={squareColor}
+        triangleColor={triangleColor}
+      />
+      <div className="grain" aria-hidden />
+
+      <main className="relative mx-auto max-w-4xl px-6 md:px-10 py-10 md:py-14" style={{ zIndex: 10 }}>
+        {/* ===== masthead ===== */}
+        <header className="bh-rise space-y-4">
+          <div className="flex items-baseline justify-between bh-rule-thick pt-2">
+            <span className="bh-eyebrow">vol. 3 · issue 01</span>
+            <span className="bh-eyebrow">2026 · typescript</span>
           </div>
+
+          <Wordmark metric={metric} className="mt-2" />
+
+          <div className="grid grid-cols-[1fr_auto] items-end gap-6 pt-2">
+            <p
+              className="text-base md:text-lg leading-snug max-w-xl"
+              style={{ fontWeight: 400 }}
+            >
+              a typeset manual for naming colors. scrub an input; read the
+              nearest name across every palette; watch the signal lock in.
+            </p>
+            <div className="flex items-center gap-4 text-sm font-mono uppercase tracking-wider">
+              <a
+                href="https://github.com/simiancraft/chromonym"
+                className="underline decoration-[2px] underline-offset-[6px] hover:text-[var(--bh-red)]"
+              >
+                github
+              </a>
+              <a
+                href="https://www.npmjs.com/package/chromonym"
+                className="underline decoration-[2px] underline-offset-[6px] hover:text-[var(--bh-red)]"
+              >
+                npm
+              </a>
+            </div>
+          </div>
+          <div className="bh-rule bh-rule-draw mt-2" />
         </header>
 
-        <section className="bg-white rounded-xl shadow-sm p-6 space-y-4 border border-neutral-200">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <label className="block">
-              <span className="text-sm font-medium text-neutral-700">color</span>
-              <input
-                type="color"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                className="w-full h-12 rounded border border-neutral-300 cursor-pointer mt-1"
-              />
-            </label>
-            <label className="block">
-              <span className="text-sm font-medium text-neutral-700">palette</span>
-              <select
-                value={paletteKey}
-                onChange={(e) => setPaletteKey(e.target.value as PaletteKey)}
-                className="w-full h-12 rounded border border-neutral-300 px-3 mt-1"
-              >
-                {PALETTE_KEYS.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="block">
-              <span className="text-sm font-medium text-neutral-700">distance metric</span>
-              <select
-                value={metric}
-                onChange={(e) => setMetric(e.target.value as DistanceMetric)}
-                className="w-full h-12 rounded border border-neutral-300 px-3 mt-1"
-              >
-                {METRICS.map((m) => (
-                  <option key={m} value={m}>
-                    {METRIC_LABELS[m]}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-
-          <div className="flex flex-wrap gap-2 pt-1">
-            <span className="text-xs uppercase tracking-wide text-neutral-500 self-center mr-1">
-              try:
-            </span>
-            {PRESETS.map((p) => (
-              <button
-                type="button"
-                key={p.label}
-                onClick={() => {
-                  setInput(p.color);
-                  setPaletteKey(p.palette);
-                  setMetric(p.metric);
-                }}
-                className="text-xs px-3 py-1 rounded-full border border-neutral-300 bg-neutral-50 hover:bg-neutral-100"
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-            <div className="text-center">
-              <div className="text-xs uppercase tracking-wide text-neutral-500">input</div>
-              <div
-                className="h-32 rounded-lg border border-neutral-300 mt-1"
-                style={{ backgroundColor: input }}
-              />
-              <code className="text-sm text-neutral-600 mt-1 block">{input}</code>
-            </div>
-            <div className="text-center">
-              <div className="text-xs uppercase tracking-wide text-neutral-500">nearest match</div>
-              <div
-                className="h-32 rounded-lg border border-neutral-300 mt-1"
-                style={{ backgroundColor: matchedHex ?? 'transparent' }}
-              />
-              <code className="text-sm text-neutral-600 mt-1 block">{matchedHex ?? '—'}</code>
-            </div>
-          </div>
-
-          <div className="text-center pt-2">
-            <div className="text-xs uppercase tracking-wide text-neutral-500" id="match-name-label">
-              name
-            </div>
-            <div
-              className="text-5xl font-mono font-semibold pt-1"
-              role="status"
-              aria-live="polite"
-              aria-labelledby="match-name-label"
-            >
-              {matchedName ?? 'unknown'}
-            </div>
-          </div>
-        </section>
-
-        <CrossPaletteSection input={input} setInput={setInput} />
-
-        <CrossPaletteTranslator />
-
-        <section className="bg-amber-50/60 rounded-xl shadow-sm p-6 space-y-4 border-2 border-dashed border-amber-300">
-          <div>
-            <div className="flex items-baseline justify-between">
-              <h2 className="text-lg font-semibold">Bring your own palette</h2>
-              <span className="text-[10px] uppercase tracking-wider font-semibold bg-amber-200 text-amber-900 px-2 py-0.5 rounded">
-                user-supplied
+        {/* ===== hero · identifier ===== */}
+        <section
+          className="mt-10 relative"
+          style={{
+            backgroundColor: 'var(--bh-paper)',
+            border: '1px solid var(--bh-ink)',
+          }}
+        >
+          <header
+            className="flex items-center justify-between px-5 py-3"
+            style={{ backgroundColor: 'var(--bh-ink)', color: 'var(--bh-cream)' }}
+          >
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-[10px] tracking-[0.3em] uppercase opacity-60">
+                chapter 01
               </span>
+              <h2
+                className="text-lg lowercase bh-caps"
+                style={{ fontFamily: "'Unbounded', sans-serif" }}
+              >
+                identify
+              </h2>
             </div>
-            <p className="text-sm text-neutral-700 mt-1">
-              Any object matching <code className="text-xs bg-white/70 px-1 rounded">Palette&lt;Name&gt;</code>{' '}
-              works. This 6-color palette is defined inline in the demo source and passed straight to
-              <code className="text-xs bg-white/70 px-1 rounded mx-1">identify</code>— no
-              registration, full type inference.
-            </p>
-          </div>
+            <span className="font-mono text-[10px] tracking-[0.24em] uppercase opacity-70">
+              color → name
+            </span>
+          </header>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
-            {Object.entries(warhammer.colors).map(([key, hex]) => (
-              <div key={key} className="text-center">
-                <div
-                  className="h-14 rounded border border-neutral-300"
-                  style={{ backgroundColor: hex }}
-                />
-                <div className="text-xs text-neutral-700 mt-1 break-words leading-tight">
-                  {key}
-                </div>
-                <code className="text-[10px] text-neutral-500">{hex}</code>
+          <div className="p-6 md:p-8 space-y-8">
+            {/* controls row: input + tiles + metric */}
+            <div className="grid md:grid-cols-[220px_1fr_240px] gap-6">
+              <div>
+                <div className="bh-eyebrow mb-2">input</div>
+                <label className="block">
+                  <input
+                    type="color"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    className="w-full h-[132px] cursor-pointer appearance-none"
+                    style={{
+                      border: '1px solid var(--bh-ink)',
+                      padding: '0',
+                    }}
+                    aria-label="color picker"
+                  />
+                </label>
+                <code className="block font-mono text-xs mt-2">{input}</code>
               </div>
-            ))}
-          </div>
 
-          <pre className="text-xs font-mono bg-white/70 border border-amber-200 rounded p-3 overflow-x-auto">
-{`const warhammer = {
-  name: 'warhammer40k',
-  colors: {
-    'world eaters red': '#8b1a1a',
-    'adeptus red': '#652022',
-    'sons of malice white': '#e8e4d8',
-    'the flawless host purple': '#6b2d7d',
-    'nurgle green': '#748c3f',
-    'alpha legion teal': '#2a6d7a',
-  },
-  normalize: (s) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
-  defaultMetric: 'deltaE2000',
-} as const satisfies Palette;
+              <div>
+                <div className="bh-eyebrow mb-2">palette</div>
+                <PaletteTiles selected={paletteKey} onSelect={setPaletteKey} />
+              </div>
 
-identify(${JSON.stringify(input)}, { palette: warhammer })
-// → ${JSON.stringify(warhammerMatch)}`}
-          </pre>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-            <div className="text-center">
-              <div className="text-xs uppercase tracking-wide text-neutral-500">your input</div>
-              <div
-                className="h-20 rounded-lg border border-neutral-300 mt-1"
-                style={{ backgroundColor: input }}
-              />
-              <code className="text-sm text-neutral-600 mt-1 block">{input}</code>
+              <div>
+                <div className="bh-eyebrow mb-2">metric</div>
+                <select
+                  value={metric}
+                  onChange={(e) => setMetric(e.target.value as DistanceMetric)}
+                  className="w-full h-12 px-3 text-sm font-mono bg-[var(--bh-cream)] focus:outline-none focus-visible:ring-2"
+                  style={{ border: '1px solid var(--bh-ink)' }}
+                >
+                  {METRICS.map((m) => (
+                    <option key={m} value={m}>
+                      {METRIC_LABELS[m]}
+                    </option>
+                  ))}
+                </select>
+                <div className="font-mono text-[10px] leading-snug opacity-60 mt-2">
+                  the wordmark fringe above tracks this choice — crude metrics
+                  mis-register the print; deltaEok / deltaE2000 converge.
+                </div>
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-xs uppercase tracking-wide text-neutral-500">warhammer match</div>
-              <div
-                className="h-20 rounded-lg border border-neutral-300 mt-1"
-                style={{ backgroundColor: warhammerHex ?? 'transparent' }}
-              />
-              <code className="text-sm text-neutral-600 mt-1 block">{warhammerMatch ?? '—'}</code>
-            </div>
-          </div>
 
-          <div className="text-center text-xs italic text-neutral-500 pt-1">
-            For the glory of the Omnissiah.
+            <div className="bh-rule" />
+
+            {/* presets */}
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="bh-eyebrow">presets</span>
+              {PRESETS.map((p) => (
+                <button
+                  type="button"
+                  key={p.label}
+                  onClick={() => {
+                    setInput(p.color);
+                    setPaletteKey(p.palette);
+                    setMetric(p.metric);
+                  }}
+                  className="font-mono text-[11px] uppercase tracking-wider px-3 py-[6px] hover:bg-[var(--bh-ink)] hover:text-[var(--bh-cream)] transition-colors"
+                  style={{ border: '1px solid var(--bh-ink)' }}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+
+            {/* convergence strip */}
+            <ConvergenceStrip distance={matchedDistance} metric={metric} />
+
+            <div className="bh-rule" />
+
+            {/* result — input / match / name */}
+            <div className="grid md:grid-cols-[1fr_1fr_1.6fr] gap-6 items-end">
+              <div>
+                <div className="bh-eyebrow mb-2">scrubbed</div>
+                <div
+                  className="aspect-[4/3]"
+                  style={{ backgroundColor: input, border: '1px solid var(--bh-ink)' }}
+                />
+                <code className="font-mono text-xs block mt-2">{input}</code>
+              </div>
+
+              <div>
+                <div className="bh-eyebrow mb-2">nearest · {paletteKey}</div>
+                <div
+                  className="aspect-[4/3]"
+                  style={{
+                    backgroundColor: matchedHex ?? 'transparent',
+                    border: '1px solid var(--bh-ink)',
+                  }}
+                />
+                <code className="font-mono text-xs block mt-2">{matchedHex ?? '—'}</code>
+              </div>
+
+              <div className="relative">
+                <div className="bh-eyebrow mb-2" id="match-name-label">
+                  name
+                </div>
+                <div
+                  className="bh-caps break-words leading-[0.9]"
+                  role="status"
+                  aria-live="polite"
+                  aria-labelledby="match-name-label"
+                  style={{
+                    fontSize: 'clamp(2rem, 5vw, 3.75rem)',
+                    fontFamily: "'Unbounded', sans-serif",
+                  }}
+                >
+                  {matchedName ?? 'unknown'}
+                </div>
+                <div className="font-mono text-xs uppercase tracking-wider mt-3 opacity-70">
+                  via {METRIC_LABELS[metric]}
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="bg-white rounded-xl shadow-sm p-6 border border-neutral-200">
-          <div className="text-xs uppercase tracking-wide text-neutral-500 mb-2">conversions</div>
-          <pre className="text-sm font-mono text-neutral-800 overflow-x-auto whitespace-pre-wrap break-all">
-            {JSON.stringify(conversions, null, 2)}
-          </pre>
-        </section>
+        {/* ===== cross-palette (built-in) ===== */}
+        <div className="mt-10">
+          <CrossPaletteSection input={input} setInput={setInput} />
+        </div>
 
-        <footer className="text-center text-xs text-neutral-500 pt-4 space-y-1">
-          <div>
-            Shareable link — this demo's URL updates as you scrub. Copy and send.
+        {/* ===== interactive translator ===== */}
+        <div className="mt-10">
+          <div
+            className="px-5 py-3 flex items-center justify-between"
+            style={{ backgroundColor: 'var(--bh-ink)', color: 'var(--bh-cream)' }}
+          >
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-[10px] tracking-[0.3em] uppercase opacity-60">
+                chapter 03
+              </span>
+              <h2 className="text-lg lowercase bh-caps" style={{ fontFamily: "'Unbounded', sans-serif" }}>
+                translate
+              </h2>
+            </div>
+            <span className="font-mono text-[10px] tracking-[0.24em] uppercase opacity-70">
+              palette ↔ palette
+            </span>
           </div>
-          <div>
-            Pantone® is a registered trademark of Pantone LLC. Chromonym is not affiliated with
-            Pantone; values are community approximations. See{' '}
+          <div style={{ border: '1px solid var(--bh-ink)', borderTop: 0 }}>
+            <CrossPaletteTranslator />
+          </div>
+        </div>
+
+        {/* ===== byo · kandinsky ===== */}
+        <div className="mt-10">
+          <KandinskyBYO
+            input={input}
+            matchedName={warhammerMatch}
+            matchedHex={warhammerHex}
+            colors={warhammer.colors}
+          />
+        </div>
+
+        {/* ===== conversions · crt ===== */}
+        <div className="mt-10">
+          <ConversionsScope conversions={conversions} tintHex={input} />
+        </div>
+
+        <footer className="mt-14 pt-6 bh-rule space-y-3 text-center">
+          <div className="bh-eyebrow">colophon</div>
+          <div className="font-mono text-xs opacity-70 max-w-xl mx-auto leading-relaxed">
+            shareable url — this page's query string updates live as you scrub.
+            copy and send.
+          </div>
+          <div className="font-mono text-[10px] tracking-wider opacity-60 max-w-xl mx-auto leading-relaxed">
+            Display type:{' '}
+            <a
+              href="https://www.dafont.com/bauhaus-modern.font"
+              className="underline"
+            >
+              Bauhaus Modern
+            </a>{' '}
+            by Nils Kähler. Used with attribution.
+          </div>
+          <div className="font-mono text-[10px] tracking-wider opacity-60 max-w-xl mx-auto leading-relaxed">
+            Pantone® is a registered trademark of Pantone LLC. Chromonym is not
+            affiliated with Pantone; values are community approximations. See{' '}
             <a
               href="https://github.com/simiancraft/chromonym/blob/main/NOTICE.md"
               className="underline"
@@ -383,15 +448,14 @@ identify(${JSON.stringify(input)}, { palette: warhammer })
             .
           </div>
         </footer>
-      </div>
+      </main>
     </div>
   );
 }
 
-// --- Cross-palette translation: one color → nearest in all four palettes ---
-// Uses `identify` with `k: 1` to pull the single best match in each built-in
-// palette along with its ΔE distance to the input, so users can see at a
-// glance how faithful each representation is.
+// Cross-palette translation: one color → nearest in all four built-in palettes.
+// Restyled to fit the Bauhaus manual: black header bar, 4-column grid of
+// primary-colored tiles with distance readouts in monospace.
 function CrossPaletteSection({
   input,
   setInput,
@@ -409,72 +473,84 @@ function CrossPaletteSection({
   }, [input]);
 
   return (
-    <section className="bg-white rounded-xl shadow-sm p-6 space-y-4 border border-neutral-200">
-      <div>
-        <div className="flex items-baseline justify-between">
-          <h2 className="text-lg font-semibold">Translate this color across every palette</h2>
-          <span className="text-[10px] uppercase tracking-wider font-semibold bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded">
-            cross-palette
+    <section style={{ border: '1px solid var(--bh-ink)', backgroundColor: 'var(--bh-paper)' }}>
+      <header
+        className="flex items-center justify-between px-5 py-3"
+        style={{ backgroundColor: 'var(--bh-ink)', color: 'var(--bh-cream)' }}
+      >
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-[10px] tracking-[0.3em] uppercase opacity-60">
+            chapter 02
           </span>
+          <h2 className="text-lg lowercase bh-caps" style={{ fontFamily: "'Unbounded', sans-serif" }}>
+            cross-palette
+          </h2>
         </div>
-        <p className="text-sm text-neutral-600 mt-1">
-          Same input, four answers. Each column runs{' '}
-          <code className="text-xs bg-neutral-100 px-1 rounded">identify(…, {'{ k: 1 }'})</code>{' '}
-          against a different built-in palette and shows the nearest match with its perceptual
-          distance (lower = closer). Try a brand color:
+        <span className="font-mono text-[10px] tracking-[0.24em] uppercase opacity-70">
+          one color · four answers
+        </span>
+      </header>
+
+      <div className="p-6 space-y-4">
+        <p className="text-sm leading-snug max-w-2xl">
+          each column runs{' '}
+          <code className="font-mono text-xs px-1" style={{ backgroundColor: 'var(--bh-cream)' }}>
+            identify(…, {'{ k: 1 }'})
+          </code>{' '}
+          against a different built-in palette. same input, different vocabulary.
+          try a brand mark:
         </p>
-      </div>
 
-      <div className="flex flex-wrap gap-2">
-        {BRAND_PRESETS.map((p) => (
-          <button
-            type="button"
-            key={p.label}
-            onClick={() => setInput(p.hex)}
-            className="text-xs px-3 py-1 rounded-full border border-neutral-300 bg-neutral-50 hover:bg-neutral-100 transition"
-          >
-            <span
-              className="inline-block w-3 h-3 rounded-sm mr-1 align-middle border border-neutral-300"
-              style={{ backgroundColor: p.hex }}
-              aria-hidden
-            />
-            {p.label}
-          </button>
-        ))}
-      </div>
+        <div className="flex flex-wrap gap-2">
+          {BRAND_PRESETS.map((p) => (
+            <button
+              type="button"
+              key={p.label}
+              onClick={() => setInput(p.hex)}
+              className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider px-3 py-[6px] hover:bg-[var(--bh-ink)] hover:text-[var(--bh-cream)] transition-colors"
+              style={{ border: '1px solid var(--bh-ink)' }}
+            >
+              <span
+                className="w-3 h-3 shrink-0"
+                style={{ backgroundColor: p.hex, border: '1px solid var(--bh-ink)' }}
+                aria-hidden
+              />
+              {p.label}
+            </button>
+          ))}
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
-        {perPalette.map(({ key, label, name, hex, distance }) => (
-          <div
-            key={key}
-            className="border border-neutral-200 rounded-lg overflow-hidden flex flex-col"
-          >
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[1px]"
+          style={{ backgroundColor: 'var(--bh-ink)', border: '1px solid var(--bh-ink)' }}
+        >
+          {perPalette.map(({ key, label, name, hex, distance }) => (
             <div
-              className="h-20"
-              style={{ backgroundColor: hex ?? 'transparent' }}
-              aria-label={`${label} nearest-match swatch`}
-            />
-            <div className="p-2 space-y-0.5">
-              <div className="text-[10px] uppercase tracking-wide text-neutral-500">{label}</div>
-              <div className="text-sm font-mono text-neutral-800 break-words leading-tight">
-                {name ?? '—'}
-              </div>
-              <div className="text-[10px] text-neutral-500">
-                <code>{hex ?? '—'}</code>
-                {distance !== null && (
-                  <span className="ml-1 text-neutral-500">· ΔE {distance.toFixed(2)}</span>
-                )}
+              key={key}
+              className="flex flex-col"
+              style={{ backgroundColor: 'var(--bh-cream)' }}
+            >
+              <div
+                className="h-20"
+                style={{ backgroundColor: hex ?? 'transparent' }}
+                aria-label={`${label} nearest-match swatch`}
+              />
+              <div className="p-3 space-y-1 flex-1 flex flex-col justify-between">
+                <div>
+                  <div className="bh-eyebrow opacity-70">{label}</div>
+                  <div className="text-sm font-mono mt-1 break-words leading-tight">
+                    {name ?? '—'}
+                  </div>
+                </div>
+                <div className="font-mono text-[10px] opacity-60 pt-2 flex items-center justify-between">
+                  <code>{hex ?? '—'}</code>
+                  {distance !== null && <span>ΔE {distance.toFixed(2)}</span>}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-
-      <p className="text-xs text-neutral-500 pt-1 italic">
-        Each palette uses its own <code>defaultMetric</code>. Distance units vary by metric —
-        ΔE values are in ΔE space (≈1 = just-noticeable for most of the gamut); the
-        Euclidean metrics are raw channel distances.
-      </p>
     </section>
   );
 }

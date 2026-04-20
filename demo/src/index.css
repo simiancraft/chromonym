@@ -1,11 +1,197 @@
 @import 'tailwindcss';
 
+/* ------------------------------------------------------------------ */
+/* display typeface — Bauhaus Modern by Nils Kähler (2016)            */
+/* See public/fonts/README.txt for license + attribution notes.       */
+/* ------------------------------------------------------------------ */
+
+@font-face {
+  font-family: 'Bauhaus Modern';
+  src: url('/fonts/BauhausModern-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------------------------------------------ */
+/* bauhaus × crt — design tokens                                      */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --bh-red: #d9261c;
+  --bh-yellow: #ffd500;
+  --bh-blue: #0038a8;
+  --bh-cream: #f2ebdd;
+  --bh-paper: #e8e0cf;
+  --bh-ink: #111111;
+  --bh-rule: #111111;
+
+  /* crt channel tints — approximate phosphor values */
+  --crt-r: #ff1a3d;
+  --crt-g: #3dff8c;
+  --crt-b: #1a6bff;
+
+  /* cmyk ghosts (print-registration-flavored, not pure) */
+  --cmy-c: #00b7d4;
+  --cmy-m: #e20074;
+  --cmy-y: #ffd500;
+}
+
+html,
 body {
-  font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
+  background-color: var(--bh-cream);
+  color: var(--bh-ink);
+  font-family: 'Unbounded', ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: 'ss01', 'ss02';
+}
+
+body {
+  /* printed-page dot pattern: a very faint grid of ink specks on the cream stock */
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(17, 17, 17, 0.045) 1px, transparent 0);
+  background-size: 18px 18px;
+  background-position: 0 0;
+}
+
+code,
+pre,
+.font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ------------------------------------------------------------------ */
+/* fringe — CMYK ghost stack, used by Wordmark and primitive decorations */
+/* ------------------------------------------------------------------ */
+
+.fringe-stack {
+  position: relative;
+}
+.fringe-stack > .layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* crt surfaces                                                       */
+/* ------------------------------------------------------------------ */
+
+.scanlines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.32),
+    rgba(0, 0, 0, 0.32) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+.crt-vignette::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  z-index: 2;
+}
+
+/* ------------------------------------------------------------------ */
+/* grain overlay — subtle cream-paper fiber noise                     */
+/* ------------------------------------------------------------------ */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.06 0 0 0 0 0.06 0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.4'/></svg>");
+  mix-blend-mode: multiply;
+}
+
+/* ------------------------------------------------------------------ */
+/* typography                                                         */
+/* ------------------------------------------------------------------ */
+
+.bh-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.bh-caps {
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+}
+
+/* bauhaus rules */
+.bh-rule {
+  border-top: 1px solid var(--bh-rule);
+}
+.bh-rule-thick {
+  border-top: 3px solid var(--bh-rule);
+}
+
+/* ------------------------------------------------------------------ */
+/* motion                                                             */
+/* ------------------------------------------------------------------ */
+
+@keyframes bh-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bh-slide-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes phosphor-pulse {
+  0%,
+  100% {
+    filter: none;
+  }
+  40% {
+    filter: drop-shadow(0 0 18px currentColor);
+  }
+}
+
+.bh-rise {
+  animation: bh-rise 0.8s cubic-bezier(0.2, 1, 0.3, 1) both;
+}
+
+.bh-rule-draw {
+  transform-origin: left;
+  animation: bh-slide-rule 0.7s cubic-bezier(0.77, 0, 0.175, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bh-rise,
+  .bh-rule-draw {
+    animation: none !important;
+  }
 }

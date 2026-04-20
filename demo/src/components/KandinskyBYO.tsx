@@ -1,0 +1,263 @@
+// Bring-your-own palette, visualized as a Kandinsky-style composition. The
+// six Warhammer 40k colors render as overlapping abstract shapes — not as a
+// rounded-rectangle swatch row. The currently-matched cutout pulses with a
+// phosphor glow, so as the user scrubs the main input, the composition
+// breathes in sync with the identify() result.
+
+import type { ReactNode } from 'react';
+
+interface KandinskyBYOProps {
+  input: string;
+  matchedName: string | null;
+  matchedHex: string | null;
+  colors: Readonly<Record<string, string>>;
+}
+
+const SHAPES: Array<{
+  name: string;
+  node: (fill: string, pulse: boolean) => ReactNode;
+  label: { x: number; y: number; align: 'start' | 'middle' | 'end' };
+}> = [
+  {
+    // 'world eaters red' — big red disc, top-left anchor
+    name: 'world eaters red',
+    node: (fill, pulse) => (
+      <circle
+        cx={115}
+        cy={130}
+        r={86}
+        fill={fill}
+        style={{
+          transition: 'transform 500ms ease, filter 500ms ease',
+          transformOrigin: '115px 130px',
+          transform: pulse ? 'scale(1.04)' : 'scale(1)',
+          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
+        }}
+      />
+    ),
+    label: { x: 115, y: 245, align: 'middle' },
+  },
+  {
+    // 'adeptus red' — small hard square sitting atop the disc
+    name: 'adeptus red',
+    node: (fill, pulse) => (
+      <rect
+        x={160}
+        y={52}
+        width={78}
+        height={78}
+        fill={fill}
+        style={{
+          transition: 'transform 500ms ease, filter 500ms ease',
+          transformOrigin: '199px 91px',
+          transform: pulse ? 'rotate(4deg) scale(1.04)' : 'rotate(0deg) scale(1)',
+          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
+        }}
+      />
+    ),
+    label: { x: 199, y: 44, align: 'middle' },
+  },
+  {
+    // 'sons of malice white' — off-white triangle, mid-upper
+    name: 'sons of malice white',
+    node: (fill, pulse) => (
+      <polygon
+        points="340,40 420,190 260,190"
+        fill={fill}
+        stroke="var(--bh-ink)"
+        strokeWidth={1.5}
+        style={{
+          transition: 'transform 500ms ease, filter 500ms ease',
+          transformOrigin: '340px 115px',
+          transform: pulse ? 'scale(1.04)' : 'scale(1)',
+          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
+        }}
+      />
+    ),
+    label: { x: 340, y: 210, align: 'middle' },
+  },
+  {
+    // 'the flawless host purple' — tall rectangle, right-of-center
+    name: 'the flawless host purple',
+    node: (fill, pulse) => (
+      <rect
+        x={460}
+        y={60}
+        width={52}
+        height={170}
+        fill={fill}
+        style={{
+          transition: 'transform 500ms ease, filter 500ms ease',
+          transformOrigin: '486px 145px',
+          transform: pulse ? 'scale(1.04, 1.06)' : 'scale(1)',
+          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
+        }}
+      />
+    ),
+    label: { x: 486, y: 250, align: 'middle' },
+  },
+  {
+    // 'nurgle green' — arc (semi-circle open top), right side
+    name: 'nurgle green',
+    node: (fill, pulse) => (
+      <path
+        d="M 560 220 A 80 80 0 0 1 720 220 Z"
+        fill={fill}
+        style={{
+          transition: 'transform 500ms ease, filter 500ms ease',
+          transformOrigin: '640px 220px',
+          transform: pulse ? 'scale(1.05)' : 'scale(1)',
+          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
+        }}
+      />
+    ),
+    label: { x: 640, y: 245, align: 'middle' },
+  },
+  {
+    // 'alpha legion teal' — diagonal slash bar crossing the composition
+    name: 'alpha legion teal',
+    node: (fill, pulse) => (
+      <polygon
+        points="570,30 660,30 620,130 530,130"
+        fill={fill}
+        style={{
+          transition: 'transform 500ms ease, filter 500ms ease',
+          transformOrigin: '595px 80px',
+          transform: pulse ? 'scale(1.04)' : 'scale(1)',
+          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
+        }}
+      />
+    ),
+    label: { x: 595, y: 20, align: 'middle' },
+  },
+];
+
+export function KandinskyBYO({ input, matchedName, matchedHex, colors }: KandinskyBYOProps) {
+  return (
+    <section
+      className="relative overflow-hidden"
+      style={{ backgroundColor: 'var(--bh-paper)', border: '1px solid var(--bh-ink)' }}
+    >
+      <header
+        className="flex items-center justify-between px-5 py-3"
+        style={{ backgroundColor: 'var(--bh-ink)', color: 'var(--bh-cream)' }}
+      >
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-[10px] tracking-[0.3em] uppercase opacity-60">
+            chapter 04
+          </span>
+          <h2 className="text-lg lowercase bh-caps" style={{ fontFamily: "'Unbounded', sans-serif" }}>
+            bring your own
+          </h2>
+        </div>
+        <span
+          className="font-mono text-[10px] tracking-[0.24em] uppercase px-2 py-[2px]"
+          style={{ backgroundColor: 'var(--bh-yellow)', color: 'var(--bh-ink)' }}
+        >
+          user-supplied
+        </span>
+      </header>
+
+      <div className="grid md:grid-cols-[1.4fr_1fr] gap-0 divide-x divide-[var(--bh-ink)]">
+        <div className="relative p-6">
+          <svg
+            viewBox="0 0 760 300"
+            role="img"
+            aria-label="Kandinsky composition of warhammer palette entries"
+            className="w-full h-auto"
+          >
+            {/* grid ticks */}
+            <g opacity={0.15} stroke="var(--bh-ink)" strokeWidth={0.6}>
+              {Array.from({ length: 11 }).map((_, i) => (
+                <line
+                  // biome-ignore lint/suspicious/noArrayIndexKey: deterministic
+                  key={`v${i}`}
+                  x1={i * 76}
+                  y1={0}
+                  x2={i * 76}
+                  y2={300}
+                />
+              ))}
+              {Array.from({ length: 5 }).map((_, i) => (
+                <line
+                  // biome-ignore lint/suspicious/noArrayIndexKey: deterministic
+                  key={`h${i}`}
+                  x1={0}
+                  y1={i * 75}
+                  x2={760}
+                  y2={i * 75}
+                />
+              ))}
+            </g>
+
+            {/* shapes — ordered back-to-front for overlap semantics */}
+            {SHAPES.map(({ name, node, label }) => {
+              const fill = colors[name] ?? '#000';
+              const pulse = matchedName === name;
+              return (
+                <g key={name}>
+                  {node(fill, pulse)}
+                  <text
+                    x={label.x}
+                    y={label.y}
+                    textAnchor={label.align}
+                    fontFamily="'JetBrains Mono', monospace"
+                    fontSize={9.5}
+                    letterSpacing={1.4}
+                    fill="var(--bh-ink)"
+                    opacity={pulse ? 1 : 0.55}
+                  >
+                    {name.toUpperCase()}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+
+        <aside className="p-6 flex flex-col gap-4" style={{ backgroundColor: 'var(--bh-cream)' }}>
+          <div>
+            <div className="bh-eyebrow mb-2">your input</div>
+            <div
+              className="h-10 border"
+              style={{ backgroundColor: input, borderColor: 'var(--bh-ink)' }}
+            />
+            <code className="font-mono text-xs block mt-1">{input}</code>
+          </div>
+
+          <div>
+            <div className="bh-eyebrow mb-2">nearest warhammer</div>
+            <div
+              className="h-10 border"
+              style={{
+                backgroundColor: matchedHex ?? 'transparent',
+                borderColor: 'var(--bh-ink)',
+              }}
+            />
+            <code className="font-mono text-xs block mt-1">
+              {matchedName ?? '—'} {matchedHex ? `· ${matchedHex}` : ''}
+            </code>
+          </div>
+
+          <pre
+            className="font-mono text-[11px] leading-relaxed p-3 overflow-x-auto mt-auto"
+            style={{
+              backgroundColor: 'var(--bh-ink)',
+              color: 'var(--crt-g)',
+              border: '1px solid var(--bh-ink)',
+            }}
+          >
+{`identify(${JSON.stringify(input)}, {
+  palette: warhammer,
+})
+// → ${JSON.stringify(matchedName)}`}
+          </pre>
+
+          <div className="font-mono text-[10px] tracking-[0.15em] uppercase opacity-60 text-center">
+            for the glory of the omnissiah
+          </div>
+        </aside>
+      </div>
+    </section>
+  );
+}
