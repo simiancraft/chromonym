@@ -14,6 +14,7 @@ import {
 } from 'chromonym';
 import { useEffect, useMemo, useState } from 'react';
 import bannerUrl from '../../.github/assets/banner.png';
+import { CrossPaletteTranslator } from './components/CrossPaletteTranslator.js';
 
 const PALETTES = { web, x11, pantone, crayola } as const;
 type PaletteKey = keyof typeof PALETTES;
@@ -282,6 +283,8 @@ export function App() {
         </section>
 
         <CrossPaletteSection input={input} setInput={setInput} />
+
+        <CrossPaletteTranslator />
 
         <section className="bg-amber-50/60 rounded-xl shadow-sm p-6 space-y-4 border-2 border-dashed border-amber-300">
           <div>
