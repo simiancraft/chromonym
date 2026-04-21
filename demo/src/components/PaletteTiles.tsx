@@ -41,25 +41,23 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const currentIdx = ORDER.indexOf(selected);
-    let nextIdx = currentIdx;
-    switch (e.key) {
-      case 'ArrowRight':
-      case 'ArrowDown':
-        nextIdx = (currentIdx + 1) % ORDER.length;
-        break;
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        nextIdx = (currentIdx - 1 + ORDER.length) % ORDER.length;
-        break;
-      case 'Home':
-        nextIdx = 0;
-        break;
-      case 'End':
-        nextIdx = ORDER.length - 1;
-        break;
-      default:
-        return;
-    }
+    const nextIdx = (() => {
+      switch (e.key) {
+        case 'ArrowRight':
+        case 'ArrowDown':
+          return (currentIdx + 1) % ORDER.length;
+        case 'ArrowLeft':
+        case 'ArrowUp':
+          return (currentIdx - 1 + ORDER.length) % ORDER.length;
+        case 'Home':
+          return 0;
+        case 'End':
+          return ORDER.length - 1;
+        default:
+          return null;
+      }
+    })();
+    if (nextIdx === null) return;
     e.preventDefault();
     const nextKey = ORDER[nextIdx];
     if (!nextKey) return;
