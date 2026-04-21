@@ -147,6 +147,80 @@ pre,
 }
 
 /* ------------------------------------------------------------------ */
+/* masthead easter-egg controls                                       */
+/*                                                                    */
+/* Two decorative-looking inputs sit in the masthead's top row — a    */
+/* mix-blend-mode <select> and an opacity slider. Both are styled to  */
+/* vanish into the eyebrow type (JetBrains Mono, 10px, tracked) so    */
+/* the row still reads as chrome, but they actually drive the ghost   */
+/* layers in <Wordmark />.                                            */
+/* ------------------------------------------------------------------ */
+
+.eyebrow-select {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--bh-ink);
+  background: transparent;
+  border: 0;
+  padding: 0 14px 0 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  /* Tiny downward caret rendered as a background SVG — reads as
+     ornamental punctuation, not a UI control. */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 8 6'><path d='M0 0 L8 0 L4 6 Z' fill='%23111111'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 6px 4px;
+}
+.eyebrow-select:focus-visible {
+  outline: 2px solid var(--bh-ink);
+  outline-offset: 3px;
+}
+
+.eyebrow-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 64px;
+  height: 1px;
+  background: var(--bh-ink);
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  /* Expand the pointer hit-area vertically without changing the
+     rendered line thickness. */
+  padding-block: 8px;
+  background-clip: content-box;
+}
+.eyebrow-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bh-ink);
+  border: 0;
+  cursor: pointer;
+  margin-top: 0;
+}
+.eyebrow-slider::-moz-range-thumb {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bh-ink);
+  border: 0;
+  cursor: pointer;
+}
+.eyebrow-slider:focus-visible {
+  outline: 2px solid var(--bh-ink);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------ */
 /* motion                                                             */
 /* ------------------------------------------------------------------ */
 

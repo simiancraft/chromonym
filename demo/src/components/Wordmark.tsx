@@ -11,6 +11,13 @@ import { useMemo } from 'react';
 
 interface WordmarkProps {
   hex: string;
+  /** mix-blend-mode applied to each R/G/B ghost layer. Defaults to
+   *  `difference` — the masthead can pipe any CSS blend mode through
+   *  via the eyebrow-select easter egg. */
+  ghostBlendMode?: React.CSSProperties['mixBlendMode'];
+  /** 0–1 opacity for the three ghost layers. Defaults to 1. The masthead's
+   *  thin slider drives this at runtime. */
+  ghostOpacity?: number;
   className?: string;
 }
 
@@ -36,7 +43,12 @@ function parseHex(hex: string): { r: number; g: number; b: number } {
 
 const channelToOffset = (v: number, scale: number) => (v / 255) * OFFSET_MAX * scale;
 
-export function Wordmark({ hex, className = '' }: WordmarkProps) {
+export function Wordmark({
+  hex,
+  ghostBlendMode = 'difference',
+  ghostOpacity = 1,
+  className = '',
+}: WordmarkProps) {
   const { r, g, b } = useMemo(() => parseHex(hex), [hex]);
   const dR = channelToOffset(r, SCALE_R);
   const dG = channelToOffset(g, SCALE_G);
@@ -79,7 +91,11 @@ export function Wordmark({ hex, className = '' }: WordmarkProps) {
         textAnchor="middle"
         className="wm-text wm-ghost"
         fill="var(--crt-r)"
-        style={{ transform: `translateX(${dR}px)`, mixBlendMode: 'difference' }}
+        style={{
+          transform: `translateX(${dR}px)`,
+          mixBlendMode: ghostBlendMode,
+          opacity: ghostOpacity,
+        }}
       >
         chromonym
       </text>
@@ -89,7 +105,11 @@ export function Wordmark({ hex, className = '' }: WordmarkProps) {
         textAnchor="middle"
         className="wm-text wm-ghost"
         fill="var(--crt-g)"
-        style={{ transform: `translateX(${dG}px)`, mixBlendMode: 'difference' }}
+        style={{
+          transform: `translateX(${dG}px)`,
+          mixBlendMode: ghostBlendMode,
+          opacity: ghostOpacity,
+        }}
       >
         chromonym
       </text>
@@ -99,7 +119,11 @@ export function Wordmark({ hex, className = '' }: WordmarkProps) {
         textAnchor="middle"
         className="wm-text wm-ghost"
         fill="var(--crt-b)"
-        style={{ transform: `translateX(${dB}px)`, mixBlendMode: 'difference' }}
+        style={{
+          transform: `translateX(${dB}px)`,
+          mixBlendMode: ghostBlendMode,
+          opacity: ghostOpacity,
+        }}
       >
         chromonym
       </text>
