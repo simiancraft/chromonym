@@ -1,9 +1,12 @@
 import type { ColorFormat, ColorInput } from './types.js';
 
 /**
- * A color comes in, a format key comes out.
- * 'UNKNOWN' signals the caller that the input isn't a recognized color shape.
- * Used as the dispatch key for format-specific converters.
+ * Return type of {@link detectFormat}. Either a {@link ColorFormat} key
+ * (`'HEX'` / `'RGB'` / `'RGBA'` / `'HSL'` / `'HSV'`) or the sentinel
+ * string `'UNKNOWN'` when the input doesn't match any recognized color
+ * shape. The sentinel is the dispatch miss condition for
+ * format-specific converters; prefer {@link isColor} when you only
+ * need a boolean guard.
  */
 export type DetectedFormat = ColorFormat | 'UNKNOWN';
 
@@ -23,6 +26,26 @@ export function isColor(input: unknown): input is ColorInput {
   return detectFormat(input as ColorInput) !== 'UNKNOWN';
 }
 
+/**
+ * Classify a color input by shape, returning the {@link ColorFormat}
+ * key used to dispatch format-specific converters. Returns the
+ * sentinel `'UNKNOWN'` when the input doesn't match any recognized
+ * shape; callers that only need a boolean guard should prefer
+ * {@link isColor} instead.
+ *
+ * Pure shape detection; no value validation. `detectFormat('#zzz')`
+ * still returns `'UNKNOWN'` because the hex regex rejects it, but
+ * `detectFormat({ r: 999, g: -1, b: 'nope' })` returns `'RGB'` (the
+ * shape matches; the values are the converter's problem).
+ *
+ * @example
+ * detectFormat('#ff0000');              // 'HEX'
+ * detectFormat('rgb(255, 0, 0)');       // 'RGB'
+ * detectFormat([255, 0, 0]);            // 'RGB'
+ * detectFormat([255, 0, 0, 0.5]);       // 'RGBA'
+ * detectFormat({ h: 0, s: 100, l: 50 });// 'HSL'
+ * detectFormat('banana');               // 'UNKNOWN'
+ */
 export function detectFormat(input: ColorInput): DetectedFormat {
   if (typeof input === 'string') {
     // Runtime guard against JS callers that bypass the string template union.

@@ -29,17 +29,19 @@ export type ResolveMatch<Name extends string> = {
 };
 
 /**
- * Options for the strict variant of {@link resolve}.
+ * Options for the strict variant of {@link resolve}. Generic over the
+ * palette so the caller sees narrow inference on `opts.palette` (same
+ * pattern as {@link IdentifyOptions}).
  *
  * @example
  * resolve('Pantone 185 C', { palette: pantone });
  * resolve('rebeccapurple', { format: 'RGB' });
  */
-export type ResolveOptions = {
+export type ResolveOptions<P extends Palette = typeof web> = {
   /**
    * Palette to look the name up in. Defaults to `web` (CSS named colors).
    */
-  readonly palette?: Palette;
+  readonly palette?: P;
   /**
    * Output format for the matched color. Defaults to `'HEX'`.
    */
@@ -101,7 +103,10 @@ export type ResolveFuzzyOptions<P extends Palette = typeof web> = {
  */
 
 // Overload 1: strict — single ColorValue or null (unchanged).
-export function resolve(name: string, opts?: ResolveOptions): ColorValue | null;
+export function resolve<P extends Palette = typeof web>(
+  name: string,
+  opts?: ResolveOptions<P>,
+): ColorValue | null;
 
 // Overload 2: fuzzy top-k — ranked Match[].
 export function resolve<P extends Palette = typeof web>(

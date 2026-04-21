@@ -42,6 +42,10 @@ export type IdentifyOptions<P extends Palette = typeof web> = {
    * from a different palette (e.g. `'rebeccapurple'` when `palette` is
    * `pantone`), set `source` to the palette that owns the name so it can
    * be resolved to an Rgba before the nearest-match lookup.
+   *
+   * @remarks
+   * The `input` argument isn't validated against `source`'s keys at
+   * compile time; unknown names resolve to `null` at runtime.
    */
   readonly source?: Palette;
   /**
