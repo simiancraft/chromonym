@@ -6,7 +6,7 @@ name: link check
 
 on:
   schedule:
-    - cron: '0 12 * * 1' # Mondays, 12:00 UTC
+    - cron: '0 12 1 * *' # 1st of the month, 12:00 UTC
   workflow_dispatch:
 
 permissions:
