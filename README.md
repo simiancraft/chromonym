@@ -13,8 +13,8 @@
 [![npm version](https://img.shields.io/npm/v/chromonym?color=cb3837&logo=npm)](https://www.npmjs.com/package/chromonym)
 [![Types: included](https://img.shields.io/npm/types/chromonym?color=3178c6&logo=typescript)](https://www.npmjs.com/package/chromonym)
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
-
-<sub>[bundle size](https://packagephobia.com/result?p=chromonym) • [coverage](https://codecov.io/github/simiancraft/chromonym) • [MIT license](https://opensource.org/licenses/MIT)</sub>
+[![Coverage](https://img.shields.io/codecov/c/github/simiancraft/chromonym?logo=codecov)](https://codecov.io/github/simiancraft/chromonym)
+[![Bundle size](https://img.shields.io/bundlephobia/minzip/chromonym?label=bundle%20size)](https://bundlephobia.com/package/chromonym)
 
 <p align="center">
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>

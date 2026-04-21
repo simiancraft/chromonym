@@ -68,5 +68,5 @@ export function rgbaToHsv(rgba: Rgba): HsvString {
     hue *= 60;
   }
 
-  return `hsv(${Math.round(hue)}, ${Math.round(saturation * 100)}%, ${Math.round(value * 100)}%)` as HsvString;
+  return `hsv(${Math.round(hue)}, ${Math.round(saturation * 100)}%, ${Math.round(value * 100)}%)`;
 }

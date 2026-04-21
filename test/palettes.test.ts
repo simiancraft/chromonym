@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'bun:test';
-import { crayola, pantone, web, x11 } from '../src/palettes/index.js';
+import { crayola } from '../src/palettes/crayola.js';
+import { pantone } from '../src/palettes/pantone.js';
+import { web } from '../src/palettes/web.js';
+import { x11 } from '../src/palettes/x11.js';
 
 const HEX_RE = /^#[0-9a-f]{6}$/;
 
