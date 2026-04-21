@@ -24,6 +24,8 @@
 
 <sub>*chromonym* (n.): a name for a color; *chroma* + *-onym*. Also the library.</sub>
 
+<sub>Every public export ships with JSDoc and a runnable `@example`; autocomplete and hover do the teaching.</sub>
+
 <p align="center">
   <a href="https://simiancraft.github.io/chromonym/">
     <img src=".github/assets/chromonym-demo-simiancraft.gif" alt="chromonym demo — scrub a color, see the nearest name update live" width="800" />

@@ -1,0 +1,39 @@
+name: link check
+
+# Scheduled-only: catches link rot in README / NOTICE / SECURITY without
+# blocking PRs on transient upstream flakes. Failed runs send a GitHub
+# notification to the repo owner.
+
+on:
+  schedule:
+    - cron: '0 12 * * 1' # Mondays, 12:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: link-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lychee:
+    name: Check markdown links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4.2.2
+
+      - name: Link check (lychee)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Skip GitHub's per-IP rate-limited API endpoints (shields.io
+          # badges, codecov.io graphs) and any localhost dev refs; those
+          # return flaky 429s under a cold cache on CI runners.
+          args: >-
+            --verbose
+            --no-progress
+            --max-retries 2
+            --exclude-mail
+            --exclude '^https?://(img\.shields\.io|codecov\.io)'
+            './**/*.md'
+          fail: true
