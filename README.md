@@ -472,13 +472,6 @@ bun test
 bun run build
 ```
 
-Regenerating palette data:
-
-```sh
-bun run scripts/generate-x11.ts        # reads /usr/share/X11/rgb.txt
-bun run scripts/generate-pantone.ts    # reads the color_library npm package (MIT © Radu Dragan)
-```
-
 ## See also
 
 chromonym deliberately limits its scope to color *naming* (resolving and identifying) and lightweight conversions. For other color-related work, reach for tools that do those things well:
