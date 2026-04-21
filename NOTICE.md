@@ -93,6 +93,36 @@ the public domain.
 The `web` palette mirrors the CSS Color Module Level 4 named-color
 set, which is a public specification.
 
+## ISCC-NBS Colour System
+
+The `isccNbs` palette (260 entries) is the **ISCC-NBS Method of
+Designating Colors**, a 1955 joint publication of the
+**Inter-Society Color Council** and the US **National Bureau of
+Standards** (now NIST). The system partitions the Munsell color
+solid into 267 named blocks at Level 3 resolution with canonical
+names like "Vivid pink," "Strong purplish red," and "Dark
+yellowish brown."
+
+sRGB centroids for each named block are scraped from **Paul
+Centore's** digitization at
+<https://www.munsellcolorscienceforpainters.com/ISCCNBS/ISCCNBSSystem.html>,
+part of his *Munsell Colour Science for Painters* site.
+
+**Why 260 and not 267:** Seven ISCC-NBS blocks sit outside the
+sRGB gamut (notably the most-saturated greens, blues, and
+orange-yellows): `Deep green`, `Deep bluish green`, `Vivid
+greenish blue`, `Deep greenish blue`, `Brilliant orange`, `Deep
+olive green`, and `Vivid orange yellow`. Centore's source marks
+these as `rgb(NaN,NaN,NaN)`; chromonym skips them rather than
+ship a fabricated sRGB approximation.
+
+The ISCC-NBS name system itself is a US-government publication
+and is not subject to copyright restrictions when faithfully
+reproduced. Paul Centore's specific sRGB-centroid computations
+are credited here; if the author objects to Chromonym's use of
+his digitization, open an issue and we will revisit or redo the
+centroids from the primary Munsell data.
+
 ## Federal Standard 595C (FS595C)
 
 The `fs595c` palette (589 entries) is derived from the

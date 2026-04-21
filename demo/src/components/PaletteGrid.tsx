@@ -3,7 +3,7 @@
 // mode), the grid a flex-wrap. Shared by the translator (both sides) and the
 // eyedropper (result-only).
 
-import { crayola, fs595c, ntc, pantone, web, x11, xkcd } from 'chromonym';
+import { crayola, fs595c, isccNbs, ntc, pantone, web, x11, xkcd } from 'chromonym';
 import { memo, useMemo } from 'react';
 
 // `as const` is load-bearing: it preserves each palette's literal name union
@@ -11,7 +11,7 @@ import { memo, useMemo } from 'react';
 // decay to `string[]`. Without this the demo would need an `as Record<string,
 // string>` laundered cast at every lookup site — exactly what chromonym's
 // `Palette<Name>` generics exist to eliminate.
-export const PALETTES = { web, x11, pantone, crayola, ntc, xkcd, fs595c } as const;
+export const PALETTES = { web, x11, pantone, crayola, ntc, xkcd, fs595c, isccNbs } as const;
 export type PaletteKey = keyof typeof PALETTES;
 
 export const PALETTE_LABELS: Record<PaletteKey, string> = {
@@ -22,9 +22,10 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   ntc: 'NTC',
   xkcd: 'XKCD',
   fs595c: 'FS 595C',
+  isccNbs: 'ISCC-NBS',
 };
 
-export const PALETTE_KEYS = ['web', 'x11', 'pantone', 'crayola', 'ntc', 'xkcd', 'fs595c'] as const satisfies readonly PaletteKey[];
+export const PALETTE_KEYS = ['web', 'x11', 'pantone', 'crayola', 'ntc', 'xkcd', 'fs595c', 'isccNbs'] as const satisfies readonly PaletteKey[];
 
 interface PaletteGridProps {
   paletteKey: PaletteKey;

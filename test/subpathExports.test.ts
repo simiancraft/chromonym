@@ -90,6 +90,13 @@ maybe('subpath exports resolve', () => {
     expect(m.fs595c.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/iscc-nbs exports the isccNbs palette object', async () => {
+    const m = await import('../dist/palettes/isccNbs');
+    expect(m.isccNbs.name).toBe('isccNbs');
+    expect(m.isccNbs.colors['Vivid pink']).toBe('#fd7992');
+    expect(m.isccNbs.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
     const m = await import('../dist/conversions/hex');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
@@ -173,6 +180,7 @@ maybe('subpath exports resolve', () => {
       "const { ntc } = await import('chromonym/ntc');",
       "const { xkcd } = await import('chromonym/xkcd');",
       "const { fs595c } = await import('chromonym/fs595c');",
+      "const { isccNbs } = await import('chromonym/iscc-nbs');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -190,6 +198,7 @@ maybe('subpath exports resolve', () => {
       '  ntcStratos: ntc.colors.Stratos === "#000741",',
       '  xkcdCloudyBlue: xkcd.colors["cloudy blue"] === "#acc2d9",',
       '  fs595cInsignia: fs595c.colors["FS 11136"] === "#a32b25",',
+      '  isccNbsVividPink: isccNbs.colors["Vivid pink"] === "#fd7992",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -216,6 +225,7 @@ maybe('subpath exports resolve', () => {
       ntcStratos: true,
       xkcdCloudyBlue: true,
       fs595cInsignia: true,
+      isccNbsVividPink: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,

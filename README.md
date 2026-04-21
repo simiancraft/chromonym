@@ -306,6 +306,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `ntc` | 1566 | Chirag Mehta's "Name That Color" dataset (broad coverage of design / UI / hardware names) |
 | `xkcd` | 923 | XKCD 2010 color-survey results (CC0; crowd-sourced common-speech names) |
 | `fs595c` | 589 | Federal Standard 595C paint chips (US Government spec; military / aviation coatings) |
+| `isccNbs` | 260 | ISCC-NBS Method of Designating Colors (1955 US standard; Munsell-partitioned named blocks) |
 
 Importable directly, or via subpath exports for stricter tree-shaking:
 

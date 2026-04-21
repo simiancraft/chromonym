@@ -41,9 +41,22 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // and a real FS595C chip ('FS 34087' is close). Wears the ink label
   // (cream would float too bright on the muted military tone).
   fs595c: { tone: '#4a5a3a', ink: 'var(--bh-cream)' },
+  // ISCC-NBS: neutral medium gray, fitting for the science-y Munsell-
+  // derived standard. Restrained, formal, and visually distinct from
+  // the other seven poster tones.
+  isccNbs: { tone: '#6f7373', ink: 'var(--bh-cream)' },
 };
 
-const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola', 'ntc', 'xkcd', 'fs595c'];
+const ORDER: PaletteKey[] = [
+  'web',
+  'x11',
+  'pantone',
+  'crayola',
+  'ntc',
+  'xkcd',
+  'fs595c',
+  'isccNbs',
+];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).
 const INDICATOR = 12;

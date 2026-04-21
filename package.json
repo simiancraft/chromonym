@@ -74,6 +74,11 @@
       "import": "./dist/palettes/fs595c.js",
       "default": "./dist/palettes/fs595c.js"
     },
+    "./iscc-nbs": {
+      "types": "./dist/palettes/isccNbs.d.ts",
+      "import": "./dist/palettes/isccNbs.js",
+      "default": "./dist/palettes/isccNbs.js"
+    },
     "./ntc": {
       "types": "./dist/palettes/ntc.d.ts",
       "import": "./dist/palettes/ntc.js",
