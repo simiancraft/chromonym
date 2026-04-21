@@ -28,6 +28,7 @@ export type {
   HsvString,
   NormalizeFn,
   Palette,
+  PaletteKey,
   Rgba,
   RgbaInput,
   RgbaString,

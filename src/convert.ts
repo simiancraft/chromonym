@@ -12,6 +12,7 @@ import type {
   HslInput,
   HsvInput,
   Palette,
+  PaletteKey,
   Rgba,
   RgbaInput,
   RgbInput,
@@ -83,13 +84,6 @@ export function fromRgba(rgba: Rgba, format: ColorFormat = 'HEX'): ColorValue {
     }
   }
 }
-
-/**
- * Extract string keys from a Palette's `colors` map.
- * Matches the `PaletteKey<P>` helper in `identify.ts` — kept local so
- * `convert` doesn't depend on `identify`.
- */
-type PaletteKey<P extends Palette> = Extract<keyof P['colors'], string>;
 
 /**
  * Detect the input color format, normalize to Rgba, and emit the result

@@ -59,6 +59,12 @@ export type Palette<Name extends string = string> = {
   readonly defaultMetric: DistanceMetric;
 };
 
+// Extract the string-literal key union from a Palette's `colors` map.
+// Used across identify/resolve/convert to narrow return types to the
+// caller's palette. Exported so consumers writing wrapper code can
+// reuse the same key-extraction rule without redeclaring it.
+export type PaletteKey<P extends Palette> = Extract<keyof P['colors'], string>;
+
 // --- Distance metric for nearest-name lookup (used by `identify`). ---
 // Choose based on palette density and accuracy needs:
 //   'euclidean-srgb'    — fastest; fine for well-separated palettes (web, x11)

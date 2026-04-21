@@ -3,10 +3,14 @@ import { toRgba } from './convert.js';
 import { detectFormat } from './detectFormat.js';
 import { getNameIndex, nearest, nearestAll } from './indexing.js';
 import { web } from './palettes/web.js';
-import type { ColorInput, DistanceMetric, HexColor, Palette, Rgba } from './types.js';
-
-/** Extract string keys from a Palette's `colors` map. */
-type PaletteKey<P extends Palette> = Extract<keyof P['colors'], string>;
+import type {
+  ColorInput,
+  DistanceMetric,
+  HexColor,
+  Palette,
+  PaletteKey,
+  Rgba,
+} from './types.js';
 
 /**
  * One ranked nearest-match entry when `identify` is called with `k`.
