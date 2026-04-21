@@ -220,6 +220,18 @@ pre,
   outline-offset: 3px;
 }
 
+/* SVG <g> elements acting as buttons (KandinskyBYO shape cells). Browsers
+   don't always draw outlines around non-replaced SVG children, so this
+   rule makes the focus ring explicit and keeps it aligned with the rest
+   of the demo's focus treatment. */
+svg g.kandinsky-shape {
+  outline: none;
+}
+svg g.kandinsky-shape:focus-visible {
+  outline: 2px solid var(--bh-ink);
+  outline-offset: 3px;
+}
+
 /* ------------------------------------------------------------------ */
 /* motion                                                             */
 /* ------------------------------------------------------------------ */

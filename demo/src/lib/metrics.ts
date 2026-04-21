@@ -31,11 +31,11 @@ export const METRIC_DESCRIPTIONS: Record<DistanceMetric, string> = {
   'euclidean-linear':
     'Euclidean distance on linearized RGB. Same speed class as sRGB; slightly better for physical-light / mixing contexts.',
   deltaE76:
-    'CIELAB Euclidean (CIE 1976). First perceptual metric. ~1 ΔE = just-noticeable for most of the gamut, but breaks down in saturated blues and purples — which is why ΔE2000 exists.',
+    'CIELAB Euclidean (CIE 1976). First perceptual metric — simple, but underweights chroma, so saturated colors read as farther apart than they look (Mahy 1994 pegs JND nearer ΔE ≈ 2.3).',
   deltaE94:
     'CIE 1994 refinement of ΔE76 with chroma/hue weighting. Fixes "saturated colors feel too far apart" without the full CIEDE2000 math.',
   deltaE2000:
-    'CIEDE2000. Industry standard for print and design tools. Adds a blue/purple rotation correction on top of ΔE94 — highest accuracy at modest cost.',
+    'CIEDE2000 (Luo/Cui/Rigg 2001). Industry standard for print and design. Separate formulation from ΔE94, fit to combined visual datasets, with L/C/h weighting and a hue-rotation term near h′≈275°.',
   deltaEok:
-    'Euclidean on OKLAB (Björn Ottosson, 2020). Perceptually uniform by construction — often a better nearest-match than ΔE2000 in saturated regions, and cheaper to compute.',
+    'Euclidean on OKLAB (Ottosson 2020). Designed for perceptual uniformity against IPT / CAM16-UCS — often a better nearest-match than ΔE2000 in saturated regions, and cheaper to compute.',
 };

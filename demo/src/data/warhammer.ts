@@ -11,9 +11,11 @@ export const warhammer = {
     'world eaters red': '#8b1a1a',
     'adeptus red': '#652022',
     'sons of malice white': '#e8e4d8',
+    'ultramarines blue': '#2a5f9e',
     'the flawless host purple': '#6b2d7d',
     'nurgle green': '#748c3f',
     'alpha legion teal': '#2a6d7a',
+    'imperial fists yellow': '#f0c020',
   },
   normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
   defaultMetric: 'deltaE2000',
@@ -21,9 +23,11 @@ export const warhammer = {
   | 'world eaters red'
   | 'adeptus red'
   | 'sons of malice white'
+  | 'ultramarines blue'
   | 'the flawless host purple'
   | 'nurgle green'
   | 'alpha legion teal'
+  | 'imperial fists yellow'
 >;
 
 // Canonical warhammer color-name union, derived from the palette literal
@@ -46,7 +50,9 @@ export const WARHAMMER_INVOCATIONS: Record<WarhammerName, string> = {
   'world eaters red': 'blood for the blood god',
   'adeptus red': 'for the glory of the omnissiah',
   'sons of malice white': 'we are the damned',
+  'ultramarines blue': 'courage and honour',
   'the flawless host purple': 'perfection in all things',
   'nurgle green': 'grandfather nurgle smiles',
   'alpha legion teal': 'hydra dominatus',
+  'imperial fists yellow': 'primarch-progenitor',
 };

@@ -80,7 +80,11 @@ export function Eyedropper({ onPick }: EyedropperProps) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return;
-    ctx.fillStyle = 'var(--bh-paper)';
+    // Canvas 2D's `fillStyle` does NOT resolve CSS custom properties —
+    // passing `var(--bh-paper)` silently falls back to transparent black
+    // and letterboxes 16:9 webcam frames with black bars on a cream-
+    // paper page. Keep the literal in sync with --bh-paper in index.css.
+    ctx.fillStyle = '#e8e0cf';
     ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
     const scale = Math.min(CANVAS_W / iw, CANVAS_H / ih);
     const dw = iw * scale;

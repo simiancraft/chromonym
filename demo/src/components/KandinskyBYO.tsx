@@ -22,12 +22,11 @@ interface KandinskyBYOProps {
   invocations?: Readonly<Record<WarhammerName, string>>;
 }
 
-// 2×3 grid layout. Two rows of three cells in a 1200×340 viewBox gives each
-// cell enough horizontal room that labels (which can be up to ~24 chars)
-// don't bleed into neighbours. Row 1 cy=85, row 2 cy=250; labels just
-// under each shape center.
-const COLS = 3;
-const CELL_W = 1200 / COLS; // 400
+// 2×4 grid layout. Two rows of four cells in a 1200×340 viewBox — each cell
+// is 300 wide, still wide enough that the longest labels (~24 chars at 14px
+// mono) fit. Rows at cy=85 and cy=240; labels sit just below the shape.
+const COLS = 4;
+const CELL_W = 1200 / COLS; // 300
 const VB_W = 1200;
 const VB_H = 340;
 const ROW_CYS = [85, 240] as const;
@@ -47,20 +46,20 @@ const SHAPES: Array<{ name: WarhammerName; node: ShapeNode }> = [
   {
     name: 'world eaters red',
     node: ({ cx, cy, fill, style }) => (
-      <circle cx={cx} cy={cy} r={58} fill={fill} style={style} />
+      <circle cx={cx} cy={cy} r={54} fill={fill} style={style} />
     ),
   },
   {
     name: 'adeptus red',
     node: ({ cx, cy, fill, style }) => (
-      <rect x={cx - 48} y={cy - 48} width={96} height={96} fill={fill} style={style} />
+      <rect x={cx - 44} y={cy - 44} width={88} height={88} fill={fill} style={style} />
     ),
   },
   {
     name: 'sons of malice white',
     node: ({ cx, cy, fill, style }) => (
       <polygon
-        points={`${cx},${cy - 62} ${cx + 56},${cy + 48} ${cx - 56},${cy + 48}`}
+        points={`${cx},${cy - 58} ${cx + 52},${cy + 44} ${cx - 52},${cy + 44}`}
         fill={fill}
         stroke="var(--bh-ink)"
         strokeWidth={1.5}
@@ -69,16 +68,28 @@ const SHAPES: Array<{ name: WarhammerName; node: ShapeNode }> = [
     ),
   },
   {
+    name: 'ultramarines blue',
+    node: ({ cx, cy, fill, style }) => (
+      // Diamond (square rotated 45°) — fills a chroma gap in the palette
+      // that nothing else occupies.
+      <polygon
+        points={`${cx},${cy - 56} ${cx + 46},${cy} ${cx},${cy + 56} ${cx - 46},${cy}`}
+        fill={fill}
+        style={style}
+      />
+    ),
+  },
+  {
     name: 'the flawless host purple',
     node: ({ cx, cy, fill, style }) => (
-      <rect x={cx - 28} y={cy - 62} width={56} height={124} fill={fill} style={style} />
+      <rect x={cx - 26} y={cy - 58} width={52} height={116} fill={fill} style={style} />
     ),
   },
   {
     name: 'nurgle green',
     node: ({ cx, cy, fill, style }) => (
       <path
-        d={`M ${cx - 62} ${cy + 44} A 62 62 0 0 1 ${cx + 62} ${cy + 44} Z`}
+        d={`M ${cx - 58} ${cy + 40} A 58 58 0 0 1 ${cx + 58} ${cy + 40} Z`}
         fill={fill}
         style={style}
       />
@@ -88,7 +99,20 @@ const SHAPES: Array<{ name: WarhammerName; node: ShapeNode }> = [
     name: 'alpha legion teal',
     node: ({ cx, cy, fill, style }) => (
       <polygon
-        points={`${cx - 30},${cy - 56} ${cx + 56},${cy - 56} ${cx + 30},${cy + 56} ${cx - 56},${cy + 56}`}
+        points={`${cx - 28},${cy - 52} ${cx + 52},${cy - 52} ${cx + 28},${cy + 52} ${cx - 52},${cy + 52}`}
+        fill={fill}
+        style={style}
+      />
+    ),
+  },
+  {
+    name: 'imperial fists yellow',
+    node: ({ cx, cy, fill, style }) => (
+      // Regular hexagon (pointy-top). Vertices at 60° increments — first at
+      // top, then clockwise. Gives the palette a yellow that the other
+      // seven shapes don't offer.
+      <polygon
+        points={`${cx},${cy - 54} ${cx + 47},${cy - 27} ${cx + 47},${cy + 27} ${cx},${cy + 54} ${cx - 47},${cy + 27} ${cx - 47},${cy - 27}`}
         fill={fill}
         style={style}
       />
@@ -142,8 +166,12 @@ export function KandinskyBYO({
       <div className="px-4 md:px-6 pt-5 pb-2">
         <svg
           viewBox={`0 0 ${VB_W} ${VB_H}`}
-          role="img"
-          aria-label="Kandinsky composition of warhammer palette entries"
+          // `role="group"` (not "img") because this SVG's children are
+          // interactive — each shape is a keyboard-reachable button that
+          // commits its faction to the shared demo input. With role="img"
+          // AT would announce it as a single static graphic.
+          role="group"
+          aria-label="warhammer palette — press Tab to a shape, Enter to select"
           className="w-full h-auto"
         >
           {/* faint cell guides for compositional rhythm */}
@@ -175,12 +203,25 @@ export function KandinskyBYO({
             const pulse = matchedName === shape.name;
             // onClick on the group so a click anywhere in the cell (hit
             // rect, shape, or label area above it) commits the faction.
+            // tabIndex + role=button + Enter/Space handler make the same
+            // cell keyboard-reachable — Tab lands focus on each shape,
+            // Enter commits. Focus outline drawn via index.css.
+            const commit = () => setInput(fill);
             return (
               <g
                 key={shape.name}
-                onClick={() => setInput(fill)}
+                className="kandinsky-shape"
+                role="button"
+                tabIndex={0}
+                aria-label={`${shape.name} · ${fill}`}
+                onClick={commit}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    commit();
+                  }
+                }}
                 style={{ cursor: 'pointer' }}
-                aria-label={`select ${shape.name}`}
               >
                 {/* full-cell hit rect covers gaps around the shape */}
                 <rect
