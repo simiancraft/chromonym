@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/assets/banner.png" alt="chromonym" width="800" />
+  <img src=".github/assets/chromonym_transparent_tight.webp" alt="chromonym" width="800" />
 </p>
 
 <p align="center">
@@ -24,7 +24,7 @@
 
 <p align="center">
   <a href="https://simiancraft.github.io/chromonym/">
-    <img src=".github/assets/chromonym-demo.gif" alt="chromonym demo — scrub a color, see the nearest name update live" width="800" />
+    <img src=".github/assets/chromonym-demo-simiancraft.gif" alt="chromonym demo — scrub a color, see the nearest name update live" width="800" />
   </a>
 </p>
 
@@ -90,7 +90,7 @@ identifyAll(color, { palette, k: 3 })          // → identify(color, { palette,
 translate(name, { from: web, to: pantone })    // → identify(name, { palette: pantone, source: web })
 ```
 
-`resolve` and `convert` are unchanged. If you were only using those two, no edits are needed. See `CHANGELOG.md` for the full list of breaking changes.
+`resolve` and `convert` are unchanged. If you were only using those two, no edits are needed. See [`CHANGELOG.md`](CHANGELOG.md) for the full list of v3.0 breaking changes.
 
 ## API
 

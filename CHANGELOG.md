@@ -1,3 +1,28 @@
+# [3.1.0](https://github.com/simiancraft/chromonym/compare/v3.0.0...v3.1.0) (2026-04-21)
+
+
+### Features
+
+* **demo:** address panel review — perf, a11y, voice, copy-paste hygiene ([a4f915f](https://github.com/simiancraft/chromonym/commit/a4f915fb4e3029fcbc5b218440ae25c8b82eeb89))
+* **demo:** bauhaus redesign with Bauhaus Modern display type ([764d397](https://github.com/simiancraft/chromonym/commit/764d3974c492b7f0aab6a549e3d91146f22ff852))
+* **demo:** BYO 2-row grid + click fix; palette-tile 3-row layout; copy cleanup ([d370251](https://github.com/simiancraft/chromonym/commit/d370251c963b509ee28d7ed3cdedb7073538b38a))
+* **demo:** copy button on the live code snippet ([f9852da](https://github.com/simiancraft/chromonym/commit/f9852da144e1754fd1cc5cc6a3a97a55b1cc3c55))
+* **demo:** crayola tile bg, stronger selection contrast, clamp pulse arc ([fecb295](https://github.com/simiancraft/chromonym/commit/fecb2950f571daf90b1f96b28c86e93d4f7f4fd0))
+* **demo:** easter-egg controls replace "2026 · typescript" eyebrow ([b5d26da](https://github.com/simiancraft/chromonym/commit/b5d26da7b00d4d3bb0c1ff4ca99d73ebb7c8333f))
+* **demo:** full-width BYO shape row, click-to-select, random pulse offset ([8fec69b](https://github.com/simiancraft/chromonym/commit/8fec69b1f75c3bdf5f1e6e8c3899f6ae8456a0d5))
+* **demo:** image eyedropper — pick a pixel, read the name ([f1b5cef](https://github.com/simiancraft/chromonym/commit/f1b5cefd9da5b5c75a117352956aebd97e94c290))
+* **demo:** inline BYO picker + per-faction invocation easter eggs ([71d7979](https://github.com/simiancraft/chromonym/commit/71d797910423aa83df65e3da9492f62856800caa))
+* **demo:** interactive two-panel palette translator ([231fb6c](https://github.com/simiancraft/chromonym/commit/231fb6c5300095dda7d5e0408b4862091e17225b))
+* **demo:** live code snippet in translator, plus refactor to source-form identify ([186345b](https://github.com/simiancraft/chromonym/commit/186345be3a59f92d285bc8425d8e9adde89c511c))
+* **demo:** masthead easter-egg — blend-mode select + opacity slider ([13d5dee](https://github.com/simiancraft/chromonym/commit/13d5dee907fb7f3c0ff744e48278d38ac964dfe1))
+* **demo:** palette-tile fixes, square canvas, difference-blend wordmark ([8d68166](https://github.com/simiancraft/chromonym/commit/8d68166b7bcfe7b24b98a064c448d29445602860))
+* **demo:** press-and-drag eyedropper (replaces hover-preview + click-pin) ([a58311b](https://github.com/simiancraft/chromonym/commit/a58311bb2a3333bce3fcb7d14812c55493fc6e1e))
+* **demo:** resolve · cont. fuzzy text lookup; convert input picker ([c1cdccc](https://github.com/simiancraft/chromonym/commit/c1cdcccff358114c06de393ad64e47cb6560c8e2))
+* **demo:** RGB-driven wordmark ghosts; 'selected' replaces 'scrubbed' ([6033f18](https://github.com/simiancraft/chromonym/commit/6033f18458e4cd27b59e023cc59762400dd47c11))
+* **demo:** sequence identify → resolve → convert; unify code blocks ([3b3abf4](https://github.com/simiancraft/chromonym/commit/3b3abf4b3391c5afd695e7bf84171edff83ae7be))
+* **demo:** third-based identify layout, hierarchical presets, per-metric copy ([b836764](https://github.com/simiancraft/chromonym/commit/b83676452687c61e90a37d7d00c5ab6d84574de5))
+* **demo:** two more warhammer factions + canvas a11y + fillStyle fix + metric copy ([0318ade](https://github.com/simiancraft/chromonym/commit/0318ade9df8bc1d29d444d23e37006cba5304d8a))
+
 # [3.0.0](https://github.com/simiancraft/chromonym/compare/v2.0.0...v3.0.0) (2026-04-19)
 
 
