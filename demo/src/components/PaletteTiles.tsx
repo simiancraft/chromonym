@@ -33,9 +33,13 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // yellow, orange); keeps the Bauhaus primary-poster feel without
   // crowding the existing tiles.
   ntc: { tone: '#3d7a5a', ink: 'var(--bh-cream)' },
+  // XKCD: deep plum to fill the purple register no other tile holds.
+  // Survey data has an irreverent character; the tone stays inside
+  // the muted Bauhaus palette rather than going neon.
+  xkcd: { tone: '#5c2a6b', ink: 'var(--bh-cream)' },
 };
 
-const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola', 'ntc'];
+const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola', 'ntc', 'xkcd'];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).
 const INDICATOR = 12;

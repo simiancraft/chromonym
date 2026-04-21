@@ -76,6 +76,13 @@ maybe('subpath exports resolve', () => {
     expect(m.ntc.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/xkcd exports the xkcd palette object', async () => {
+    const m = await import('../dist/palettes/xkcd');
+    expect(m.xkcd.name).toBe('xkcd');
+    expect(m.xkcd.colors['cloudy blue']).toBe('#acc2d9');
+    expect(m.xkcd.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
     const m = await import('../dist/conversions/hex');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
@@ -157,6 +164,7 @@ maybe('subpath exports resolve', () => {
       "const { x11 } = await import('chromonym/x11');",
       "const { crayola } = await import('chromonym/crayola');",
       "const { ntc } = await import('chromonym/ntc');",
+      "const { xkcd } = await import('chromonym/xkcd');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -172,6 +180,7 @@ maybe('subpath exports resolve', () => {
       '  x11Count: Object.keys(x11.colors).length > 600,',
       '  crayolaRazz: crayola.colors.Razzmatazz === "#e3256b",',
       '  ntcStratos: ntc.colors.Stratos === "#000741",',
+      '  xkcdCloudyBlue: xkcd.colors["cloudy blue"] === "#acc2d9",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -196,6 +205,7 @@ maybe('subpath exports resolve', () => {
       x11Count: true,
       crayolaRazz: true,
       ntcStratos: true,
+      xkcdCloudyBlue: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,

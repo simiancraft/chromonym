@@ -4,6 +4,7 @@ import { ntc } from '../src/palettes/ntc.js';
 import { pantone } from '../src/palettes/pantone.js';
 import { web } from '../src/palettes/web.js';
 import { x11 } from '../src/palettes/x11.js';
+import { xkcd } from '../src/palettes/xkcd.js';
 
 const HEX_RE = /^#[0-9a-f]{6}$/;
 
@@ -37,6 +38,17 @@ describe.each([
       spotChecks: {
         Stratos: '#000741',
         'International Klein Blue': '#002fa7',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'xkcd',
+    xkcd,
+    {
+      minCount: 900,
+      spotChecks: {
+        'cloudy blue': '#acc2d9',
+        dust: '#b2996e',
       } as Record<string, string>,
     },
   ],

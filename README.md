@@ -304,6 +304,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `pantone` | 907 | Pantone Coated (C) — community approximations (not Pantone-licensed) |
 | `crayola` | 84 | Crayola crayon colors — community approximations (not Crayola-licensed) |
 | `ntc` | 1566 | Chirag Mehta's "Name That Color" dataset (broad coverage of design / UI / hardware names) |
+| `xkcd` | 923 | XKCD 2010 color-survey results (CC0; crowd-sourced common-speech names) |
 
 Importable directly, or via subpath exports for stricter tree-shaking:
 

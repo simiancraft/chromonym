@@ -74,6 +74,11 @@
       "import": "./dist/palettes/ntc.js",
       "default": "./dist/palettes/ntc.js"
     },
+    "./xkcd": {
+      "types": "./dist/palettes/xkcd.d.ts",
+      "import": "./dist/palettes/xkcd.js",
+      "default": "./dist/palettes/xkcd.js"
+    },
     "./conversions/hex": {
       "types": "./dist/conversions/hex.d.ts",
       "import": "./dist/conversions/hex.js",

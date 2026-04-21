@@ -93,6 +93,24 @@ the public domain.
 The `web` palette mirrors the CSS Color Module Level 4 named-color
 set, which is a public specification.
 
+## XKCD color survey
+
+The `xkcd` palette (923 entries after normalization-collision
+dedupe) is derived from **Randall Munroe's 2010 XKCD color
+survey results**, published at <https://xkcd.com/color/rgb.txt>
+and released to the **public domain under CC0 1.0 Universal**.
+Chromonym reproduces the dataset verbatim apart from:
+
+- Hex casing normalized to lowercase.
+- Entries whose names collapse to the same canonical key under
+  `standardNormalize` are deduped first-seen wins (e.g. the
+  survey's `darkblue` and `dark blue` entries both normalize to
+  `darkblue`; only the first is retained).
+
+The XKCD color-survey names are crowd-sourced and include
+colorful non-standard descriptors. Chromonym takes no editorial
+stance on the names and ships them as-is.
+
 ## Name That Color (NTC)
 
 The `ntc` palette (1566 entries) is derived from Chirag Mehta's
