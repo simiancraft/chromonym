@@ -67,7 +67,7 @@ Crayola's published approximations.
 
 ### Scope
 
-The shipped set is ~85 entries — the current 64-standard box, the
+The shipped set is 84 entries: the current 64-standard box, the
 iconic fluorescent "Neon" range, and widely-recognized modern
 additions. It is not exhaustive: historical, retired, specialty-box
 (Gem Tones, Heads 'N Tails, Multicultural, etc.), and regional-variant
@@ -92,6 +92,28 @@ the public domain.
 
 The `web` palette mirrors the CSS Color Module Level 4 named-color
 set, which is a public specification.
+
+## Bauhaus Modern (demo site typeface)
+
+The demo site at <https://simiancraft.github.io/chromonym/> embeds
+**Bauhaus Modern**, a display typeface designed by **Nils Kähler**
+(2016). The font file is hosted under
+[`demo/public/fonts/`](./demo/public/fonts/) and is used only as
+display type for the demo wordmark.
+
+- Source: <https://www.dafont.com/bauhaus-modern.font>
+- License terms: "Free for personal use" (per the dafont listing)
+- Use for this demo was arranged with the designer's knowledge via
+  email; a donation was made, and the use case (MIT-licensed library
+  demo, display-type only, with visible attribution) was described.
+  See [`demo/public/fonts/README.txt`](./demo/public/fonts/README.txt)
+  for the full note.
+
+The font is not part of the published npm package (`files` allowlist
+ships only the library, not the demo site). Downstream users of the
+`chromonym` package do not redistribute Bauhaus Modern by installing
+the library. Please do not repackage or redistribute the font file
+outside this demo without following up with the designer directly.
 
 ## Upstream dependencies
 

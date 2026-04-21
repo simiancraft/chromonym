@@ -491,8 +491,4 @@ MIT © [the-simian](https://github.com/the-simian)
 
 <p align="center"><sub>Crafted with care by <a href="https://simiancraft.com">Simiancraft</a>.</sub></p>
 
----
-
-> ### Pantone® trademark notice
->
-> **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is **not affiliated with, endorsed by, or certified by Pantone LLC**. The `pantone` palette ships **community-derived sRGB approximations** of the Pantone Coated (C) set. Values will **not** match a licensed Pantone reference exactly and are unsuitable for print color specification. See [`NOTICE.md`](./NOTICE.md) for full text.
+<p align="center"><sub>Pantone® and Crayola® are trademarks of their respective owners; Chromonym is not affiliated. Palette values are community approximations. Demo typeface <a href="https://www.dafont.com/bauhaus-modern.font">Bauhaus Modern</a> © Nils Kähler. Full attributions: <a href="./NOTICE.md">NOTICE.md</a>.</sub></p>
