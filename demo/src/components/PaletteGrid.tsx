@@ -55,6 +55,24 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   ncs: 'NCS',
 };
 
+// Short demo-side descriptions surfaced in the palette-picker panel. Kept in
+// the demo (not on the library's Palette type) so we don't pay bundle-size
+// cost for a field every consumer can read on hover via JSDoc anyway.
+export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
+  web: "CSS Color Module Level 4. The default palette; what browsers recognize in `color: red;` declarations.",
+  x11: "X.Org rgb.txt from the UNIX graphical stack. 658 entries including dense gray ramps (gray 0 through gray 100).",
+  pantone: "Pantone Coated (C). Print-industry codes like '185 C'; community-approximated sRGB values, not Pantone-licensed.",
+  crayola: "Crayola crayon colors. The classic 64-standard box plus fluorescent neons and selected modern additions.",
+  ntc: "Chirag Mehta's 'Name That Color' dataset. 1566 broad-coverage design / UI / hardware names CSS and X11 don't reach.",
+  xkcd: "The 2010 XKCD Color Survey. Crowd-sourced common-speech names (923 entries), CC0 public domain.",
+  fs595c: "US Federal Standard 595C paint chips (589 entries). Military, aviation, and government-equipment coatings.",
+  fs595b: "Federal Standard 595B, the 1989 predecessor to FS 595C. Many shared codes have different hex across the two revisions.",
+  isccNbs: "ISCC-NBS Method of Designating Colors (1955). 260 Munsell-partitioned named blocks; sRGB centroids by Paul Centore.",
+  nbs: "Alternate NBS digitization: same 1955 vocabulary as isccNbs, different sRGB values matching the physical chip book.",
+  resene: "Resene Paints (New Zealand) catalog. 1378 named coatings with te reo Māori and NZ place-names.",
+  ncs: "Natural Colour System (Sweden). Perceptual codes like '2030-R80B' describing blackness, chromaticness, and hue.",
+};
+
 export const PALETTE_KEYS = [
   'web',
   'x11',
