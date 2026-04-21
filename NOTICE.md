@@ -118,6 +118,36 @@ place names ("Pohutukawa," "Acapulco," "Afghan Tan").
 - If Resene Paints Ltd. objects to this palette's inclusion,
   open an issue and we will revisit.
 
+## Natural Colour System (NCS)
+
+The `ncs` palette (1950 entries) is derived from the Raku module
+**`Color::Names::NCS`** in the
+[`thundergnat/Color-Names`](https://github.com/thundergnat/Color-Names)
+repository, which digitizes the **Natural Colour System®** Atlas.
+NCS is a Swedish perceptual color system based on Hering's
+opponent-process theory; its notation (e.g. `S 2030-R80B`)
+describes each color by its blackness, chromaticness, and hue
+position between the four elementary chromatics.
+
+- **NCS® is a registered trademark of NCS Colour AB** (Stockholm).
+  Chromonym is **not affiliated with, endorsed by, licensed by,
+  or certified by NCS Colour AB**. The shipped palette is a
+  community approximation intended for on-screen reference and
+  nearest-name identification; it is **not suitable for paint
+  specification or color matching** against the official NCS
+  Atlas.
+- NCS is **device-independent by design**. Any sRGB approximation
+  is lossy by construction. The values shipped here come from
+  thundergnat's Raku module's own digitization; different NCS
+  publications give slightly different sRGB values for the same
+  code.
+- Canonical keys are the NCS codes themselves (e.g. `2030-R80B`).
+  The palette's custom normalizer accepts optional `NCS ` and
+  `S ` prefixes, so `NCS S 2030-R80B`, `S 2030-R80B`,
+  `2030-R80B`, and `2030r80b` all resolve identically. `S` is
+  only treated as a prefix when followed by a digit, so inputs
+  that don't match an NCS code aren't silently rewritten.
+
 ## ISCC-NBS Colour System
 
 The `isccNbs` palette (260 entries) is the **ISCC-NBS Method of

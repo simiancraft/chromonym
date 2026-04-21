@@ -3,6 +3,7 @@ import { crayola } from '../src/palettes/crayola.js';
 import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
+import { ncs } from '../src/palettes/ncs.js';
 import { ntc } from '../src/palettes/ntc.js';
 import { pantone } from '../src/palettes/pantone.js';
 import { resene } from '../src/palettes/resene.js';
@@ -97,6 +98,17 @@ describe.each([
       spotChecks: {
         treepoppy: '#e2813b',
         acapulco: '#75aa94',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'ncs',
+    ncs,
+    {
+      minCount: 1900,
+      spotChecks: {
+        '0500-N': '#f2f2f2',
+        '2030-R80B': '#677bd6',
       } as Record<string, string>,
     },
   ],

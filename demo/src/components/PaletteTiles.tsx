@@ -53,6 +53,10 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // palette's distinctly local flavor. Distinct from web's bh-red by
   // pulling toward crimson.
   resene: { tone: '#8a1e2b', ink: 'var(--bh-cream)' },
+  // NCS: cool Nordic blue-gray evoking Scandinavian design language
+  // the NCS system grew out of. Pulls toward steel, distinct from
+  // pantone's saturated blue.
+  ncs: { tone: '#3e5a78', ink: 'var(--bh-cream)' },
 };
 
 const ORDER: PaletteKey[] = [
@@ -66,6 +70,7 @@ const ORDER: PaletteKey[] = [
   'fs595b',
   'isccNbs',
   'resene',
+  'ncs',
 ];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).
