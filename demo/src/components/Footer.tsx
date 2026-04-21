@@ -35,7 +35,7 @@ export function Footer() {
         .
       </div>
       <div className="font-mono text-[10px] tracking-wider opacity-80 pt-2">
-        Made with care by{' '}
+        Crafted with care by{' '}
         <a href="https://simiancraft.com" rel="noopener" className="underline">
           Simiancraft
         </a>
