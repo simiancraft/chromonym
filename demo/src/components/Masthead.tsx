@@ -47,10 +47,23 @@ export function Masthead({ hex }: MastheadProps) {
 
   return (
     <header className="bh-rise space-y-4">
-      <div className="flex items-baseline justify-between flex-wrap gap-x-4 gap-y-1 bh-rule-thick pt-2">
+      <div className="flex items-center justify-between flex-wrap gap-x-4 gap-y-1 bh-rule-thick pt-2">
         <span className="bh-eyebrow">vol. 3 · issue 01</span>
 
-        <div className="flex items-baseline gap-4">
+        {/* The easter-egg controls sit where "2026 · typescript" used to —
+            slider on the left, blend-mode select on the right. Both
+            vertically centered with the eyebrow type via items-center. */}
+        <div className="flex items-center gap-3">
+          <input
+            className="eyebrow-slider"
+            type="range"
+            min={0}
+            max={100}
+            step={1}
+            value={ghostOpacityPct}
+            onChange={(e) => setGhostOpacityPct(Number(e.target.value))}
+            aria-label="wordmark ghost opacity"
+          />
           <select
             className="eyebrow-select"
             value={blendMode}
@@ -63,19 +76,7 @@ export function Masthead({ hex }: MastheadProps) {
               </option>
             ))}
           </select>
-          <input
-            className="eyebrow-slider"
-            type="range"
-            min={0}
-            max={100}
-            step={1}
-            value={ghostOpacityPct}
-            onChange={(e) => setGhostOpacityPct(Number(e.target.value))}
-            aria-label="wordmark ghost opacity"
-          />
         </div>
-
-        <span className="bh-eyebrow">2026 · typescript</span>
       </div>
 
       <Wordmark
