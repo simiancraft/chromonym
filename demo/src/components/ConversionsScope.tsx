@@ -19,8 +19,20 @@ const ROW_ORDER = ['HEX', 'RGB', 'RGBA', 'HSL', 'HSV'] as const;
 export function ConversionsScope({ conversions, tintHex, input, setInput }: ConversionsScopeProps) {
   return (
     <div style={{ backgroundColor: 'var(--bh-paper)' }}>
+      <div
+        className="p-4 md:p-5"
+        style={{ borderBottom: '1px solid var(--bh-ink)' }}
+      >
+        <div className="bh-eyebrow mb-2">every format</div>
+        <p className="text-xs leading-snug opacity-80 max-w-2xl">
+          Hex, RGB, RGBA, HSL, HSV through one{' '}
+          <code className="font-mono text-[11px]">convert</code> call;
+          completes the color toolbelt next to identify and resolve.
+        </p>
+      </div>
+
       {/* Tiny inline picker so the reader can drive convert's `input`
-          from here too — this is the only demo that doesn't have its
+          from here too; this is the only demo that doesn't have its
           own dedicated input surface above the code. */}
       <div
         className="flex items-center gap-4 flex-wrap p-4 md:p-5"
@@ -46,15 +58,6 @@ export function ConversionsScope({ conversions, tintHex, input, setInput }: Conv
           aria-hidden
         />
         <code className="font-mono text-xs">{input}</code>
-        <p className="font-mono text-[10px] leading-snug opacity-70 ml-auto max-w-md">
-          Every basic format is exposed — <span className="uppercase tracking-wider">hex</span>,
-          {' '}<span className="uppercase tracking-wider">rgb</span>,
-          {' '}<span className="uppercase tracking-wider">rgba</span>,
-          {' '}<span className="uppercase tracking-wider">hsl</span>,
-          {' '}<span className="uppercase tracking-wider">hsv</span> — through one
-          {' '}<code className="font-mono">convert</code> call. Completes the
-          color toolbelt next to identify and resolve.
-        </p>
       </div>
 
       <LiveSnippet

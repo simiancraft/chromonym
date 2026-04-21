@@ -102,11 +102,14 @@ export function CrossPaletteTranslator() {
       className="p-5 md:p-6 space-y-4"
       style={{ backgroundColor: 'var(--bh-paper)' }}
     >
-      <p className="text-sm max-w-2xl leading-snug">
-        Click any swatch on either side — the top-{k} nearest matches highlight on the other.
-        Switch metrics to see which ΔE formulation picks different neighbours (ΔE76 and ΔE2000
-        can disagree hard in saturated blue/purple regions).
-      </p>
+      <div>
+        <div className="bh-eyebrow mb-2">click any swatch on either side</div>
+        <p className="text-xs leading-snug opacity-80 max-w-2xl">
+          The top-{k} nearest matches highlight on the other. Switch metrics
+          to see where ΔE76 and ΔE2000 disagree; usually in saturated blue
+          and purple.
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-6 items-stretch">
         <PaletteGrid

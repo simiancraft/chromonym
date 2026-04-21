@@ -38,12 +38,15 @@ export function FuzzyResolver({ setInput }: FuzzyResolverProps) {
       className="p-5 md:p-6 space-y-5"
       style={{ backgroundColor: 'var(--bh-paper)' }}
     >
-      <p className="text-sm max-w-2xl leading-snug">
-        Type a name — even a typo. <code className="font-mono text-xs">resolve</code>{' '}
-        with <code className="font-mono text-xs">k</code> flips to Levenshtein
-        fuzzy matching against the palette's normalized keys. Higher k → more
-        candidates ranked by edit distance. Perfect for "did you mean" inputs.
-      </p>
+      <div>
+        <div className="bh-eyebrow mb-2">did you mean?</div>
+        <p className="text-xs leading-snug opacity-80 max-w-2xl">
+          Type a name, even a typo;{' '}
+          <code className="font-mono text-[11px]">resolve</code> with{' '}
+          <code className="font-mono text-[11px]">k</code> ranks matches by
+          Levenshtein edit distance against the palette's normalized keys.
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-[1fr_200px_220px] gap-4 items-end">
         <label className="block">
