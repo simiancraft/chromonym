@@ -1,0 +1,183 @@
+import { beforeEach, describe, expect, it, mock, spyOn } from 'bun:test';
+import { defineColorPalette } from '../src/defineColorPalette.js';
+import { identify } from '../src/identify.js';
+import { resolve } from '../src/resolve.js';
+
+describe('defineColorPalette', () => {
+  let warnMock: ReturnType<typeof mock>;
+  beforeEach(() => {
+    warnMock = mock(() => {});
+    spyOn(console, 'warn').mockImplementation(warnMock);
+  });
+
+  describe('value normalization', () => {
+    it('preserves hex values as-is', () => {
+      const p = defineColorPalette({
+        name: 't',
+        colors: { Red: '#ff0000', Blue: '#0000ff' },
+        normalize: (s) => s.toLowerCase(),
+        defaultMetric: 'deltaE76',
+      });
+      expect(p.colors.Red).toBe('#ff0000');
+      expect(p.colors.Blue).toBe('#0000ff');
+    });
+
+    it('normalizes rgb string values to hex', () => {
+      const p = defineColorPalette({
+        name: 't',
+        colors: { Red: 'rgb(255, 0, 0)' },
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      expect(p.colors.Red).toBe('#ff0000');
+    });
+
+    it('normalizes hsl string values to hex', () => {
+      const p = defineColorPalette({
+        name: 't',
+        colors: { Red: 'hsl(0, 100%, 50%)' },
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      expect(p.colors.Red).toBe('#ff0000');
+    });
+
+    it('normalizes rgb tuple values to hex', () => {
+      const p = defineColorPalette({
+        name: 't',
+        colors: { Red: [255, 0, 0] as const },
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      expect(p.colors.Red).toBe('#ff0000');
+    });
+
+    it('normalizes rgb object values to hex', () => {
+      const p = defineColorPalette({
+        name: 't',
+        colors: { Red: { r: 255, g: 0, b: 0 } },
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      expect(p.colors.Red).toBe('#ff0000');
+    });
+
+    it('normalizes hsv object values to hex', () => {
+      const p = defineColorPalette({
+        name: 't',
+        colors: { Red: { h: 0, s: 100, v: 100 } },
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      expect(p.colors.Red).toBe('#ff0000');
+    });
+
+    it('accepts a mixed-format jagged palette and smooths every entry to hex', () => {
+      const p = defineColorPalette({
+        name: 'brand',
+        colors: {
+          'Acme Red': '#ff0044',
+          'Acme Blue': 'rgb(0, 68, 255)',
+          'Acme Ink': { r: 20, g: 20, b: 30 },
+          'Acme Mist': [240, 244, 248] as const,
+        },
+        normalize: (s) => s.toLowerCase(),
+        defaultMetric: 'deltaE2000',
+      });
+      expect(p.colors['Acme Red']).toBe('#ff0044');
+      expect(p.colors['Acme Blue']).toBe('#0044ff');
+      expect(p.colors['Acme Ink']).toBe('#14141e');
+      expect(p.colors['Acme Mist']).toBe('#f0f4f8');
+    });
+  });
+
+  describe('bad-value handling', () => {
+    it('discards a key with an unparseable string value and logs a warning', () => {
+      const p = defineColorPalette({
+        name: 'partial',
+        colors: {
+          good: '#00ff00',
+          bad: 'taco' as never,
+        },
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      expect('good' in p.colors).toBe(true);
+      expect('bad' in p.colors).toBe(false);
+      expect(warnMock).toHaveBeenCalledTimes(1);
+      const msg = warnMock.mock.calls[0]?.[0];
+      expect(msg).toContain('defineColorPalette');
+      expect(msg).toContain('partial');
+      expect(msg).toContain('"bad"');
+      expect(msg).toContain('taco');
+    });
+
+    it('survives a garbage object value (drops just that key)', () => {
+      const p = defineColorPalette({
+        name: 'partial',
+        colors: {
+          good: '#ff00ff',
+          weird: { not: 'a color' } as never,
+        },
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      expect(p.colors.good).toBe('#ff00ff');
+      expect('weird' in p.colors).toBe(false);
+      expect(warnMock).toHaveBeenCalledTimes(1);
+    });
+
+    it('drops every bad key but reports each via its own warn call', () => {
+      const p = defineColorPalette({
+        name: 'mostly-bad',
+        colors: {
+          ok: '#123456',
+          badA: 'foo' as never,
+          badB: 'bar' as never,
+          badC: null as never,
+        },
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      expect(Object.keys(p.colors)).toEqual(['ok']);
+      expect(warnMock).toHaveBeenCalledTimes(3);
+    });
+
+    it('returns an empty palette (but does not throw) when every value is bad', () => {
+      const p = defineColorPalette({
+        name: 'all-bad',
+        colors: { a: 'nope' as never, b: 'also nope' as never },
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      expect(Object.keys(p.colors)).toEqual([]);
+    });
+  });
+
+  describe('downstream integration', () => {
+    it('returned palette works with identify, including narrow key return type', () => {
+      const brand = defineColorPalette({
+        name: 'brand',
+        colors: {
+          'Acme Red': '#ff0044',
+          'Acme Blue': '#0044ff',
+        },
+        normalize: (s) => s.toLowerCase(),
+        defaultMetric: 'deltaE2000',
+      });
+      const name = identify('#ff0000', { palette: brand });
+      // Runtime assertion; the type-level inference is exercised by tsc.
+      expect(name).toBe('Acme Red');
+    });
+
+    it('returned palette works with resolve', () => {
+      const brand = defineColorPalette({
+        name: 'brand',
+        colors: { 'Acme Red': 'rgb(255, 0, 68)' },
+        normalize: (s) => s.toLowerCase().replace(/\s+/g, ''),
+        defaultMetric: 'deltaE2000',
+      });
+      expect(resolve('Acme Red', { palette: brand })).toBe('#ff0044');
+    });
+  });
+});

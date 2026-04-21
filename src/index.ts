@@ -14,6 +14,10 @@ export {
   fromRgba,
   toRgba,
 } from './convert.js';
+export {
+  type DefineColorPaletteInput,
+  defineColorPalette,
+} from './defineColorPalette.js';
 export { type DetectedFormat, detectFormat, isColor } from './detectFormat.js';
 export {
   type IdentifyMatch,

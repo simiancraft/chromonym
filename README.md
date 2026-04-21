@@ -275,22 +275,24 @@ type Palette<Name extends string = string> = {
 
 The primary shape. Any object matching `Palette<Name>` works — no registry, no plugin, no side effects. Bundlers only include the palettes you actually import.
 
-```ts
-import { identify, resolve, type Palette } from 'chromonym';
+The recommended pattern is `defineColorPalette`: it accepts mixed color-value formats (paste whatever came out of your design tool), normalizes everything to hex once at module load, and preserves the literal-key union for full narrowing through `identify` / `resolve` / `convert`.
 
-const warhammer = {
+```ts
+import { defineColorPalette, identify, resolve } from 'chromonym';
+
+const warhammer = defineColorPalette({
   name: 'warhammer40k',
   colors: {
-    'world eaters red': '#8b1a1a',
-    'adeptus red': '#652022',
-    'sons of malice white': '#e8e4d8',
-    'the flawless host purple': '#6b2d7d',
-    'nurgle green': '#748c3f',
+    'world eaters red': '#8b1a1a',                  // hex
+    'adeptus red': 'rgb(101, 32, 34)',              // rgb string
+    'sons of malice white': { r: 232, g: 228, b: 216 }, // rgb object
+    'the flawless host purple': [107, 45, 125],     // rgb tuple
+    'nurgle green': 'hsl(78, 38%, 39%)',            // hsl string
     'alpha legion teal': '#2a6d7a',
   },
-  normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
+  normalize: (s) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
   defaultMetric: 'deltaE2000',
-} as const satisfies Palette;
+});
 
 identify('#750c0c', { palette: warhammer })
 // → 'world eaters red'  (return type narrows to the palette's key union)
@@ -298,6 +300,10 @@ identify('#750c0c', { palette: warhammer })
 resolve('Nurgle Green', { palette: warhammer })
 // → '#748c3f'           (your normalizer handles case + punctuation)
 ```
+
+Unparseable values are dropped with a `console.warn` naming the palette, the offending key, and the bad value; the rest of the palette loads normally. This keeps a single typo out of your brand kit from taking down the whole module.
+
+If you prefer zero runtime and already have hex-only values, the `as const satisfies Palette<'A' | 'B' | ...>` pattern still works — list the key union once in the generic and it narrows identically.
 
 ### The four we ship
 
