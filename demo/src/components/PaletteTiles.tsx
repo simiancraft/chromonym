@@ -110,10 +110,13 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
     tileRefs.current[nextIdx]?.focus();
   };
 
+  // With 12 palettes, 4 cols × 3 rows (desktop) / 2 cols × 6 rows (mobile)
+  // keeps each tile legible without monster squares. 'row' keeps the original
+  // responsive single-row shape for callers that want a compact strip.
   const gridClass =
     layout === 'row'
       ? 'grid grid-cols-2 sm:grid-cols-4 gap-[3px] p-[3px]'
-      : 'grid grid-cols-2 gap-[3px] p-[3px]';
+      : 'grid grid-cols-2 sm:grid-cols-4 gap-[3px] p-[3px]';
 
   return (
     <div
