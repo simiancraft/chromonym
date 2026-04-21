@@ -263,10 +263,8 @@ export function KandinskyBYO({
           <div className="bh-eyebrow mb-2">bring your own</div>
           <p className="opacity-80">
             Any object matching <code className="font-mono text-[11px]">Palette&lt;Name&gt;</code>{' '}
-            works — no registration, no plugin. The Warhammer set above is a
-            literal defined in the demo source; swap it for your brand colors,
-            a Material token map, or a JSON you paste at runtime and every
-            verb on the page (identify, resolve, convert) accepts it unchanged.
+            works. Identify, resolve, convert accept it without registration
+            or plugin, at runtime.
           </p>
         </div>
       </div>
@@ -286,7 +284,10 @@ export function KandinskyBYO({
 }
 
 // The BYO snippet is self-contained: it includes the inline `warhammer`
-// palette literal so pasting it into a file yields runnable code.
+// palette literal so pasting it into a file yields runnable code. The
+// displayed version carries the teaching comments that used to be
+// right-column prose — each non-trivial line is annotated so a reader
+// learns the Palette shape by reading the code, not body copy.
 function buildDisplaySnippet(
   matchedName: string | null,
   matchedHex: string | null,
@@ -297,15 +298,20 @@ function buildDisplaySnippet(
   const lines: string[] = [
     `import { resolve, type Palette } from 'chromonym';`,
     ``,
+    `// Any object matching Palette<Name> is a BYO palette — no registration,`,
+    `// no plugin. identify / resolve / convert all accept this shape at runtime.`,
     `const warhammer = {`,
     `  name: 'warhammer40k',`,
     `  colors: {`,
     ...Object.entries(colors).map(([n, h]) => `    '${n}': '${h}',`),
     `  },`,
+    `  // normalize maps user input ("World Eaters Red!") to the canonical key.`,
     `  normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),`,
+    `  // defaultMetric: used by identify() when the caller doesn't override.`,
     `  defaultMetric: 'deltaE2000',`,
     `} as const satisfies Palette;`,
     ``,
+    `// Strict name → hex lookup via the palette's own normalize function.`,
     `resolve(${matchedName ? `'${matchedName}'` : '/* …pending match… */'}, {`,
     `  palette: warhammer,`,
     `})`,
