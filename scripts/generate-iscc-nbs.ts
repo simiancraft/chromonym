@@ -25,8 +25,7 @@ import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { rgbaToHex } from '../src/conversions/hex.js';
 
-const SOURCE =
-  'https://www.munsellcolorscienceforpainters.com/ISCCNBS/ISCCNBSSystem.html';
+const SOURCE = 'https://www.munsellcolorscienceforpainters.com/ISCCNBS/ISCCNBSSystem.html';
 const TARGET = resolve(import.meta.dirname, '../src/palettes/isccNbs.ts');
 
 const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -146,8 +145,6 @@ export const isccNbs = {
 writeFileSync(TARGET, output, 'utf8');
 console.log(`Wrote ${sorted.length} ISCC-NBS colors to ${TARGET}`);
 if (nanNames.length > 0) {
-  console.log(
-    `Skipped ${nanNames.length} out-of-sRGB-gamut entries (no valid centroid):`,
-  );
+  console.log(`Skipped ${nanNames.length} out-of-sRGB-gamut entries (no valid centroid):`);
   for (const n of nanNames) console.log(`  - ${n}`);
 }

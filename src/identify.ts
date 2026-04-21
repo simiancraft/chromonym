@@ -3,14 +3,7 @@ import { toRgba } from './convert.js';
 import { detectFormat } from './detectFormat.js';
 import { getNameIndex, nearest, nearestAll } from './indexing.js';
 import { web } from './palettes/web.js';
-import type {
-  ColorInput,
-  DistanceMetric,
-  HexColor,
-  Palette,
-  PaletteKey,
-  Rgba,
-} from './types.js';
+import type { ColorInput, DistanceMetric, HexColor, Palette, PaletteKey, Rgba } from './types.js';
 
 /**
  * One ranked nearest-match entry when `identify` is called with `k`.
@@ -67,14 +60,13 @@ export type IdentifyOptions<P extends Palette = typeof web> = {
  * //   { name: 'Red 032 C',value: '#ef3340', distance: 5.4 },
  * // ]
  */
-export type IdentifyRankedOptions<P extends Palette = typeof web> =
-  IdentifyOptions<P> & {
-    /**
-     * Number of ranked matches to return. When present, `identify`
-     * returns `IdentifyMatch[]` instead of a single key.
-     */
-    readonly k: number;
-  };
+export type IdentifyRankedOptions<P extends Palette = typeof web> = IdentifyOptions<P> & {
+  /**
+   * Number of ranked matches to return. When present, `identify`
+   * returns `IdentifyMatch[]` instead of a single key.
+   */
+  readonly k: number;
+};
 
 /**
  * Parse a string input that may be a color literal or a palette name.

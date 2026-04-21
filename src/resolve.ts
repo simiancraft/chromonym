@@ -3,13 +3,7 @@ import { fromRgba } from './convert.js';
 import { getNameIndex } from './indexing.js';
 import { levenshtein } from './math/editDistance.js';
 import { web } from './palettes/web.js';
-import type {
-  ColorFormat,
-  ColorValue,
-  HexColor,
-  Palette,
-  PaletteKey,
-} from './types.js';
+import type { ColorFormat, ColorValue, HexColor, Palette, PaletteKey } from './types.js';
 
 // No built-in palette key exceeds ~30 chars post-normalize; anything well past
 // that can't plausibly win a fuzzy match and risks pathological O(n·m) cost

@@ -18,13 +18,7 @@
 
 import { rgbaToHex } from './conversions/hex.js';
 import { toRgba } from './convert.js';
-import type {
-  ColorInput,
-  DistanceMetric,
-  HexColor,
-  NormalizeFn,
-  Palette,
-} from './types.js';
+import type { ColorInput, DistanceMetric, HexColor, NormalizeFn, Palette } from './types.js';
 
 /**
  * The authoring shape accepted by {@link defineColorPalette}: same as
@@ -96,9 +90,9 @@ export function defineColorPalette<const P extends DefineColorPaletteInput>(
     try {
       normalized[key] = rgbaToHex(toRgba(value));
     } catch {
-      // biome-ignore lint/suspicious/noConsole: library-level diagnostic on
-      // user misconfiguration; intentional so authors see the dropped key
-      // without blowing up the whole module load.
+      // Library-level diagnostic on user misconfiguration; intentional
+      // so authors see the dropped key without blowing up the whole
+      // module load.
       console.warn(
         `[chromonym] defineColorPalette(${JSON.stringify(p.name)}): ` +
           `skipping key ${JSON.stringify(key)}; expected a color, got ${describe(value)}`,
@@ -107,9 +101,7 @@ export function defineColorPalette<const P extends DefineColorPaletteInput>(
   }
   return {
     name: p.name,
-    colors: normalized as Readonly<
-      Record<Extract<keyof P['colors'], string>, HexColor>
-    >,
+    colors: normalized as Readonly<Record<Extract<keyof P['colors'], string>, HexColor>>,
     normalize: p.normalize,
     defaultMetric: p.defaultMetric,
   };

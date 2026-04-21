@@ -38,7 +38,10 @@ for (const rawLine of text.split('\n')) {
   const line = rawLine.trim();
   // Skip the license-header comment and any blank lines.
   if (!line || line.startsWith('#') || line.startsWith('!')) continue;
-  const parts = line.split('\t').map((p) => p.trim()).filter(Boolean);
+  const parts = line
+    .split('\t')
+    .map((p) => p.trim())
+    .filter(Boolean);
   if (parts.length < 2) continue;
   const [name, hexRaw] = parts;
   if (!name || !hexRaw) continue;
