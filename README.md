@@ -305,6 +305,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `crayola` | 84 | Crayola crayon colors — community approximations (not Crayola-licensed) |
 | `ntc` | 1566 | Chirag Mehta's "Name That Color" dataset (broad coverage of design / UI / hardware names) |
 | `xkcd` | 923 | XKCD 2010 color-survey results (CC0; crowd-sourced common-speech names) |
+| `fs595c` | 589 | Federal Standard 595C paint chips (US Government spec; military / aviation coatings) |
 
 Importable directly, or via subpath exports for stricter tree-shaking:
 

@@ -37,9 +37,13 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // Survey data has an irreverent character; the tone stays inside
   // the muted Bauhaus palette rather than going neon.
   xkcd: { tone: '#5c2a6b', ink: 'var(--bh-cream)' },
+  // FS 595C: olive-drab, the signature color of US military coatings
+  // and a real FS595C chip ('FS 34087' is close). Wears the ink label
+  // (cream would float too bright on the muted military tone).
+  fs595c: { tone: '#4a5a3a', ink: 'var(--bh-cream)' },
 };
 
-const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola', 'ntc', 'xkcd'];
+const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola', 'ntc', 'xkcd', 'fs595c'];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).
 const INDICATOR = 12;

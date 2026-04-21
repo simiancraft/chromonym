@@ -93,6 +93,30 @@ the public domain.
 The `web` palette mirrors the CSS Color Module Level 4 named-color
 set, which is a public specification.
 
+## Federal Standard 595C (FS595C)
+
+The `fs595c` palette (589 entries) is derived from the
+Raku module **`Color::Names::FS595C`** in the
+[`thundergnat/Color-Names`](https://github.com/thundergnat/Color-Names)
+repository, which digitizes the US Federal Government's
+**Federal Standard 595C** paint-color specification (used for
+military, aviation, and government-equipment coatings). The
+Federal Standard itself is a US-government-published
+specification and is not subject to copyright restrictions
+when faithfully reproduced.
+
+- Canonical keys are the 5-digit FS codes prefixed with `FS `
+  (e.g. `FS 11136`). Common names attached to many chips in the
+  source (e.g. "Insignia Red") are not used as keys because the
+  spec reuses them across multiple chips with different hex
+  values (18 different "Green"s, 11 "Tan"s, etc.).
+- sRGB hex values are taken verbatim from the upstream module's
+  RGB byte triplets; the published standard specifies color
+  chips under controlled lighting, and all digital sRGB
+  approximations including this one are necessarily simplified.
+- Chromonym is **not affiliated with** any US Government agency
+  or defense contractor; no endorsement is implied.
+
 ## XKCD color survey
 
 The `xkcd` palette (923 entries after normalization-collision
