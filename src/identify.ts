@@ -64,6 +64,15 @@ function parseInput(input: ColorInput | string, source?: Palette): Rgba | null {
  * Returns `null` (or `[]` when `k` is set) if the input can't be parsed.
  */
 
+// Input accepts `ColorInput | string`. The `string` widening is load-bearing
+// for two flows: (1) cross-palette name lookup (`identify(name, { source })`),
+// and (2) interactive callers passing untrusted user text; the library
+// returns `null` on unparseable input rather than throwing, so consumers can
+// feed it directly from a text field. Tightening to `ColorInput`-only would
+// break both patterns and force every interactive consumer to cast or
+// validate at every call site. Runtime safety is maintained by `parseInput`
+// returning `null` for anything it can't interpret.
+
 // Overload 1: no `k` — single name (or null). Unchanged legacy shape.
 export function identify<P extends Palette = typeof web>(
   input: ColorInput | string,
