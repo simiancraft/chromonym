@@ -40,17 +40,18 @@ if (!response.ok) {
 const text = await response.text();
 
 // Per-line regex: '10032-FS595C' => { rgb => [0x37, 0x27, 0x26], name => ｢10032｣, code => ｢｣ },
+// The `code => ｢...｣` field holds the common name (often empty).
 const ENTRY_RE =
-  /'(\d+)-FS595C'\s*=>\s*\{\s*rgb\s*=>\s*\[0x([0-9A-Fa-f]{1,2}),\s*0x([0-9A-Fa-f]{1,2}),\s*0x([0-9A-Fa-f]{1,2})\]/g;
+  /'(\d+)-FS595C'\s*=>\s*\{\s*rgb\s*=>\s*\[0x([0-9A-Fa-f]{1,2}),\s*0x([0-9A-Fa-f]{1,2}),\s*0x([0-9A-Fa-f]{1,2})\][^}]*code\s*=>\s*｢([^｣]*)｣/g;
 
 const toHexByte = (s: string) => s.padStart(2, '0').toLowerCase();
 
-// Key: normalized form (used for dedupe). Value: [displayKey, hex].
-const entries = new Map<string, [string, string]>();
+// Key: normalized form (used for dedupe). Value: [displayKey, hex, commonName].
+const entries = new Map<string, [string, string, string]>();
 let match: RegExpExecArray | null;
 // biome-ignore lint/suspicious/noAssignInExpressions: standard global-regex loop pattern
 while ((match = ENTRY_RE.exec(text)) !== null) {
-  const [, code, r, g, b] = match;
+  const [, code, r, g, b, commonName] = match;
   const displayKey = `FS ${code}`;
   const hex = `#${toHexByte(r)}${toHexByte(g)}${toHexByte(b)}`;
   const key = normalize(displayKey);
@@ -61,7 +62,7 @@ while ((match = ENTRY_RE.exec(text)) !== null) {
     );
     continue;
   }
-  if (existing === undefined) entries.set(key, [displayKey, hex]);
+  if (existing === undefined) entries.set(key, [displayKey, hex, commonName.trim()]);
 }
 
 if (entries.size === 0) {
@@ -81,7 +82,14 @@ const sorted = [...entries.values()].sort(([a], [b]) => {
 const SIMPLE_IDENT = /^[A-Za-z_][A-Za-z0-9_]*$/;
 const formatKey = (k: string) => (SIMPLE_IDENT.test(k) ? k : JSON.stringify(k));
 
-const body = sorted.map(([name, hex]) => `  ${formatKey(name)}: '${hex}',`).join('\n');
+const body = sorted
+  .map(([name, hex, commonName]) => {
+    const base = `  ${formatKey(name)}: '${hex}',`;
+    return commonName ? `${base} // ${commonName}` : base;
+  })
+  .join('\n');
+
+const namedCount = sorted.filter(([, , common]) => common).length;
 
 const output = `import type { Palette } from '../types.js';
 import { standardNormalize } from './normalize.js';
@@ -99,11 +107,14 @@ import { standardNormalize } from './normalize.js';
  * attribution.
  *
  * Keys are the 5-digit FS codes prefixed with 'FS ' (e.g.
- * 'FS 11136'). Common names like "Insignia Red" are NOT used as
- * keys because the spec reuses many of them across different
+ * 'FS 11136'). Common names like "Insignia Red" are captured as
+ * trailing comments on each entry for human readers but are NOT
+ * used as lookup keys: the spec reuses many across different
  * chips (18 different "Green"s, 11 "Tan"s, etc.). Lookups still
  * accept any casing and punctuation via standardNormalize, so
  * 'fs11136', 'FS-11136', and 'FS 11136' all resolve identically.
+ * ${namedCount} of ${sorted.length} entries carry a common name
+ * in the upstream data.
  */
 const fs595cColors = {
 ${body}
@@ -132,4 +143,6 @@ export const fs595c = {
 `;
 
 writeFileSync(TARGET, output, 'utf8');
-console.log(`Wrote ${sorted.length} FS595C colors to ${TARGET}`);
+console.log(
+  `Wrote ${sorted.length} FS595C colors to ${TARGET} (${namedCount} annotated with common names)`,
+);

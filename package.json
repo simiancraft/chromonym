@@ -69,6 +69,11 @@
       "import": "./dist/palettes/crayola.js",
       "default": "./dist/palettes/crayola.js"
     },
+    "./fs595b": {
+      "types": "./dist/palettes/fs595b.d.ts",
+      "import": "./dist/palettes/fs595b.js",
+      "default": "./dist/palettes/fs595b.js"
+    },
     "./fs595c": {
       "types": "./dist/palettes/fs595c.d.ts",
       "import": "./dist/palettes/fs595c.js",

@@ -14,11 +14,14 @@ import { standardNormalize } from './normalize.js';
  * attribution.
  *
  * Keys are the 5-digit FS codes prefixed with 'FS ' (e.g.
- * 'FS 11136'). Common names like "Insignia Red" are NOT used as
- * keys because the spec reuses many of them across different
+ * 'FS 11136'). Common names like "Insignia Red" are captured as
+ * trailing comments on each entry for human readers but are NOT
+ * used as lookup keys: the spec reuses many across different
  * chips (18 different "Green"s, 11 "Tan"s, etc.). Lookups still
  * accept any casing and punctuation via standardNormalize, so
  * 'fs11136', 'FS-11136', and 'FS 11136' all resolve identically.
+ * 191 of 589 entries carry a common name
+ * in the upstream data.
  */
 const fs595cColors = {
   "FS 10032": '#372726',
@@ -41,15 +44,15 @@ const fs595cColors = {
   "FS 11086": '#ad2328',
   "FS 11105": '#ae2825',
   "FS 11120": '#c23b31',
-  "FS 11136": '#a32b25',
+  "FS 11136": '#a32b25', // Insignia Red
   "FS 11140": '#ae2b29',
   "FS 11302": '#cd4f3a',
   "FS 11328": '#be4a52',
   "FS 11400": '#d65030',
-  "FS 11630": '#e7c1bb',
+  "FS 11630": '#e7c1bb', // Pink
   "FS 11670": '#f8d4bb',
   "FS 12160": '#b36647',
-  "FS 12197": '#d24e00',
+  "FS 12197": '#d24e00', // International Orange
   "FS 12199": '#ec4300',
   "FS 12215": '#d76117',
   "FS 12243": '#e37300',
@@ -64,7 +67,7 @@ const fs595cColors = {
   "FS 13522": '#d2c1a4',
   "FS 13523": '#dec809',
   "FS 13531": '#d7c1a8',
-  "FS 13538": '#f9b000',
+  "FS 13538": '#f9b000', // Orange Yellow
   "FS 13578": '#dfcca7',
   "FS 13591": '#f7d100',
   "FS 13594": '#f2cd88',
@@ -72,28 +75,28 @@ const fs595cColors = {
   "FS 13613": '#f1d2aa',
   "FS 13618": '#f6d26d',
   "FS 13637": '#e2b41e',
-  "FS 13655": '#ffc700',
-  "FS 13670": '#ffdd68',
+  "FS 13655": '#ffc700', // Blue Angels Yellow
+  "FS 13670": '#ffdd68', // Lime Yellow
   "FS 13690": '#ecdab7',
   "FS 13695": '#f6d488',
   "FS 13711": '#efd7b1',
   "FS 14036": '#263d37',
   "FS 14050": '#42463c',
-  "FS 14052": '#434438',
+  "FS 14052": '#434438', // Green
   "FS 14056": '#84330c',
-  "FS 14062": '#1f563b',
+  "FS 14062": '#1f563b', // Dark Green
   "FS 14064": '#4c4b3c',
   "FS 14066": '#005b40',
   "FS 14077": '#464e44',
   "FS 14079": '#515240',
   "FS 14084": '#3c3728',
-  "FS 14087": '#3c3727',
+  "FS 14087": '#3c3727', // Olive Drab
   "FS 14090": '#007145',
   "FS 14097": '#60684a',
   "FS 14108": '#2a563f',
   "FS 14109": '#005f45',
   "FS 14110": '#276f3a',
-  "FS 14115": '#007a59',
+  "FS 14115": '#007a59', // Green
   "FS 14120": '#007e60',
   "FS 14158": '#6b7976',
   "FS 14159": '#747b6e',
@@ -111,18 +114,18 @@ const fs595cColors = {
   "FS 14516": '#b8c8b7',
   "FS 14533": '#b2bf98',
   "FS 14672": '#d5dbc0',
-  "FS 15042": '#2d373d',
-  "FS 15044": '#263042',
+  "FS 15042": '#2d373d', // Sea Blue
+  "FS 15044": '#263042', // Insignia Blue
   "FS 15045": '#213b4a',
-  "FS 15050": '#214061',
+  "FS 15050": '#214061', // "Blue Angels"  Blue
   "FS 15052": '#1f2f60',
   "FS 15053": '#263b56',
-  "FS 15056": '#253273',
+  "FS 15056": '#253273', // Blue
   "FS 15065": '#005686',
   "FS 15080": '#1e5270',
   "FS 15090": '#00537b',
   "FS 15092": '#0075aa',
-  "FS 15102": '#186493',
+  "FS 15102": '#186493', // Dark Blue
   "FS 15107": '#628498',
   "FS 15123": '#3a6ca7',
   "FS 15125": '#006e8e',
@@ -131,10 +134,10 @@ const fs595cColors = {
   "FS 15182": '#0080b0',
   "FS 15187": '#009cc8',
   "FS 15193": '#588c95',
-  "FS 15200": '#54b7d4',
-  "FS 15450": '#97bcd5',
+  "FS 15200": '#54b7d4', // Sky Blue
+  "FS 15450": '#97bcd5', // Air Superiority Blue
   "FS 15526": '#b4c5cc',
-  "FS 16081": '#555856',
+  "FS 16081": '#555856', // Engine Gray
   "FS 16099": '#565e62',
   "FS 16152": '#5c6369',
   "FS 16160": '#8a7752',
@@ -149,55 +152,55 @@ const fs595cColors = {
   "FS 16360": '#b6af9b',
   "FS 16376": '#a9a99e',
   "FS 16405": '#c8bea8',
-  "FS 16440": '#bcbab2',
-  "FS 16473": '#aab2b0',
+  "FS 16440": '#bcbab2', // Light Gull Gray
+  "FS 16473": '#aab2b0', // Aircraft Gray
   "FS 16492": '#c5c3bc',
-  "FS 16515": '#c7c9c7',
+  "FS 16515": '#c7c9c7', // Canadian Voodoo Gray
   "FS 16555": '#d2c6a9',
-  "FS 17038": '#2c2926',
-  "FS 17043": '#978449',
-  "FS 17100": '#744e7a',
+  "FS 17038": '#2c2926', // Black
+  "FS 17043": '#978449', // Gold
+  "FS 17100": '#744e7a', // Purple
   "FS 17142": '#a15987',
   "FS 17155": '#9e6294',
-  "FS 17178": '#9b9d9f',
+  "FS 17178": '#9b9d9f', // Aluminum / Silver
   "FS 17200": '#919699',
   "FS 17773": '#e6eae1',
   "FS 17778": '#f1e9d2',
   "FS 17855": '#f5e7c5',
-  "FS 17875": '#f1f0ea',
+  "FS 17875": '#f1f0ea', // Insignia White
   "FS 17886": '#f7f1e3',
-  "FS 17925": '#faf7f1',
+  "FS 17925": '#faf7f1', // Insignia White
   "FS 20040": '#504337',
   "FS 20045": '#61504c',
   "FS 20059": '#5d483e',
-  "FS 20061": '#6c4444',
-  "FS 20062": '#564944',
+  "FS 20061": '#6c4444', // Maroon
+  "FS 20062": '#564944', // Brown
   "FS 20095": '#7c6a56',
-  "FS 20100": '#8f5938',
-  "FS 20109": '#8c503f',
+  "FS 20100": '#8f5938', // Brown Yellow
+  "FS 20109": '#8c503f', // Red Brown
   "FS 20117": '#866046',
   "FS 20122": '#76573c',
   "FS 20129": '#876f55',
-  "FS 20140": '#876e5b',
+  "FS 20140": '#876e5b', // Brown Special
   "FS 20152": '#954a3b',
   "FS 20206": '#9f7f79',
   "FS 20219": '#9b7f66',
   "FS 20227": '#a38b78',
   "FS 20233": '#ac7f71',
-  "FS 20252": '#ba816a',
-  "FS 20260": '#d1af6f',
-  "FS 20266": '#af9157',
+  "FS 20252": '#ba816a', // Tan
+  "FS 20260": '#d1af6f', // Tan
+  "FS 20266": '#af9157', // Yellow Sand
   "FS 20313": '#b39b8a',
   "FS 20318": '#b09f85',
   "FS 20372": '#b8a791',
-  "FS 20400": '#d1a779',
-  "FS 20450": '#ccb19a',
-  "FS 21105": '#b90f21',
+  "FS 20400": '#d1a779', // Tan
+  "FS 20450": '#ccb19a', // Night Tan
+  "FS 21105": '#b90f21', // Red
   "FS 21136": '#a3302a',
   "FS 21158": '#c25b64',
   "FS 21302": '#ca4e3f',
-  "FS 21310": '#c32502',
-  "FS 21400": '#d74d2c',
+  "FS 21310": '#c32502', // Red
+  "FS 21400": '#d74d2c', // Red
   "FS 21433": '#d2a08b',
   "FS 21575": '#e8c0aa',
   "FS 21643": '#efd5bb',
@@ -205,13 +208,13 @@ const fs595cColors = {
   "FS 21668": '#f0d3ca',
   "FS 21670": '#f4d2ba',
   "FS 22144": '#af583a',
-  "FS 22190": '#db4612',
+  "FS 22190": '#db4612', // Red
   "FS 22203": '#c3663e',
   "FS 22246": '#e10d28',
   "FS 22276": '#cd7d60',
   "FS 22356": '#de8970',
   "FS 22510": '#ff7b00',
-  "FS 22516": '#e1a279',
+  "FS 22516": '#e1a279', // Tan
   "FS 22519": '#dfba9e',
   "FS 22544": '#f9a24d',
   "FS 22563": '#e0c2a2',
@@ -222,26 +225,26 @@ const fs595cColors = {
   "FS 23531": '#d7c3a9',
   "FS 23538": '#feb500',
   "FS 23564": '#e1cfa4',
-  "FS 23578": '#ddcdaa',
-  "FS 23594": '#f2cd8c',
+  "FS 23578": '#ddcdaa', // Cream
+  "FS 23594": '#f2cd8c', // Beige
   "FS 23613": '#efd0a7',
   "FS 23617": '#e9d0a6',
   "FS 23619": '#e9d0a6',
-  "FS 23655": '#ffcc00',
+  "FS 23655": '#ffcc00', // Yellow
   "FS 23685": '#ece3aa',
   "FS 23690": '#ead8b6',
   "FS 23695": '#f8d58b',
-  "FS 23697": '#f5d78e',
+  "FS 23697": '#f5d78e', // Yellow Sand
   "FS 23711": '#f4dbb4',
   "FS 23717": '#efddba',
-  "FS 23722": '#eedbaf',
+  "FS 23722": '#eedbaf', // Sand
   "FS 23727": '#f2e1ae',
   "FS 23785": '#f4d64f',
   "FS 23793": '#f8e994',
   "FS 23814": '#e8e7a4',
-  "FS 24052": '#494a3f',
+  "FS 24052": '#494a3f', // Green
   "FS 24064": '#504d40',
-  "FS 24079": '#575849',
+  "FS 24079": '#575849', // Forest Green
   "FS 24084": '#464132',
   "FS 24087": '#454031',
   "FS 24091": '#645e5a',
@@ -258,12 +261,12 @@ const fs595cColors = {
   "FS 24233": '#839693',
   "FS 24241": '#89a499',
   "FS 24260": '#6d9f83',
-  "FS 24272": '#759c7e',
+  "FS 24272": '#759c7e', // Green
   "FS 24277": '#8b9d95',
   "FS 24300": '#8ca494',
   "FS 24325": '#82ab9a',
   "FS 24373": '#a1b095',
-  "FS 24410": '#a7b8a8',
+  "FS 24410": '#a7b8a8', // Green
   "FS 24417": '#b1b9a4',
   "FS 24424": '#b3b69e',
   "FS 24432": '#b2b8a6',
@@ -301,29 +304,29 @@ const fs595cColors = {
   "FS 25237": '#849095',
   "FS 25240": '#7f99bb',
   "FS 25299": '#7aa7a1',
-  "FS 25352": '#92a7a1',
+  "FS 25352": '#92a7a1', // Blue
   "FS 25414": '#98b2b0',
   "FS 25466": '#83c2e5',
   "FS 25488": '#a2bfd9',
   "FS 25526": '#b7c6cd',
-  "FS 25550": '#d1dfe6',
+  "FS 25550": '#d1dfe6', // Light Blue
   "FS 25622": '#d4dad2',
   "FS 25630": '#dddcd6',
-  "FS 26008": '#54575b',
-  "FS 26044": '#3e444b',
-  "FS 26081": '#585b5b',
+  "FS 26008": '#54575b', // Dark Gray
+  "FS 26044": '#3e444b', // Gray
+  "FS 26081": '#585b5b', // Seaplane Gray
   "FS 26120": '#60534a',
   "FS 26122": '#6d6a69',
   "FS 26132": '#6f7172',
   "FS 26134": '#74746f',
-  "FS 26152": '#727779',
+  "FS 26152": '#727779', // Gray
   "FS 26173": '#7f848b',
   "FS 26176": '#76808a',
   "FS 26187": '#7b8284',
   "FS 26231": '#898d8f',
   "FS 26250": '#8c9290',
   "FS 26251": '#929392',
-  "FS 26270": '#919597',
+  "FS 26270": '#919597', // Medium Gray
   "FS 26280": '#969896',
   "FS 26293": '#999b9c',
   "FS 26306": '#a49a8f',
@@ -337,7 +340,7 @@ const fs595cColors = {
   "FS 26405": '#c3baa5',
   "FS 26408": '#c3c1b4',
   "FS 26424": '#c7bdb2',
-  "FS 26440": '#b9b7b1',
+  "FS 26440": '#b9b7b1', // Light Gull Gray
   "FS 26492": '#c5c4be',
   "FS 26493": '#c1c2c1',
   "FS 26496": '#bbbbaf',
@@ -347,7 +350,7 @@ const fs595cColors = {
   "FS 26586": '#d5ccb2',
   "FS 26595": '#cbcabd',
   "FS 26622": '#d0ccc2',
-  "FS 27038": '#2b2d30',
+  "FS 27038": '#2b2d30', // Black
   "FS 27040": '#313235',
   "FS 27043": '#9f8b51',
   "FS 27142": '#a25b85',
@@ -355,52 +358,52 @@ const fs595cColors = {
   "FS 27722": '#e7e1d3',
   "FS 27769": '#00dcc4',
   "FS 27778": '#f0e9d3',
-  "FS 27780": '#f3ecdd',
+  "FS 27780": '#f3ecdd', // White
   "FS 27855": '#f2e6c4',
-  "FS 27875": '#f3f2ec',
+  "FS 27875": '#f3f2ec', // Insignia White
   "FS 27880": '#fbf5e8',
   "FS 27886": '#faf3e4',
   "FS 27925": '#faf7f2',
   "FS 30040": '#5f554d',
-  "FS 30045": '#655551',
-  "FS 30051": '#4f4239',
+  "FS 30045": '#655551', // Brown
+  "FS 30051": '#4f4239', // Leather Brown
   "FS 30076": '#620000',
-  "FS 30097": '#6a5c4f',
-  "FS 30099": '#746252',
-  "FS 30108": '#6c5447',
+  "FS 30097": '#6a5c4f', // Brown
+  "FS 30099": '#746252', // Brown
+  "FS 30108": '#6c5447', // Red Brown
   "FS 30109": '#905a4c',
-  "FS 30111": '#7d5b52',
-  "FS 30117": '#896750',
-  "FS 30118": '#7b694e',
+  "FS 30111": '#7d5b52', // Brown
+  "FS 30117": '#896750', // Earth Red
+  "FS 30118": '#7b694e', // Field Drab
   "FS 30129": '#876f55',
-  "FS 30140": '#886b58',
+  "FS 30140": '#886b58', // Brown Special
   "FS 30145": '#8b7258',
   "FS 30152": '#843320',
-  "FS 30160": '#87535a',
+  "FS 30160": '#87535a', // Brown
   "FS 30166": '#8f5c51',
   "FS 30206": '#9f7e77',
-  "FS 30215": '#9e7655',
-  "FS 30219": '#a1836c',
-  "FS 30227": '#a38b7a',
+  "FS 30215": '#9e7655', // Brown
+  "FS 30219": '#a1836c', // Tan
+  "FS 30227": '#a38b7a', // Tan
   "FS 30233": '#ab7e70',
   "FS 30252": '#bb8369',
-  "FS 30257": '#c39b69',
-  "FS 30266": '#b0935c',
-  "FS 30277": '#a6977d',
-  "FS 30279": '#b79d8a',
+  "FS 30257": '#c39b69', // Tan
+  "FS 30266": '#b0935c', // Yellow Sand
+  "FS 30277": '#a6977d', // Sand Brown
+  "FS 30279": '#b79d8a', // Sand
   "FS 30313": '#b79c8b',
   "FS 30315": '#b59c8a',
   "FS 30318": '#b2a186',
   "FS 30324": '#b79f8b',
-  "FS 30372": '#b6a690',
-  "FS 30400": '#c29963',
+  "FS 30372": '#b6a690', // Sand
+  "FS 30400": '#c29963', // Yellow Sand
   "FS 30450": '#cfb49d',
-  "FS 31090": '#846349',
-  "FS 31136": '#a84946',
+  "FS 31090": '#846349', // Brown
+  "FS 31136": '#a84946', // Insignia Red
   "FS 31158": '#c2575f',
-  "FS 31302": '#ce4b40',
-  "FS 31350": '#ba1c00',
-  "FS 31400": '#d4583e',
+  "FS 31302": '#ce4b40', // Red
+  "FS 31350": '#ba1c00', // Red
+  "FS 31400": '#d4583e', // Red
   "FS 31433": '#d0a18b',
   "FS 31575": '#e7bea7',
   "FS 31638": '#f2b9b9',
@@ -413,94 +416,94 @@ const fs595cColors = {
   "FS 32246": '#ea723d',
   "FS 32276": '#d28164',
   "FS 32356": '#de8971',
-  "FS 32473": '#e9864e',
+  "FS 32473": '#e9864e', // Orange
   "FS 32516": '#dfa277',
   "FS 32544": '#fca65f',
   "FS 32555": '#fdb666',
   "FS 32630": '#eac8a8',
-  "FS 32648": '#f2cea9',
+  "FS 32648": '#f2cea9', // Sand
   "FS 33070": '#65604d',
-  "FS 33105": '#7f6c52',
-  "FS 33245": '#b38c5e',
+  "FS 33105": '#7f6c52', // Brown
+  "FS 33245": '#b38c5e', // Tan
   "FS 33275": '#a98100',
-  "FS 33303": '#b0a183',
+  "FS 33303": '#b0a183', // Sand
   "FS 33432": '#e59a00',
-  "FS 33434": '#d9a95a',
-  "FS 33440": '#a79065',
-  "FS 33446": '#b19f7b',
-  "FS 33448": '#c3ac84',
+  "FS 33434": '#d9a95a', // Ochre
+  "FS 33440": '#a79065', // Tan
+  "FS 33446": '#b19f7b', // Dessert Tan
+  "FS 33448": '#c3ac84', // Dark Yellow
   "FS 33481": '#d5ba57',
   "FS 33522": '#d3c1a3',
-  "FS 33531": '#d6c1aa',
-  "FS 33538": '#ffb700',
+  "FS 33531": '#d6c1aa', // Middlestone
+  "FS 33538": '#ffb700', // Orange Yellow
   "FS 33564": '#ddcda1',
   "FS 33578": '#dcccaa',
   "FS 33591": '#e8d300',
-  "FS 33613": '#efd0a8',
-  "FS 33617": '#e3d1b9',
+  "FS 33613": '#efd0a8', // Radome Tan
+  "FS 33617": '#e3d1b9', // Sand
   "FS 33637": '#efc259',
   "FS 33655": '#ffca00',
   "FS 33685": '#eae1a9',
-  "FS 33690": '#efdbb6',
-  "FS 33695": '#fdb992',
+  "FS 33690": '#efdbb6', // Sand
+  "FS 33695": '#fdb992', // Yellow Sand
   "FS 33696": '#ffd872',
-  "FS 33711": '#f0d8b0',
-  "FS 33717": '#efdcbb',
+  "FS 33711": '#f0d8b0', // Sand
+  "FS 33717": '#efdcbb', // Sand
   "FS 33722": '#eddab1',
   "FS 33727": '#f2e0af',
   "FS 33793": '#f9ed91',
   "FS 33798": '#fae6a7',
   "FS 33814": '#e9eaa4',
-  "FS 34031": '#575450',
-  "FS 34052": '#55564f',
+  "FS 34031": '#575450', // Dark Green
+  "FS 34052": '#55564f', // USMC Green
   "FS 34056": '#232d24',
-  "FS 34058": '#3d5e5d',
+  "FS 34058": '#3d5e5d', // Sea Blue
   "FS 34062": '#00401e',
-  "FS 34064": '#5e5c56',
-  "FS 34077": '#2e3933',
-  "FS 34079": '#595c4e',
-  "FS 34082": '#60644c',
-  "FS 34083": '#5d5d50',
-  "FS 34084": '#565248',
-  "FS 34086": '#615f56',
-  "FS 34087": '#554f44',
-  "FS 34088": '#554f44',
+  "FS 34064": '#5e5c56', // Dark Green
+  "FS 34077": '#2e3933', // Green
+  "FS 34079": '#595c4e', // Forest Green
+  "FS 34082": '#60644c', // Green
+  "FS 34083": '#5d5d50', // Green
+  "FS 34084": '#565248', // Green
+  "FS 34086": '#615f56', // I. R. Dark Green
+  "FS 34087": '#554f44', // Olive Drab
+  "FS 34088": '#554f44', // Olive Drab
   "FS 34089": '#6f6f4a',
   "FS 34090": '#238259',
-  "FS 34092": '#53645a',
-  "FS 34094": '#3e4b39',
-  "FS 34095": '#595f43',
-  "FS 34096": '#616352',
-  "FS 34097": '#636a51',
-  "FS 34098": '#6f6c4c',
-  "FS 34102": '#636750',
-  "FS 34108": '#476e56',
+  "FS 34092": '#53645a', // Dark Green
+  "FS 34094": '#3e4b39', // Green
+  "FS 34095": '#595f43', // Field Green
+  "FS 34096": '#616352', // Dark Green
+  "FS 34097": '#636a51', // Field Green
+  "FS 34098": '#6f6c4c', // Green
+  "FS 34102": '#636750', // Light Green
+  "FS 34108": '#476e56', // Medium Green
   "FS 34115": '#005d39',
-  "FS 34127": '#6f6d4b',
-  "FS 34128": '#65735e',
+  "FS 34127": '#6f6d4b', // Green
+  "FS 34128": '#65735e', // Deep Green
   "FS 34130": '#696748',
-  "FS 34138": '#5e8450',
+  "FS 34138": '#5e8450', // Green
   "FS 34148": '#657a77',
-  "FS 34151": '#717048',
+  "FS 34151": '#717048', // Interior Green
   "FS 34158": '#6c7977',
-  "FS 34159": '#737a6c',
+  "FS 34159": '#737a6c', // Green
   "FS 34172": '#556f56',
-  "FS 34201": '#8c846a',
+  "FS 34201": '#8c846a', // Tan Green
   "FS 34226": '#848e7d',
-  "FS 34227": '#7f9170',
-  "FS 34230": '#599d5a',
+  "FS 34227": '#7f9170', // Medium Gray Green
+  "FS 34230": '#599d5a', // Green
   "FS 34233": '#829795',
   "FS 34241": '#81a698',
-  "FS 34258": '#909468',
-  "FS 34259": '#8e8342',
+  "FS 34258": '#909468', // Green
+  "FS 34259": '#8e8342', // Yellow Green
   "FS 34272": '#779d80',
   "FS 34277": '#889d95',
   "FS 34300": '#8ba395',
   "FS 34325": '#80a998',
   "FS 34373": '#a0b4a5',
   "FS 34410": '#a2b4a5',
-  "FS 34414": '#b8c4ad',
-  "FS 34424": '#b3b69f',
+  "FS 34414": '#b8c4ad', // Green
+  "FS 34424": '#b3b69f', // Light Gray Green
   "FS 34432": '#b1b7a4',
   "FS 34441": '#afbb9f',
   "FS 34449": '#a7bd9b',
@@ -511,91 +514,91 @@ const fs595cColors = {
   "FS 34524": '#bbc69c',
   "FS 34533": '#b5c49e',
   "FS 34540": '#a1d28b',
-  "FS 34552": '#d4cf90',
-  "FS 34554": '#d2d5b9',
+  "FS 34552": '#d4cf90', // Light Green
+  "FS 34554": '#d2d5b9', // Sky
   "FS 34558": '#c0d0b0',
   "FS 34583": '#c2c3a4',
-  "FS 34666": '#dbe7ab',
+  "FS 34666": '#dbe7ab', // Green
   "FS 34670": '#d0dac9',
   "FS 34672": '#d5dbbf',
-  "FS 35042": '#454a4e',
-  "FS 35044": '#444854',
-  "FS 35045": '#41505d',
+  "FS 35042": '#454a4e', // Sea Blue
+  "FS 35044": '#444854', // Insignia Blue
+  "FS 35045": '#41505d', // Dark Blue
   "FS 35050": '#18324d',
-  "FS 35052": '#00285c',
+  "FS 35052": '#00285c', // Blue
   "FS 35053": '#263b56',
   "FS 35056": '#334685',
-  "FS 35109": '#457285',
+  "FS 35109": '#457285', // Dark Blue
   "FS 35115": '#035c3c',
-  "FS 35164": '#6f7c8a',
-  "FS 35177": '#65829a',
+  "FS 35164": '#6f7c8a', // Intermediate Blue
+  "FS 35177": '#65829a', // Medium Blue
   "FS 35180": '#137abb',
   "FS 35182": '#2a6da2',
   "FS 35183": '#2280b2',
-  "FS 35189": '#6f8a91',
-  "FS 35190": '#6390a9',
+  "FS 35189": '#6f8a91', // Blue Gray
+  "FS 35190": '#6390a9', // Dark Blue
   "FS 35193": '#598f98',
-  "FS 35231": '#7d91b9',
-  "FS 35237": '#879297',
-  "FS 35240": '#7f9cbf',
-  "FS 35250": '#5ba6d6',
+  "FS 35231": '#7d91b9', // Azure Blue
+  "FS 35237": '#879297', // Gray Blue
+  "FS 35240": '#7f9cbf', // Blue
+  "FS 35250": '#5ba6d6', // Blue
   "FS 35275": '#35a49e',
   "FS 35299": '#77a59e',
-  "FS 35352": '#94a8a4',
-  "FS 35414": '#9db3ae',
-  "FS 35450": '#92b6d1',
+  "FS 35352": '#94a8a4', // Blue
+  "FS 35414": '#9db3ae', // Blue
+  "FS 35450": '#92b6d1', // Air Superiority Blue
   "FS 35466": '#86cbe4',
   "FS 35488": '#a1bbd1',
-  "FS 35526": '#b6c4cc',
+  "FS 35526": '#b6c4cc', // Light Sky Blue
   "FS 35550": '#cedbe2',
-  "FS 35622": '#cdd8cd',
+  "FS 35622": '#cdd8cd', // Light Blue
   "FS 35630": '#dbdbd5',
-  "FS 36076": '#575b62',
-  "FS 36081": '#5b5e5f',
-  "FS 36099": '#5f656a',
-  "FS 36118": '#676c73',
+  "FS 36076": '#575b62', // Gray
+  "FS 36081": '#5b5e5f', // Dark Gunship Gray
+  "FS 36099": '#5f656a', // Dark Gray
+  "FS 36118": '#676c73', // Medium Gunship Gray
   "FS 36134": '#565654',
-  "FS 36152": '#74797b',
-  "FS 36173": '#7f848a',
-  "FS 36176": '#778089',
+  "FS 36152": '#74797b', // Gray
+  "FS 36173": '#7f848a', // Neutral Gray
+  "FS 36176": '#778089', // Dark Gull Gray
   "FS 36187": '#697374',
-  "FS 36231": '#888b8d',
-  "FS 36251": '#8e908f',
-  "FS 36270": '#8f9396',
-  "FS 36280": '#8f9396',
+  "FS 36231": '#888b8d', // Dark Gull Gray
+  "FS 36251": '#8e908f', // Gray
+  "FS 36270": '#8f9396', // Medium Gray
+  "FS 36280": '#8f9396', // Dark Gray
   "FS 36293": '#989a9b',
-  "FS 36300": '#9da2a8',
+  "FS 36300": '#9da2a8', // Aircraft Exterior Gray
   "FS 36306": '#a99e93',
-  "FS 36307": '#9fa097',
-  "FS 36314": '#9b9f9b',
-  "FS 36320": '#98a1a9',
-  "FS 36329": '#849899',
+  "FS 36307": '#9fa097', // Gray
+  "FS 36314": '#9b9f9b', // Flint Gray
+  "FS 36320": '#98a1a9', // Dark Compass Ghost Gray
+  "FS 36329": '#849899', // Light Gray
   "FS 36357": '#aca99c',
-  "FS 36373": '#aeb1b2',
-  "FS 36375": '#a6adb4',
+  "FS 36373": '#aeb1b2', // Light Gray
+  "FS 36375": '#a6adb4', // Light Compass Ghost Gray
   "FS 36400": '#c3c19b',
   "FS 36405": '#c6bea8',
   "FS 36415": '#c6b69c',
-  "FS 36424": '#c4baaf',
-  "FS 36440": '#b6b5b0',
-  "FS 36463": '#b1b3b2',
-  "FS 36473": '#adb5b3',
-  "FS 36492": '#c2c0bf',
-  "FS 36495": '#cfd1d2',
-  "FS 36521": '#d2c5b4',
-  "FS 36555": '#d4c6a8',
-  "FS 36559": '#c9c4b3',
+  "FS 36424": '#c4baaf', // Medium Gray
+  "FS 36440": '#b6b5b0', // Light Gull Gray
+  "FS 36463": '#b1b3b2', // Gray
+  "FS 36473": '#adb5b3', // Sky Gray
+  "FS 36492": '#c2c0bf', // Gray
+  "FS 36495": '#cfd1d2', // Light Gray
+  "FS 36521": '#d2c5b4', // Tan
+  "FS 36555": '#d4c6a8', // Tan
+  "FS 36559": '#c9c4b3', // Gray
   "FS 36586": '#d3ccb7',
   "FS 36595": '#cdcabe',
-  "FS 36622": '#d4d0c7',
-  "FS 36628": '#d8d8d4',
+  "FS 36622": '#d4d0c7', // Gray
+  "FS 36628": '#d8d8d4', // Flat Aluminum
   "FS 36642": '#e9d7c3',
   "FS 37030": '#454445',
-  "FS 37031": '#434244',
-  "FS 37038": '#424243',
+  "FS 37031": '#434244', // Black Gray
+  "FS 37038": '#424243', // Black
   "FS 37043": '#807537',
   "FS 37056": '#564e4a',
-  "FS 37100": '#79537f',
+  "FS 37100": '#79537f', // Purple
   "FS 37142": '#9f5d87',
   "FS 37144": '#8b6c8f',
   "FS 37150": '#ded3c4',
@@ -604,10 +607,10 @@ const fs595cColors = {
   "FS 37722": '#ebe3d4',
   "FS 37769": '#e2d6c0',
   "FS 37778": '#f1e7cf',
-  "FS 37855": '#f6ebc8',
-  "FS 37875": '#f2f1ea',
+  "FS 37855": '#f6ebc8', // White
+  "FS 37875": '#f2f1ea', // Insignia White
   "FS 37886": '#f8f1e1',
-  "FS 37925": '#fbf8f6',
+  "FS 37925": '#fbf8f6', // Insignia White
   "FS 38903": '#ff5500',
   "FS 38913": '#ff2d00',
 } as const;

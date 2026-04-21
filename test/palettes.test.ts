@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { crayola } from '../src/palettes/crayola.js';
+import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
 import { ntc } from '../src/palettes/ntc.js';
@@ -62,6 +63,17 @@ describe.each([
       spotChecks: {
         'FS 10032': '#372726',
         'FS 11136': '#a32b25',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'fs595b',
+    fs595b,
+    {
+      minCount: 200,
+      spotChecks: {
+        'FS 11136': '#9b2f25',
+        'FS 10140': '#532f15',
       } as Record<string, string>,
     },
   ],

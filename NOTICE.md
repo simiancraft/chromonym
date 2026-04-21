@@ -123,27 +123,37 @@ are credited here; if the author objects to Chromonym's use of
 his digitization, open an issue and we will revisit or redo the
 centroids from the primary Munsell data.
 
-## Federal Standard 595C (FS595C)
+## Federal Standard 595 (FS595B and FS595C)
 
-The `fs595c` palette (589 entries) is derived from the
-Raku module **`Color::Names::FS595C`** in the
+The `fs595b` (209 entries) and `fs595c` (589 entries) palettes
+are derived from the Raku modules **`Color::Names::FS595B`** and
+**`Color::Names::FS595C`** in the
 [`thundergnat/Color-Names`](https://github.com/thundergnat/Color-Names)
-repository, which digitizes the US Federal Government's
-**Federal Standard 595C** paint-color specification (used for
-military, aviation, and government-equipment coatings). The
-Federal Standard itself is a US-government-published
-specification and is not subject to copyright restrictions
-when faithfully reproduced.
+repository, which digitize the US Federal Government's
+**Federal Standard 595** paint-color specification (used for
+military, aviation, and government-equipment coatings). FS595B
+is the 1989 revision, superseded by FS595C in 2008. Both are
+still in active use depending on which revision a given piece of
+documentation or equipment references. The Federal Standard
+itself is a US-government-published specification and is not
+subject to copyright restrictions when faithfully reproduced.
 
-- Canonical keys are the 5-digit FS codes prefixed with `FS `
-  (e.g. `FS 11136`). Common names attached to many chips in the
-  source (e.g. "Insignia Red") are not used as keys because the
-  spec reuses them across multiple chips with different hex
-  values (18 different "Green"s, 11 "Tan"s, etc.).
-- sRGB hex values are taken verbatim from the upstream module's
+- Canonical keys in both palettes are the 5-digit FS codes
+  prefixed with `FS ` (e.g. `FS 11136`). Common names attached
+  to many chips in the source (e.g. "Insignia Red") are captured
+  as trailing code comments on each palette entry for human
+  readers but are **not** used as lookup keys because the spec
+  reuses many across multiple chips with different hex values
+  (18–20 different "Green"s, 11 "Tan"s, etc., depending on
+  revision).
+- Same-coded chips can differ in hex between the B and C
+  revisions; for example `FS 11136` ("Insignia Red") is
+  `#9b2f25` in FS595B versus `#a32b25` in FS595C. Pick the
+  palette that matches your reference documentation.
+- sRGB hex values are taken verbatim from the upstream modules'
   RGB byte triplets; the published standard specifies color
   chips under controlled lighting, and all digital sRGB
-  approximations including this one are necessarily simplified.
+  approximations including these are necessarily simplified.
 - Chromonym is **not affiliated with** any US Government agency
   or defense contractor; no endorsement is implied.
 
