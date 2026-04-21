@@ -5,6 +5,7 @@ import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
 import { ntc } from '../src/palettes/ntc.js';
 import { pantone } from '../src/palettes/pantone.js';
+import { resene } from '../src/palettes/resene.js';
 import { web } from '../src/palettes/web.js';
 import { x11 } from '../src/palettes/x11.js';
 import { xkcd } from '../src/palettes/xkcd.js';
@@ -85,6 +86,17 @@ describe.each([
       spotChecks: {
         'Vivid pink': '#fd7992',
         'Dark yellowish green': '#2f5d3a',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'resene',
+    resene,
+    {
+      minCount: 1300,
+      spotChecks: {
+        treepoppy: '#e2813b',
+        acapulco: '#75aa94',
       } as Record<string, string>,
     },
   ],

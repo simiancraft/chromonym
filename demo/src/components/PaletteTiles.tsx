@@ -49,6 +49,10 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // derived standard. Restrained, formal, and visually distinct from
   // the other poster tones.
   isccNbs: { tone: '#6f7373', ink: 'var(--bh-cream)' },
+  // Resene: deep pohutukawa red, a signature NZ color nodding at the
+  // palette's distinctly local flavor. Distinct from web's bh-red by
+  // pulling toward crimson.
+  resene: { tone: '#8a1e2b', ink: 'var(--bh-cream)' },
 };
 
 const ORDER: PaletteKey[] = [
@@ -61,6 +65,7 @@ const ORDER: PaletteKey[] = [
   'fs595c',
   'fs595b',
   'isccNbs',
+  'resene',
 ];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).

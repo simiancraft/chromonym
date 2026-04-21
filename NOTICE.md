@@ -93,6 +93,31 @@ the public domain.
 The `web` palette mirrors the CSS Color Module Level 4 named-color
 set, which is a public specification.
 
+## Resene
+
+The `resene` palette (1378 entries) is derived from the Raku
+module **`Color::Names::Resene`** in the
+[`thundergnat/Color-Names`](https://github.com/thundergnat/Color-Names)
+repository, which digitizes the named-color catalog published by
+**Resene Paints Ltd.** (New Zealand). Resene's naming system has
+distinctly local flavor, including te reo Māori and New Zealand
+place names ("Pohutukawa," "Acapulco," "Afghan Tan").
+
+- Chromonym uses **nominative references** to Resene's published
+  color names; no trademark claim or endorsement is implied.
+- Canonical keys are the lowercase single-word form the source
+  module uses (`treepoppy` for "Tree Poppy"); the display form
+  and Resene's own Munsell-style code (e.g. `BR32-011-076`) are
+  captured as trailing comments on each palette entry for human
+  readers.
+- sRGB hex values are taken verbatim from the upstream module's
+  RGB byte triplets. Resene's physical paint samples under
+  their own published lighting conditions are the authoritative
+  reference; this digital approximation is provided for
+  comparative / tooling use, not for paint specification.
+- If Resene Paints Ltd. objects to this palette's inclusion,
+  open an issue and we will revisit.
+
 ## ISCC-NBS Colour System
 
 The `isccNbs` palette (260 entries) is the **ISCC-NBS Method of

@@ -64,6 +64,11 @@
       "import": "./dist/palettes/pantone.js",
       "default": "./dist/palettes/pantone.js"
     },
+    "./resene": {
+      "types": "./dist/palettes/resene.d.ts",
+      "import": "./dist/palettes/resene.js",
+      "default": "./dist/palettes/resene.js"
+    },
     "./crayola": {
       "types": "./dist/palettes/crayola.d.ts",
       "import": "./dist/palettes/crayola.js",

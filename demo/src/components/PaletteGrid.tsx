@@ -10,6 +10,7 @@ import {
   isccNbs,
   ntc,
   pantone,
+  resene,
   web,
   x11,
   xkcd,
@@ -31,6 +32,7 @@ export const PALETTES = {
   fs595c,
   fs595b,
   isccNbs,
+  resene,
 } as const;
 export type PaletteKey = keyof typeof PALETTES;
 
@@ -44,6 +46,7 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   fs595c: 'FS 595C',
   fs595b: 'FS 595B',
   isccNbs: 'ISCC-NBS',
+  resene: 'Resene',
 };
 
 export const PALETTE_KEYS = [
@@ -56,6 +59,7 @@ export const PALETTE_KEYS = [
   'fs595c',
   'fs595b',
   'isccNbs',
+  'resene',
 ] as const satisfies readonly PaletteKey[];
 
 interface PaletteGridProps {

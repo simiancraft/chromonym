@@ -106,6 +106,13 @@ maybe('subpath exports resolve', () => {
     expect(m.isccNbs.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/resene exports the resene palette object', async () => {
+    const m = await import('../dist/palettes/resene');
+    expect(m.resene.name).toBe('resene');
+    expect(m.resene.colors.treepoppy).toBe('#e2813b');
+    expect(m.resene.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
     const m = await import('../dist/conversions/hex');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
@@ -191,6 +198,7 @@ maybe('subpath exports resolve', () => {
       "const { fs595c } = await import('chromonym/fs595c');",
       "const { fs595b } = await import('chromonym/fs595b');",
       "const { isccNbs } = await import('chromonym/iscc-nbs');",
+      "const { resene } = await import('chromonym/resene');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -210,6 +218,7 @@ maybe('subpath exports resolve', () => {
       '  fs595cInsignia: fs595c.colors["FS 11136"] === "#a32b25",',
       '  fs595bInsignia: fs595b.colors["FS 11136"] === "#9b2f25",',
       '  isccNbsVividPink: isccNbs.colors["Vivid pink"] === "#fd7992",',
+      '  reseneTreepoppy: resene.colors.treepoppy === "#e2813b",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -238,6 +247,7 @@ maybe('subpath exports resolve', () => {
       fs595cInsignia: true,
       fs595bInsignia: true,
       isccNbsVividPink: true,
+      reseneTreepoppy: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,
