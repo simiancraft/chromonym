@@ -26,10 +26,9 @@
     "rgb",
     "hsl",
     "hsv",
-    "palette",
-    "chromonym"
+    "palette"
   ],
-  "author": "the-simian <harlinjesse@gmail.com>",
+  "author": "the-simian <info@simiancraft.com>",
   "license": "MIT",
   "homepage": "https://github.com/simiancraft/chromonym#readme",
   "repository": {
@@ -114,6 +113,7 @@
   },
   "files": [
     "dist",
+    "src",
     "README.md",
     "LICENSE",
     "NOTICE.md"
