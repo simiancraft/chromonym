@@ -146,11 +146,11 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
             aria-checked={isSelected}
             tabIndex={isSelected ? 0 : -1}
             onClick={() => onSelect(key)}
-            className={`flex flex-col text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${layout === 'row' ? 'p-[12px] gap-2' : 'p-4 gap-3'}`}
+            className={`flex flex-col text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${layout === 'row' ? 'p-[12px] gap-2' : 'p-3 gap-2'}`}
             style={{
               backgroundColor: tone,
               color: ink,
-              minHeight: layout === 'row' ? '92px' : '132px',
+              minHeight: layout === 'row' ? '92px' : '104px',
               // Unselected tiles lean on the 3px inked gap between tiles
               // (the grid's own background) for separation, so selection
               // reads as a real visual event — a 4px inset frame appears
@@ -184,9 +184,12 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
               </span>
             </div>
 
-            {/* Row 2 — palette name, full width. */}
+            {/* Row 2 — palette name, full width. Font unified across both
+                layouts at 'text-base'; with 12 tiles packed 4×3 the prior
+                'text-2xl' on grid overpowered the panel and crowded the
+                longest labels ('ISCC-NBS', 'FS 595B'). */}
             <div
-              className={`lowercase font-semibold tracking-[-0.02em] leading-none ${layout === 'row' ? 'text-base' : 'text-2xl'}`}
+              className="lowercase font-semibold tracking-[-0.02em] leading-none text-base"
               style={{ color: ink }}
             >
               {PALETTE_LABELS[key]}
