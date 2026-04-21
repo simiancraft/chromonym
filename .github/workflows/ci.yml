@@ -67,10 +67,21 @@ jobs:
       pull-requests: write
       id-token: write
     steps:
+      # Mint a short-lived App token so @semantic-release/git can push the
+      # chore(release) commit + tag back to main. The App is in main's
+      # ruleset bypass list; the default GITHUB_TOKEN is not.
+      - name: Generate App token
+        id: app-token
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4.2.2
         with:
           fetch-depth: 0
           persist-credentials: false
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.0.1
@@ -90,5 +101,5 @@ jobs:
 
       - name: Semantic Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: npx semantic-release
