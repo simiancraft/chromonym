@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/simiancraft/chromonym/compare/v3.1.0...v3.1.1) (2026-04-21)
+
+
+### Bug Fixes
+
+* **release:** restore CHANGELOG pipeline; swap in new logo + demo gif ([00539d0](https://github.com/simiancraft/chromonym/commit/00539d0513c87629ea5649fe5dcd527fe72f7521))
+
 # [3.1.0](https://github.com/simiancraft/chromonym/compare/v3.0.0...v3.1.0) (2026-04-21)
 
 
