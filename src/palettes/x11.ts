@@ -671,16 +671,22 @@ const x11Colors = {
 export type X11ColorName = keyof typeof x11Colors;
 
 /**
- * Default metric note: x11 has 658 entries including dense numbered ramps
- * (gray 0-100, dark slate gray 1-4, etc). ΔE76 is chosen for speed — at
- * ~5 µs per identify vs ~90 µs for ΔE2000 — which matters for interactive
- * UIs that scrub many colors per second.
+ * The X.Org `rgb.txt` named-color palette (658 entries, including dense
+ * numbered ramps like `gray 0` through `gray 100` and `dark slate gray 1`
+ * through `dark slate gray 4`). Keys use the X.Org spaced form.
  *
- * The tradeoff: ΔE76's known weakness in saturated blue/purple can pick a
- * perceptually-suboptimal neighbor for colors in that region. For those
- * inputs, override per-call with a perceptually-uniform metric:
- *   identify(hex, { palette: x11, metric: 'deltaEok' })    // ~5 µs
- *   identify(hex, { palette: x11, metric: 'deltaE2000' })  // ~90 µs
+ * Default metric note: ΔE76 is chosen for speed (~5 µs per identify
+ * vs ~90 µs for ΔE2000), which matters for interactive UIs that scrub
+ * many colors per second. Its known weakness in saturated blue/purple
+ * can pick a perceptually-suboptimal neighbor in that region; for
+ * those inputs, override per-call with a perceptually-uniform metric.
+ *
+ * @example
+ * identify('#7f7f7f', { palette: x11 });                    // 'gray 50'
+ * identify('dodgerblue', { palette: x11, source: web });    // 'dodger blue'
+ * identify(hex, { palette: x11, metric: 'deltaEok' });      // ~5 µs
+ * identify(hex, { palette: x11, metric: 'deltaE2000' });    // ~90 µs
+ * x11.colors['antique white 1'];                            // '#ffefdb'
  */
 export const x11 = {
   name: 'x11',

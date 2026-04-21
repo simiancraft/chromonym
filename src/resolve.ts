@@ -19,13 +19,61 @@ const MAX_FUZZY_INPUT_LENGTH = 64;
 /**
  * One ranked fuzzy-match entry when `resolve` is called with `k`.
  * `distance` is the Levenshtein edit distance between the normalized
- * input and the normalized palette key — integer count of insertions,
+ * input and the normalized palette key: an integer count of insertions,
  * deletions, and substitutions.
  */
 export type ResolveMatch<Name extends string> = {
   readonly name: Name;
   readonly value: ColorValue;
   readonly distance: number;
+};
+
+/**
+ * Options for the strict variant of {@link resolve}.
+ *
+ * @example
+ * resolve('Pantone 185 C', { palette: pantone });
+ * resolve('rebeccapurple', { format: 'RGB' });
+ */
+export type ResolveOptions = {
+  /**
+   * Palette to look the name up in. Defaults to `web` (CSS named colors).
+   */
+  readonly palette?: Palette;
+  /**
+   * Output format for the matched color. Defaults to `'HEX'`.
+   */
+  readonly format?: ColorFormat;
+};
+
+/**
+ * Options for the fuzzy (top-k) variant of {@link resolve}. Returns an
+ * array of {@link ResolveMatch} entries ranked by edit distance.
+ *
+ * @example
+ * resolve('rebecapurple', { palette: web, k: 3 });
+ * // [
+ * //   { name: 'rebeccapurple', value: '#663399', distance: 1 },
+ * //   { name: 'purple',        value: '#800080', distance: 6 },
+ * //   ...
+ * // ]
+ */
+export type ResolveFuzzyOptions<P extends Palette = typeof web> = {
+  /**
+   * Palette to search. Generic so the return narrows to the palette's
+   * literal-key union.
+   */
+  readonly palette?: P;
+  /**
+   * Output format for each matched `value`. Defaults to `'HEX'`.
+   */
+  readonly format?: ColorFormat;
+  /**
+   * Number of ranked matches to return. When present, `resolve` runs in
+   * typo-tolerant mode (Levenshtein edit distance against normalized
+   * keys) and returns `ResolveMatch[]` instead of a single value.
+   */
+  readonly k: number;
 };
 
 /**
@@ -53,21 +101,18 @@ export type ResolveMatch<Name extends string> = {
  */
 
 // Overload 1: strict — single ColorValue or null (unchanged).
-export function resolve(
-  name: string,
-  opts?: { palette?: Palette; format?: ColorFormat },
-): ColorValue | null;
+export function resolve(name: string, opts?: ResolveOptions): ColorValue | null;
 
 // Overload 2: fuzzy top-k — ranked Match[].
 export function resolve<P extends Palette = typeof web>(
   name: string,
-  opts: { palette?: P; format?: ColorFormat; k: number },
+  opts: ResolveFuzzyOptions<P>,
 ): Array<ResolveMatch<PaletteKey<P>>>;
 
 // Implementation.
 export function resolve(
   name: string,
-  opts: { palette?: Palette; format?: ColorFormat; k?: number } = {},
+  opts: ResolveOptions & { k?: number } = {},
 ): ColorValue | null | Array<ResolveMatch<string>> {
   const palette = opts.palette ?? web;
   const format = opts.format ?? 'HEX';

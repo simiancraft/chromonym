@@ -123,6 +123,22 @@ const crayolaColors = {
 
 export type CrayolaColorName = keyof typeof crayolaColors;
 
+/**
+ * Crayola crayon-color palette (84 entries), community-curated. Not
+ * Crayola-licensed or certified; see `NOTICE.md` for trademark details
+ * and the set's scope (classic 64 box + fluorescent neons + selected
+ * modern additions).
+ *
+ * Keys use the Title Case form printed on the crayon wrapper
+ * (`'Razzmatazz'`, `'Granny Smith Apple'`). Default metric is `'deltaEok'`:
+ * OKLAB's perceptual uniformity better separates the palette's
+ * saturated-heavy distribution than ΔE76.
+ *
+ * @example
+ * identify('#ff4488', { palette: crayola });              // 'Razzmatazz'
+ * resolve('Granny Smith Apple', { palette: crayola });    // '#a8e4a0'
+ * crayola.colors.Razzmatazz;                              // '#e3256b'
+ */
 export const crayola = {
   name: 'crayola',
   colors: crayolaColors,

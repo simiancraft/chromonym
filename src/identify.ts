@@ -15,14 +15,62 @@ import type {
 /**
  * One ranked nearest-match entry when `identify` is called with `k`.
  * `value` is the palette's stored hex for the match (useful for rendering
- * swatches). `distance` is in the selected metric's natural units — ΔE
- * for `deltaE*` metrics, channel-unit Euclidean for the others.
+ * swatches). `distance` is in the selected metric's natural units: ΔE for
+ * `deltaE*` metrics, channel-unit Euclidean for the others.
  */
 export type IdentifyMatch<Name extends string> = {
   readonly name: Name;
   readonly value: HexColor;
   readonly distance: number;
 };
+
+/**
+ * Options for {@link identify}. Generic over the target palette so the
+ * return type narrows to its literal-key union.
+ *
+ * @example
+ * identify('#ff0000', { palette: pantone, metric: 'deltaE2000' });
+ * identify('rebeccapurple', { palette: x11, source: web });
+ */
+export type IdentifyOptions<P extends Palette = typeof web> = {
+  /**
+   * Target palette to search in. Defaults to `web` (CSS named colors).
+   */
+  readonly palette?: P;
+  /**
+   * Source palette for cross-palette name input: when `input` is a name
+   * from a different palette (e.g. `'rebeccapurple'` when `palette` is
+   * `pantone`), set `source` to the palette that owns the name so it can
+   * be resolved to an Rgba before the nearest-match lookup.
+   */
+  readonly source?: Palette;
+  /**
+   * Override the distance metric. Defaults to `palette.defaultMetric`
+   * (web/x11: `'deltaE76'`, pantone: `'deltaE2000'`, crayola: `'deltaEok'`).
+   */
+  readonly metric?: DistanceMetric;
+};
+
+/**
+ * Options for the ranked top-k variant of {@link identify}. Returns an
+ * array of {@link IdentifyMatch} entries instead of a single name.
+ *
+ * @example
+ * identify('#ff0080', { palette: pantone, k: 3 });
+ * // [
+ * //   { name: '219 C',    value: '#da1884', distance: 2.1 },
+ * //   { name: '226 C',    value: '#d0006f', distance: 3.9 },
+ * //   { name: 'Red 032 C',value: '#ef3340', distance: 5.4 },
+ * // ]
+ */
+export type IdentifyRankedOptions<P extends Palette = typeof web> =
+  IdentifyOptions<P> & {
+    /**
+     * Number of ranked matches to return. When present, `identify`
+     * returns `IdentifyMatch[]` instead of a single key.
+     */
+    readonly k: number;
+  };
 
 /**
  * Parse a string input that may be a color literal or a palette name.
@@ -76,19 +124,19 @@ function parseInput(input: ColorInput | string, source?: Palette): Rgba | null {
 // Overload 1: no `k` — single name (or null). Unchanged legacy shape.
 export function identify<P extends Palette = typeof web>(
   input: ColorInput | string,
-  opts?: { palette?: P; source?: Palette; metric?: DistanceMetric },
+  opts?: IdentifyOptions<P>,
 ): PaletteKey<P> | null;
 
 // Overload 2: `k` present — ranked Match[] with distances.
 export function identify<P extends Palette = typeof web>(
   input: ColorInput | string,
-  opts: { palette?: P; source?: Palette; metric?: DistanceMetric; k: number },
+  opts: IdentifyRankedOptions<P>,
 ): Array<IdentifyMatch<PaletteKey<P>>>;
 
 // Implementation.
 export function identify(
   input: ColorInput | string,
-  opts: { palette?: Palette; source?: Palette; metric?: DistanceMetric; k?: number } = {},
+  opts: IdentifyOptions & { k?: number } = {},
 ): string | null | Array<IdentifyMatch<string>> {
   const palette = opts.palette ?? web;
   const metric = opts.metric ?? palette.defaultMetric;

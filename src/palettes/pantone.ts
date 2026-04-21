@@ -921,6 +921,24 @@ const pantoneColors = {
 
 export type PantoneColorName = keyof typeof pantoneColors;
 
+/**
+ * Pantone Coated (C) palette (907 entries), community-derived sRGB
+ * approximations. Not Pantone-licensed or certified; see `NOTICE.md`
+ * for trademark details and accuracy envelope.
+ *
+ * `pantoneNormalize` accepts any casing, spacing, and common prefixes
+ * so `'Pantone 185 C'`, `'pantone-185c'`, `'185c'`, and `'185 C'` all
+ * resolve to the same entry.
+ *
+ * Default metric is `'deltaE2000'`: Pantone's dense coverage benefits
+ * from the most perceptually-faithful standard ΔE variant.
+ *
+ * @example
+ * identify('#e20074', { palette: pantone });                 // '213 C'
+ * resolve('Pantone 185 C', { palette: pantone });            // '#e4002b'
+ * convert('#663399', { palette: pantone, format: 'NAME' });  // '267 C' (exact)
+ * pantone.colors['185 C'];                                   // '#e4002b'
+ */
 export const pantone = {
   name: 'pantone',
   colors: pantoneColors,
