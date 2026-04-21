@@ -66,13 +66,6 @@ export function HeroIdentifier({
       className="p-5 md:p-6 space-y-6"
       style={{ backgroundColor: 'var(--bh-paper)' }}
     >
-      <div>
-        <div className="bh-eyebrow mb-2">identify anything</div>
-        <p className="text-xs leading-snug opacity-80 max-w-2xl">
-          Scrub a color; we return the nearest name from the selected palette.
-        </p>
-      </div>
-
       {/* ── Inputs: left column is sized to the square canvas, right grows ── */}
       <div className="grid grid-cols-1 md:grid-cols-[minmax(0,_480px)_1fr] gap-4 md:gap-6">
         <div className="min-w-0">
@@ -80,6 +73,14 @@ export function HeroIdentifier({
         </div>
 
         <div className="flex flex-col gap-4 min-w-0">
+          <div>
+            <div className="bh-eyebrow mb-2">identify anything</div>
+            <p className="text-xs leading-snug opacity-80">
+              Scrub a color; we return the nearest name from the selected
+              palette.
+            </p>
+          </div>
+
           <div>
             <div className="bh-eyebrow mb-2">scrub</div>
             <label className="block">
