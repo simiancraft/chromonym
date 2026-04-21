@@ -82,18 +82,6 @@ yarn add chromonym
 npm install chromonym
 ```
 
-## Migrating from 1.x
-
-v2 collapsed the five-verb draft API (`identify`, `identifyAll`, `translate`, `resolve`, `convert`) into **three verbs** by folding the duplicates into options on existing verbs. Mechanical rewrites:
-
-```ts
-// v1 → v2
-identifyAll(color, { palette, k: 3 })          // → identify(color, { palette, k: 3 })
-translate(name, { from: web, to: pantone })    // → identify(name, { palette: pantone, source: web })
-```
-
-`resolve` and `convert` are unchanged. If you were only using those two, no edits are needed. See [`CHANGELOG.md`](CHANGELOG.md) for the full list of v3.0 breaking changes.
-
 ## API
 
 Three verbs. All accept an optional `opts` object; defaults fire when omitted.
@@ -390,7 +378,7 @@ Rule of thumb: use `source` when you want one clean call and `null` on miss; use
 
 Each metric trades cost for accuracy — the full scan over 907 Pantone entries is well under 1 ms even with ΔE2000. For interactive UIs, cost is usually irrelevant; drop to a cheaper metric when batch-processing millions of colors or when you need specific tie-breaking behavior.
 
-> **Note on x11's default (ΔE76):** x11 has 658 entries, many of them saturated blue/purple ramps where ΔE76 is a known weak spot. The default optimizes for UI scrubbing speed (~5 µs vs ~90 µs for ΔE2000). If perceptual accuracy matters more than latency, override per call with `{ metric: 'deltaEok' }` — same cost as ΔE76 on cached Lab/OKLAB indexes, better separation in blues.
+> **Note on x11's default (ΔE76):** x11 has 658 entries, many of them saturated blue/purple ramps where ΔE76 is a known weak spot. The default optimizes for UI scrubbing speed (~5 µs vs ~90 µs for ΔE2000). If perceptual accuracy matters more than latency, override per call with `{ metric: 'deltaEok' }` for better separation in the blue and purple region.
 
 ```ts
 // Defaults: read from the palette's own `defaultMetric`.
@@ -480,10 +468,6 @@ Regenerating palette data:
 bun run scripts/generate-x11.ts        # reads /usr/share/X11/rgb.txt
 bun run scripts/generate-pantone.ts    # reads the color_library npm package (MIT © Radu Dragan)
 ```
-
-## Coverage
-
-[![Coverage sunburst](https://codecov.io/github/simiancraft/chromonym/graphs/sunburst.svg?token=HYWM6G66YE)](https://codecov.io/github/simiancraft/chromonym)
 
 ## See also
 
