@@ -1991,9 +1991,13 @@ const ncsColors = {
 export type NcsColorName = keyof typeof ncsColors;
 
 /**
- * NCS palette with perceptual CIEDE2000 default: dense coverage
- * across the full gamut including many closely-spaced hues in
- * the saturated regions where ΔE76 is a known weak spot.
+ * Natural Colour System (Sweden, 1950 entries): a
+ * perceptual color standard based on Hering's opponent-process
+ * theory. Codes like '2030-R80B' describe blackness,
+ * chromaticness, and hue position between the four elementary
+ * chromatics (W, S, Y, R, B, G). Widely used in Scandinavian
+ * design, architecture, and paint manufacturing. Default
+ * metric CIEDE2000.
  *
  * @example
  * identify('#f2f2f2', { palette: ncs });           // '0500-N' (neutral gray)

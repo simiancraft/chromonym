@@ -942,10 +942,11 @@ const xkcdColors = {
 export type XkcdColorName = keyof typeof xkcdColors;
 
 /**
- * XKCD palette with perceptual CIEDE2000 default. The survey set
- * spans the full sRGB gamut with dense coverage in common-speech
- * color regions (earth tones, muted blues, greens), so ΔE2000
- * gives consistent nearest-match behavior across the range.
+ * XKCD 2010 Color Survey: crowd-sourced common-speech color
+ * names (923 entries, CC0 public domain). Earthy,
+ * muted, and sometimes irreverent ('baby puke green', 'poo
+ * brown'). Default metric CIEDE2000 for consistent nearest-
+ * match behavior across the survey's full-gamut coverage.
  *
  * @example
  * identify('#b2996e', { palette: xkcd });          // 'dust'

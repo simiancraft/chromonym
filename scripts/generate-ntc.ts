@@ -91,11 +91,12 @@ ${body}
 export type NtcColorName = keyof typeof ntcColors;
 
 /**
- * NTC palette with perceptual CIEDE2000 default: 1566 broad-coverage
- * entries across the gamut, including dense regions in blues and
- * purples where ΔE76 is known to mis-rank. For interactive UIs that
- * scrub many colors per second, override per call with a cheaper
- * metric (\`'deltaEok'\` or \`'euclidean-srgb'\`).
+ * Name That Color (NTC): Chirag Mehta's broad color-name dataset.
+ * ${sorted.length} entries covering design, fashion, and common
+ * hardware / UI colors that CSS and X11 don't name. Default metric
+ * is CIEDE2000 for best ranking across the dense saturated regions;
+ * override per call (e.g. \`'deltaEok'\`, \`'euclidean-srgb'\`) for
+ * interactive UIs that scrub many colors per second.
  *
  * @example
  * identify('#bada55', { palette: ntc });                   // 'Conifer'

@@ -115,10 +115,12 @@ ${body}
 export type ReseneColorName = keyof typeof reseneColors;
 
 /**
- * Resene palette with perceptual CIEDE2000 default: dense
- * coverage across the gamut, including saturated blues and
- * reds where ΔE2000 separates matches more consistently
- * than ΔE76.
+ * Resene Paints (New Zealand) catalog: ${sorted.length} named
+ * coatings, many with distinctly local flavor (te reo Māori
+ * names and NZ place-names like 'Pohutukawa', 'Acapulco',
+ * 'Afghan Tan'). Popular reference in Australian / New Zealand
+ * design. Default metric CIEDE2000 for the dense saturated
+ * regions.
  *
  * @example
  * identify('#e2813b', { palette: resene });    // 'treepoppy' (aka "Tree Poppy")

@@ -123,10 +123,12 @@ ${body}
 export type Fs595cColorName = keyof typeof fs595cColors;
 
 /**
- * FS595C palette with perceptual CIEDE2000 default: small (589
- * entries) and spread across the spectrum, with dense coverage
- * in olive/tan/grey regions where ΔE76 is a known weak spot for
- * military coatings.
+ * Federal Standard 595C paint-color specification
+ * (${sorted.length} entries), widely used in US military,
+ * aviation, and government-equipment coatings. Revised from
+ * the 1989 FS595B; pick whichever revision matches your
+ * reference documentation. Default metric CIEDE2000 for the
+ * dense olive / tan / grey regions where ΔE76 mis-ranks.
  *
  * @example
  * identify('#a32b25', { palette: fs595c });         // 'FS 11136' (aka "Insignia Red")

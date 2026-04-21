@@ -295,7 +295,12 @@ const nbsColors = {
 export type NbsColorName = keyof typeof nbsColors;
 
 /**
- * NBS palette with perceptual CIEDE2000 default.
+ * NBS, alternate digitization of the 1955 ISCC-NBS naming
+ * system (267 entries). Same named-block vocabulary
+ * as chromonym's `isccNbs` palette (average ΔE2000 ~4.6 across
+ * shared names, max 31); matches the 1955 physical chip book
+ * and covers the 7 out-of-gamut blocks `isccNbs` leaves as
+ * gaps. Default metric CIEDE2000.
  *
  * @example
  * identify('#ffb5ba', { palette: nbs });           // 'vividpink'

@@ -120,7 +120,12 @@ ${body}
 export type Fs595bColorName = keyof typeof fs595bColors;
 
 /**
- * FS595B palette with perceptual CIEDE2000 default.
+ * Federal Standard 595B paint chips (${sorted.length} entries),
+ * the 1989 revision later superseded by FS595C in 2008. Same
+ * \`'FS {code}'\` key format as fs595c; different hex on many
+ * shared codes. Pick whichever revision matches the piece of
+ * equipment or documentation you're working from. Default
+ * metric CIEDE2000.
  *
  * @example
  * identify('#9b2f25', { palette: fs595b });       // 'FS 11136' (aka "Insignia Red")

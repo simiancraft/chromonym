@@ -123,10 +123,12 @@ ${body}
 export type IsccNbsColorName = keyof typeof isccNbsColors;
 
 /**
- * ISCC-NBS palette with perceptual CIEDE2000 default: dense
- * coverage of Munsell-uniform color space means small perceptual
- * differences between neighbors; ΔE2000 ranks them more
- * consistently than simpler Euclidean metrics.
+ * ISCC-NBS Method of Designating Colors (1955, ${sorted.length}
+ * entries): Munsell-partitioned named blocks like 'Vivid pink'
+ * and 'Dark yellowish brown'. sRGB centroids computed by Paul
+ * Centore. For the alternate digitization that matches the
+ * 1955 physical chip book, see chromonym's \`nbs\` palette.
+ * Default metric CIEDE2000.
  *
  * @example
  * identify('#fd7992', { palette: isccNbs });           // 'Vivid pink'
