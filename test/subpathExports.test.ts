@@ -69,6 +69,13 @@ maybe('subpath exports resolve', () => {
     expect(m.crayola.defaultMetric).toBe('deltaEok');
   });
 
+  it('chromonym/ntc exports the ntc palette object', async () => {
+    const m = await import('../dist/palettes/ntc');
+    expect(m.ntc.name).toBe('ntc');
+    expect(m.ntc.colors.Stratos).toBe('#000741');
+    expect(m.ntc.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
     const m = await import('../dist/conversions/hex');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
@@ -149,6 +156,7 @@ maybe('subpath exports resolve', () => {
       "const { web } = await import('chromonym/web');",
       "const { x11 } = await import('chromonym/x11');",
       "const { crayola } = await import('chromonym/crayola');",
+      "const { ntc } = await import('chromonym/ntc');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -163,6 +171,7 @@ maybe('subpath exports resolve', () => {
       '  webRed: web.colors.red,',
       '  x11Count: Object.keys(x11.colors).length > 600,',
       '  crayolaRazz: crayola.colors.Razzmatazz === "#e3256b",',
+      '  ntcStratos: ntc.colors.Stratos === "#000741",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -186,6 +195,7 @@ maybe('subpath exports resolve', () => {
       webRed: '#ff0000',
       x11Count: true,
       crayolaRazz: true,
+      ntcStratos: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,

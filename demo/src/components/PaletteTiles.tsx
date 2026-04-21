@@ -29,9 +29,13 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // next to red/yellow/blue, and gives the ink indicator somewhere to
   // be seen.
   crayola: { tone: '#E8751A', ink: 'var(--bh-ink)' },
+  // NTC: cool muted green to sit apart from the warm quadrant (red,
+  // yellow, orange); keeps the Bauhaus primary-poster feel without
+  // crowding the existing tiles.
+  ntc: { tone: '#3d7a5a', ink: 'var(--bh-cream)' },
 };
 
-const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola'];
+const ORDER: PaletteKey[] = ['web', 'x11', 'pantone', 'crayola', 'ntc'];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).
 const INDICATOR = 12;

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { crayola } from '../src/palettes/crayola.js';
+import { ntc } from '../src/palettes/ntc.js';
 import { pantone } from '../src/palettes/pantone.js';
 import { web } from '../src/palettes/web.js';
 import { x11 } from '../src/palettes/x11.js';
@@ -25,6 +26,17 @@ describe.each([
       spotChecks: {
         Razzmatazz: '#e3256b',
         'Granny Smith Apple': '#a8e4a0',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'ntc',
+    ntc,
+    {
+      minCount: 1500,
+      spotChecks: {
+        Stratos: '#000741',
+        'International Klein Blue': '#002fa7',
       } as Record<string, string>,
     },
   ],

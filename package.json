@@ -69,6 +69,11 @@
       "import": "./dist/palettes/crayola.js",
       "default": "./dist/palettes/crayola.js"
     },
+    "./ntc": {
+      "types": "./dist/palettes/ntc.d.ts",
+      "import": "./dist/palettes/ntc.js",
+      "default": "./dist/palettes/ntc.js"
+    },
     "./conversions/hex": {
       "types": "./dist/conversions/hex.d.ts",
       "import": "./dist/conversions/hex.js",

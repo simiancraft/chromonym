@@ -303,6 +303,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `x11` | 658 | X.Org `rgb.txt` (public domain) |
 | `pantone` | 907 | Pantone Coated (C) — community approximations (not Pantone-licensed) |
 | `crayola` | 84 | Crayola crayon colors — community approximations (not Crayola-licensed) |
+| `ntc` | 1566 | Chirag Mehta's "Name That Color" dataset (broad coverage of design / UI / hardware names) |
 
 Importable directly, or via subpath exports for stricter tree-shaking:
 

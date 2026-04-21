@@ -93,6 +93,29 @@ the public domain.
 The `web` palette mirrors the CSS Color Module Level 4 named-color
 set, which is a public specification.
 
+## Name That Color (NTC)
+
+The `ntc` palette (1566 entries) is derived from Chirag Mehta's
+**"Name That Color"** dataset, first published at
+<https://chir.ag/projects/ntc/>. Chromonym consumes the dataset via
+the MIT-licensed **`colorjs/color-namer`** npm package
+(<https://github.com/colorjs/color-namer>), which redistributes the
+list in a machine-readable form. Chromonym pins to a specific
+upstream commit SHA (see `scripts/generate-ntc.ts`) so the entry set
+is deterministic across regenerations.
+
+- Names are used as **nominative references** to the publicly
+  distributed NTC dataset; no endorsement or trademark claim is
+  implied.
+- sRGB hex values are taken verbatim from the upstream list.
+- No modifications are made beyond casing normalization of the hex
+  string and sorting by display name.
+
+The NTC dataset has been widely redistributed since 2006 under
+terms allowing free reuse with attribution. If the upstream author
+objects to Chromonym's inclusion of the list, open an issue and we
+will revisit.
+
 ## Bauhaus Modern (demo site typeface)
 
 The demo site at <https://simiancraft.github.io/chromonym/> embeds
