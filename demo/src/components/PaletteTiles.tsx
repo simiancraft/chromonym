@@ -49,6 +49,10 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // derived standard. Restrained, formal, and visually distinct from
   // the other poster tones.
   isccNbs: { tone: '#6f7373', ink: 'var(--bh-cream)' },
+  // NBS: slightly warmer, darker gray than isccNbs to signal the
+  // sibling relationship while keeping it visually distinguishable.
+  // Matches the 'physical chip book' vs 'centroid computation' story.
+  nbs: { tone: '#4d4843', ink: 'var(--bh-cream)' },
   // Resene: deep pohutukawa red, a signature NZ color nodding at the
   // palette's distinctly local flavor. Distinct from web's bh-red by
   // pulling toward crimson.
@@ -69,6 +73,7 @@ const ORDER: PaletteKey[] = [
   'fs595c',
   'fs595b',
   'isccNbs',
+  'nbs',
   'resene',
   'ncs',
 ];

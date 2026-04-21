@@ -8,6 +8,7 @@ import {
   fs595b,
   fs595c,
   isccNbs,
+  nbs,
   ncs,
   ntc,
   pantone,
@@ -33,6 +34,7 @@ export const PALETTES = {
   fs595c,
   fs595b,
   isccNbs,
+  nbs,
   resene,
   ncs,
 } as const;
@@ -48,6 +50,7 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   fs595c: 'FS 595C',
   fs595b: 'FS 595B',
   isccNbs: 'ISCC-NBS',
+  nbs: 'NBS',
   resene: 'Resene',
   ncs: 'NCS',
 };
@@ -62,6 +65,7 @@ export const PALETTE_KEYS = [
   'fs595c',
   'fs595b',
   'isccNbs',
+  'nbs',
   'resene',
   'ncs',
 ] as const satisfies readonly PaletteKey[];

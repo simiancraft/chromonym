@@ -89,6 +89,11 @@
       "import": "./dist/palettes/isccNbs.js",
       "default": "./dist/palettes/isccNbs.js"
     },
+    "./nbs": {
+      "types": "./dist/palettes/nbs.d.ts",
+      "import": "./dist/palettes/nbs.js",
+      "default": "./dist/palettes/nbs.js"
+    },
     "./ncs": {
       "types": "./dist/palettes/ncs.d.ts",
       "import": "./dist/palettes/ncs.js",

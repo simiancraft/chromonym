@@ -308,6 +308,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `fs595b` | 209 | Federal Standard 595B paint chips (1989 revision; modelers / historical equipment) |
 | `fs595c` | 589 | Federal Standard 595C paint chips (US Government spec; military / aviation coatings) |
 | `isccNbs` | 260 | ISCC-NBS Method of Designating Colors (1955 US standard; Munsell-partitioned named blocks) |
+| `nbs` | 267 | Second digitization of the same 1955 standard; different sRGB (matches 1955 chip book; covers the 7 blocks `isccNbs` leaves as gaps) |
 | `resene` | 1378 | Resene Paints (NZ) catalog; te reo Māori and NZ place-names in the naming |
 | `ncs` | 1950 | Natural Colour System (Sweden) — perceptual, structured notation (`2030-R80B`), not NCS-licensed |
 

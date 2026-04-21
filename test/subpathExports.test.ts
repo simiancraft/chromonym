@@ -106,6 +106,15 @@ maybe('subpath exports resolve', () => {
     expect(m.isccNbs.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/nbs exports the nbs palette object', async () => {
+    const m = await import('../dist/palettes/nbs');
+    expect(m.nbs.name).toBe('nbs');
+    // Different hex from isccNbs's 'Vivid pink' — proves the two
+    // digitizations ship as distinct palettes.
+    expect(m.nbs.colors.vividpink).toBe('#ffb5ba');
+    expect(m.nbs.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/resene exports the resene palette object', async () => {
     const m = await import('../dist/palettes/resene');
     expect(m.resene.name).toBe('resene');
@@ -211,6 +220,7 @@ maybe('subpath exports resolve', () => {
       "const { isccNbs } = await import('chromonym/iscc-nbs');",
       "const { resene } = await import('chromonym/resene');",
       "const { ncs } = await import('chromonym/ncs');",
+      "const { nbs } = await import('chromonym/nbs');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -232,6 +242,7 @@ maybe('subpath exports resolve', () => {
       '  isccNbsVividPink: isccNbs.colors["Vivid pink"] === "#fd7992",',
       '  reseneTreepoppy: resene.colors.treepoppy === "#e2813b",',
       '  ncsNeutral: ncs.colors["0500-N"] === "#f2f2f2",',
+      '  nbsVividPink: nbs.colors.vividpink === "#ffb5ba",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -262,6 +273,7 @@ maybe('subpath exports resolve', () => {
       isccNbsVividPink: true,
       reseneTreepoppy: true,
       ncsNeutral: true,
+      nbsVividPink: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,

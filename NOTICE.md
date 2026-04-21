@@ -148,6 +148,38 @@ position between the four elementary chromatics.
   only treated as a prefix when followed by a digit, so inputs
   that don't match an NCS code aren't silently rewritten.
 
+## NBS (thundergnat digitization)
+
+The `nbs` palette (267 entries) is a **second digitization of the
+same 1955 NBS Method of Designating Colors** covered by the
+`isccNbs` palette above; it is sourced from the Raku module
+**`Color::Names::NBS`** in
+[`thundergnat/Color-Names`](https://github.com/thundergnat/Color-Names).
+Ships alongside `isccNbs` (not as a replacement) because the two
+digitizations produce materially different sRGB values for the
+same named blocks: average ΔE2000 of ~4.6 across the 260 shared
+names, max ΔE2000 of 31 for the most saturated blocks like
+"Vivid bluish green."
+
+The two palettes serve different reference workflows:
+
+- **`isccNbs`** (Paul Centore) computes Munsell-centroid CIELAB
+  then maps to sRGB. "Vivid" blocks land near the sRGB saturation
+  edge; seven blocks are left as gaps because their centroids
+  fall outside the sRGB gamut.
+- **`nbs`** (thundergnat) appears to use the sample chip RGBs
+  from the original NBS publication, which were already gamut-
+  compressed by the physical chip material. "Vivid" blocks read
+  as more muted, and all 267 entries are covered (including the
+  seven that are missing from `isccNbs`).
+
+Pick `nbs` for historical / swatch-book matching; pick `isccNbs`
+for modern digital design work. The name vocabulary (the 1955
+NBS publication itself) is a US-government document not subject
+to copyright restrictions when faithfully reproduced; the
+specific sRGB values in each palette are credited to their
+respective digitizers.
+
 ## ISCC-NBS Colour System
 
 The `isccNbs` palette (260 entries) is the **ISCC-NBS Method of

@@ -3,6 +3,7 @@ import { crayola } from '../src/palettes/crayola.js';
 import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
+import { nbs } from '../src/palettes/nbs.js';
 import { ncs } from '../src/palettes/ncs.js';
 import { ntc } from '../src/palettes/ntc.js';
 import { pantone } from '../src/palettes/pantone.js';
@@ -87,6 +88,19 @@ describe.each([
       spotChecks: {
         'Vivid pink': '#fd7992',
         'Dark yellowish green': '#2f5d3a',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'nbs',
+    nbs,
+    {
+      minCount: 260,
+      spotChecks: {
+        // Intentionally different hex from isccNbs's 'Vivid pink' (#fd7992):
+        // confirms the two digitizations are distinct palettes.
+        vividpink: '#ffb5ba',
+        brilliantblue: '#4997d0',
       } as Record<string, string>,
     },
   ],

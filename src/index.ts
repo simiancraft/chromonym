@@ -29,6 +29,7 @@ export { type CrayolaColorName, crayola } from './palettes/crayola.js';
 export { type Fs595bColorName, fs595b } from './palettes/fs595b.js';
 export { type Fs595cColorName, fs595c } from './palettes/fs595c.js';
 export { type IsccNbsColorName, isccNbs } from './palettes/isccNbs.js';
+export { type NbsColorName, nbs } from './palettes/nbs.js';
 export { type NcsColorName, ncs } from './palettes/ncs.js';
 export { type NtcColorName, ntc } from './palettes/ntc.js';
 export { type PantoneColorName, pantone } from './palettes/pantone.js';
