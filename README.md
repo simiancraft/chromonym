@@ -14,7 +14,7 @@
 [![Types: included](https://img.shields.io/npm/types/chromonym?color=3178c6&logo=typescript)](https://www.npmjs.com/package/chromonym)
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/codecov/c/github/simiancraft/chromonym?logo=codecov)](https://codecov.io/github/simiancraft/chromonym)
-[![Bundle size](https://img.shields.io/bundlephobia/minzip/chromonym?label=bundle%20size)](https://bundlephobia.com/package/chromonym)
+[![Bundle size](https://img.shields.io/badge/bundle-1.5--20%20kB%20gz-informational)](#what-you-actually-ship)
 
 <p align="center">
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
@@ -451,17 +451,19 @@ const tryConvert = (input: ColorInput, opts = {}) => {
 
 ### What you actually ship
 
-The published tarball is **~557 kB gzipped / ~2.5 MB unpacked** because it carries twelve palettes and ~9000 named-color entries. That's the number `packagephobia` reports — it measures the install footprint on disk. Your **bundle** pays only for what you actually import, measured with `esbuild --minify`:
+**Install size and bundle size are not the same number.** Install size is what lands in your `node_modules/` after `npm install`; bundle size is what ships to your users after tree-shaking, minification, and gzip. For chromonym the gap is roughly two orders of magnitude.
+
+The published tarball is **~2.5 MB unpacked / ~557 kB gzipped** because it carries twelve palettes and ~9000 named-color entries; that's the install-size figure `packagephobia` reports. Your **production bundle** pays only for what you actually import, measured with `esbuild --minify`:
 
 | Import | min | gzip |
 |---|---|---|
-| `import { identify, web } from 'chromonym'` | 10.9 kB | **4.7 kB** |
-| `import { identify, pantone } from 'chromonym'` | 27 kB | **11.3 kB** |
-| `import { identify, ntc } from 'chromonym'` (one of the bigger palettes) | 43 kB | **20 kB** |
 | `import { defineColorPalette } from 'chromonym'` (pure BYO; no built-in) | 3.8 kB | **1.5 kB** |
+| `import { identify, web } from 'chromonym'` | 10.9 kB | **4.7 kB** |
 | `import { pantoneToRgba } from 'chromonym'` (single conversion) | 17.5 kB | **6.8 kB** |
+| `import { identify, pantone } from 'chromonym'` | 27 kB | **11.3 kB** |
+| `import { identify, ntc } from 'chromonym'` | 43 kB | **20 kB** |
 
-The install-size number is a shipping concern, not a bundle-size one. If you're evaluating chromonym against a size budget, the gzip column above is what actually lands in your production build.
+If you're evaluating chromonym against a size budget, the gzip column above is what actually lands in your production build.
 
 ## Types
 
