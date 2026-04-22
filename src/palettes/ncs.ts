@@ -1,4 +1,4 @@
-import type { Palette } from '../types.js';
+import type { NormalizeFn, Palette } from '../types.js';
 
 // NCS codes are often written with a leading 'NCS' brand prefix and/or
 // a leading 'S ' (for "Standard NCS"), e.g. 'NCS S 2030-R80B'. Strip
@@ -6,12 +6,16 @@ import type { Palette } from '../types.js';
 // '2030-R80B', and '2030r80b' all resolve to the same entry. The 'S'
 // prefix is only stripped when followed by a digit so it doesn't eat
 // the leading character of unrelated inputs.
+// Typed as `NormalizeFn` (not inferred) so the emitted `ncs.d.ts`
+// shows `normalize: NormalizeFn` in the palette's shape, matching
+// every other palette instead of `typeof ncsNormalize` (a local
+// name a consumer can't reach).
 const NCS_PREFIX_RE = /^ncs/;
 const NCS_STANDARD_RE = /^s(?=\d)/;
-function ncsNormalize(input: string): string {
+const ncsNormalize: NormalizeFn = (input) => {
   const stripped = input.toLowerCase().replace(/[^a-z0-9]/g, '');
   return stripped.replace(NCS_PREFIX_RE, '').replace(NCS_STANDARD_RE, '');
-}
+};
 
 /**
  * Natural Colour System (NCS) palette: the Swedish perceptual
