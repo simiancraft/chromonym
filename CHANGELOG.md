@@ -1,3 +1,33 @@
+# [3.2.0](https://github.com/simiancraft/chromonym/compare/v3.1.1...v3.2.0) (2026-04-22)
+
+
+### Bug Fixes
+
+* **define:** use Object.create(null) accumulator in defineColorPalette ([f3c4c21](https://github.com/simiancraft/chromonym/commit/f3c4c2129e48f96afb72b239160b8883a20e32df))
+* **docs:** 5 ship-blocking review findings ([2490aca](https://github.com/simiancraft/chromonym/commit/2490aca664da15ecb4eadbf24c93edaf80934663)), closes [#e20074](https://github.com/simiancraft/chromonym/issues/e20074) [#663399](https://github.com/simiancraft/chromonym/issues/663399)
+
+
+### Features
+
+* **demo:** enable React Compiler, drop manual memoization ([c7d120e](https://github.com/simiancraft/chromonym/commit/c7d120ebbcafeb0bbaa59f235568ba5c5ddd6199))
+* **demo:** palette tile grid packs 4 cols × 3 rows on desktop ([54ede3c](https://github.com/simiancraft/chromonym/commit/54ede3cb27dbbf107a15d0928c35c7c68f56fdd1))
+* **demo:** surface palette descriptions beside the tile grid ([56a3e75](https://github.com/simiancraft/chromonym/commit/56a3e7538199026a7b2e957e5812129e2336a6a1))
+* **demo:** unify palette tile name at text-base; trim grid tile padding ([1a1f4a1](https://github.com/simiancraft/chromonym/commit/1a1f4a128f7b814bac2ec0a774aabc17da6e2722))
+* **palettes:** add fs595b; annotate both FS595 palettes with common names ([84d44f8](https://github.com/simiancraft/chromonym/commit/84d44f88a1828ab7280059ee26a75edb086c833e)), closes [#9b2f25](https://github.com/simiancraft/chromonym/issues/9b2f25) [#a32b25](https://github.com/simiancraft/chromonym/issues/a32b25)
+* **palettes:** add fs595c (Federal Standard 595C, 589 entries) ([3c6b224](https://github.com/simiancraft/chromonym/commit/3c6b224b25465178766a633b4fddb6a027532eef))
+* **palettes:** add isccNbs (ISCC-NBS Level 3, 260 entries) ([babb7cd](https://github.com/simiancraft/chromonym/commit/babb7cdd3c1c94ea34b148d9af284555e7d47333))
+* **palettes:** add nbs (alternate NBS digitization, 267 entries) ([fecf8d1](https://github.com/simiancraft/chromonym/commit/fecf8d1a294caf9fefa7b3afce6972d413b268d6))
+* **palettes:** add ncs (Natural Colour System, 1950 entries) ([4aee015](https://github.com/simiancraft/chromonym/commit/4aee0159ce5067072248c3e7989531f0390e44d6))
+* **palettes:** add ntc (Name That Color, 1566 entries) ([d4b1d75](https://github.com/simiancraft/chromonym/commit/d4b1d7549cce00cf560d8f160eb5487c8f4a1b13))
+* **palettes:** add resene (Resene Paints NZ, 1378 entries) ([818c6f8](https://github.com/simiancraft/chromonym/commit/818c6f8bd2e2ff637c6183c1807241c5c94248de))
+* **palettes:** add xkcd (XKCD color-survey, 923 entries) ([fb4bffe](https://github.com/simiancraft/chromonym/commit/fb4bffe925bf2c8c75190dce60a2077d384de1a7))
+* **types:** add defineColorPalette helper for BYO palettes ([0f6823a](https://github.com/simiancraft/chromonym/commit/0f6823a9ed480455521bc3dfe91933fb60c94c61))
+
+
+### Performance Improvements
+
+* **topk:** bounded insertion-sort + forgiving k coercion ([398459a](https://github.com/simiancraft/chromonym/commit/398459a69a6ce0f3b972f8e7373885bff8a634ac))
+
 ## [3.1.1](https://github.com/simiancraft/chromonym/compare/v3.1.0...v3.1.1) (2026-04-21)
 
 
