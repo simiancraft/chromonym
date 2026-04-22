@@ -4,7 +4,9 @@
 // ΔE2000 in saturated blues, for example).
 
 import { type DistanceMetric, identify } from 'chromonym';
-import { useCallback, useMemo, useState } from 'react';
+// React Compiler (see demo/vite.config.ts) auto-memoizes the identify
+// call, derived arrays, and inline callbacks below.
+import { useState } from 'react';
 import { METRICS, METRIC_LABELS } from '../lib/metrics.js';
 import { buildTranslateSnippet } from '../lib/snippets.js';
 import { LiveSnippet } from './LiveSnippet.js';
@@ -39,19 +41,18 @@ export function CrossPaletteTranslator() {
   const dstPaletteKey = lastEdited === 'left' ? rightPalette : leftPalette;
   const srcSelected = lastEdited === 'left' ? leftSelected : rightSelected;
 
-  const { matches, elapsedMs } = useMemo(() => {
-    if (!srcSelected)
-      return { matches: [] as Array<{ name: string; value: string; distance: number }>, elapsedMs: 0 };
+  let matches: Array<{ name: string; value: string; distance: number }> = [];
+  let elapsedMs = 0;
+  if (srcSelected) {
     const t0 = performance.now();
-    const m = identify(srcSelected, {
+    matches = identify(srcSelected, {
       source: PALETTES[srcPaletteKey],
       palette: PALETTES[dstPaletteKey],
       metric,
       k,
     });
-    const t1 = performance.now();
-    return { matches: m, elapsedMs: t1 - t0 };
-  }, [srcPaletteKey, dstPaletteKey, srcSelected, metric, k]);
+    elapsedMs = performance.now() - t0;
+  }
 
   const highlightedNames = matches.map((m) => m.name);
   const highlightRanks = new Map(matches.map((m, i) => [m.name, i] as const));
@@ -74,28 +75,27 @@ export function CrossPaletteTranslator() {
   const leftHex = colorAt(leftPalette, leftShownSelected) ?? '#cccccc';
   const rightHex = colorAt(rightPalette, rightShownSelected) ?? '#cccccc';
 
-  // useCallback keeps the reference stable across renders so PaletteGrid's
-  // memoized Swatch doesn't re-render all 907 pantone buttons on every parent
-  // tick. Without this, React.memo is free to pass on — every Swatch sees a
-  // fresh `onSelect` prop and rerenders anyway.
-  const onLeftPaletteChange = useCallback((key: PaletteKey) => {
+  // React Compiler keeps these callback references stable across
+  // renders so PaletteGrid's auto-memoized Swatch doesn't re-render
+  // all 907 pantone buttons on every parent tick.
+  const onLeftPaletteChange = (key: PaletteKey) => {
     setLeftPalette(key);
     setLeftSelected(Object.keys(PALETTES[key].colors)[0] ?? null);
     setLastEdited('left');
-  }, []);
-  const onRightPaletteChange = useCallback((key: PaletteKey) => {
+  };
+  const onRightPaletteChange = (key: PaletteKey) => {
     setRightPalette(key);
     setRightSelected(Object.keys(PALETTES[key].colors)[0] ?? null);
     setLastEdited('right');
-  }, []);
-  const onLeftSelect = useCallback((name: string) => {
+  };
+  const onLeftSelect = (name: string) => {
     setLeftSelected(name);
     setLastEdited('left');
-  }, []);
-  const onRightSelect = useCallback((name: string) => {
+  };
+  const onRightSelect = (name: string) => {
     setRightSelected(name);
     setLastEdited('right');
-  }, []);
+  };
 
   return (
     <div

@@ -9,7 +9,8 @@
 // the page (identify act, BYO, convert) reacts in lockstep.
 
 import { type ColorValue, resolve } from 'chromonym';
-import { useMemo, useState } from 'react';
+// React Compiler auto-memoizes the resolve() call below.
+import { useState } from 'react';
 import { buildResolveFuzzySnippet } from '../lib/snippets.js';
 import { LiveSnippet } from './LiveSnippet.js';
 import { PALETTE_KEYS, PALETTE_LABELS, PALETTES, type PaletteKey } from './PaletteGrid.js';
@@ -25,13 +26,10 @@ export function FuzzyResolver({ setInput }: FuzzyResolverProps) {
   const [paletteKey, setPaletteKey] = useState<PaletteKey>('web');
   const [k, setK] = useState(3);
 
-  const matches = useMemo(() => {
-    const trimmed = query.trim();
-    if (!trimmed) {
-      return [] as Array<{ name: string; value: ColorValue; distance: number }>;
-    }
-    return resolve(trimmed, { palette: PALETTES[paletteKey], k });
-  }, [query, paletteKey, k]);
+  const trimmed = query.trim();
+  const matches: Array<{ name: string; value: ColorValue; distance: number }> = trimmed
+    ? resolve(trimmed, { palette: PALETTES[paletteKey], k })
+    : [];
 
   return (
     <div

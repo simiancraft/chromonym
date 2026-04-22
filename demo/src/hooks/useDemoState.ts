@@ -20,7 +20,12 @@ import {
   identify,
   resolve,
 } from 'chromonym';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+// React Compiler auto-memoizes derived values and callbacks at build
+// time (see demo/vite.config.ts), so this file only reaches for React
+// hooks with semantic requirements: useState for state, useRef for
+// identity-stable mutable boxes, useEffect for side effects. No
+// manual useMemo / useCallback — the compiler covers those.
+import { useEffect, useRef, useState } from 'react';
 import { PALETTES, type PaletteKey, PALETTE_KEYS } from '../components/PaletteGrid.js';
 import { METRICS } from '../lib/metrics.js';
 import type { Preset } from '../data/presets.js';
@@ -75,78 +80,61 @@ export function useDemoState() {
   }, [input, paletteKey, metric]);
 
   // Primary identify match — rank-0 of a k=1 call, so we get both the name
-  // and its ΔE distance in one shot. elapsedMs is captured inside the memo
-  // so it reflects the *actual* identify work for this input/palette/metric
-  // combo. A stable-deps render returns the cached reading, which reads as
-  // "time of the most recent lookup" — accurate, not real-time.
-  const primary = useMemo(() => {
-    const t0 = performance.now();
-    const [best] = identify(input, { palette, metric, k: 1 });
-    const elapsedMs = performance.now() - t0;
-    return { best: best ?? null, elapsedMs };
-  }, [input, palette, metric]);
-  const matchedName = primary.best?.name ?? null;
-  const matchedHex = primary.best?.value ?? null;
-  const identifyElapsedMs = primary.elapsedMs;
+  // and its ΔE distance in one shot. elapsedMs is captured here so it
+  // reflects the actual identify work for this input/palette/metric combo.
+  const primaryStart = performance.now();
+  const [primaryBest] = identify(input, { palette, metric, k: 1 });
+  const identifyElapsedMs = performance.now() - primaryStart;
+  const matchedName = primaryBest?.name ?? null;
+  const matchedHex = primaryBest?.value ?? null;
 
   // Secondary palette for the background triangle: if the user's palette is
   // pantone, we show crayola's opinion, otherwise pantone. Reinforces the
   // "same color, many names" thesis passively.
   const secondaryKey: PaletteKey = paletteKey === 'pantone' ? 'crayola' : 'pantone';
-  const secondary = useMemo(() => {
-    const [best] = identify(input, { palette: PALETTES[secondaryKey], k: 1 });
-    return best ?? null;
-  }, [input, secondaryKey]);
-  const secondaryHex = secondary?.value ?? null;
+  const [secondaryBest] = identify(input, { palette: PALETTES[secondaryKey], k: 1 });
+  const secondaryHex = secondaryBest?.value ?? null;
 
   // Resolve act (Warhammer BYO). identify picks the nearest faction name;
   // resolve looks its hex back up — the pulsing shape reads from this hex.
-  const warhammerMatch = useMemo(
-    () => identify(input, { palette: warhammer }),
-    [input],
-  );
-  const warhammerHex = useMemo(() => {
-    if (!warhammerMatch) return null;
-    // `resolve` returns `ColorValue | null`, which for the default HEX
-    // format narrows to `HexColor | null`. We narrow via `typeof` instead
-    // of asserting — the cast-shaped fix would lie the day a caller passes
-    // `format: 'RGBA'` and resolve starts returning an Rgba object.
-    const v = resolve(warhammerMatch, { palette: warhammer });
-    return typeof v === 'string' ? v : null;
-  }, [warhammerMatch]);
+  const warhammerMatch = identify(input, { palette: warhammer });
+  // `resolve` returns `ColorValue | null`, which for the default HEX
+  // format narrows to `HexColor | null`. Narrow via `typeof` instead of
+  // asserting — the cast-shaped fix would lie the day a caller passes
+  // `format: 'RGBA'` and resolve starts returning an Rgba object.
+  const warhammerResolved = warhammerMatch
+    ? resolve(warhammerMatch, { palette: warhammer })
+    : null;
+  const warhammerHex = typeof warhammerResolved === 'string' ? warhammerResolved : null;
 
   // Convert act — all five format outputs for the current input.
-  const conversions = useMemo(() => {
-    const out: Record<string, unknown> = {};
-    for (const fmt of COLOR_FORMATS) {
-      try {
-        out[fmt as ColorFormat] = convert(input as ColorInput, { format: fmt as ColorFormat });
-      } catch (e) {
-        out[fmt as ColorFormat] = `— error: ${(e as Error).message}`;
-      }
+  const conversions: Record<string, unknown> = {};
+  for (const fmt of COLOR_FORMATS) {
+    try {
+      conversions[fmt as ColorFormat] = convert(input as ColorInput, {
+        format: fmt as ColorFormat,
+      });
+    } catch (e) {
+      conversions[fmt as ColorFormat] = `— error: ${(e as Error).message}`;
     }
-    return out;
-  }, [input]);
+  }
 
   // Stage gel colors. Defaults fall back to the Bauhaus primaries when no
   // match is available, so the background shapes never go transparent.
-  const gels = useMemo(
-    () => ({
-      circleColor: input,
-      squareColor: matchedHex ?? '#ffd500',
-      triangleColor: secondaryHex ?? '#0038a8',
-    }),
-    [input, matchedHex, secondaryHex],
-  );
+  const gels = {
+    circleColor: input,
+    squareColor: matchedHex ?? '#ffd500',
+    triangleColor: secondaryHex ?? '#0038a8',
+  };
 
   // Named action for applying a whole preset atomically — nicer signature
   // than three sequential setters and gives us a home for any future
   // side effects (analytics, toast on "why did X change", etc.).
-  const applyPreset = useCallback((p: Preset) => {
+  const applyPreset = (p: Preset) => {
     setInput(p.color);
     setPaletteKey(p.palette);
     setMetric(p.metric);
-  }, []);
+  };
 
   return {
     input,

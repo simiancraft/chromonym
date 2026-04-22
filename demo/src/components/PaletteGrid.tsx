@@ -17,7 +17,9 @@ import {
   x11,
   xkcd,
 } from 'chromonym';
-import { memo, useMemo } from 'react';
+// React Compiler (see demo/vite.config.ts) auto-memoizes the derived
+// entries / highlight-set values below and the Swatch component itself,
+// so this file doesn't reach for memo / useMemo directly.
 
 // `as const` is load-bearing: it preserves each palette's literal name union
 // through `PALETTES[k].colors`, so `Object.entries(...)` downstream doesn't
@@ -117,20 +119,11 @@ export function PaletteGrid({
 }: PaletteGridProps) {
   const palette = PALETTES[paletteKey];
 
-  // Memoize the entries array so flex-wrap doesn't get a fresh array identity
-  // on every parent render; pantone's 907 tuples stay stable while only the
-  // palette key is unchanged.
-  const entries = useMemo(
-    () => Object.entries(palette.colors) as Array<[string, string]>,
-    [palette],
-  );
-
-  // Set + render-selected derivation. Set identity matters because Swatch
-  // is memoized on the `isHighlighted` boolean (stable primitive).
-  const highlightSet = useMemo(
-    () => new Set(highlightedNames ?? []),
-    [highlightedNames],
-  );
+  // React Compiler auto-memoizes these derived values. pantone's 907
+  // tuples and the highlightSet get stable identity automatically as
+  // long as their inputs (`palette`, `highlightedNames`) are unchanged.
+  const entries = Object.entries(palette.colors) as Array<[string, string]>;
+  const highlightSet = new Set(highlightedNames ?? []);
 
   const selectedHex = selectedName
     ? (palette.colors as Readonly<Record<string, string>>)[selectedName]
@@ -204,10 +197,10 @@ interface SwatchProps {
   onSelect?: (name: string) => void;
 }
 
-// React.memo on Swatch means pantone's 907 swatches only re-render when their
-// own state flips (selected/highlighted/rank), not when the parent re-renders
-// for an unrelated reason.
-const Swatch = memo(function Swatch({
+// React Compiler auto-memoizes Swatch; pantone's 907 swatches only
+// re-render when their own props flip (selected/highlighted/rank),
+// not when the parent re-renders for an unrelated reason.
+function Swatch({
   name,
   hex,
   isSelected,
@@ -258,4 +251,4 @@ const Swatch = memo(function Swatch({
       className={`${commonClass} cursor-pointer hover:scale-110 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--bh-ink)] focus-visible:ring-offset-1`}
     />
   );
-});
+}
