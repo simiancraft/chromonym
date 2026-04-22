@@ -85,7 +85,18 @@ function describe(value: unknown): string {
 export function defineColorPalette<const P extends DefineColorPaletteInput>(
   p: P,
 ): Palette<Extract<keyof P['colors'], string>> {
-  const normalized: Record<string, HexColor> = {};
+  // Prototype-free accumulator, not a plain `{}`. A caller hydrating
+  // `p.colors` from JSON (common for BYO palettes sourced from a CMS,
+  // a brand spec, etc.) can legitimately have a key like `__proto__`
+  // or `constructor`; palette data is just names and hex strings, so
+  // those names have no special meaning here. With `{}`, assigning
+  // `'#ff0000'` to `normalized['__proto__']` would be silently eaten
+  // by the `Object.prototype.__proto__` setter (which rejects string
+  // values without throwing), and the key would disappear without
+  // hitting the bad-value `console.warn` path. `Object.create(null)`
+  // has no setter to intercept, so every key round-trips as a plain
+  // own property.
+  const normalized = Object.create(null) as Record<string, HexColor>;
   for (const [key, value] of Object.entries(p.colors)) {
     try {
       normalized[key] = rgbaToHex(toRgba(value));

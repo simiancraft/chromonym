@@ -170,6 +170,26 @@ describe('defineColorPalette', () => {
       expect(msg).toContain('badFn');
     });
 
+    it('preserves __proto__ as a literal key when the palette is JSON-hydrated', () => {
+      // JSON.parse materializes '__proto__' as a real own string key, unlike
+      // object literals where TypeScript would reject it outright. With a
+      // plain `{}` accumulator, the Object.prototype.__proto__ setter would
+      // silently eat the assignment (strings aren't valid prototypes), and
+      // the key would disappear without firing the bad-value warn path.
+      // The Object.create(null) accumulator avoids that.
+      const source = JSON.parse('{"__proto__": "#ff0000", "good": "#00ff00"}');
+      const palette = defineColorPalette({
+        name: 'proto-hydrated',
+        colors: source,
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      const colors = palette.colors as Record<string, string>;
+      expect(colors.good).toBe('#00ff00');
+      expect(colors.__proto__).toBe('#ff0000');
+      expect(warnMock).toHaveBeenCalledTimes(0);
+    });
+
     it('describe() survives a value whose JSON.stringify throws (circular ref)', () => {
       // Circular references make JSON.stringify throw; describe()'s catch
       // path falls back to String(value), which works for plain objects.
