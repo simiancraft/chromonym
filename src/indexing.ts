@@ -193,9 +193,19 @@ export function nearest(target: Rgba, space: AnyPalette, metric: DistanceMetric)
  * most of the gamut on ΔE76/2000); `euclidean-srgb` / `euclidean-linear`
  * are in their respective channel-unit Euclidean distances.
  *
- * Cost: O(n log n) for the sort vs O(n) for `nearest` — acceptable for
- * top-K queries. For strict "what's the single nearest?" stay on
- * `nearest` / `identify`.
+ * Cost:
+ * - `k < n`: O(n · k) via bounded insertion-sort; much faster than a
+ *   full sort for small k on cheap metrics where allocation dominates.
+ * - `k >= n` or `k === undefined`: O(n log n) via full push-and-sort,
+ *   returning every entry ranked.
+ *
+ * Tie-breaking: on exact-distance ties, the first-declared entry in
+ * the palette's `colors` object wins. Matches the single-match
+ * `nearest` contract.
+ *
+ * `k` normalization is forgiving: fractional values are rounded,
+ * negatives clamp to 0, and `NaN` / `±Infinity` collapse to 0
+ * (empty result). No throws.
  */
 export function nearestAll(
   target: Rgba,

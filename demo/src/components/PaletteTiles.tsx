@@ -111,12 +111,13 @@ export function PaletteTiles({ selected, onSelect, layout = 'grid' }: PaletteTil
   };
 
   // With 12 palettes, 4 cols × 3 rows (desktop) / 2 cols × 6 rows (mobile)
-  // keeps each tile legible without monster squares. 'row' keeps the original
-  // responsive single-row shape for callers that want a compact strip.
-  const gridClass =
-    layout === 'row'
-      ? 'grid grid-cols-2 sm:grid-cols-4 gap-[3px] p-[3px]'
-      : 'grid grid-cols-2 sm:grid-cols-4 gap-[3px] p-[3px]';
+  // keeps each tile legible without monster squares. The `layout` prop used
+  // to select between 'row' (compact strip) and 'grid' (poster grid); both
+  // now use the same responsive shape since the compact-strip variant is
+  // unused by the current demo. Kept in the type so reintroducing a strip
+  // layout later doesn't need a prop-API change.
+  void layout;
+  const gridClass = 'grid grid-cols-2 sm:grid-cols-4 gap-[3px] p-[3px]';
 
   return (
     <div

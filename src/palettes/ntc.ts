@@ -1590,8 +1590,8 @@ export type NtcColorName = keyof typeof ntcColors;
  * 1566 entries covering design, fashion, and common
  * hardware / UI colors that CSS and X11 don't name. Default metric
  * is CIEDE2000 for best ranking across the dense saturated regions;
- * override per call (e.g. `'deltaEok'`, `'euclidean-srgb'`) for
- * interactive UIs that scrub many colors per second.
+ * override per call with `'deltaEok'` for a cheaper perceptual
+ * metric when scrubbing many colors per second.
  *
  * @example
  * identify('#bada55', { palette: ntc });                   // 'Conifer'

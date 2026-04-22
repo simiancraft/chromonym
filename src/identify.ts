@@ -105,6 +105,15 @@ function parseInput(input: ColorInput | string, source?: Palette): Rgba | null {
  * (web/x11: `deltaE76`, pantone: `deltaE2000`, crayola: `deltaEok`).
  * Override with `metric`.
  *
+ * Tie-breaking: on exact-distance ties, the first-declared entry in
+ * the palette's `colors` object wins. Deterministic across metrics
+ * and across the single-match / top-k paths.
+ *
+ * `k` is forgiving: fractional values round, negatives and zero
+ * return `[]`, and `NaN` / `±Infinity` return `[]` too. No throws on
+ * invalid `k` — callers can safely pipe a slider value in without
+ * pre-validating.
+ *
  * Returns `null` (or `[]` when `k` is set) if the input can't be parsed.
  */
 

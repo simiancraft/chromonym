@@ -1409,8 +1409,9 @@ export type ReseneColorName = keyof typeof reseneColors;
  * coatings, many with distinctly local flavor (te reo Māori
  * names and NZ place-names like 'Pohutukawa', 'Acapulco',
  * 'Afghan Tan'). Popular reference in Australian / New Zealand
- * design. Default metric CIEDE2000 for the dense saturated
- * regions.
+ * design. The palette skews muted / earth-toned; default metric
+ * CIEDE2000 for the many closely-spaced near-neutrals a paint
+ * catalog tends to carry.
  *
  * @example
  * identify('#e2813b', { palette: resene });    // 'treepoppy' (aka "Tree Poppy")

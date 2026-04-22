@@ -93,6 +93,12 @@ export type ResolveFuzzyOptions<P extends Palette = typeof web> = {
  * //    ...]
  * ```
  *
+ * Tie-breaking on equal edit distance: first-declared entry in the
+ * palette's `colors` object wins. Matches `identify`'s contract.
+ *
+ * `k` is forgiving: fractional rounds, negatives and zero return
+ * `[]`, `NaN` / `±Infinity` return `[]`. No throws on invalid `k`.
+ *
  * Defaults: palette = `web`, format = 'HEX', `k` = undefined (strict).
  */
 

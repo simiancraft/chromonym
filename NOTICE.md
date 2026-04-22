@@ -148,6 +148,29 @@ position between the four elementary chromatics.
   only treated as a prefix when followed by a digit, so inputs
   that don't match an NCS code aren't silently rewritten.
 
+### Accuracy envelope
+
+NCS specifies colors by percentages on an opponent-process model;
+those percentages must be translated to sRGB through a calibration
+that differs between publications. As a rough guide for the
+digitization chromonym ships:
+
+- **Mid-chroma / mid-value codes** (blackness and chromaticness
+  both between ~20 and ~60) are the best-behaved; the upstream
+  digitization is usually within a few ΔE2000 of any reasonable
+  alternate rendering.
+- **High chromaticness, low blackness** codes (e.g. `S 1080-Y90R`,
+  `S 0580-G`) sit at or outside the sRGB gamut boundary. The hex
+  shipped here is gamut-clipped; a different digitization may
+  clip differently, producing visibly different hex values for
+  the same NCS code.
+- **Very low-blackness neutrals** (e.g. the `0300-N` / `0500-N`
+  range) are close to sRGB white; fine-grained differences between
+  digitizations are largely imperceptible.
+
+If brand-critical or specification-critical NCS matching is needed,
+consult NCS Colour AB directly: <https://ncscolour.com/>.
+
 ## NBS (thundergnat digitization)
 
 The `nbs` palette (267 entries) is a **second digitization of the
@@ -170,8 +193,12 @@ The two palettes serve different reference workflows:
 - **`nbs`** (thundergnat) appears to use the sample chip RGBs
   from the original NBS publication, which were already gamut-
   compressed by the physical chip material. "Vivid" blocks read
-  as more muted, and all 267 entries are covered (including the
-  seven that are missing from `isccNbs`).
+  as more muted, and all 267 entries are covered — including
+  the seven blocks whose Munsell centroids fall outside the sRGB
+  gamut and are therefore omitted from `isccNbs`. `nbs` does not
+  "recover" the out-of-gamut centroids; it ships the already-
+  compressed physical chip approximation instead, which is a
+  different kind of lossy.
 
 Pick `nbs` for historical / swatch-book matching; pick `isccNbs`
 for modern digital design work. The name vocabulary (the 1955
@@ -269,9 +296,10 @@ The `ntc` palette (1566 entries) is derived from Chirag Mehta's
 <https://chir.ag/projects/ntc/>. Chromonym consumes the dataset via
 the MIT-licensed **`colorjs/color-namer`** npm package
 (<https://github.com/colorjs/color-namer>), which redistributes the
-list in a machine-readable form. Chromonym pins to a specific
-upstream commit SHA (see `scripts/generate-ntc.ts`) so the entry set
-is deterministic across regenerations.
+list in a machine-readable form. The shipped palette was generated
+against commit `abb3d184ab63db9327908319cc45b55c91493bb7` of the
+upstream repository, so the entry set is deterministic and
+reproducible.
 
 - Names are used as **nominative references** to the publicly
   distributed NTC dataset; no endorsement or trademark claim is

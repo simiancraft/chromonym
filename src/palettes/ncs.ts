@@ -2006,7 +2006,7 @@ export type NcsColorName = keyof typeof ncsColors;
  * identify('#f2f2f2', { palette: ncs });           // '0500-N' (neutral gray)
  * resolve('0500-N', { palette: ncs });             // '#f2f2f2'
  * resolve('ncs 0500 N', { palette: ncs });         // '#f2f2f2' (normalized)
- * ncs.colors['2030-R80B'];                         // a moderate red-blue
+ * ncs.colors['2030-R80B'];                         // '#677bd6'
  */
 export const ncs = {
   name: 'ncs',
