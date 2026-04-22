@@ -449,6 +449,20 @@ const tryConvert = (input: ColorInput, opts = {}) => {
 - BYO palettes have zero library cost beyond your own data.
 - Subpath exports (`chromonym/web`, `chromonym/x11`, `chromonym/pantone`, `chromonym/conversions/hex`, `chromonym/math/deltaE`, etc.) let you import a single palette or converter without going through the root barrel.
 
+### What you actually ship
+
+The published tarball is **~557 kB gzipped / ~2.5 MB unpacked** because it carries twelve palettes and ~9000 named-color entries. That's the number `packagephobia` reports — it measures the install footprint on disk. Your **bundle** pays only for what you actually import, measured with `esbuild --minify`:
+
+| Import | min | gzip |
+|---|---|---|
+| `import { identify, web } from 'chromonym'` | 10.9 kB | **4.7 kB** |
+| `import { identify, pantone } from 'chromonym'` | 27 kB | **11.3 kB** |
+| `import { identify, ntc } from 'chromonym'` (one of the bigger palettes) | 43 kB | **20 kB** |
+| `import { defineColorPalette } from 'chromonym'` (pure BYO; no built-in) | 3.8 kB | **1.5 kB** |
+| `import { pantoneToRgba } from 'chromonym'` (single conversion) | 17.5 kB | **6.8 kB** |
+
+The install-size number is a shipping concern, not a bundle-size one. If you're evaluating chromonym against a size budget, the gzip column above is what actually lands in your production build.
+
 ## Types
 
 Re-exported from the root barrel — `import type { ... } from 'chromonym'`:
