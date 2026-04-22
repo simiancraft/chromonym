@@ -1993,7 +1993,8 @@ export type NcsColorName = keyof typeof ncsColors;
  * perceptual color standard based on Hering's opponent-process
  * theory. Codes like '2030-R80B' describe blackness,
  * chromaticness, and hue position between the four elementary
- * chromatics (W, S, Y, R, B, G). Widely used in Scandinavian
+ * chromatics (Y, R, B, G) plus the two achromatic elementaries
+ * (W, S). Widely used in Scandinavian
  * design, architecture, and paint manufacturing. Default
  * metric CIEDE2000.
  *

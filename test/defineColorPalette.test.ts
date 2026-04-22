@@ -152,6 +152,42 @@ describe('defineColorPalette', () => {
       });
       expect(Object.keys(p.colors)).toEqual([]);
     });
+
+    it('describe() handles a value whose JSON.stringify returns undefined', () => {
+      // JSON.stringify(() => {}) === undefined; describe() falls back to String(value).
+      const fn = (() => 'hi') as never;
+      const p = defineColorPalette({
+        name: 'json-undef',
+        colors: { good: '#00ff00', badFn: fn },
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      expect('badFn' in p.colors).toBe(false);
+      expect(warnMock).toHaveBeenCalledTimes(1);
+      const msg = warnMock.mock.calls[0]?.[0];
+      // String(() => 'hi') yields the function source; the warn message
+      // falls back to that when JSON.stringify returns undefined.
+      expect(msg).toContain('badFn');
+    });
+
+    it('describe() survives a value whose JSON.stringify throws (circular ref)', () => {
+      // Circular references make JSON.stringify throw; describe()'s catch
+      // path falls back to String(value), which works for plain objects.
+      const circular: Record<string, unknown> = { name: 'loop' };
+      circular.self = circular;
+      const p = defineColorPalette({
+        name: 'circular',
+        colors: { good: '#00ff00', bad: circular as never },
+        normalize: (s) => s,
+        defaultMetric: 'deltaE76',
+      });
+      expect('bad' in p.colors).toBe(false);
+      expect(warnMock).toHaveBeenCalledTimes(1);
+      const msg = warnMock.mock.calls[0]?.[0];
+      expect(msg).toContain('"bad"');
+      // String({...}) renders as '[object Object]'.
+      expect(msg).toContain('[object Object]');
+    });
   });
 
   describe('downstream integration', () => {

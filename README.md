@@ -295,7 +295,7 @@ Unparseable values are dropped with a `console.warn` naming the palette, the off
 
 If you prefer zero runtime and already have hex-only values, the `as const satisfies Palette<'A' | 'B' | ...>` pattern still works — list the key union once in the generic and it narrows identically.
 
-### The four we ship
+### The twelve we ship
 
 | Name | Entries | Source |
 |---|---|---|

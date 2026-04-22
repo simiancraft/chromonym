@@ -935,7 +935,7 @@ export type PantoneColorName = keyof typeof pantoneColors;
  * @example
  * identify('#e20074', { palette: pantone });                 // '213 C'
  * resolve('Pantone 185 C', { palette: pantone });            // '#e4002b'
- * convert('#663399', { palette: pantone, format: 'NAME' });  // '267 C' (exact)
+ * convert('#e4002b', { palette: pantone, format: 'NAME' });  // '185 C' (exact)
  * pantone.colors['185 C'];                                   // '#e4002b'
  */
 export const pantone = {

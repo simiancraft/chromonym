@@ -135,7 +135,7 @@ export type CrayolaColorName = keyof typeof crayolaColors;
  * saturated-heavy distribution than ΔE76.
  *
  * @example
- * identify('#ff4488', { palette: crayola });              // 'Razzmatazz'
+ * identify('#e20074', { palette: crayola });              // 'Razzmatazz'
  * resolve('Granny Smith Apple', { palette: crayola });    // '#a8e4a0'
  * crayola.colors.Razzmatazz;                              // '#e3256b'
  */
