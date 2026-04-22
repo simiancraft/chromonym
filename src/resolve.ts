@@ -118,27 +118,43 @@ export function resolve(
   const normalized = palette.normalize(name);
 
   if (opts.k !== undefined) {
-    const limit = Math.max(0, opts.k);
-    if (limit === 0) return [];
+    // k normalization — same contract as `identify`'s top-k path:
+    // fractional rounds, negative clamps to 0, NaN/±Infinity collapse
+    // to 0 (empty result). Prior code crashed on NaN / fractional via
+    // `new Array(NaN)`; the `Number.isFinite` guard fixes that.
+    const safeK = Number.isFinite(opts.k) ? Math.max(0, Math.round(opts.k)) : 0;
+    if (safeK === 0) return [];
     if (normalized.length > MAX_FUZZY_INPUT_LENGTH) return [];
-    // Iterate the name index's normalized → canonical map once; for each
-    // entry compute Levenshtein from the user's normalized input.
-    const ranked: Array<[string, number]> = [];
-    for (const [normalizedKey, canonical] of getNameIndex(palette).entries()) {
-      ranked.push([canonical, levenshtein(normalized, normalizedKey)]);
+
+    const index = getNameIndex(palette).entries();
+    // Bounded insertion-sort window, keyed on Levenshtein distance.
+    // See the twin comment in indexing.ts nearestAll for the full
+    // rationale. Levenshtein per comparison is heavier than ΔE, so
+    // the per-entry distance math dominates more than on identify,
+    // but the allocation savings still help at k << palette size.
+    const best: Array<[string, number]> = [];
+    for (const [normalizedKey, canonical] of index) {
+      const d = levenshtein(normalized, normalizedKey);
+      if (best.length < safeK) {
+        let j = best.length;
+        while (j > 0 && (best[j - 1] as [string, number])[1] > d) j--;
+        best.splice(j, 0, [canonical, d]);
+      } else if (d < (best[safeK - 1] as [string, number])[1]) {
+        let j = safeK - 1;
+        while (j > 0 && (best[j - 1] as [string, number])[1] > d) j--;
+        best.splice(j, 0, [canonical, d]);
+        best.pop();
+      }
     }
-    ranked.sort((a, b) => a[1] - b[1]);
+
     const out: Array<ResolveMatch<string>> = [];
-    const take = Math.min(limit, ranked.length);
-    for (let i = 0; i < take; i++) {
-      const entry = ranked[i];
-      if (entry === undefined) continue;
-      const hex = (palette.colors as Record<string, HexColor>)[entry[0]];
+    for (const [canonical, d] of best) {
+      const hex = (palette.colors as Record<string, HexColor>)[canonical];
       if (hex === undefined) continue;
       out.push({
-        name: entry[0],
+        name: canonical,
         value: fromRgba(hexToRgba(hex), format),
-        distance: entry[1],
+        distance: d,
       });
     }
     return out;

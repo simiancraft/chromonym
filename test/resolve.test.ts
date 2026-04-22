@@ -184,6 +184,18 @@ describe('resolve', () => {
       const result = resolve('rebeccapurple', { palette: web, k: total + 100 });
       expect(result.length).toBe(total);
     });
+    it('fractional k rounds to the nearest integer', () => {
+      const result = resolve('rebeccapurple', { palette: web, k: 3.7 as never });
+      expect(result).toHaveLength(4);
+    });
+    it('NaN k returns [] (no RangeError crash)', () => {
+      expect(resolve('rebeccapurple', { palette: web, k: Number.NaN as never })).toEqual([]);
+    });
+    it('Infinity k returns [] (no RangeError crash)', () => {
+      expect(
+        resolve('rebeccapurple', { palette: web, k: Number.POSITIVE_INFINITY as never }),
+      ).toEqual([]);
+    });
 
     it('defaults to web palette when palette omitted', () => {
       const result = resolve('crimzon', { k: 1 });
