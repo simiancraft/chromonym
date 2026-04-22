@@ -166,6 +166,16 @@ const webColors = {
 
 export type WebColorName = keyof typeof webColors;
 
+/**
+ * The CSS / SVG named-color palette. Default target of `identify`,
+ * `resolve`, and `convert` when no `palette` option is provided.
+ *
+ * @example
+ * identify('#ff8080');                          // 'lightcoral'
+ * resolve('rebeccapurple');                     // '#663399'
+ * convert('rebeccapurple', { palette: web });   // '#663399'
+ * web.colors.crimson;                           // '#dc143c'
+ */
 export const web = {
   name: 'web',
   colors: webColors,

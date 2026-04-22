@@ -25,7 +25,11 @@ import { METRICS, METRIC_DESCRIPTIONS, METRIC_LABELS } from '../lib/metrics.js';
 import { buildIdentifySnippet } from '../lib/snippets.js';
 import { Eyedropper } from './Eyedropper.js';
 import { LiveSnippet } from './LiveSnippet.js';
-import { PALETTE_LABELS, type PaletteKey } from './PaletteGrid.js';
+import {
+  PALETTE_DESCRIPTIONS,
+  PALETTE_LABELS,
+  type PaletteKey,
+} from './PaletteGrid.js';
 import { PaletteTiles } from './PaletteTiles.js';
 
 interface HeroIdentifierProps {
@@ -73,6 +77,14 @@ export function HeroIdentifier({
         </div>
 
         <div className="flex flex-col gap-4 min-w-0">
+          <div>
+            <div className="bh-eyebrow mb-2">identify anything</div>
+            <p className="text-xs leading-snug opacity-80">
+              Scrub a color; we return the nearest name from the selected
+              palette.
+            </p>
+          </div>
+
           <div>
             <div className="bh-eyebrow mb-2">scrub</div>
             <label className="block">
@@ -128,10 +140,12 @@ export function HeroIdentifier({
         </div>
       </div>
 
-      {/* ── Controls: metric (left) + palette tiles row (right) ── */}
-      <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6 items-start">
-        <div>
-          <div className="bh-eyebrow mb-2">metric</div>
+      {/* ── Controls row A: metric full-width (moved from its prior position
+           beside the palette tiles so the palette area can split into tiles +
+           selected-palette description). ── */}
+      <div>
+        <div className="bh-eyebrow mb-2">metric</div>
+        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-4 items-start">
           <select
             value={metric}
             onChange={(e) => setMetric(e.target.value as DistanceMetric)}
@@ -147,13 +161,32 @@ export function HeroIdentifier({
               </option>
             ))}
           </select>
-          <div className="font-mono text-[10px] leading-snug opacity-70 mt-2">
+          <div className="font-mono text-[10px] leading-snug opacity-70">
             {METRIC_DESCRIPTIONS[metric]}
           </div>
         </div>
-        <div>
-          <div className="bh-eyebrow mb-2">palette</div>
-          <PaletteTiles selected={paletteKey} onSelect={setPaletteKey} layout="row" />
+      </div>
+
+      {/* ── Controls row B: palette tiles (left) + selected palette's
+           description (right). The description text is demo-side only and
+           reads from PALETTE_DESCRIPTIONS so the library's bundle stays
+           lean; developers hovering the exported palette in their IDE
+           get the same info via JSDoc. ── */}
+      <div>
+        <div className="bh-eyebrow mb-2">palette</div>
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_minmax(0,_18rem)] gap-6 items-start">
+          <PaletteTiles selected={paletteKey} onSelect={setPaletteKey} layout="grid" />
+          <div
+            className="p-4 text-xs leading-snug"
+            style={{
+              border: '1px solid var(--bh-ink)',
+              backgroundColor: 'var(--bh-cream)',
+              minHeight: '100%',
+            }}
+          >
+            <div className="bh-eyebrow mb-2">{PALETTE_LABELS[paletteKey]}</div>
+            <p className="opacity-80">{PALETTE_DESCRIPTIONS[paletteKey]}</p>
+          </div>
         </div>
       </div>
 

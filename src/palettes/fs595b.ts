@@ -1,0 +1,260 @@
+import type { Palette } from '../types.js';
+import { standardNormalize } from './normalize.js';
+
+/**
+ * Federal Standard 595B (FS595B) palette: the 1989 revision of the
+ * US Federal Government paint-color specification. Superseded by
+ * FS595C in 2008 but still referenced by modelers and restorers
+ * for equipment documented against the B revision. 209 entries.
+ *
+ * Source: upstream dataset is Color::Names::FS595B from
+ * @thundergnat/Color-Names (Raku module), which digitizes the
+ * published Federal Standard paint chips. See NOTICE.md.
+ *
+ * Keys are the 5-digit FS codes prefixed with 'FS ' (e.g.
+ * 'FS 11136'), matching the FS595C palette's convention. Common
+ * names ("Brown Special", "Insignia Red", etc.) are captured as
+ * trailing comments for human readers but are NOT unique (the
+ * spec reuses many across different chips) so they are not used
+ * as lookup keys. 209 of 209 entries carry
+ * a common name in the upstream data.
+ *
+ * Same-coded chips can differ in hex between the B and C
+ * revisions; for example 'FS 11136' ('Insignia Red') is
+ * #9b2f25 in this palette versus a slightly different
+ * value in FS595C. Pick whichever matches your reference
+ * documentation.
+ */
+const fs595bColors = {
+  'FS 10140': '#532f15', // Brown Special
+  'FS 11136': '#9b2f25', // Insignia Red
+  'FS 11630': '#ecb2a6', // Pink
+  'FS 12197': '#ba160c', // International Orange
+  'FS 13538': '#f5ab30', // Orange Yellow
+  'FS 13591': '#f7d100', // Yellow
+  'FS 13655': '#fdd31d', // Blue Angels Yellow
+  'FS 13670': '#dbe568', // Lime Yellow
+  'FS 14052': '#373d2f', // Green
+  'FS 14062': '#3d6e3f', // Dark Green
+  'FS 14087': '#3c341f', // Olive Drab
+  'FS 14115': '#006845', // Green
+  'FS 14258': '#515e32', // Green
+  'FS 15042': '#070d09', // Sea Blue
+  'FS 15044': '#2a3141', // Insignia Blue
+  'FS 15050': '#070d1b', // "Blue Angels" Blue
+  'FS 15056': '#001068', // Blue
+  'FS 15102': '#023457', // Dark Blue
+  'FS 15183': '#0e5a8b', // Bright Blue
+  'FS 15200': '#7cbce0', // Sky Blue
+  'FS 15450': '#72a0c1', // Air Superiority Blue
+  'FS 16076': '#353736', // Engine Gray
+  'FS 16081': '#3b3f42', // Engine Gray
+  'FS 16440': '#8a8685', // Light Gull Gray
+  'FS 16473': '#9ea2a3', // Aircraft Gray
+  'FS 16515': '#b8b7a3', // Canadian Voodoo Gray
+  'FS 17038': '#03120f', // Black
+  'FS 17043': '#826a3a', // Gold
+  'FS 17100': '#794b7c', // Purple
+  'FS 17178': '#b2babc', // Aluminum / Silver
+  'FS 17875': '#edf2f8', // Insignia White
+  'FS 17925': '#f8f9f3', // Insignia White
+  'FS 18913': '#fc4827', // Fluorescent Red Orange
+  'FS 20061': '#531f23', // Maroon
+  'FS 20062': '#4a3733', // Brown
+  'FS 20100': '#93400a', // Brown Yellow
+  'FS 20109': '#83321f', // Red Brown
+  'FS 20140': '#694024', // Brown Special
+  'FS 20252': '#bc7756', // Tan
+  'FS 20260': '#af8d50', // Tan
+  'FS 20266': '#a28744', // Yellow Sand
+  'FS 20400': '#b9845c', // Tan
+  'FS 20450': '#ab967b', // Night Tan
+  'FS 21105': '#b51f11', // Red
+  'FS 21310': '#e43301', // Red
+  'FS 21400': '#e94400', // Red
+  'FS 22190': '#e43301', // Red
+  'FS 22516': '#e09f69', // Tan
+  'FS 23275': '#ce981a', // Earth Yellow
+  'FS 23578': '#dbcca5', // Cream
+  'FS 23594': '#dec26e', // Beige
+  'FS 23655': '#fcce16', // Yellow
+  'FS 23697': '#facc7f', // Yellow Sand
+  'FS 23722': '#eeddaf', // Sand
+  'FS 24052': '#373d2f', // Green
+  'FS 24079': '#41402c', // Forest Green
+  'FS 24190': '#4ea04e', // Green
+  'FS 24272': '#6d9477', // Green
+  'FS 24410': '#91a395', // Green
+  'FS 25095': '#2758b5', // Blue
+  'FS 25352': '#96abac', // Blue
+  'FS 25550': '#cfd8dd', // Light Blue
+  'FS 26008': '#343a48', // Dark Gray
+  'FS 26044': '#172339', // Gray
+  'FS 26081': '#3b3f42', // Seaplane Gray
+  'FS 26118': '#3f4952', // Medium Gunship Gray
+  'FS 26152': '#6a737a', // Gray
+  'FS 26270': '#797f7f', // Medium Gray
+  'FS 26320': '#808c8c', // Dark Compass Ghost Gray
+  'FS 26375': '#9598a1', // Light Campers Ghost Gray
+  'FS 26440': '#878684', // Light Gull Gray
+  'FS 27038': '#051111', // Black
+  'FS 27780': '#fbfeeb', // White
+  'FS 27875': '#edf2f8', // Insignia White
+  'FS 28913': '#fe4728', // Fluorescent Red Orange
+  'FS 28915': '#fb2b11', // Fluorescent Red
+  'FS 30045': '#543b34', // Brown
+  'FS 30051': '#443724', // Leather Brown
+  'FS 30075': '#4d140b', // Hull Red
+  'FS 30091': '#612f24', // Red Brown
+  'FS 30097': '#564032', // Brown
+  'FS 30099': '#473622', // Brown
+  'FS 30108': '#3c1e16', // Red Brown
+  'FS 30111': '#4c2a21', // Brown
+  'FS 30117': '#704437', // Earth Red
+  'FS 30118': '#5b462b', // Field Drab
+  'FS 30140': '#532f17', // Brown Special
+  'FS 30160': '#6b433b', // Brown
+  'FS 30215': '#70472b', // Brown
+  'FS 30219': '#715540', // Tan
+  'FS 30227': '#8d7a69', // Tan
+  'FS 30257': '#b48e5d', // Tan
+  'FS 30266': '#a28744', // Yellow Sand
+  'FS 30277': '#948b6c', // Sand Brown
+  'FS 30279': '#a58e7e', // Sand
+  'FS 30372': '#b2a68c', // Sand
+  'FS 30400': '#b58159', // Yellow Sand
+  'FS 31090': '#694223', // Brown
+  'FS 31136': '#9a2e24', // Insignia Red
+  'FS 31302': '#d32200', // Red
+  'FS 31350': '#c41d0a', // Red
+  'FS 31400': '#e94400', // Red
+  'FS 32473': '#ef6c00', // Orange
+  'FS 32648': '#e2c293', // Sand
+  'FS 33105': '#5d4b33', // Brown
+  'FS 33245': '#8f693a', // Tan
+  'FS 33303': '#957f56', // Sand
+  'FS 33434': '#bd8846', // Ochre
+  'FS 33440': '#9f9059', // Tan
+  'FS 33446': '#a38c6c', // Dessert Tan
+  'FS 33448': '#a59272', // Dark Yellow
+  'FS 33531': '#c7ab84', // Middlestone
+  'FS 33538': '#fec110', // Orange Yellow
+  'FS 33613': '#f1c7a1', // Radome Tan
+  'FS 33617': '#c6b490', // Sand
+  'FS 33690': '#e3cfb7', // Sand
+  'FS 33695': '#f5ca86', // Yellow Sand
+  'FS 33711': '#dfcba8', // Sand
+  'FS 33717': '#f0d6b1', // Sand
+  'FS 34031': '#2a2c1f', // Dark Green
+  'FS 34052': '#373d31', // USMC Green
+  'FS 34058': '#46696f', // Sea Blue
+  'FS 34064': '#373828', // Dark Green
+  'FS 34077': '#344034', // Green
+  'FS 34079': '#423f2c', // Forest Green
+  'FS 34082': '#44503a', // Green
+  'FS 34083': '#3a4630', // Green
+  'FS 34084': '#282a1d', // Green
+  'FS 34086': '#404034', // I. R. Dark Green
+  'FS 34087': '#3c3421', // Olive Drab
+  'FS 34088': '#3c341f', // Olive Drab
+  'FS 34092': '#364a41', // Dark Green
+  'FS 34094': '#3e3d29', // Green
+  'FS 34095': '#3b482c', // Field Green
+  'FS 34096': '#454d42', // Dark Green
+  'FS 34097': '#4a4c34', // Field Green
+  'FS 34098': '#4f5338', // Green
+  'FS 34102': '#454932', // Light Green
+  'FS 34108': '#1b4b21', // Medium Green
+  'FS 34127': '#455238', // Green
+  'FS 34128': '#4b654a', // Deep Green
+  'FS 34138': '#19481e', // Green
+  'FS 34151': '#536437', // Interior Green
+  'FS 34159': '#585e50', // Green
+  'FS 34201': '#685d47', // Tan Green
+  'FS 34227': '#4d6b53', // Medium Gray Green
+  'FS 34230': '#2f6031', // Green
+  'FS 34258': '#6f8054', // Green
+  'FS 34259': '#51680e', // Yellow Green
+  'FS 34414': '#a8b693', // Green
+  'FS 34417': '#9fad8c', // Light Gray Green
+  'FS 34424': '#a0b29a', // Light Gray Green
+  'FS 34552': '#c4da99', // Light Green
+  'FS 34554': '#c7c9a4', // Sky
+  'FS 34666': '#d8efab', // Green
+  'FS 35042': '#151b17', // Sea Blue
+  'FS 35044': '#323c48', // Insignia Blue
+  'FS 35045': '#355061', // Dark Blue
+  'FS 35052': '#263a75', // Blue
+  'FS 35109': '#273d55', // Dark Blue
+  'FS 35164': '#56626e', // Intermediate Blue
+  'FS 35177': '#436f94', // Medium Blue
+  'FS 35189': '#687681', // Blue Gray
+  'FS 35190': '#6a85a2', // Dark Blue
+  'FS 35231': '#757fa3', // Azure Blue
+  'FS 35237': '#67757e', // Gray Blue
+  'FS 35240': '#7882a5', // Blue
+  'FS 35250': '#3592bd', // Blue
+  'FS 35352': '#8fabae', // Blue
+  'FS 35414': '#789b9d', // Blue
+  'FS 35450': '#7499ac', // Air Superiority Blue
+  'FS 35526': '#9db4c6', // Light Sky Blue
+  'FS 35622': '#c9d5d1', // Light Blue
+  'FS 36076': '#3b3e51', // Gray
+  'FS 36081': '#3b3f42', // Dark Gunship Gray
+  'FS 36099': '#474d49', // Dark Gray
+  'FS 36118': '#414a53', // Medium Gunship Gray
+  'FS 36152': '#545e56', // Gray
+  'FS 36165': '#7a755f', // Gray
+  'FS 36173': '#606666', // Neutral Gray
+  'FS 36176': '#40474d', // Dark Gull Gray
+  'FS 36231': '#6f7571', // Dark Gull Gray
+  'FS 36251': '#6a6c6b', // Gray
+  'FS 36270': '#7a7f82', // Medium Gray
+  'FS 36280': '#7f8581', // Dark Gray
+  'FS 36300': '#939498', // Aircraft Exterior Gray
+  'FS 36307': '#95928d', // Gray
+  'FS 36314': '#8b8c84', // Flint Gray
+  'FS 36320': '#818b8d', // Dark Compass Ghost Gray
+  'FS 36329': '#819490', // Light Gray
+  'FS 36373': '#8a8e8d', // Light Gray
+  'FS 36375': '#9598a1', // Light Compass Ghost Gray
+  'FS 36424': '#bab2a5', // Medium Gray
+  'FS 36440': '#acaca4', // Light Gull Gray
+  'FS 36463': '#a7b6b9', // Gray
+  'FS 36473': '#98a6a7', // Sky Gray
+  'FS 36492': '#b7b4ab', // Gray
+  'FS 36495': '#c6c5ca', // Light Gray
+  'FS 36521': '#b9b19c', // Tan
+  'FS 36555': '#a3947d', // Tan
+  'FS 36559': '#bfbbb2', // Gray
+  'FS 36622': '#c8c1b1', // Gray
+  'FS 36628': '#cfd5cb', // Flat Aluminum
+  'FS 37031': '#24272e', // Black Gray
+  'FS 37038': '#051111', // Black
+  'FS 37100': '#794b7a', // Purple
+  'FS 37855': '#fdfbd2', // White
+  'FS 37875': '#edf2f8', // Insignia White
+  'FS 37925': '#f8f9f3', // Insignia White
+} as const;
+
+export type Fs595bColorName = keyof typeof fs595bColors;
+
+/**
+ * Federal Standard 595B paint chips (209 entries),
+ * the 1989 revision later superseded by FS595C in 2008. Same
+ * `'FS {code}'` key format as fs595c; different hex on many
+ * shared codes. Pick whichever revision matches the piece of
+ * equipment or documentation you're working from. Default
+ * metric CIEDE2000.
+ *
+ * @example
+ * identify('#9b2f25', { palette: fs595b });       // 'FS 11136' (aka "Insignia Red")
+ * resolve('FS 11136', { palette: fs595b });       // '#9b2f25'
+ * fs595b.colors['FS 10140'];                      // '#532f15' (aka "Brown Special")
+ */
+export const fs595b = {
+  name: 'fs595b',
+  colors: fs595bColors,
+  normalize: standardNormalize,
+  defaultMetric: 'deltaE2000',
+} as const satisfies Palette<Fs595bColorName>;

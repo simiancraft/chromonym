@@ -20,7 +20,11 @@
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
 </p>
 
-**The last color-naming library you'll ever need.** One API — `identify`, `resolve`, `convert` — works against any palette you throw at it. Ships CSS, X11, Pantone, and Crayola out of the box; bring your own (brand colors, paint chips, game factions, chart themes) with full TypeScript inference and zero registration. Six distance metrics — from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone — you only pay for palettes you import.
+**The last color-naming library you'll ever need.** One API — `identify`, `resolve`, `convert` — works against any palette you throw at it. Ships twelve palettes out of the box (CSS, X11, Pantone, Crayola, NTC, XKCD, Resene, NCS, ISCC-NBS, NBS, FS 595 B, FS 595 C); bring your own (brand colors, paint chips, game factions, chart themes) with full TypeScript inference and zero registration. Six distance metrics — from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone — you only pay for palettes you import.
+
+<sub>*chromonym* (n.): a name for a color; *chroma* + *-onym*. Also the library.</sub>
+
+<sub>Every public export ships with JSDoc and a runnable `@example`; autocomplete and hover do the teaching.</sub>
 
 <p align="center">
   <a href="https://simiancraft.github.io/chromonym/">
@@ -79,18 +83,6 @@ pnpm add chromonym
 yarn add chromonym
 npm install chromonym
 ```
-
-## Migrating from 1.x
-
-v2 collapsed the five-verb draft API (`identify`, `identifyAll`, `translate`, `resolve`, `convert`) into **three verbs** by folding the duplicates into options on existing verbs. Mechanical rewrites:
-
-```ts
-// v1 → v2
-identifyAll(color, { palette, k: 3 })          // → identify(color, { palette, k: 3 })
-translate(name, { from: web, to: pantone })    // → identify(name, { palette: pantone, source: web })
-```
-
-`resolve` and `convert` are unchanged. If you were only using those two, no edits are needed. See [`CHANGELOG.md`](CHANGELOG.md) for the full list of v3.0 breaking changes.
 
 ## API
 
@@ -273,22 +265,24 @@ type Palette<Name extends string = string> = {
 
 The primary shape. Any object matching `Palette<Name>` works — no registry, no plugin, no side effects. Bundlers only include the palettes you actually import.
 
-```ts
-import { identify, resolve, type Palette } from 'chromonym';
+The recommended pattern is `defineColorPalette`: it accepts mixed color-value formats (paste whatever came out of your design tool), normalizes everything to hex once at module load, and preserves the literal-key union for full narrowing through `identify` / `resolve` / `convert`.
 
-const warhammer = {
+```ts
+import { defineColorPalette, identify, resolve } from 'chromonym';
+
+const warhammer = defineColorPalette({
   name: 'warhammer40k',
   colors: {
-    'world eaters red': '#8b1a1a',
-    'adeptus red': '#652022',
-    'sons of malice white': '#e8e4d8',
-    'the flawless host purple': '#6b2d7d',
-    'nurgle green': '#748c3f',
+    'world eaters red': '#8b1a1a',                  // hex
+    'adeptus red': 'rgb(101, 32, 34)',              // rgb string
+    'sons of malice white': { r: 232, g: 228, b: 216 }, // rgb object
+    'the flawless host purple': [107, 45, 125],     // rgb tuple
+    'nurgle green': 'hsl(78, 38%, 39%)',            // hsl string
     'alpha legion teal': '#2a6d7a',
   },
-  normalize: (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
+  normalize: (s) => s.toLowerCase().replace(/[^a-z0-9]/g, ''),
   defaultMetric: 'deltaE2000',
-} as const satisfies Palette;
+});
 
 identify('#750c0c', { palette: warhammer })
 // → 'world eaters red'  (return type narrows to the palette's key union)
@@ -297,14 +291,26 @@ resolve('Nurgle Green', { palette: warhammer })
 // → '#748c3f'           (your normalizer handles case + punctuation)
 ```
 
-### The four we ship
+Unparseable values are dropped with a `console.warn` naming the palette, the offending key, and the bad value; the rest of the palette loads normally. This keeps a single typo out of your brand kit from taking down the whole module.
+
+If you prefer zero runtime and already have hex-only values, the `as const satisfies Palette<'A' | 'B' | ...>` pattern still works — list the key union once in the generic and it narrows identically.
+
+### The twelve we ship
 
 | Name | Entries | Source |
 |---|---|---|
 | `web` (default) | 148 | CSS Color Module Level 4 named colors |
 | `x11` | 658 | X.Org `rgb.txt` (public domain) |
 | `pantone` | 907 | Pantone Coated (C) — community approximations (not Pantone-licensed) |
-| `crayola` | ~85 | Crayola crayon colors — community approximations (not Crayola-licensed) |
+| `crayola` | 84 | Crayola crayon colors — community approximations (not Crayola-licensed) |
+| `ntc` | 1566 | Chirag Mehta's "Name That Color" dataset (broad coverage of design / UI / hardware names) |
+| `xkcd` | 923 | XKCD 2010 color-survey results (CC0; crowd-sourced common-speech names) |
+| `fs595b` | 209 | Federal Standard 595B paint chips (1989 revision; modelers / historical equipment) |
+| `fs595c` | 589 | Federal Standard 595C paint chips (US Government spec; military / aviation coatings) |
+| `isccNbs` | 260 | ISCC-NBS Method of Designating Colors (1955 US standard; Munsell-partitioned named blocks) |
+| `nbs` | 267 | Second digitization of the same 1955 standard; different sRGB (matches 1955 chip book; covers the 7 blocks `isccNbs` leaves as gaps) |
+| `resene` | 1378 | Resene Paints (NZ) catalog; te reo Māori and NZ place-names in the naming |
+| `ncs` | 1950 | Natural Colour System (Sweden) — perceptual, structured notation (`2030-R80B`), not NCS-licensed |
 
 Importable directly, or via subpath exports for stricter tree-shaking:
 
@@ -321,7 +327,7 @@ crayola.colors['Granny Smith Apple']  // '#a8e4a0'
 
 Each palette's keys follow its own domain convention — so `identify`'s output pastes back into whatever ecosystem the name came from. `web` uses the CSS spec's single-word form (`rebeccapurple`), `x11` uses the X.Org docs' spaced form (`'antique white 1'`), `pantone` uses the official print notation (`'185 C'`), `crayola` uses the Title Case form printed on the crayon wrapper (`'Granny Smith Apple'`).
 
-*Trivia:* `web.colors.rebeccapurple` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 99, so `x11.colors['gray 73']` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
+*Trivia:* `web.colors.rebeccapurple` (`#663399`) entered CSS Color 4 in 2014 in memory of [Rebecca Meyer](https://meyerweb.com/eric/thoughts/2014/06/19/rebeccapurple/). The X11 set ships every gray name twice (`gray`, `grey`) plus numbered variants up to 100, so `x11.colors['gray 73']` is a real key (`#bababa`). Yes, these are Greys. No, not the kind that visit during sleep paralysis.
 
 ### Cross-palette translation
 
@@ -382,7 +388,7 @@ Rule of thumb: use `source` when you want one clean call and `null` on miss; use
 
 Each metric trades cost for accuracy — the full scan over 907 Pantone entries is well under 1 ms even with ΔE2000. For interactive UIs, cost is usually irrelevant; drop to a cheaper metric when batch-processing millions of colors or when you need specific tie-breaking behavior.
 
-> **Note on x11's default (ΔE76):** x11 has 658 entries, many of them saturated blue/purple ramps where ΔE76 is a known weak spot. The default optimizes for UI scrubbing speed (~5 µs vs ~90 µs for ΔE2000). If perceptual accuracy matters more than latency, override per call with `{ metric: 'deltaEok' }` — same cost as ΔE76 on cached Lab/OKLAB indexes, better separation in blues.
+> **Note on x11's default (ΔE76):** x11 has 658 entries, many of them saturated blue/purple ramps where ΔE76 is a known weak spot. The default optimizes for UI scrubbing speed (~5 µs vs ~90 µs for ΔE2000). If perceptual accuracy matters more than latency, override per call with `{ metric: 'deltaEok' }` for better separation in the blue and purple region.
 
 ```ts
 // Defaults: read from the palette's own `defaultMetric`.
@@ -443,6 +449,20 @@ const tryConvert = (input: ColorInput, opts = {}) => {
 - BYO palettes have zero library cost beyond your own data.
 - Subpath exports (`chromonym/web`, `chromonym/x11`, `chromonym/pantone`, `chromonym/conversions/hex`, `chromonym/math/deltaE`, etc.) let you import a single palette or converter without going through the root barrel.
 
+### What you actually ship
+
+The published tarball is **~557 kB gzipped / ~2.5 MB unpacked** because it carries twelve palettes and ~9000 named-color entries. That's the number `packagephobia` reports — it measures the install footprint on disk. Your **bundle** pays only for what you actually import, measured with `esbuild --minify`:
+
+| Import | min | gzip |
+|---|---|---|
+| `import { identify, web } from 'chromonym'` | 10.9 kB | **4.7 kB** |
+| `import { identify, pantone } from 'chromonym'` | 27 kB | **11.3 kB** |
+| `import { identify, ntc } from 'chromonym'` (one of the bigger palettes) | 43 kB | **20 kB** |
+| `import { defineColorPalette } from 'chromonym'` (pure BYO; no built-in) | 3.8 kB | **1.5 kB** |
+| `import { pantoneToRgba } from 'chromonym'` (single conversion) | 17.5 kB | **6.8 kB** |
+
+The install-size number is a shipping concern, not a bundle-size one. If you're evaluating chromonym against a size budget, the gzip column above is what actually lands in your production build.
+
 ## Types
 
 Re-exported from the root barrel — `import type { ... } from 'chromonym'`:
@@ -466,17 +486,6 @@ bun test
 bun run build
 ```
 
-Regenerating palette data:
-
-```sh
-bun run scripts/generate-x11.ts        # reads /usr/share/X11/rgb.txt
-bun run scripts/generate-pantone.ts    # reads the color_library npm package (MIT © Radu Dragan)
-```
-
-## Coverage
-
-[![Coverage sunburst](https://codecov.io/github/simiancraft/chromonym/graphs/sunburst.svg?token=HYWM6G66YE)](https://codecov.io/github/simiancraft/chromonym)
-
 ## See also
 
 chromonym deliberately limits its scope to color *naming* (resolving and identifying) and lightweight conversions. For other color-related work, reach for tools that do those things well:
@@ -491,8 +500,4 @@ MIT © [the-simian](https://github.com/the-simian)
 
 <p align="center"><sub>Crafted with care by <a href="https://simiancraft.com">Simiancraft</a>.</sub></p>
 
----
-
-> ### Pantone® trademark notice
->
-> **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is **not affiliated with, endorsed by, or certified by Pantone LLC**. The `pantone` palette ships **community-derived sRGB approximations** of the Pantone Coated (C) set. Values will **not** match a licensed Pantone reference exactly and are unsuitable for print color specification. See [`NOTICE.md`](./NOTICE.md) for full text.
+<p align="center"><sub>Pantone® and Crayola® are trademarks of their respective owners; Chromonym is not affiliated. Palette values are community approximations. Demo typeface <a href="https://www.dafont.com/bauhaus-modern.font">Bauhaus Modern</a> © Nils Kähler. Full attributions: <a href="./NOTICE.md">NOTICE.md</a>.</sub></p>

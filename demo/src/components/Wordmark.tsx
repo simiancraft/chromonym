@@ -7,8 +7,6 @@
 // wordmark read as a live "R G B convergence" driven by whatever color is
 // currently selected in the demo.
 
-import { useMemo } from 'react';
-
 interface WordmarkProps {
   hex: string;
   /** mix-blend-mode applied to each R/G/B ghost layer. Defaults to
@@ -49,7 +47,7 @@ export function Wordmark({
   ghostOpacity = 1,
   className = '',
 }: WordmarkProps) {
-  const { r, g, b } = useMemo(() => parseHex(hex), [hex]);
+  const { r, g, b } = parseHex(hex);
   const dR = channelToOffset(r, SCALE_R);
   const dG = channelToOffset(g, SCALE_G);
   const dB = channelToOffset(b, SCALE_B);

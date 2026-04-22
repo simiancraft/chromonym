@@ -26,10 +26,9 @@
     "rgb",
     "hsl",
     "hsv",
-    "palette",
-    "chromonym"
+    "palette"
   ],
-  "author": "the-simian <harlinjesse@gmail.com>",
+  "author": "the-simian <info@simiancraft.com>",
   "license": "MIT",
   "homepage": "https://github.com/simiancraft/chromonym#readme",
   "repository": {
@@ -65,10 +64,50 @@
       "import": "./dist/palettes/pantone.js",
       "default": "./dist/palettes/pantone.js"
     },
+    "./resene": {
+      "types": "./dist/palettes/resene.d.ts",
+      "import": "./dist/palettes/resene.js",
+      "default": "./dist/palettes/resene.js"
+    },
     "./crayola": {
       "types": "./dist/palettes/crayola.d.ts",
       "import": "./dist/palettes/crayola.js",
       "default": "./dist/palettes/crayola.js"
+    },
+    "./fs595b": {
+      "types": "./dist/palettes/fs595b.d.ts",
+      "import": "./dist/palettes/fs595b.js",
+      "default": "./dist/palettes/fs595b.js"
+    },
+    "./fs595c": {
+      "types": "./dist/palettes/fs595c.d.ts",
+      "import": "./dist/palettes/fs595c.js",
+      "default": "./dist/palettes/fs595c.js"
+    },
+    "./iscc-nbs": {
+      "types": "./dist/palettes/isccNbs.d.ts",
+      "import": "./dist/palettes/isccNbs.js",
+      "default": "./dist/palettes/isccNbs.js"
+    },
+    "./nbs": {
+      "types": "./dist/palettes/nbs.d.ts",
+      "import": "./dist/palettes/nbs.js",
+      "default": "./dist/palettes/nbs.js"
+    },
+    "./ncs": {
+      "types": "./dist/palettes/ncs.d.ts",
+      "import": "./dist/palettes/ncs.js",
+      "default": "./dist/palettes/ncs.js"
+    },
+    "./ntc": {
+      "types": "./dist/palettes/ntc.d.ts",
+      "import": "./dist/palettes/ntc.js",
+      "default": "./dist/palettes/ntc.js"
+    },
+    "./xkcd": {
+      "types": "./dist/palettes/xkcd.d.ts",
+      "import": "./dist/palettes/xkcd.js",
+      "default": "./dist/palettes/xkcd.js"
     },
     "./conversions/hex": {
       "types": "./dist/conversions/hex.d.ts",

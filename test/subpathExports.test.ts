@@ -69,6 +69,70 @@ maybe('subpath exports resolve', () => {
     expect(m.crayola.defaultMetric).toBe('deltaEok');
   });
 
+  it('chromonym/ntc exports the ntc palette object', async () => {
+    const m = await import('../dist/palettes/ntc');
+    expect(m.ntc.name).toBe('ntc');
+    expect(m.ntc.colors.Stratos).toBe('#000741');
+    expect(m.ntc.defaultMetric).toBe('deltaE2000');
+  });
+
+  it('chromonym/xkcd exports the xkcd palette object', async () => {
+    const m = await import('../dist/palettes/xkcd');
+    expect(m.xkcd.name).toBe('xkcd');
+    expect(m.xkcd.colors['cloudy blue']).toBe('#acc2d9');
+    expect(m.xkcd.defaultMetric).toBe('deltaE2000');
+  });
+
+  it('chromonym/fs595c exports the fs595c palette object', async () => {
+    const m = await import('../dist/palettes/fs595c');
+    expect(m.fs595c.name).toBe('fs595c');
+    expect(m.fs595c.colors['FS 11136']).toBe('#a32b25');
+    expect(m.fs595c.defaultMetric).toBe('deltaE2000');
+  });
+
+  it('chromonym/fs595b exports the fs595b palette object', async () => {
+    const m = await import('../dist/palettes/fs595b');
+    expect(m.fs595b.name).toBe('fs595b');
+    // Same code, different hex vs FS595C: verifies the two revisions
+    // are distinct palettes and not cross-linked.
+    expect(m.fs595b.colors['FS 11136']).toBe('#9b2f25');
+    expect(m.fs595b.defaultMetric).toBe('deltaE2000');
+  });
+
+  it('chromonym/iscc-nbs exports the isccNbs palette object', async () => {
+    const m = await import('../dist/palettes/isccNbs');
+    expect(m.isccNbs.name).toBe('isccNbs');
+    expect(m.isccNbs.colors['Vivid pink']).toBe('#fd7992');
+    expect(m.isccNbs.defaultMetric).toBe('deltaE2000');
+  });
+
+  it('chromonym/nbs exports the nbs palette object', async () => {
+    const m = await import('../dist/palettes/nbs');
+    expect(m.nbs.name).toBe('nbs');
+    // Different hex from isccNbs's 'Vivid pink' — proves the two
+    // digitizations ship as distinct palettes.
+    expect(m.nbs.colors.vividpink).toBe('#ffb5ba');
+    expect(m.nbs.defaultMetric).toBe('deltaE2000');
+  });
+
+  it('chromonym/resene exports the resene palette object', async () => {
+    const m = await import('../dist/palettes/resene');
+    expect(m.resene.name).toBe('resene');
+    expect(m.resene.colors.treepoppy).toBe('#e2813b');
+    expect(m.resene.defaultMetric).toBe('deltaE2000');
+  });
+
+  it('chromonym/ncs exports the ncs palette object', async () => {
+    const m = await import('../dist/palettes/ncs');
+    expect(m.ncs.name).toBe('ncs');
+    expect(m.ncs.colors['0500-N']).toBe('#f2f2f2');
+    expect(m.ncs.defaultMetric).toBe('deltaE2000');
+    // Custom normalizer strips optional 'NCS' and 'S ' prefixes.
+    expect(m.ncs.normalize('NCS S 0500-N')).toBe('0500n');
+    expect(m.ncs.normalize('S 0500-N')).toBe('0500n');
+    expect(m.ncs.normalize('0500-N')).toBe('0500n');
+  });
+
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
     const m = await import('../dist/conversions/hex');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
@@ -149,6 +213,14 @@ maybe('subpath exports resolve', () => {
       "const { web } = await import('chromonym/web');",
       "const { x11 } = await import('chromonym/x11');",
       "const { crayola } = await import('chromonym/crayola');",
+      "const { ntc } = await import('chromonym/ntc');",
+      "const { xkcd } = await import('chromonym/xkcd');",
+      "const { fs595c } = await import('chromonym/fs595c');",
+      "const { fs595b } = await import('chromonym/fs595b');",
+      "const { isccNbs } = await import('chromonym/iscc-nbs');",
+      "const { resene } = await import('chromonym/resene');",
+      "const { ncs } = await import('chromonym/ncs');",
+      "const { nbs } = await import('chromonym/nbs');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -163,6 +235,14 @@ maybe('subpath exports resolve', () => {
       '  webRed: web.colors.red,',
       '  x11Count: Object.keys(x11.colors).length > 600,',
       '  crayolaRazz: crayola.colors.Razzmatazz === "#e3256b",',
+      '  ntcStratos: ntc.colors.Stratos === "#000741",',
+      '  xkcdCloudyBlue: xkcd.colors["cloudy blue"] === "#acc2d9",',
+      '  fs595cInsignia: fs595c.colors["FS 11136"] === "#a32b25",',
+      '  fs595bInsignia: fs595b.colors["FS 11136"] === "#9b2f25",',
+      '  isccNbsVividPink: isccNbs.colors["Vivid pink"] === "#fd7992",',
+      '  reseneTreepoppy: resene.colors.treepoppy === "#e2813b",',
+      '  ncsNeutral: ncs.colors["0500-N"] === "#f2f2f2",',
+      '  nbsVividPink: nbs.colors.vividpink === "#ffb5ba",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -186,6 +266,14 @@ maybe('subpath exports resolve', () => {
       webRed: '#ff0000',
       x11Count: true,
       crayolaRazz: true,
+      ntcStratos: true,
+      xkcdCloudyBlue: true,
+      fs595cInsignia: true,
+      fs595bInsignia: true,
+      isccNbsVividPink: true,
+      reseneTreepoppy: true,
+      ncsNeutral: true,
+      nbsVividPink: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,

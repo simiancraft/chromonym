@@ -9,7 +9,7 @@
 // explanation of BYO on the right 1/3. The canonical LiveSnippet with its
 // per-faction invocation follows.
 
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { type WarhammerName } from '../data/warhammer.js';
 import { LiveSnippet } from './LiveSnippet.js';
 
@@ -141,24 +141,19 @@ export function KandinskyBYO({
     setOffset({ x: Math.cos(angle) * d, y: Math.sin(angle) * d });
   }, [matchedName]);
 
-  const styleFor = useMemo(
-    () =>
-      (name: WarhammerName, fill: string): React.CSSProperties => {
-        const pulse = matchedName === name;
-        return {
-          transition:
-            'transform 420ms cubic-bezier(0.22,1,0.36,1), filter 420ms ease',
-          transformBox: 'fill-box',
-          transformOrigin: 'center',
-          transform: pulse
-            ? `translate(${offset.x}px, ${offset.y}px) scale(1.1)`
-            : 'translate(0, 0) scale(1)',
-          filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
-          pointerEvents: 'none',
-        };
-      },
-    [matchedName, offset.x, offset.y],
-  );
+  const styleFor = (name: WarhammerName, fill: string): React.CSSProperties => {
+    const pulse = matchedName === name;
+    return {
+      transition: 'transform 420ms cubic-bezier(0.22,1,0.36,1), filter 420ms ease',
+      transformBox: 'fill-box',
+      transformOrigin: 'center',
+      transform: pulse
+        ? `translate(${offset.x}px, ${offset.y}px) scale(1.1)`
+        : 'translate(0, 0) scale(1)',
+      filter: pulse ? `drop-shadow(0 0 22px ${fill})` : 'none',
+      pointerEvents: 'none',
+    };
+  };
 
   return (
     <div style={{ backgroundColor: 'var(--bh-paper)' }}>

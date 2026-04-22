@@ -3,21 +3,69 @@ import { toRgba } from './convert.js';
 import { detectFormat } from './detectFormat.js';
 import { getNameIndex, nearest, nearestAll } from './indexing.js';
 import { web } from './palettes/web.js';
-import type { ColorInput, DistanceMetric, HexColor, Palette, Rgba } from './types.js';
-
-/** Extract string keys from a Palette's `colors` map. */
-type PaletteKey<P extends Palette> = Extract<keyof P['colors'], string>;
+import type { ColorInput, DistanceMetric, HexColor, Palette, PaletteKey, Rgba } from './types.js';
 
 /**
  * One ranked nearest-match entry when `identify` is called with `k`.
  * `value` is the palette's stored hex for the match (useful for rendering
- * swatches). `distance` is in the selected metric's natural units — ΔE
- * for `deltaE*` metrics, channel-unit Euclidean for the others.
+ * swatches). `distance` is in the selected metric's natural units: ΔE for
+ * `deltaE*` metrics, channel-unit Euclidean for the others.
  */
 export type IdentifyMatch<Name extends string> = {
   readonly name: Name;
   readonly value: HexColor;
   readonly distance: number;
+};
+
+/**
+ * Options for {@link identify}. Generic over the target palette so the
+ * return type narrows to its literal-key union.
+ *
+ * @example
+ * identify('#ff0000', { palette: pantone, metric: 'deltaE2000' });
+ * identify('rebeccapurple', { palette: x11, source: web });
+ */
+export type IdentifyOptions<P extends Palette = typeof web> = {
+  /**
+   * Target palette to search in. Defaults to `web` (CSS named colors).
+   */
+  readonly palette?: P;
+  /**
+   * Source palette for cross-palette name input: when `input` is a name
+   * from a different palette (e.g. `'rebeccapurple'` when `palette` is
+   * `pantone`), set `source` to the palette that owns the name so it can
+   * be resolved to an Rgba before the nearest-match lookup.
+   *
+   * @remarks
+   * The `input` argument isn't validated against `source`'s keys at
+   * compile time; unknown names resolve to `null` at runtime.
+   */
+  readonly source?: Palette;
+  /**
+   * Override the distance metric. Defaults to `palette.defaultMetric`
+   * (web/x11: `'deltaE76'`, pantone: `'deltaE2000'`, crayola: `'deltaEok'`).
+   */
+  readonly metric?: DistanceMetric;
+};
+
+/**
+ * Options for the ranked top-k variant of {@link identify}. Returns an
+ * array of {@link IdentifyMatch} entries instead of a single name.
+ *
+ * @example
+ * identify('#ff0080', { palette: pantone, k: 3 });
+ * // [
+ * //   { name: '219 C',    value: '#da1884', distance: 2.1 },
+ * //   { name: '226 C',    value: '#d0006f', distance: 3.9 },
+ * //   { name: 'Red 032 C',value: '#ef3340', distance: 5.4 },
+ * // ]
+ */
+export type IdentifyRankedOptions<P extends Palette = typeof web> = IdentifyOptions<P> & {
+  /**
+   * Number of ranked matches to return. When present, `identify`
+   * returns `IdentifyMatch[]` instead of a single key.
+   */
+  readonly k: number;
 };
 
 /**
@@ -57,25 +105,43 @@ function parseInput(input: ColorInput | string, source?: Palette): Rgba | null {
  * (web/x11: `deltaE76`, pantone: `deltaE2000`, crayola: `deltaEok`).
  * Override with `metric`.
  *
+ * Tie-breaking: on exact-distance ties, the first-declared entry in
+ * the palette's `colors` object wins. Deterministic across metrics
+ * and across the single-match / top-k paths.
+ *
+ * `k` is forgiving: fractional values round, negatives and zero
+ * return `[]`, and `NaN` / `±Infinity` return `[]` too. No throws on
+ * invalid `k` — callers can safely pipe a slider value in without
+ * pre-validating.
+ *
  * Returns `null` (or `[]` when `k` is set) if the input can't be parsed.
  */
+
+// Input accepts `ColorInput | string`. The `string` widening is load-bearing
+// for two flows: (1) cross-palette name lookup (`identify(name, { source })`),
+// and (2) interactive callers passing untrusted user text; the library
+// returns `null` on unparseable input rather than throwing, so consumers can
+// feed it directly from a text field. Tightening to `ColorInput`-only would
+// break both patterns and force every interactive consumer to cast or
+// validate at every call site. Runtime safety is maintained by `parseInput`
+// returning `null` for anything it can't interpret.
 
 // Overload 1: no `k` — single name (or null). Unchanged legacy shape.
 export function identify<P extends Palette = typeof web>(
   input: ColorInput | string,
-  opts?: { palette?: P; source?: Palette; metric?: DistanceMetric },
+  opts?: IdentifyOptions<P>,
 ): PaletteKey<P> | null;
 
 // Overload 2: `k` present — ranked Match[] with distances.
 export function identify<P extends Palette = typeof web>(
   input: ColorInput | string,
-  opts: { palette?: P; source?: Palette; metric?: DistanceMetric; k: number },
+  opts: IdentifyRankedOptions<P>,
 ): Array<IdentifyMatch<PaletteKey<P>>>;
 
 // Implementation.
 export function identify(
   input: ColorInput | string,
-  opts: { palette?: Palette; source?: Palette; metric?: DistanceMetric; k?: number } = {},
+  opts: IdentifyOptions & { k?: number } = {},
 ): string | null | Array<IdentifyMatch<string>> {
   const palette = opts.palette ?? web;
   const metric = opts.metric ?? palette.defaultMetric;

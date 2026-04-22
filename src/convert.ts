@@ -12,6 +12,7 @@ import type {
   HslInput,
   HsvInput,
   Palette,
+  PaletteKey,
   Rgba,
   RgbaInput,
   RgbInput,
@@ -32,9 +33,15 @@ function safeStringify(x: unknown): string {
  * Pass `knownFormat` when the caller has already run `detectFormat` to skip
  * the redundant detection. Throws on `UNKNOWN` input.
  *
- * Palette names (Pantone codes, BYO keys) are not accepted here — they
+ * Palette names (Pantone codes, BYO keys) are not accepted here; they
  * require palette data to parse. Use `convert(name, { palette })` or
  * `resolve(name, { palette })` at the higher level.
+ *
+ * @example
+ * toRgba('#ff0000');               // { r: 255, g: 0, b: 0, a: 1 }
+ * toRgba('rgb(255, 0, 0)');        // { r: 255, g: 0, b: 0, a: 1 }
+ * toRgba([255, 0, 0]);             // { r: 255, g: 0, b: 0, a: 1 }
+ * toRgba({ h: 0, s: 100, l: 50 }); // { r: 255, g: 0, b: 0, a: 1 }
  */
 export function toRgba(input: ColorInput, knownFormat?: DetectedFormat): Rgba {
   const format = knownFormat ?? detectFormat(input);
@@ -58,8 +65,13 @@ export function toRgba(input: ColorInput, knownFormat?: DetectedFormat): Rgba {
  * Emit a canonical `Rgba` in the target structural format. Palette-independent.
  *
  * For palette-key output (e.g. nearest Pantone code, brand name), use
- * `convert(rgba, { format: 'NAME', palette })` — or `identify` for fuzzy,
+ * `convert(rgba, { format: 'NAME', palette })`; or `identify` for fuzzy,
  * `rgbaToPantone` for the low-level Pantone-only path.
+ *
+ * @example
+ * fromRgba({ r: 255, g: 0, b: 0, a: 1 });          // '#ff0000'
+ * fromRgba({ r: 255, g: 0, b: 0, a: 1 }, 'HSL');   // 'hsl(0, 100%, 50%)'
+ * fromRgba({ r: 255, g: 0, b: 0, a: 0.5 }, 'RGB'); // 'rgb(255, 0, 0)' (alpha dropped)
  */
 export function fromRgba(rgba: Rgba, format: ColorFormat = 'HEX'): ColorValue {
   switch (format) {
@@ -85,13 +97,6 @@ export function fromRgba(rgba: Rgba, format: ColorFormat = 'HEX'): ColorValue {
 }
 
 /**
- * Extract string keys from a Palette's `colors` map.
- * Matches the `PaletteKey<P>` helper in `identify.ts` — kept local so
- * `convert` doesn't depend on `identify`.
- */
-type PaletteKey<P extends Palette> = Extract<keyof P['colors'], string>;
-
-/**
  * Detect the input color format, normalize to Rgba, and emit the result
  * in the requested output format.
  *
@@ -114,19 +119,78 @@ type PaletteKey<P extends Palette> = Extract<keyof P['colors'], string>;
  * are the `null`-returning alternatives).
  */
 
+/**
+ * Options for the structural (palette-free) variant of {@link convert}.
+ * Use when you only need to translate between HEX / RGB / RGBA / HSL / HSV.
+ *
+ * @example
+ * convert('#ff0000', { format: 'HSL' }); // 'hsl(0, 100%, 50%)'
+ */
+export type ConvertStructuralOptions = {
+  /**
+   * Target output format. Defaults to `'HEX'`.
+   */
+  readonly format?: ColorFormat;
+};
+
+/**
+ * Options for {@link convert} when reverse-looking-up a palette name
+ * from an exact color value. Generic so the return narrows to the
+ * palette's literal-key union.
+ *
+ * Throws at runtime if the input isn't a pixel-exact match in the
+ * palette; use `identify` for nearest-match semantics.
+ *
+ * @example
+ * convert('#e4002b', { palette: pantone, format: 'NAME' }); // '185 C'
+ * convert('#663399', { palette: web,     format: 'NAME' }); // 'rebeccapurple'
+ */
+export type ConvertNameOptions<P extends Palette> = {
+  /**
+   * Palette to reverse-look-up against. Required when `format` is `'NAME'`.
+   */
+  readonly palette: P;
+  /**
+   * Output discriminator. `'NAME'` returns the palette's canonical key
+   * for the input color.
+   */
+  readonly format: 'NAME';
+};
+
+/**
+ * Options for {@link convert} when a palette is provided but the output
+ * is a structural format (HEX / RGB / HSL / HSV). Unlocks palette-name
+ * *input*: the `input` may be `'185 C'`, `'Acme Red'`, etc., which is
+ * resolved through `palette.normalize` before conversion.
+ *
+ * @example
+ * convert('185 C', { palette: pantone });                // '#e4002b'
+ * convert('185 C', { palette: pantone, format: 'HSL' }); // 'hsl(349, 100%, 45%)'
+ */
+export type ConvertPaletteOptions<P extends Palette> = {
+  /**
+   * Palette used to parse name-shaped inputs.
+   */
+  readonly palette: P;
+  /**
+   * Target output format. Defaults to `'HEX'`.
+   */
+  readonly format?: ColorFormat;
+};
+
 // Overload 1: no palette — structural only. Input is strictly ColorInput.
-export function convert(input: ColorInput, opts?: { format?: ColorFormat }): ColorValue;
+export function convert(input: ColorInput, opts?: ConvertStructuralOptions): ColorValue;
 
 // Overload 2: palette present, format 'NAME' — returns a palette key.
 export function convert<P extends Palette>(
   input: ColorInput | string,
-  opts: { palette: P; format: 'NAME' },
+  opts: ConvertNameOptions<P>,
 ): PaletteKey<P>;
 
 // Overload 3: palette present, structural format — returns ColorValue.
 export function convert<P extends Palette>(
   input: ColorInput | string,
-  opts: { palette: P; format?: ColorFormat },
+  opts: ConvertPaletteOptions<P>,
 ): ColorValue;
 
 // Implementation

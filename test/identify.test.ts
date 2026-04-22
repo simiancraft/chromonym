@@ -231,6 +231,25 @@ describe('identify', () => {
       const total = Object.keys(web.colors).length;
       expect(identify('#ff0000', { palette: web, k: total + 50 }).length).toBe(total);
     });
+    it('fractional k rounds to the nearest integer (3.7 -> 4)', () => {
+      const result = identify('#ff0000', { palette: web, k: 3.7 as never });
+      expect(result).toHaveLength(4);
+    });
+    it('fractional k rounds down at 3.4 (-> 3)', () => {
+      const result = identify('#ff0000', { palette: web, k: 3.4 as never });
+      expect(result).toHaveLength(3);
+    });
+    it('negative k returns []', () => {
+      expect(identify('#ff0000', { palette: web, k: -5 as never })).toEqual([]);
+    });
+    it('NaN k returns [] (no RangeError crash)', () => {
+      expect(identify('#ff0000', { palette: web, k: Number.NaN as never })).toEqual([]);
+    });
+    it('Infinity k returns [] (no RangeError crash)', () => {
+      expect(identify('#ff0000', { palette: web, k: Number.POSITIVE_INFINITY as never })).toEqual(
+        [],
+      );
+    });
     it('k with unrecognized input returns []', () => {
       expect(identify('garbage' as never, { palette: web, k: 3 })).toEqual([]);
     });

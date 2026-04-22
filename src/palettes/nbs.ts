@@ -1,0 +1,313 @@
+import type { Palette } from '../types.js';
+import { standardNormalize } from './normalize.js';
+
+/**
+ * NBS palette: a second digitization of the ISCC-NBS Method of
+ * Designating Colors (1955, US National Bureau of Standards, now
+ * NIST), 267 entries covering the same named color blocks
+ * as chromonym's `isccNbs` palette but with different sRGB
+ * approximations. "Vivid Pink" is `#ffb5ba` here versus
+ * `#fd7992` in `isccNbs` (Centore's Munsell-centroid version).
+ *
+ * Source: Color::Names::NBS from @thundergnat/Color-Names (Raku
+ * module). See NOTICE.md for attribution and the relationship to
+ * the `isccNbs` palette.
+ *
+ * Keys are the lowercase single-word form stripped from the
+ * source's '<name>-NBS' identifiers ('brilliantblue' for
+ * 'Brilliant Blue'). Lookups still accept any casing or
+ * punctuation via standardNormalize. This key format matches the
+ * Resene palette's convention and visually distinguishes NBS
+ * queries from the sentence-case `isccNbs` palette.
+ */
+const nbsColors = {
+  black: '#222222', // Black
+  blackishblue: '#202830', // Blackish Blue
+  blackishgreen: '#1a2421', // Blackish Green
+  blackishpurple: '#291e29', // Blackish Purple
+  blackishred: '#2e1d21', // Blackish Red
+  bluishblack: '#202428', // Bluish Black
+  bluishgray: '#81878b', // Bluish Gray
+  bluishwhite: '#e9e9ed', // Bluish White
+  brilliantblue: '#4997d0', // Brilliant Blue
+  brilliantbluishgreen: '#00a693', // Brilliant Bluish Green
+  brilliantgreen: '#3eb489', // Brilliant Green
+  brilliantgreenishblue: '#239eba', // Brilliant Greenish Blue
+  brilliantgreenishyellow: '#e9e450', // Brilliant Greenish Yellow
+  brilliantorange: '#fd943f', // Brilliant Orange
+  brilliantorangeyellow: '#ffc14f', // Brilliant Orange Yellow
+  brilliantpurple: '#d399e6', // Brilliant Purple
+  brilliantpurplishblue: '#6c79b8', // Brilliant Purplish Blue
+  brilliantpurplishpink: '#ffc8d6', // Brilliant Purplish Pink
+  brilliantviolet: '#7e73b8', // Brilliant Violet
+  brilliantyellow: '#fada5e', // Brilliant Yellow
+  brilliantyellowgreen: '#bdda57', // Brilliant Yellow Green
+  brilliantyellowishgreen: '#83d37d', // Brilliant Yellowish Green
+  brownishblack: '#28201c', // Brownish Black
+  brownishgray: '#5b504f', // Brownish Gray
+  brownishorange: '#ae6938', // Brownish Orange
+  brownishpink: '#c2ac99', // Brownish Pink
+  darkblue: '#00304e', // Dark Blue
+  darkbluishgray: '#51585e', // Dark Bluish Gray
+  darkbluishgreen: '#004b49', // Dark Bluish Green
+  darkbrown: '#422518', // Dark Brown
+  darkgray: '#555555', // Dark Gray
+  darkgrayishblue: '#36454f', // Dark Grayish Blue
+  darkgrayishbrown: '#3e322c', // Dark Grayish Brown
+  darkgrayishgreen: '#3a4b47', // Dark Grayish Green
+  darkgrayisholive: '#363527', // Dark Grayish Olive
+  darkgrayisholivegreen: '#31362b', // Dark Grayish Olive Green
+  darkgrayishpurple: '#50404d', // Dark Grayish Purple
+  darkgrayishred: '#543d3f', // Dark Grayish Red
+  darkgrayishreddishbrown: '#43302e', // Dark Grayish Reddish Brown
+  darkgrayishyellow: '#a18f60', // Dark Grayish Yellow
+  darkgrayishyellowishbrown: '#483c32', // Dark Grayish Yellowish Brown
+  darkgreen: '#1b4d3e', // Dark Green
+  darkgreenishblue: '#004958', // Dark Greenish Blue
+  darkgreenishgray: '#4e5755', // Dark Greenish Gray
+  darkgreenishyellow: '#98943e', // Dark Greenish Yellow
+  darkolive: '#403d21', // Dark Olive
+  darkolivebrown: '#3b3121', // Dark Olive Brown
+  darkolivegreen: '#2b3d26', // Dark Olive Green
+  darkorangeyellow: '#be8a3d', // Dark Orange Yellow
+  darkpink: '#c08081', // Dark Pink
+  darkpurple: '#563c5c', // Dark Purple
+  darkpurplishblue: '#252440', // Dark Purplish Blue
+  darkpurplishgray: '#5d555b', // Dark Purplish Gray
+  darkpurplishpink: '#c17e91', // Dark Purplish Pink
+  darkpurplishred: '#673147', // Dark Purplish Red
+  darkred: '#722f37', // Dark Red
+  darkreddishbrown: '#3e1d1e', // Dark Reddish Brown
+  darkreddishgray: '#5c504f', // Dark Reddish Gray
+  darkreddishorange: '#9e4732', // Dark Reddish Orange
+  darkreddishpurple: '#5d3954', // Dark Reddish Purple
+  darkviolet: '#2f2140', // Dark Violet
+  darkyellow: '#ab9144', // Dark Yellow
+  darkyellowishbrown: '#4b3621', // Dark Yellowish Brown
+  darkyellowishgreen: '#355e3b', // Dark Yellowish Green
+  darkyellowishpink: '#c48379', // Dark Yellowish Pink
+  deepblue: '#00416a', // Deep Blue
+  deepbluishgreen: '#00443f', // Deep Bluish Green
+  deepbrown: '#593319', // Deep Brown
+  deepgreen: '#00543d', // Deep Green
+  deepgreenishblue: '#2e8495', // Deep Greenish Blue
+  deepgreenishyellow: '#9b9400', // Deep Greenish Yellow
+  deepolivegreen: '#232f00', // Deep Olive Green
+  deeporange: '#be6516', // Deep Orange
+  deeporangeyellow: '#c98500', // Deep Orange Yellow
+  deeppink: '#e4717a', // Deep Pink
+  deeppurple: '#602f6b', // Deep Purple
+  deeppurplishblue: '#272458', // Deep Purplish Blue
+  deeppurplishpink: '#de6fa1', // Deep Purplish Pink
+  deeppurplishred: '#78184a', // Deep Purplish Red
+  deepred: '#841b2d', // Deep Red
+  deepreddishbrown: '#56070c', // Deep Reddish Brown
+  deepreddishorange: '#aa381e', // Deep Reddish Orange
+  deepreddishpurple: '#702963', // Deep Reddish Purple
+  deepviolet: '#32174d', // Deep Violet
+  deepyellow: '#af8d13', // Deep Yellow
+  deepyellowgreen: '#467129', // Deep Yellow Green
+  deepyellowishbrown: '#654522', // Deep Yellowish Brown
+  deepyellowishgreen: '#00622d', // Deep Yellowish Green
+  deepyellowishpink: '#e66721', // Deep Yellowish Pink
+  grayishblue: '#536878', // Grayish Blue
+  grayishbrown: '#635147', // Grayish Brown
+  grayishgreen: '#5e716a', // Grayish Green
+  grayishgreenishyellow: '#b9b57d', // Grayish Greenish Yellow
+  grayisholive: '#5b5842', // Grayish Olive
+  grayisholivegreen: '#515744', // Grayish Olive Green
+  grayishpink: '#c4aead', // Grayish Pink
+  grayishpurple: '#796878', // Grayish Purple
+  grayishpurplishblue: '#4c516d', // Grayish Purplish Blue
+  grayishpurplishpink: '#c3a6b1', // Grayish Purplish Pink
+  grayishpurplishred: '#915f6d', // Grayish Purplish Red
+  grayishred: '#905d5d', // Grayish Red
+  grayishreddishbrown: '#674c47', // Grayish Reddish Brown
+  grayishreddishorange: '#b4745e', // Grayish Reddish Orange
+  grayishreddishpurple: '#836479', // Grayish Reddish Purple
+  grayishviolet: '#554c69', // Grayish Violet
+  grayishyellow: '#c2b280', // Grayish Yellow
+  grayishyellowgreen: '#8f9779', // Grayish Yellow Green
+  grayishyellowishbrown: '#7e6d5a', // Grayish Yellowish Brown
+  grayishyellowishpink: '#c7ada3', // Grayish Yellowish Pink
+  greenishblack: '#1e2321', // Greenish Black
+  greenishgray: '#7d8984', // Greenish Gray
+  greenishwhite: '#dfede8', // Greenish White
+  lightblue: '#70a3cc', // Light Blue
+  lightbluishgray: '#b4bcc0', // Light Bluish Gray
+  lightbluishgreen: '#66ada4', // Light Bluish Green
+  lightbrown: '#a67b5b', // Light Brown
+  lightbrownishgray: '#8e8279', // Light Brownish Gray
+  lightgray: '#b9b8b5', // Light Gray
+  lightgrayishbrown: '#958070', // Light Grayish Brown
+  lightgrayisholive: '#8c8767', // Light Grayish Olive
+  lightgrayishpurplishred: '#af868e', // Light Grayish Purplish Red
+  lightgrayishred: '#ad8884', // Light Grayish Red
+  lightgrayishreddishbrown: '#977f73', // Light Grayish Reddish Brown
+  lightgrayishyellowishbrown: '#ae9b82', // Light Grayish Yellowish Brown
+  lightgreen: '#6aab8e', // Light Green
+  lightgreenishblue: '#66aabc', // Light Greenish Blue
+  lightgreenishgray: '#b2beb5', // Light Greenish Gray
+  lightgreenishyellow: '#eae679', // Light Greenish Yellow
+  lightolive: '#867e36', // Light Olive
+  lightolivebrown: '#967117', // Light Olive Brown
+  lightolivegray: '#8a8776', // Light Olive Gray
+  lightorange: '#fab57f', // Light Orange
+  lightorangeyellow: '#fbc97f', // Light Orange Yellow
+  lightpink: '#f9ccca', // Light Pink
+  lightpurple: '#b695c0', // Light Purple
+  lightpurplishblue: '#8791bf', // Light Purplish Blue
+  lightpurplishgray: '#bfb9bd', // Light Purplish Gray
+  lightpurplishpink: '#efbbcc', // Light Purplish Pink
+  lightreddishbrown: '#a87c6d', // Light Reddish Brown
+  lightreddishpurple: '#b784a7', // Light Reddish Purple
+  lightviolet: '#8c82b6', // Light Violet
+  lightyellow: '#f8de7e', // Light Yellow
+  lightyellowgreen: '#c9dc89', // Light Yellow Green
+  lightyellowishbrown: '#c19a6b', // Light Yellowish Brown
+  lightyellowishgreen: '#93c592', // Light Yellowish Green
+  lightyellowishpink: '#f4c2c2', // Light Yellowish Pink
+  mediumgray: '#848482', // Medium Gray
+  moderateblue: '#436b95', // Moderate Blue
+  moderatebluishgreen: '#317873', // Moderate Bluish Green
+  moderatebrown: '#6f4e37', // Moderate Brown
+  moderategreen: '#3b7861', // Moderate Green
+  moderategreenishblue: '#367588', // Moderate Greenish Blue
+  moderategreenishyellow: '#b9b459', // Moderate Greenish Yellow
+  moderateolive: '#665d1e', // Moderate Olive
+  moderateolivebrown: '#6c541e', // Moderate Olive Brown
+  moderateolivegreen: '#4a5d23', // Moderate Olive Green
+  moderateorange: '#d99058', // Moderate Orange
+  moderateorangeyellow: '#e3a857', // Moderate Orange Yellow
+  moderatepink: '#dea5a4', // Moderate Pink
+  moderatepurple: '#86608e', // Moderate Purple
+  moderatepurplishblue: '#4e5180', // Moderate Purplish Blue
+  moderatepurplishpink: '#d597ae', // Moderate Purplish Pink
+  moderatepurplishred: '#a8516e', // Moderate Purplish Red
+  moderatered: '#ab4e52', // Moderate Red
+  moderatereddishbrown: '#79443b', // Moderate Reddish Brown
+  moderatereddishorange: '#cb6d51', // Moderate Reddish Orange
+  moderatereddishpurple: '#915c83', // Moderate Reddish Purple
+  moderateviolet: '#604e81', // Moderate Violet
+  moderateyellow: '#c9ae5d', // Moderate Yellow
+  moderateyellowgreen: '#8a9a5b', // Moderate Yellow Green
+  moderateyellowishbrown: '#826644', // Moderate Yellowish Brown
+  moderateyellowishgreen: '#679267', // Moderate Yellowish Green
+  moderateyellowishpink: '#d9a6a9', // Moderate Yellowish Pink
+  oliveblack: '#25241d', // Olive Black
+  olivegray: '#57554c', // Olive Gray
+  paleblue: '#91a3b0', // Pale Blue
+  palegreen: '#8da399', // Pale Green
+  palegreenishyellow: '#ebe8a4', // Pale Greenish Yellow
+  paleorangeyellow: '#fad6a5', // Pale Orange Yellow
+  palepink: '#ead8d7', // Pale Pink
+  palepurple: '#aa98a9', // Pale Purple
+  palepurplishblue: '#8c92ac', // Pale Purplish Blue
+  palepurplishpink: '#e8ccd7', // Pale Purplish Pink
+  palereddishpurple: '#aa8a9e', // Pale Reddish Purple
+  paleviolet: '#9690ab', // Pale Violet
+  paleyellow: '#f3e5ab', // Pale Yellow
+  paleyellowgreen: '#dadfb7', // Pale Yellow Green
+  paleyellowishpink: '#ecd5c5', // Pale Yellowish Pink
+  pinkishgray: '#c1b6b3', // Pinkish Gray
+  pinkishwhite: '#eae3e1', // Pinkish White
+  purplishblack: '#242124', // Purplish Black
+  purplishgray: '#8b8589', // Purplish Gray
+  purplishwhite: '#e8e3e5', // Purplish White
+  reddishblack: '#282022', // Reddish Black
+  reddishgray: '#8f817f', // Reddish Gray
+  strongblue: '#0067a5', // Strong Blue
+  strongbluishgreen: '#007a74', // Strong Bluish Green
+  strongbrown: '#80461b', // Strong Brown
+  stronggreen: '#007959', // Strong Green
+  stronggreenishblue: '#007791', // Strong Greenish Blue
+  stronggreenishyellow: '#beb72e', // Strong Greenish Yellow
+  strongolivegreen: '#404f00', // Strong Olive Green
+  strongorange: '#ed872d', // Strong Orange
+  strongorangeyellow: '#eaa221', // Strong Orange Yellow
+  strongpink: '#ea9399', // Strong Pink
+  strongpurple: '#875692', // Strong Purple
+  strongpurplishblue: '#545aa7', // Strong Purplish Blue
+  strongpurplishpink: '#e68fac', // Strong Purplish Pink
+  strongpurplishred: '#b3446c', // Strong Purplish Red
+  strongred: '#bc3f4a', // Strong Red
+  strongreddishbrown: '#882d17', // Strong Reddish Brown
+  strongreddishorange: '#d9603b', // Strong Reddish Orange
+  strongreddishpurple: '#9e4f88', // Strong Reddish Purple
+  strongviolet: '#604e97', // Strong Violet
+  strongyellow: '#d4af37', // Strong Yellow
+  strongyellowgreen: '#7e9f2e', // Strong Yellow Green
+  strongyellowishbrown: '#996515', // Strong Yellowish Brown
+  strongyellowishgreen: '#44944a', // Strong Yellowish Green
+  strongyellowishpink: '#f99379', // Strong Yellowish Pink
+  verydarkbluishgreen: '#002a29', // Very Dark Bluish Green
+  verydarkgreen: '#1c352d', // Very Dark Green
+  verydarkgreenishblue: '#002e3b', // Very Dark Greenish Blue
+  verydarkpurple: '#301934', // Very Dark Purple
+  verydarkpurplishred: '#38152c', // Very Dark Purplish Red
+  verydarkred: '#3f1728', // Very Dark Red
+  verydarkreddishpurple: '#341731', // Very Dark Reddish Purple
+  verydarkyellowishgreen: '#173620', // Very Dark Yellowish Green
+  verydeeppurple: '#401a4c', // Very Deep Purple
+  verydeeppurplishred: '#54133b', // Very Deep Purplish Red
+  verydeepred: '#5c0923', // Very Deep Red
+  verydeepreddishpurple: '#54194e', // Very Deep Reddish Purple
+  verydeepyellowishgreen: '#003118', // Very Deep Yellowish Green
+  verylightblue: '#a1caf1', // Very Light Blue
+  verylightbluishgreen: '#96ded1', // Very Light Bluish Green
+  verylightgreen: '#8ed1b2', // Very Light Green
+  verylightgreenishblue: '#9cd1dc', // Very Light Greenish Blue
+  verylightpurple: '#d5badb', // Very Light Purple
+  verylightpurplishblue: '#b3bce2', // Very Light Purplish Blue
+  verylightviolet: '#dcd0ff', // Very Light Violet
+  verylightyellowishgreen: '#b6e5af', // Very Light Yellowish Green
+  verypaleblue: '#bcd4e6', // Very Pale Blue
+  verypalegreen: '#c7e6d7', // Very Pale Green
+  verypalepurple: '#d6cadd', // Very Pale Purple
+  verypalepurplishblue: '#c0c8e1', // Very Pale Purplish Blue
+  verypaleviolet: '#c4c3dd', // Very Pale Violet
+  vividblue: '#00a1c2', // Vivid Blue
+  vividbluishgreen: '#008882', // Vivid Bluish Green
+  vividgreen: '#008856', // Vivid Green
+  vividgreenishblue: '#0085a1', // Vivid Greenish Blue
+  vividgreenishyellow: '#dcd300', // Vivid Greenish Yellow
+  vividorange: '#f38400', // Vivid Orange
+  vividorangeyellow: '#f6a600', // Vivid Orange Yellow
+  vividpink: '#ffb5ba', // Vivid Pink
+  vividpurple: '#9a4eae', // Vivid Purple
+  vividpurplishblue: '#30267a', // Vivid Purplish Blue
+  vividpurplishred: '#ce4676', // Vivid Purplish Red
+  vividred: '#be0032', // Vivid Red
+  vividreddishorange: '#e25822', // Vivid Reddish Orange
+  vividreddishpurple: '#870074', // Vivid Reddish Purple
+  vividviolet: '#9065ca', // Vivid Violet
+  vividyellow: '#f3c300', // Vivid Yellow
+  vividyellowgreen: '#8db600', // Vivid Yellow Green
+  vividyellowishgreen: '#27a64c', // Vivid Yellowish Green
+  vividyellowishpink: '#ffb7a5', // Vivid Yellowish Pink
+  white: '#f2f3f4', // White
+  yellowishgray: '#bfb8a5', // Yellowish Gray
+  yellowishwhite: '#f0ead6', // Yellowish White
+} as const;
+
+export type NbsColorName = keyof typeof nbsColors;
+
+/**
+ * NBS, alternate digitization of the 1955 ISCC-NBS naming
+ * system (267 entries). Same named-block vocabulary
+ * as chromonym's `isccNbs` palette (average ΔE2000 ~4.6 across
+ * shared names, max 31); matches the 1955 physical chip book
+ * and covers the 7 out-of-gamut blocks `isccNbs` leaves as
+ * gaps. Default metric CIEDE2000.
+ *
+ * @example
+ * identify('#ffb5ba', { palette: nbs });           // 'vividpink'
+ * resolve('Brilliant Blue', { palette: nbs });     // '#4997d0'
+ * nbs.colors.grayishpurplishred;                   // '#915f6d'
+ */
+export const nbs = {
+  name: 'nbs',
+  colors: nbsColors,
+  normalize: standardNormalize,
+  defaultMetric: 'deltaE2000',
+} as const satisfies Palette<NbsColorName>;
