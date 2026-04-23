@@ -1,3 +1,16 @@
+# [3.3.0](https://github.com/simiancraft/chromonym/compare/v3.2.0...v3.3.0) (2026-04-23)
+
+
+### Bug Fixes
+
+* **ci:** set least-privilege GITHUB_TOKEN permissions on CI workflow ([946d322](https://github.com/simiancraft/chromonym/commit/946d322285ce5ab264270357734df4fcba21d7e1))
+* **security:** harden rgb() parser against polynomial ReDoS ([c5f5bbd](https://github.com/simiancraft/chromonym/commit/c5f5bbd7a729801bd7420249790c39ed143c22f5))
+
+
+### Features
+
+* **rgb:** accept leading-dot alpha values (.5) in rgb()/rgba() strings ([8954e9d](https://github.com/simiancraft/chromonym/commit/8954e9d67a789800c8f18ccec56e1ea5685b7e8c))
+
 # [3.2.0](https://github.com/simiancraft/chromonym/compare/v3.1.1...v3.2.0) (2026-04-22)
 
 
