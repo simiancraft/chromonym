@@ -19,7 +19,8 @@ function sanitizeAlpha(n: unknown): number {
  * Normalize any RGB/RGBA input shape (string, tuple, or object) into
  * the canonical Rgba representation. Alpha defaults to 1 when absent.
  * Rejects non-finite numeric inputs; clamps r/g/b to [0,255] and a to [0,1].
- * Throws on malformed strings.
+ * Throws on malformed strings. String parsing is linear-time; no polynomial
+ * backtracking on pathological input.
  */
 export function rgbToRgba(input: RgbInput | RgbaInput): Rgba {
   if (Array.isArray(input)) {
