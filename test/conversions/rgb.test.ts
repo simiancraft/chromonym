@@ -45,6 +45,14 @@ describe('rgbToRgba', () => {
         a: 0.75,
       });
     });
+    it('parses leading-dot alpha like ".5"', () => {
+      expect(rgbToRgba('rgba(255, 0, 0, .5)')).toEqual({
+        r: 255,
+        g: 0,
+        b: 0,
+        a: 0.5,
+      });
+    });
     it('throws on malformed string', () => {
       // @ts-expect-error runtime guard for invalid input
       expect(() => rgbToRgba('rgb(abc)')).toThrow();
@@ -52,6 +60,15 @@ describe('rgbToRgba', () => {
     it('throws on wrong function name', () => {
       // @ts-expect-error runtime guard for invalid input
       expect(() => rgbToRgba('hsl(0, 100%, 50%)')).toThrow();
+    });
+    // Regression for CodeQL js/polynomial-redos: a long digit run with no
+    // closing paren must fail fast, not backtrack exponentially.
+    it('rejects ReDoS-shaped input quickly', () => {
+      const attack = `rgb(9,9,9,${'9'.repeat(50_000)}`;
+      const start = performance.now();
+      // @ts-expect-error runtime guard for invalid input
+      expect(() => rgbToRgba(attack)).toThrow();
+      expect(performance.now() - start).toBeLessThan(100);
     });
   });
 });

@@ -1,8 +1,11 @@
 import { clamp, requireFinite } from '../math/clamp.js';
 import type { Rgba, RgbaInput, RgbInput, RgbObject, RgbString } from '../types.js';
 
+// Alpha group split into two unambiguous alternatives to avoid polynomial
+// backtracking (CodeQL js/polynomial-redos) on malformed inputs like
+// `rgb(9,9,9,99...9`.
 const RGB_RE =
-  /^rgba?\s*\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*(?:,\s*(\d*\.?\d+)\s*)?\)$/i;
+  /^rgba?\s*\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*(?:,\s*(\d+(?:\.\d+)?|\.\d+)\s*)?\)$/i;
 
 function sanitizeChannel(n: unknown, label: string): number {
   return clamp(requireFinite(n, label), 0, 255);
