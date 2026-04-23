@@ -1,8 +1,11 @@
 import { clamp, requireFinite } from '../math/clamp.js';
 import type { Rgba, RgbaInput, RgbInput, RgbObject, RgbString } from '../types.js';
 
+// Alpha group split into two unambiguous alternatives to avoid polynomial
+// backtracking (CodeQL js/polynomial-redos) on malformed inputs like
+// `rgb(9,9,9,99...9`.
 const RGB_RE =
-  /^rgba?\s*\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*(?:,\s*(\d*\.?\d+)\s*)?\)$/i;
+  /^rgba?\s*\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*(?:,\s*(\d+(?:\.\d+)?|\.\d+)\s*)?\)$/i;
 
 function sanitizeChannel(n: unknown, label: string): number {
   return clamp(requireFinite(n, label), 0, 255);
@@ -16,7 +19,13 @@ function sanitizeAlpha(n: unknown): number {
  * Normalize any RGB/RGBA input shape (string, tuple, or object) into
  * the canonical Rgba representation. Alpha defaults to 1 when absent.
  * Rejects non-finite numeric inputs; clamps r/g/b to [0,255] and a to [0,1].
- * Throws on malformed strings.
+ * Throws on malformed strings. String parsing is linear-time; no polynomial
+ * backtracking on pathological input. Leading-dot alpha (e.g. `.5`) is
+ * accepted per the CSS Color spec.
+ *
+ * @example
+ * rgbToRgba('rgba(255, 0, 0, .5)');
+ * // => { r: 255, g: 0, b: 0, a: 0.5 }
  */
 export function rgbToRgba(input: RgbInput | RgbaInput): Rgba {
   if (Array.isArray(input)) {

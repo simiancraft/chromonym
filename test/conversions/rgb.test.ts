@@ -45,6 +45,14 @@ describe('rgbToRgba', () => {
         a: 0.75,
       });
     });
+    it('parses leading-dot alpha like ".5"', () => {
+      expect(rgbToRgba('rgba(255, 0, 0, .5)')).toEqual({
+        r: 255,
+        g: 0,
+        b: 0,
+        a: 0.5,
+      });
+    });
     it('throws on malformed string', () => {
       // @ts-expect-error runtime guard for invalid input
       expect(() => rgbToRgba('rgb(abc)')).toThrow();
@@ -52,6 +60,22 @@ describe('rgbToRgba', () => {
     it('throws on wrong function name', () => {
       // @ts-expect-error runtime guard for invalid input
       expect(() => rgbToRgba('hsl(0, 100%, 50%)')).toThrow();
+    });
+    // Perf-regression canary for CodeQL js/polynomial-redos. Against a linear-time
+    // regex this runs in ~1ms; against a backtracking regex it balloons to seconds
+    // or hangs. The .toThrow() check alone cannot detect that regression — a
+    // regressed regex still eventually throws, just catastrophically slowly — so
+    // the wall-clock bound is the actual signal. 250ms gives ~250× headroom for
+    // CI noise (cold JIT, shared runner, coverage instrumentation) without
+    // weakening the check: any real ReDoS reappearance takes orders of magnitude
+    // longer than that. Doubles as a defense-in-depth check against injection of
+    // untrusted input into the rgb() parser (e.g. user-supplied CSS strings).
+    it('matches malformed input in linear time (ReDoS regression guard)', () => {
+      const attack = `rgb(9,9,9,${'9'.repeat(50_000)}`;
+      const start = performance.now();
+      // @ts-expect-error runtime guard for invalid input
+      expect(() => rgbToRgba(attack)).toThrow();
+      expect(performance.now() - start).toBeLessThan(250);
     });
   });
 });
