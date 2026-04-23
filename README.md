@@ -15,6 +15,7 @@
 [![CI](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml/badge.svg)](https://github.com/simiancraft/chromonym/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/codecov/c/github/simiancraft/chromonym?logo=codecov)](https://codecov.io/github/simiancraft/chromonym)
 [![Bundle size](https://img.shields.io/badge/bundle-1.5--20%20kB%20gz-informational)](#what-you-actually-ship)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/simiancraft/chromonym/badge)](https://securityscorecards.dev/viewer/?uri=github.com/simiancraft/chromonym)
 
 <p align="center">
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
