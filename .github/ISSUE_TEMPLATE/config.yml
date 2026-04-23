@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/simiancraft/chromonym/security/advisories/new
+    about: Report security issues privately via GitHub Security Advisories. Do not open a public issue.
+  - name: Question or usage help
+    url: https://github.com/simiancraft/chromonym#readme
+    about: Most usage questions are answered in the README. If it's not, open a discussion-style issue using one of the templates above.
