@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/simiancraft/chromonym/compare/v3.3.0...v3.3.1) (2026-04-24)
+
+
+### Bug Fixes
+
+* **subpath:** use fileURLToPath for cross-platform PROJECT_ROOT; document test idioms ([436fabc](https://github.com/simiancraft/chromonym/commit/436fabcded3690587e3eced8566ef5e5dd4b681d)), closes [#E20074](https://github.com/simiancraft/chromonym/issues/E20074) [#e20074](https://github.com/simiancraft/chromonym/issues/e20074)
+
 # [3.3.0](https://github.com/simiancraft/chromonym/compare/v3.2.0...v3.3.0) (2026-04-23)
 
 
