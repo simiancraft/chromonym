@@ -1,3 +1,10 @@
+## [3.3.2](https://github.com/simiancraft/chromonym/compare/v3.3.1...v3.3.2) (2026-04-24)
+
+
+### Bug Fixes
+
+* **subpath:** correct type cast on PKG_JSON.exports iteration ([2ec9aa8](https://github.com/simiancraft/chromonym/commit/2ec9aa841808b5cec2222dbd9de790b17cc534f1))
+
 ## [3.3.1](https://github.com/simiancraft/chromonym/compare/v3.3.0...v3.3.1) (2026-04-24)
 
 
