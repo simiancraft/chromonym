@@ -87,7 +87,7 @@
 ### Features
 
 * **palettes:** add crayola palette (~85 entries) ([212ab5c](https://github.com/simiancraft/chromonym/commit/212ab5cb495e870b83d70e195be1dc383545ba04))
-* translate + identifyAll verbs; cross-palette demo section ([fc4b3fa](https://github.com/simiancraft/chromonym/commit/fc4b3fa42b413fd16a0eac43dae26dd320aa7676)), closes [#E20074](https://github.com/simiancraft/chromonym/issues/E20074)
+* translate + identifyAll verbs; cross-palette demo section ([fc4b3fa](https://github.com/simiancraft/chromonym/commit/fc4b3fa42b413fd16a0eac43dae26dd320aa7676)), closes [#e20074](https://github.com/simiancraft/chromonym/issues/e20074)
 
 
 ### BREAKING CHANGES
@@ -152,12 +152,12 @@ Direct palette access also uses the new keys:
 strings. Pass the palette object instead:
 
   // before
-  identify('#E20074', { colorspace: 'pantone' })
+  identify('#e20074', { colorspace: 'pantone' })
   resolve('185 C', { colorspace: 'pantone' })
 
   // after
   import { identify, resolve, pantone } from 'chromonym';
-  identify('#E20074', { colorspace: pantone })
+  identify('#e20074', { colorspace: pantone })
   resolve('185 C', { colorspace: pantone })
 
 Palette data now lives under `.colors`:

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 /**
  * Smoke tests proving each package.json "exports" subpath resolves
@@ -23,7 +24,7 @@ import { existsSync, readFileSync } from 'node:fs';
  * builds before running tests; local devs should run `bun run build`
  * before `bun test` if they want the subpath assertions to execute.
  */
-const PROJECT_ROOT = new URL('../', import.meta.url).pathname;
+const PROJECT_ROOT = fileURLToPath(new URL('../', import.meta.url));
 const DIST_URL = new URL('../dist/', import.meta.url);
 const DIST_READY = existsSync(new URL('index.js', DIST_URL));
 const PKG_JSON = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
@@ -179,6 +180,9 @@ maybe('subpath exports resolve', () => {
     const m = await import('../dist/types');
     expect(m.COLOR_FORMATS).toBeInstanceOf(Set);
     expect(m.COLOR_FORMATS.has('HEX')).toBe(true);
+    // `as never` is intentional: asserts 'PANTONE' is both runtime-absent AND
+    // compile-time-unassignable to the narrow ColorFormat union. Removing the
+    // cast would weaken this to a runtime-only check.
     expect(m.COLOR_FORMATS.has('PANTONE' as never)).toBe(false);
   });
 
@@ -255,6 +259,10 @@ maybe('subpath exports resolve', () => {
       '};',
       'process.stdout.write(JSON.stringify(out));',
     ].join(' ');
+    // No try/catch wrapper: if execFileSync fails (broken exports map OR
+    // subprocess/script error), Node attaches .stdout and .stderr to the
+    // thrown error, and Bun's test runner surfaces them in the failure
+    // report. That distinguishes the two failure modes without extra code.
     const output = execFileSync('node', ['--input-type=module', '-e', script], {
       cwd: PROJECT_ROOT,
       encoding: 'utf8',
