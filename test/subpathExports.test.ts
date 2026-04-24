@@ -187,7 +187,9 @@ maybe('subpath exports resolve', () => {
   });
 
   it('every package.json exports entry points to an emitted file', () => {
-    for (const [subpath, conditions] of Object.entries<Record<string, string>>(PKG_JSON.exports)) {
+    for (const [subpath, conditions] of Object.entries<{ import: string; types: string }>(
+      PKG_JSON.exports,
+    )) {
       if (subpath === './package.json') continue;
       const importPath = conditions.import;
       const typesPath = conditions.types;
