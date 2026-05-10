@@ -77,10 +77,10 @@ describe('detectFormat', () => {
 
   describe('UNKNOWN', () => {
     it('returns UNKNOWN for garbage string', () => {
-      expect(detectFormat('not a color')).toBe('UNKNOWN');
+      expect(detectFormat('not a color' as never)).toBe('UNKNOWN');
     });
     it('returns UNKNOWN for empty string', () => {
-      expect(detectFormat('')).toBe('UNKNOWN');
+      expect(detectFormat('' as never)).toBe('UNKNOWN');
     });
     it('returns UNKNOWN for empty object', () => {
       expect(detectFormat({} as never)).toBe('UNKNOWN');

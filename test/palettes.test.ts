@@ -128,7 +128,7 @@ describe.each([
   ],
 ])('%s palette', (name, space, { minCount, spotChecks }) => {
   it('declares its own name', () => {
-    expect(space.name).toBe(name);
+    expect(space.name as string).toBe(name);
   });
 
   it(`has at least ${minCount} entries`, () => {
