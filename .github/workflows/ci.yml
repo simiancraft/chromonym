@@ -64,7 +64,11 @@ jobs:
   release:
     name: Release
     needs: check
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Gated on the RELEASE_ENABLED repo variable. Stays dormant until the
+    # APP_ID + APP_PRIVATE_KEY secrets are configured (GitHub App that
+    # bypasses main's ruleset for the chore(release) commit + tag).
+    # Flip `gh variable set RELEASE_ENABLED --body true` to activate.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.RELEASE_ENABLED == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
