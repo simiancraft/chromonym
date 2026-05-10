@@ -1,5 +1,9 @@
-// Public API barrel — explicit named re-exports only (tree-shake friendly).
+// Public API barrel; explicit named re-exports only (tree-shake friendly).
 // No default export; no side effects at module scope.
+
+import pkg from '../package.json' with { type: 'json' };
+
+export const VERSION: string = pkg.version;
 
 export { hexToRgba, rgbaToHex } from './conversions/hex.js';
 export { hslToRgba, rgbaToHsl } from './conversions/hsl.js';
