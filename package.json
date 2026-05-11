@@ -160,7 +160,8 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "bun run clean && tsgo",
-    "typecheck": "tsgo --noEmit && tsgo --noEmit --project tsconfig.test.json",
+    "typecheck": "tsgo --noEmit",
+    "typecheck:test": "tsgo --noEmit --project tsconfig.test.json",
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "format": "biome format --write .",

@@ -40,6 +40,12 @@ jobs:
       - name: Build
         run: bun run build
 
+      # Strict typecheck for test/. Runs after Build because
+      # test/subpathExports.test.ts statically imports dist/* modules
+      # that don't exist until the build step emits them.
+      - name: Typecheck tests (tsgo)
+        run: bun run typecheck:test
+
       - name: Package hygiene (publint + attw)
         run: bun run check:package
 
