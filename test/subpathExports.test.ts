@@ -32,7 +32,7 @@ const maybe = DIST_READY ? describe : describe.skip;
 
 maybe('subpath exports resolve', () => {
   it('chromonym (root barrel) exposes the primary API', async () => {
-    const m = await import('../dist/index');
+    const m = await import('../dist/index.js');
     expect(typeof m.identify).toBe('function');
     expect(typeof m.resolve).toBe('function');
     expect(typeof m.convert).toBe('function');
@@ -43,7 +43,7 @@ maybe('subpath exports resolve', () => {
   });
 
   it('chromonym/web exports the web palette object', async () => {
-    const m = await import('../dist/palettes/web');
+    const m = await import('../dist/palettes/web.js');
     expect(m.web.name).toBe('web');
     expect(m.web.colors.red).toBe('#ff0000');
     expect(typeof m.web.normalize).toBe('function');
@@ -51,48 +51,48 @@ maybe('subpath exports resolve', () => {
   });
 
   it('chromonym/x11 exports the x11 palette object', async () => {
-    const m = await import('../dist/palettes/x11');
+    const m = await import('../dist/palettes/x11.js');
     expect(m.x11.name).toBe('x11');
     expect(Object.keys(m.x11.colors).length).toBeGreaterThan(600);
   });
 
   it('chromonym/pantone exports the pantone palette object', async () => {
-    const m = await import('../dist/palettes/pantone');
+    const m = await import('../dist/palettes/pantone.js');
     expect(m.pantone.name).toBe('pantone');
     expect(m.pantone.colors['185 C']).toBe('#e4002b');
     expect(m.pantone.defaultMetric).toBe('deltaE2000');
   });
 
   it('chromonym/crayola exports the crayola palette object', async () => {
-    const m = await import('../dist/palettes/crayola');
+    const m = await import('../dist/palettes/crayola.js');
     expect(m.crayola.name).toBe('crayola');
     expect(m.crayola.colors.Razzmatazz).toBe('#e3256b');
     expect(m.crayola.defaultMetric).toBe('deltaEok');
   });
 
   it('chromonym/ntc exports the ntc palette object', async () => {
-    const m = await import('../dist/palettes/ntc');
+    const m = await import('../dist/palettes/ntc.js');
     expect(m.ntc.name).toBe('ntc');
     expect(m.ntc.colors.Stratos).toBe('#000741');
     expect(m.ntc.defaultMetric).toBe('deltaE2000');
   });
 
   it('chromonym/xkcd exports the xkcd palette object', async () => {
-    const m = await import('../dist/palettes/xkcd');
+    const m = await import('../dist/palettes/xkcd.js');
     expect(m.xkcd.name).toBe('xkcd');
     expect(m.xkcd.colors['cloudy blue']).toBe('#acc2d9');
     expect(m.xkcd.defaultMetric).toBe('deltaE2000');
   });
 
   it('chromonym/fs595c exports the fs595c palette object', async () => {
-    const m = await import('../dist/palettes/fs595c');
+    const m = await import('../dist/palettes/fs595c.js');
     expect(m.fs595c.name).toBe('fs595c');
     expect(m.fs595c.colors['FS 11136']).toBe('#a32b25');
     expect(m.fs595c.defaultMetric).toBe('deltaE2000');
   });
 
   it('chromonym/fs595b exports the fs595b palette object', async () => {
-    const m = await import('../dist/palettes/fs595b');
+    const m = await import('../dist/palettes/fs595b.js');
     expect(m.fs595b.name).toBe('fs595b');
     // Same code, different hex vs FS595C: verifies the two revisions
     // are distinct palettes and not cross-linked.
@@ -101,14 +101,14 @@ maybe('subpath exports resolve', () => {
   });
 
   it('chromonym/iscc-nbs exports the isccNbs palette object', async () => {
-    const m = await import('../dist/palettes/isccNbs');
+    const m = await import('../dist/palettes/isccNbs.js');
     expect(m.isccNbs.name).toBe('isccNbs');
     expect(m.isccNbs.colors['Vivid pink']).toBe('#fd7992');
     expect(m.isccNbs.defaultMetric).toBe('deltaE2000');
   });
 
   it('chromonym/nbs exports the nbs palette object', async () => {
-    const m = await import('../dist/palettes/nbs');
+    const m = await import('../dist/palettes/nbs.js');
     expect(m.nbs.name).toBe('nbs');
     // Different hex from isccNbs's 'Vivid pink' — proves the two
     // digitizations ship as distinct palettes.
@@ -117,14 +117,14 @@ maybe('subpath exports resolve', () => {
   });
 
   it('chromonym/resene exports the resene palette object', async () => {
-    const m = await import('../dist/palettes/resene');
+    const m = await import('../dist/palettes/resene.js');
     expect(m.resene.name).toBe('resene');
     expect(m.resene.colors.treepoppy).toBe('#e2813b');
     expect(m.resene.defaultMetric).toBe('deltaE2000');
   });
 
   it('chromonym/ncs exports the ncs palette object', async () => {
-    const m = await import('../dist/palettes/ncs');
+    const m = await import('../dist/palettes/ncs.js');
     expect(m.ncs.name).toBe('ncs');
     expect(m.ncs.colors['0500-N']).toBe('#f2f2f2');
     expect(m.ncs.defaultMetric).toBe('deltaE2000');
@@ -135,49 +135,49 @@ maybe('subpath exports resolve', () => {
   });
 
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
-    const m = await import('../dist/conversions/hex');
+    const m = await import('../dist/conversions/hex.js');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
     expect(m.rgbaToHex({ r: 255, g: 0, b: 0, a: 1 })).toBe('#ff0000');
   });
 
   it('chromonym/conversions/rgb exports rgb[a]ToRgba / rgbaToRgb', async () => {
-    const m = await import('../dist/conversions/rgb');
+    const m = await import('../dist/conversions/rgb.js');
     expect(m.rgbToRgba([255, 0, 0])).toEqual({ r: 255, g: 0, b: 0, a: 1 });
     expect(m.rgbaToRgb({ r: 255, g: 0, b: 0, a: 1 })).toBe('rgb(255, 0, 0)');
   });
 
   it('chromonym/conversions/hsl exports hslToRgba / rgbaToHsl', async () => {
-    const m = await import('../dist/conversions/hsl');
+    const m = await import('../dist/conversions/hsl.js');
     expect(m.hslToRgba({ h: 0, s: 100, l: 50 })).toEqual({ r: 255, g: 0, b: 0, a: 1 });
     expect(m.rgbaToHsl({ r: 255, g: 0, b: 0, a: 1 })).toBe('hsl(0, 100%, 50%)');
   });
 
   it('chromonym/conversions/hsv exports hsvToRgba / rgbaToHsv', async () => {
-    const m = await import('../dist/conversions/hsv');
+    const m = await import('../dist/conversions/hsv.js');
     expect(m.hsvToRgba({ h: 0, s: 100, v: 100 })).toEqual({ r: 255, g: 0, b: 0, a: 1 });
     expect(m.rgbaToHsv({ r: 255, g: 0, b: 0, a: 1 })).toBe('hsv(0, 100%, 100%)');
   });
 
   it('chromonym/conversions/pantone exports pantoneToRgba / rgbaToPantone', async () => {
-    const m = await import('../dist/conversions/pantone');
+    const m = await import('../dist/conversions/pantone.js');
     expect(m.pantoneToRgba('185 C')).toEqual({ r: 228, g: 0, b: 43, a: 1 });
     expect(m.rgbaToPantone({ r: 228, g: 0, b: 43, a: 1 })).toBe('185 C');
   });
 
   it('chromonym/math/deltaE exports the distance functions', async () => {
-    const m = await import('../dist/math/deltaE');
+    const m = await import('../dist/math/deltaE.js');
     expect(m.deltaE76([50, 0, 0], [50, 0, 0])).toBe(0);
     expect(typeof m.deltaE2000).toBe('function');
   });
 
   it('chromonym/math/colorSpace exports conversions', async () => {
-    const m = await import('../dist/math/colorSpace');
+    const m = await import('../dist/math/colorSpace.js');
     expect(m.srgbToLinear(0)).toBe(0);
     expect(typeof m.rgbaToLab).toBe('function');
   });
 
   it('chromonym/types is resolvable (type-only module)', async () => {
-    const m = await import('../dist/types');
+    const m = await import('../dist/types.js');
     expect(m.COLOR_FORMATS).toBeInstanceOf(Set);
     expect(m.COLOR_FORMATS.has('HEX')).toBe(true);
     // `as never` is intentional: asserts 'PANTONE' is both runtime-absent AND

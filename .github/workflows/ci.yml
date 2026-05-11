@@ -40,6 +40,12 @@ jobs:
       - name: Build
         run: bun run build
 
+      # Strict typecheck for test/. Runs after Build because
+      # test/subpathExports.test.ts statically imports dist/* modules
+      # that don't exist until the build step emits them.
+      - name: Typecheck tests (tsgo)
+        run: bun run typecheck:test
+
       - name: Package hygiene (publint + attw)
         run: bun run check:package
 
@@ -64,7 +70,11 @@ jobs:
   release:
     name: Release
     needs: check
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Gated on the RELEASE_ENABLED repo variable. Stays dormant until the
+    # APP_ID + APP_PRIVATE_KEY secrets are configured (GitHub App that
+    # bypasses main's ruleset for the chore(release) commit + tag).
+    # Flip `gh variable set RELEASE_ENABLED --body true` to activate.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.RELEASE_ENABLED == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -107,4 +117,8 @@ jobs:
       - name: Semantic Release
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Sigstore attestation for the published tarball. id-token: write
+          # is already set in the job permissions.
+          NPM_CONFIG_PROVENANCE: true
         run: npx semantic-release

@@ -19,11 +19,9 @@ describe('hexToRgba', () => {
     expect(hexToRgba('#FF00AA')).toEqual({ r: 255, g: 0, b: 170, a: 1 });
   });
   it('throws on invalid hex (non-hex chars)', () => {
-    // @ts-expect-error runtime guard for invalid input
     expect(() => hexToRgba('#gg0000')).toThrow();
   });
   it('throws on invalid hex (wrong length)', () => {
-    // @ts-expect-error runtime guard for invalid input
     expect(() => hexToRgba('#12')).toThrow();
   });
   it('throws on missing hash prefix', () => {

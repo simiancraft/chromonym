@@ -12,7 +12,7 @@ describe('rgbToRgba fuzz', () => {
     fc.assert(
       fc.property(fc.string(), (input) => {
         try {
-          rgbToRgba(input);
+          rgbToRgba(input as never);
         } catch (e) {
           if (!(e instanceof Error)) throw e;
         }
