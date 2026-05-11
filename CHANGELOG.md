@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/simiancraft/chromonym/compare/v3.3.2...v3.4.0) (2026-05-11)
+
+
+### Features
+
+* export VERSION constant; require Node >=22 ([0437b50](https://github.com/simiancraft/chromonym/commit/0437b50ce1dadf103befafeb877cf9ad0f4da27c))
+
 ## [3.3.2](https://github.com/simiancraft/chromonym/compare/v3.3.1...v3.3.2) (2026-04-24)
 
 
