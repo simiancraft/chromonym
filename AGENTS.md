@@ -50,11 +50,15 @@ bun test --coverage                  # coverage report (target 100%)
 bun run typecheck                    # tsgo --noEmit
 bun run lint                         # biome check
 bun run lint:fix                     # biome check --write
+bun run check:eslint                 # eslint-plugin-react-compiler on demo/src
+bun run check                        # full pre-PR gate (lint, eslint, typechecks, build, tests, demo build, knip, packaging)
 bun run build                        # emit dist/ via tsgo
 bun run scripts/bench.ts             # hot-path micro-benchmarks
 bun run scripts/generate-x11.ts      # regenerate src/palettes/x11.ts
 bun run scripts/generate-pantone.ts  # regenerate src/palettes/pantone.ts (requires color_library)
 ```
+
+The demo has its own deps; before the first `check`, `check:eslint`, or `demo` run, do `cd demo && bun install`.
 
 ## Adding a new built-in palette
 
