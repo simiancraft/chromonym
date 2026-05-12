@@ -64,10 +64,25 @@
       "import": "./dist/palettes/pantone.js",
       "default": "./dist/palettes/pantone.js"
     },
+    "./pokemon": {
+      "types": "./dist/palettes/pokemon.d.ts",
+      "import": "./dist/palettes/pokemon.js",
+      "default": "./dist/palettes/pokemon.js"
+    },
+    "./ral": {
+      "types": "./dist/palettes/ral.d.ts",
+      "import": "./dist/palettes/ral.js",
+      "default": "./dist/palettes/ral.js"
+    },
     "./resene": {
       "types": "./dist/palettes/resene.d.ts",
       "import": "./dist/palettes/resene.js",
       "default": "./dist/palettes/resene.js"
+    },
+    "./tailwind": {
+      "types": "./dist/palettes/tailwind.d.ts",
+      "import": "./dist/palettes/tailwind.js",
+      "default": "./dist/palettes/tailwind.js"
     },
     "./crayola": {
       "types": "./dist/palettes/crayola.d.ts",
@@ -103,6 +118,11 @@
       "types": "./dist/palettes/ntc.d.ts",
       "import": "./dist/palettes/ntc.js",
       "default": "./dist/palettes/ntc.js"
+    },
+    "./werner": {
+      "types": "./dist/palettes/werner.d.ts",
+      "import": "./dist/palettes/werner.js",
+      "default": "./dist/palettes/werner.js"
     },
     "./xkcd": {
       "types": "./dist/palettes/xkcd.d.ts",

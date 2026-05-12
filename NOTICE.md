@@ -313,6 +313,81 @@ terms allowing free reuse with attribution. If the upstream author
 objects to Chromonym's inclusion of the list, open an issue and we
 will revisit.
 
+## RAL®
+
+**RAL®** is a registered trademark of **RAL gGmbH** (Bonn, Germany).
+Chromonym is **not affiliated with, endorsed by, licensed by, or
+certified by RAL gGmbH**.
+
+The `ral` palette ships the RAL Classic set (216 entries spanning
+RAL 1000 through RAL 9023) as a nominative reference to publicly
+identified RAL color codes. sRGB hex values are derived from the
+**MIT-licensed `JohannesVoigt/ral-color-converter` dataset**
+(<https://github.com/JohannesVoigt/ral-color-converter>), which ships
+the Classic set with multi-language names, CMYK, and LRV companions.
+
+The values are community-cited approximations and will not match a
+licensed RAL reference (physical RAL K7 fan deck, RAL Digital, or the
+RAL Connect SDK) exactly. They are intended for on-screen reference,
+nearest-name identification, and general tooling — **not for paint
+formulation, coating specification, or industrial color matching**.
+For RAL-certified values, consult RAL directly:
+<https://www.ral-farben.de/en/>.
+
+## Tailwind CSS
+
+**Tailwind CSS** is licensed under the **MIT License**, © Tailwind Labs,
+Inc. The `tailwind` palette ships the default theme of **Tailwind CSS
+v4.0** (22 color families × 11 shades = 242 entries).
+
+The v4.0 default theme is defined in OKLCH (Tailwind v4 shipped its
+first OKLCH-native theme; earlier versions used hex). This palette
+converts those OKLCH values to sRGB hex via Björn Ottosson's reference
+OKLAB→linear sRGB matrix and the standard IEC 61966-2-1 sRGB transfer
+function. Out-of-sRGB-gamut OKLCH values (notably some saturated
+500-600 shades) are clamped to [0, 1] before encoding; the visible
+result in a wide-gamut browser will differ from the sRGB hex shipped
+here.
+
+Tailwind v4.2+ adds families (mauve, olive, mist, taupe) that are
+intentionally not included; this palette is pinned to v4.0 per the
+shipping intent. A future palette bump may track later v4.x defaults.
+
+Tailwind documentation: <https://tailwindcss.com/docs/colors>.
+
+## Werner's Nomenclature of Colours
+
+The `werner` palette ships the 110 named pigments from **Werner's
+Nomenclature of Colours** (1821), Patrick Syme's adaptation of Abraham
+Werner's mineralogical color system. The original 1821 text is public
+domain.
+
+The sRGB hex values were sampled from physical chip swatches by
+**Nicholas Rougeux** and published at
+[www.c82.net/werner/](https://www.c82.net/werner/) under
+**CC BY 4.0** (Creative Commons Attribution 4.0 International). This
+palette redistributes those values with attribution under the same
+license. If you redistribute the `werner` palette downstream, preserve
+this attribution.
+
+The 1821 names are used as nominative references to publicly identified
+historical pigments; no endorsement is implied.
+
+## Pokémon™
+
+**Pokémon™** is a trademark of **Nintendo, Game Freak, and The Pokémon
+Company**. Chromonym is **not affiliated with, endorsed by, licensed
+by, or certified by** any of those entities.
+
+The `pokemon` palette ships sRGB approximations of the 18 canonical
+type-badge colors (Normal through Fairy) as documented on
+[Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Type), which itself
+sources from in-game asset extraction. The type names are used as
+**nominative references** to publicly identified Pokémon type symbols;
+no endorsement, asset-license, or trademark claim is implied. Hex
+values are community-cited approximations, not extracted production
+assets.
+
 ## Bauhaus Modern (demo site typeface)
 
 The demo site at <https://simiancraft.github.io/chromonym/> embeds

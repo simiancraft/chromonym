@@ -12,8 +12,12 @@ import {
   ncs,
   ntc,
   pantone,
+  pokemon,
+  ral,
   resene,
+  tailwind,
   web,
+  werner,
   x11,
   xkcd,
 } from 'chromonym';
@@ -39,6 +43,10 @@ export const PALETTES = {
   nbs,
   resene,
   ncs,
+  pokemon,
+  werner,
+  tailwind,
+  ral,
 } as const;
 export type PaletteKey = keyof typeof PALETTES;
 
@@ -55,6 +63,10 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   nbs: 'NBS',
   resene: 'Resene',
   ncs: 'NCS',
+  pokemon: 'Pokémon',
+  werner: "Werner's (1821)",
+  tailwind: 'Tailwind',
+  ral: 'RAL Classic',
 };
 
 // Short demo-side descriptions surfaced in the palette-picker panel. Kept in
@@ -73,6 +85,10 @@ export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
   nbs: "Alternate NBS digitization: same 1955 vocabulary as isccNbs, different sRGB values matching the physical chip book.",
   resene: "Resene Paints (New Zealand) catalog. 1378 named coatings with te reo Māori and NZ place-names.",
   ncs: "Natural Colour System (Sweden). Perceptual codes like '2030-R80B' describing blackness, chromaticness, and hue.",
+  pokemon: 'The 18 canonical Pokémon type colors (Normal through Fairy). Tiny, iconic, useful as a chart theme. Nominative reference, not an official asset set.',
+  werner: "Werner's Nomenclature of Colours (1821), the historical pigment reference Patrick Syme adapted from Abraham Werner and Darwin carried on the Beagle. 110 names with natural-history exemplars; hex values via Rougeux's CC-BY digitization.",
+  tailwind: "Tailwind CSS default theme (v4.0). 22 hue families × 11 shades = 242 entries with keys matching the Tailwind class suffix ('slate-500', 'rose-950'). sRGB values converted from v4.0's OKLCH spec.",
+  ral: "RAL Classic (RAL gGmbH, Bonn). 216 European industrial / architectural coatings keyed by RAL code ('RAL 1003', 'RAL 9011'). Pantone analog for European product, paint, and signage work; nominative reference, not a licensed RAL product.",
 };
 
 export const PALETTE_KEYS = [
@@ -88,6 +104,10 @@ export const PALETTE_KEYS = [
   'nbs',
   'resene',
   'ncs',
+  'pokemon',
+  'werner',
+  'tailwind',
+  'ral',
 ] as const satisfies readonly PaletteKey[];
 
 interface PaletteGridProps {

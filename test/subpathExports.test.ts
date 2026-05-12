@@ -134,6 +134,35 @@ maybe('subpath exports resolve', () => {
     expect(m.ncs.normalize('0500-N')).toBe('0500n');
   });
 
+  it('chromonym/pokemon exports the pokemon palette object', async () => {
+    const m = await import('../dist/palettes/pokemon.js');
+    expect(m.pokemon.name).toBe('pokemon');
+    expect(m.pokemon.colors.Fire).toBe('#ee8130');
+    expect(m.pokemon.defaultMetric).toBe('deltaE76');
+  });
+
+  it('chromonym/werner exports the werner palette object', async () => {
+    const m = await import('../dist/palettes/werner.js');
+    expect(m.werner.name).toBe('werner');
+    expect(m.werner.colors['Prussian Blue']).toBe('#1c1949');
+    expect(m.werner.defaultMetric).toBe('deltaE2000');
+  });
+
+  it('chromonym/tailwind exports the tailwind palette object', async () => {
+    const m = await import('../dist/palettes/tailwind.js');
+    expect(m.tailwind.name).toBe('tailwind');
+    expect(m.tailwind.colors['slate-500']).toBe('#62748e');
+    expect(Object.keys(m.tailwind.colors).length).toBe(242);
+    expect(m.tailwind.defaultMetric).toBe('deltaEok');
+  });
+
+  it('chromonym/ral exports the ral palette object', async () => {
+    const m = await import('../dist/palettes/ral.js');
+    expect(m.ral.name).toBe('ral');
+    expect(m.ral.colors['RAL 1003']).toBe('#f9a900');
+    expect(m.ral.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
     const m = await import('../dist/conversions/hex.js');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
@@ -227,6 +256,10 @@ maybe('subpath exports resolve', () => {
       "const { resene } = await import('chromonym/resene');",
       "const { ncs } = await import('chromonym/ncs');",
       "const { nbs } = await import('chromonym/nbs');",
+      "const { pokemon } = await import('chromonym/pokemon');",
+      "const { werner } = await import('chromonym/werner');",
+      "const { tailwind } = await import('chromonym/tailwind');",
+      "const { ral } = await import('chromonym/ral');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -249,6 +282,10 @@ maybe('subpath exports resolve', () => {
       '  reseneTreepoppy: resene.colors.treepoppy === "#e2813b",',
       '  ncsNeutral: ncs.colors["0500-N"] === "#f2f2f2",',
       '  nbsVividPink: nbs.colors.vividpink === "#ffb5ba",',
+      '  pokemonFire: pokemon.colors.Fire === "#ee8130",',
+      '  wernerPrussian: werner.colors["Prussian Blue"] === "#1c1949",',
+      '  tailwindSlate: tailwind.colors["slate-500"] === "#62748e",',
+      '  ralSignalYellow: ral.colors["RAL 1003"] === "#f9a900",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -284,6 +321,10 @@ maybe('subpath exports resolve', () => {
       reseneTreepoppy: true,
       ncsNeutral: true,
       nbsVividPink: true,
+      pokemonFire: true,
+      wernerPrussian: true,
+      tailwindSlate: true,
+      ralSignalYellow: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,

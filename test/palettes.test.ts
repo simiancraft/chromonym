@@ -7,8 +7,12 @@ import { nbs } from '../src/palettes/nbs.js';
 import { ncs } from '../src/palettes/ncs.js';
 import { ntc } from '../src/palettes/ntc.js';
 import { pantone } from '../src/palettes/pantone.js';
+import { pokemon } from '../src/palettes/pokemon.js';
+import { ral } from '../src/palettes/ral.js';
 import { resene } from '../src/palettes/resene.js';
+import { tailwind } from '../src/palettes/tailwind.js';
 import { web } from '../src/palettes/web.js';
+import { werner } from '../src/palettes/werner.js';
 import { x11 } from '../src/palettes/x11.js';
 import { xkcd } from '../src/palettes/xkcd.js';
 
@@ -123,6 +127,57 @@ describe.each([
       spotChecks: {
         '0500-N': '#f2f2f2',
         '2030-R80B': '#677bd6',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'pokemon',
+    pokemon,
+    {
+      minCount: 18,
+      spotChecks: {
+        Fire: '#ee8130',
+        Water: '#6390f0',
+        Fairy: '#d685ad',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'werner',
+    werner,
+    {
+      minCount: 110,
+      spotChecks: {
+        'Berlin Blue': '#7994b5',
+        'Prussian Blue': '#1c1949',
+        'Lake Red': '#b74a70',
+        'Velvet Black': '#241f20',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'tailwind',
+    tailwind,
+    {
+      minCount: 242,
+      spotChecks: {
+        'slate-500': '#62748e',
+        'rose-500': '#ff2056',
+        'gray-50': '#f9fafb',
+        'blue-600': '#155dfc',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'ral',
+    ral,
+    {
+      minCount: 215,
+      spotChecks: {
+        'RAL 1003': '#f9a900',
+        'RAL 5002': '#00387a',
+        'RAL 9005': '#0e0e10',
+        'RAL 9011': '#27292b',
       } as Record<string, string>,
     },
   ],

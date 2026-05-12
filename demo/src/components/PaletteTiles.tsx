@@ -61,6 +61,26 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // the NCS system grew out of. Pulls toward steel, distinct from
   // pantone's saturated blue.
   ncs: { tone: '#3e5a78', ink: 'var(--bh-cream)' },
+  // Pokémon: official Fire-type red-orange. The 18-color palette is
+  // unmistakably pop-cultural; the tile leans into that with one of
+  // its own canonical hues instead of trying to blend with the
+  // Bauhaus-restrained tones above.
+  pokemon: { tone: '#ee8130', ink: 'var(--bh-cream)' },
+  // Werner: Berlin Blue (#7994b5) is the palette's central
+  // characteristic blue — Werner's own "pure" blue, the one Darwin
+  // would have pointed at on his card. Tile color signals the
+  // historical-pigment register, distinct from web/x11 modern blues.
+  werner: { tone: '#7994b5', ink: 'var(--bh-ink)' },
+  // Tailwind: sky-500 (#00a6f4 in v4.0 / our converted spec) is the
+  // most-recognized Tailwind hue and lives in the brand's own
+  // marketing material. Reads instantly as "the Tailwind palette"
+  // to anyone who's used the framework.
+  tailwind: { tone: '#00a6f4', ink: 'var(--bh-cream)' },
+  // RAL: RAL 3020 Traffic red (#bb1f11), the most recognizable
+  // industrial-signage red in the catalogue (it's literally what
+  // European traffic signs use). Reads as "European industrial
+  // standard" without being indistinguishable from web's bh-red.
+  ral: { tone: '#bb1f11', ink: 'var(--bh-cream)' },
 };
 
 const ORDER: PaletteKey[] = [
@@ -76,6 +96,10 @@ const ORDER: PaletteKey[] = [
   'nbs',
   'resene',
   'ncs',
+  'pokemon',
+  'werner',
+  'tailwind',
+  'ral',
 ];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).
