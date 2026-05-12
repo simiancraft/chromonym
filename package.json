@@ -74,6 +74,11 @@
       "import": "./dist/palettes/resene.js",
       "default": "./dist/palettes/resene.js"
     },
+    "./tailwind": {
+      "types": "./dist/palettes/tailwind.d.ts",
+      "import": "./dist/palettes/tailwind.js",
+      "default": "./dist/palettes/tailwind.js"
+    },
     "./crayola": {
       "types": "./dist/palettes/crayola.d.ts",
       "import": "./dist/palettes/crayola.js",

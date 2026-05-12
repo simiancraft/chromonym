@@ -148,6 +148,14 @@ maybe('subpath exports resolve', () => {
     expect(m.werner.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/tailwind exports the tailwind palette object', async () => {
+    const m = await import('../dist/palettes/tailwind.js');
+    expect(m.tailwind.name).toBe('tailwind');
+    expect(m.tailwind.colors['slate-500']).toBe('#62748e');
+    expect(Object.keys(m.tailwind.colors).length).toBe(242);
+    expect(m.tailwind.defaultMetric).toBe('deltaEok');
+  });
+
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
     const m = await import('../dist/conversions/hex.js');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
@@ -243,6 +251,7 @@ maybe('subpath exports resolve', () => {
       "const { nbs } = await import('chromonym/nbs');",
       "const { pokemon } = await import('chromonym/pokemon');",
       "const { werner } = await import('chromonym/werner');",
+      "const { tailwind } = await import('chromonym/tailwind');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -267,6 +276,7 @@ maybe('subpath exports resolve', () => {
       '  nbsVividPink: nbs.colors.vividpink === "#ffb5ba",',
       '  pokemonFire: pokemon.colors.Fire === "#ee8130",',
       '  wernerPrussian: werner.colors["Prussian Blue"] === "#1c1949",',
+      '  tailwindSlate: tailwind.colors["slate-500"] === "#62748e",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -304,6 +314,7 @@ maybe('subpath exports resolve', () => {
       nbsVividPink: true,
       pokemonFire: true,
       wernerPrussian: true,
+      tailwindSlate: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,

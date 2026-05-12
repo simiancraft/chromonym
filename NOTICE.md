@@ -313,6 +313,27 @@ terms allowing free reuse with attribution. If the upstream author
 objects to Chromonym's inclusion of the list, open an issue and we
 will revisit.
 
+## Tailwind CSS
+
+**Tailwind CSS** is licensed under the **MIT License**, © Tailwind Labs,
+Inc. The `tailwind` palette ships the default theme of **Tailwind CSS
+v4.0** (22 color families × 11 shades = 242 entries).
+
+The v4.0 default theme is defined in OKLCH (Tailwind v4 shipped its
+first OKLCH-native theme; earlier versions used hex). This palette
+converts those OKLCH values to sRGB hex via Björn Ottosson's reference
+OKLAB→linear sRGB matrix and the standard IEC 61966-2-1 sRGB transfer
+function. Out-of-sRGB-gamut OKLCH values (notably some saturated
+500-600 shades) are clamped to [0, 1] before encoding; the visible
+result in a wide-gamut browser will differ from the sRGB hex shipped
+here.
+
+Tailwind v4.2+ adds families (mauve, olive, mist, taupe) that are
+intentionally not included; this palette is pinned to v4.0 per the
+shipping intent. A future palette bump may track later v4.x defaults.
+
+Tailwind documentation: <https://tailwindcss.com/docs/colors>.
+
 ## Werner's Nomenclature of Colours
 
 The `werner` palette ships the 110 named pigments from **Werner's

@@ -9,6 +9,7 @@ import { ntc } from '../src/palettes/ntc.js';
 import { pantone } from '../src/palettes/pantone.js';
 import { pokemon } from '../src/palettes/pokemon.js';
 import { resene } from '../src/palettes/resene.js';
+import { tailwind } from '../src/palettes/tailwind.js';
 import { web } from '../src/palettes/web.js';
 import { werner } from '../src/palettes/werner.js';
 import { x11 } from '../src/palettes/x11.js';
@@ -150,6 +151,19 @@ describe.each([
         'Prussian Blue': '#1c1949',
         'Lake Red': '#b74a70',
         'Velvet Black': '#241f20',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'tailwind',
+    tailwind,
+    {
+      minCount: 242,
+      spotChecks: {
+        'slate-500': '#62748e',
+        'rose-500': '#ff2056',
+        'gray-50': '#f9fafb',
+        'blue-600': '#155dfc',
       } as Record<string, string>,
     },
   ],

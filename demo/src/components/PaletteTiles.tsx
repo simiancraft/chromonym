@@ -71,6 +71,11 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // would have pointed at on his card. Tile color signals the
   // historical-pigment register, distinct from web/x11 modern blues.
   werner: { tone: '#7994b5', ink: 'var(--bh-ink)' },
+  // Tailwind: sky-500 (#00a6f4 in v4.0 / our converted spec) is the
+  // most-recognized Tailwind hue and lives in the brand's own
+  // marketing material. Reads instantly as "the Tailwind palette"
+  // to anyone who's used the framework.
+  tailwind: { tone: '#00a6f4', ink: 'var(--bh-cream)' },
 };
 
 const ORDER: PaletteKey[] = [
@@ -88,6 +93,7 @@ const ORDER: PaletteKey[] = [
   'ncs',
   'pokemon',
   'werner',
+  'tailwind',
 ];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).
