@@ -12,6 +12,7 @@ import {
   ncs,
   ntc,
   pantone,
+  pokemon,
   resene,
   web,
   x11,
@@ -39,6 +40,7 @@ export const PALETTES = {
   nbs,
   resene,
   ncs,
+  pokemon,
 } as const;
 export type PaletteKey = keyof typeof PALETTES;
 
@@ -55,6 +57,7 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   nbs: 'NBS',
   resene: 'Resene',
   ncs: 'NCS',
+  pokemon: 'Pokémon',
 };
 
 // Short demo-side descriptions surfaced in the palette-picker panel. Kept in
@@ -73,6 +76,7 @@ export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
   nbs: "Alternate NBS digitization: same 1955 vocabulary as isccNbs, different sRGB values matching the physical chip book.",
   resene: "Resene Paints (New Zealand) catalog. 1378 named coatings with te reo Māori and NZ place-names.",
   ncs: "Natural Colour System (Sweden). Perceptual codes like '2030-R80B' describing blackness, chromaticness, and hue.",
+  pokemon: 'The 18 canonical Pokémon type colors (Normal through Fairy). Tiny, iconic, useful as a chart theme. Nominative reference, not an official asset set.',
 };
 
 export const PALETTE_KEYS = [
@@ -88,6 +92,7 @@ export const PALETTE_KEYS = [
   'nbs',
   'resene',
   'ncs',
+  'pokemon',
 ] as const satisfies readonly PaletteKey[];
 
 interface PaletteGridProps {

@@ -7,6 +7,7 @@ import { nbs } from '../src/palettes/nbs.js';
 import { ncs } from '../src/palettes/ncs.js';
 import { ntc } from '../src/palettes/ntc.js';
 import { pantone } from '../src/palettes/pantone.js';
+import { pokemon } from '../src/palettes/pokemon.js';
 import { resene } from '../src/palettes/resene.js';
 import { web } from '../src/palettes/web.js';
 import { x11 } from '../src/palettes/x11.js';
@@ -123,6 +124,18 @@ describe.each([
       spotChecks: {
         '0500-N': '#f2f2f2',
         '2030-R80B': '#677bd6',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'pokemon',
+    pokemon,
+    {
+      minCount: 18,
+      spotChecks: {
+        Fire: '#ee8130',
+        Water: '#6390f0',
+        Fairy: '#d685ad',
       } as Record<string, string>,
     },
   ],

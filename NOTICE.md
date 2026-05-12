@@ -313,6 +313,21 @@ terms allowing free reuse with attribution. If the upstream author
 objects to Chromonym's inclusion of the list, open an issue and we
 will revisit.
 
+## Pokémon™
+
+**Pokémon™** is a trademark of **Nintendo, Game Freak, and The Pokémon
+Company**. Chromonym is **not affiliated with, endorsed by, licensed
+by, or certified by** any of those entities.
+
+The `pokemon` palette ships sRGB approximations of the 18 canonical
+type-badge colors (Normal through Fairy) as documented on
+[Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Type), which itself
+sources from in-game asset extraction. The type names are used as
+**nominative references** to publicly identified Pokémon type symbols;
+no endorsement, asset-license, or trademark claim is implied. Hex
+values are community-cited approximations, not extracted production
+assets.
+
 ## Bauhaus Modern (demo site typeface)
 
 The demo site at <https://simiancraft.github.io/chromonym/> embeds

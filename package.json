@@ -64,6 +64,11 @@
       "import": "./dist/palettes/pantone.js",
       "default": "./dist/palettes/pantone.js"
     },
+    "./pokemon": {
+      "types": "./dist/palettes/pokemon.d.ts",
+      "import": "./dist/palettes/pokemon.js",
+      "default": "./dist/palettes/pokemon.js"
+    },
     "./resene": {
       "types": "./dist/palettes/resene.d.ts",
       "import": "./dist/palettes/resene.js",

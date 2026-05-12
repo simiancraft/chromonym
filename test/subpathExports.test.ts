@@ -134,6 +134,13 @@ maybe('subpath exports resolve', () => {
     expect(m.ncs.normalize('0500-N')).toBe('0500n');
   });
 
+  it('chromonym/pokemon exports the pokemon palette object', async () => {
+    const m = await import('../dist/palettes/pokemon.js');
+    expect(m.pokemon.name).toBe('pokemon');
+    expect(m.pokemon.colors.Fire).toBe('#ee8130');
+    expect(m.pokemon.defaultMetric).toBe('deltaE76');
+  });
+
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
     const m = await import('../dist/conversions/hex.js');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
@@ -227,6 +234,7 @@ maybe('subpath exports resolve', () => {
       "const { resene } = await import('chromonym/resene');",
       "const { ncs } = await import('chromonym/ncs');",
       "const { nbs } = await import('chromonym/nbs');",
+      "const { pokemon } = await import('chromonym/pokemon');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -249,6 +257,7 @@ maybe('subpath exports resolve', () => {
       '  reseneTreepoppy: resene.colors.treepoppy === "#e2813b",',
       '  ncsNeutral: ncs.colors["0500-N"] === "#f2f2f2",',
       '  nbsVividPink: nbs.colors.vividpink === "#ffb5ba",',
+      '  pokemonFire: pokemon.colors.Fire === "#ee8130",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -284,6 +293,7 @@ maybe('subpath exports resolve', () => {
       reseneTreepoppy: true,
       ncsNeutral: true,
       nbsVividPink: true,
+      pokemonFire: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,

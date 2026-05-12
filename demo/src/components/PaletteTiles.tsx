@@ -61,6 +61,11 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // the NCS system grew out of. Pulls toward steel, distinct from
   // pantone's saturated blue.
   ncs: { tone: '#3e5a78', ink: 'var(--bh-cream)' },
+  // Pokémon: official Fire-type red-orange. The 18-color palette is
+  // unmistakably pop-cultural; the tile leans into that with one of
+  // its own canonical hues instead of trying to blend with the
+  // Bauhaus-restrained tones above.
+  pokemon: { tone: '#ee8130', ink: 'var(--bh-cream)' },
 };
 
 const ORDER: PaletteKey[] = [
@@ -76,6 +81,7 @@ const ORDER: PaletteKey[] = [
   'nbs',
   'resene',
   'ncs',
+  'pokemon',
 ];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).
