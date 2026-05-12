@@ -32,6 +32,14 @@ jobs:
       - name: Biome check
         run: bun run lint
 
+      # Demo's own deps are needed so eslint + react-compiler plugin resolve.
+      # Library code in src/ has no React; ESLint only runs against demo/src.
+      - name: Install demo dependencies
+        run: cd demo && bun install --frozen-lockfile
+
+      - name: ESLint (react-compiler)
+        run: bun run check:eslint
+
       - name: Typecheck (tsgo)
         run: bun run typecheck
 

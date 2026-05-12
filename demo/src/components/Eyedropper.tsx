@@ -133,11 +133,11 @@ export function Eyedropper({ onPick }: EyedropperProps) {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: 'user' },
         });
+        streamRef.current = stream;
         if (cancelled) {
-          for (const t of stream.getTracks()) t.stop();
+          stopWebcam();
           return;
         }
-        streamRef.current = stream;
         const video = videoRef.current;
         if (!video) return;
         video.srcObject = stream;
