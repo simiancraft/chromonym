@@ -1,8 +1,7 @@
-// ESLint flat config for the chromonym demo (Vite + React 18 + react-compiler).
-// The library in ../src has no React code, so ESLint runs only here. Biome
-// owns formatting and most lint rules across the repo; the job of this config
-// is the one thing Biome cannot do today: surface React Compiler bailouts via
-// eslint-plugin-react-compiler.
+// ESLint exists in this repo for one rule Biome cannot run:
+// react-compiler bailouts. Biome owns formatting + lint everywhere
+// it's included; demo/ is out of biome.json's `files.includes`, so
+// ESLint covers React Compiler hygiene for the demo only.
 import tsParser from '@typescript-eslint/parser';
 import { defineConfig } from 'eslint/config';
 import reactCompiler from 'eslint-plugin-react-compiler';
@@ -11,12 +10,8 @@ export default defineConfig([
   reactCompiler.configs.recommended,
   {
     name: 'chromonym-demo',
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
     ignores: ['dist/**', 'node_modules/**'],
-    // Parse TS/TSX with the typescript-eslint parser. We intentionally do NOT
-    // pull in @typescript-eslint/eslint-plugin or its rule set; Biome owns
-    // TypeScript linting in this repo. ESLint is here purely as a vehicle for
-    // eslint-plugin-react-compiler, which Biome cannot run.
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -26,7 +21,12 @@ export default defineConfig([
       },
     },
     rules: {
-      // Surface all bailout severities, not just InvalidReact / InvalidJS.
+      // Surface all four bailout severities. `Todo` is load-bearing:
+      // the compiler tags components it can't memoize (try/catch value
+      // blocks, certain async patterns) as Todo and skips them. Without
+      // this we'd silently drop memoization on real components.
+      // Set is required; the plugin checks `instanceof Set` and falls
+      // back to defaults for any other shape.
       'react-compiler/react-compiler': [
         'error',
         {
@@ -38,16 +38,6 @@ export default defineConfig([
           ]),
         },
       ],
-
-      // CONFLICT RESOLUTION: defer to Biome for these rules so the two
-      // linters never disagree on the same source.
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
-      'import/order': 'off',
-      'import/first': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      'react/no-unescaped-entities': 'off',
-      'react-hooks/exhaustive-deps': 'off',
     },
   },
 ]);

@@ -13,6 +13,9 @@ Thanks for considering a contribution. This project is small and opinionated; th
 git clone https://github.com/simiancraft/chromonym.git
 cd chromonym
 bun install
+# The demo has its own deps; install them once if you'll run `check`,
+# `demo`, or `check:eslint`.
+(cd demo && bun install)
 ```
 
 ## Common tasks
@@ -22,13 +25,17 @@ bun install
 | Run all tests | `bun test` |
 | Run a single test file | `bun test test/conversions/rgb.test.ts` |
 | Typecheck | `bun run typecheck` |
-| Lint | `bun run lint` |
+| Lint (Biome) | `bun run lint` |
 | Auto-fix lint | `bun run lint:fix` |
+| Lint demo (React Compiler) | `bun run check:eslint` |
 | Format | `bun run format` |
 | Build the library | `bun run build` |
 | Run the demo app | `bun run demo` |
 | Validate npm packaging | `bun run check:package` |
 | Find unused exports | `bun run check:knip` |
+| Run every gate end-to-end | `bun run check` |
+
+`bun run check` is the full pre-PR gate: lint, ESLint (React Compiler), typecheck (lib + demo + tests), build, tests, demo build, knip, and package hygiene. CI runs the same steps individually; if `check` is green locally, CI usually is too.
 
 ## Commit style
 
