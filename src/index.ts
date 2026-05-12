@@ -38,6 +38,7 @@ export { type NcsColorName, ncs } from './palettes/ncs.js';
 export { type NtcColorName, ntc } from './palettes/ntc.js';
 export { type PantoneColorName, pantone } from './palettes/pantone.js';
 export { type PokemonColorName, pokemon } from './palettes/pokemon.js';
+export { type RalColorName, ral } from './palettes/ral.js';
 export { type ReseneColorName, resene } from './palettes/resene.js';
 export { type TailwindColorName, tailwind } from './palettes/tailwind.js';
 export { type WebColorName, web } from './palettes/web.js';

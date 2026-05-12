@@ -69,6 +69,11 @@
       "import": "./dist/palettes/pokemon.js",
       "default": "./dist/palettes/pokemon.js"
     },
+    "./ral": {
+      "types": "./dist/palettes/ral.d.ts",
+      "import": "./dist/palettes/ral.js",
+      "default": "./dist/palettes/ral.js"
+    },
     "./resene": {
       "types": "./dist/palettes/resene.d.ts",
       "import": "./dist/palettes/resene.js",

@@ -313,6 +313,27 @@ terms allowing free reuse with attribution. If the upstream author
 objects to Chromonym's inclusion of the list, open an issue and we
 will revisit.
 
+## RAL®
+
+**RAL®** is a registered trademark of **RAL gGmbH** (Bonn, Germany).
+Chromonym is **not affiliated with, endorsed by, licensed by, or
+certified by RAL gGmbH**.
+
+The `ral` palette ships the RAL Classic set (216 entries spanning
+RAL 1000 through RAL 9023) as a nominative reference to publicly
+identified RAL color codes. sRGB hex values are derived from the
+**MIT-licensed `JohannesVoigt/ral-color-converter` dataset**
+(<https://github.com/JohannesVoigt/ral-color-converter>), which ships
+the Classic set with multi-language names, CMYK, and LRV companions.
+
+The values are community-cited approximations and will not match a
+licensed RAL reference (physical RAL K7 fan deck, RAL Digital, or the
+RAL Connect SDK) exactly. They are intended for on-screen reference,
+nearest-name identification, and general tooling — **not for paint
+formulation, coating specification, or industrial color matching**.
+For RAL-certified values, consult RAL directly:
+<https://www.ral-farben.de/en/>.
+
 ## Tailwind CSS
 
 **Tailwind CSS** is licensed under the **MIT License**, © Tailwind Labs,

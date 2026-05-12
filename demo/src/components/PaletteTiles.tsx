@@ -76,6 +76,11 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // marketing material. Reads instantly as "the Tailwind palette"
   // to anyone who's used the framework.
   tailwind: { tone: '#00a6f4', ink: 'var(--bh-cream)' },
+  // RAL: RAL 3020 Traffic red (#bb1f11), the most recognizable
+  // industrial-signage red in the catalogue (it's literally what
+  // European traffic signs use). Reads as "European industrial
+  // standard" without being indistinguishable from web's bh-red.
+  ral: { tone: '#bb1f11', ink: 'var(--bh-cream)' },
 };
 
 const ORDER: PaletteKey[] = [
@@ -94,6 +99,7 @@ const ORDER: PaletteKey[] = [
   'pokemon',
   'werner',
   'tailwind',
+  'ral',
 ];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).

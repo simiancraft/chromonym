@@ -8,6 +8,7 @@ import { ncs } from '../src/palettes/ncs.js';
 import { ntc } from '../src/palettes/ntc.js';
 import { pantone } from '../src/palettes/pantone.js';
 import { pokemon } from '../src/palettes/pokemon.js';
+import { ral } from '../src/palettes/ral.js';
 import { resene } from '../src/palettes/resene.js';
 import { tailwind } from '../src/palettes/tailwind.js';
 import { web } from '../src/palettes/web.js';
@@ -164,6 +165,19 @@ describe.each([
         'rose-500': '#ff2056',
         'gray-50': '#f9fafb',
         'blue-600': '#155dfc',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'ral',
+    ral,
+    {
+      minCount: 215,
+      spotChecks: {
+        'RAL 1003': '#f9a900',
+        'RAL 5002': '#00387a',
+        'RAL 9005': '#0e0e10',
+        'RAL 9011': '#27292b',
       } as Record<string, string>,
     },
   ],

@@ -156,6 +156,13 @@ maybe('subpath exports resolve', () => {
     expect(m.tailwind.defaultMetric).toBe('deltaEok');
   });
 
+  it('chromonym/ral exports the ral palette object', async () => {
+    const m = await import('../dist/palettes/ral.js');
+    expect(m.ral.name).toBe('ral');
+    expect(m.ral.colors['RAL 1003']).toBe('#f9a900');
+    expect(m.ral.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
     const m = await import('../dist/conversions/hex.js');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
@@ -252,6 +259,7 @@ maybe('subpath exports resolve', () => {
       "const { pokemon } = await import('chromonym/pokemon');",
       "const { werner } = await import('chromonym/werner');",
       "const { tailwind } = await import('chromonym/tailwind');",
+      "const { ral } = await import('chromonym/ral');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -277,6 +285,7 @@ maybe('subpath exports resolve', () => {
       '  pokemonFire: pokemon.colors.Fire === "#ee8130",',
       '  wernerPrussian: werner.colors["Prussian Blue"] === "#1c1949",',
       '  tailwindSlate: tailwind.colors["slate-500"] === "#62748e",',
+      '  ralSignalYellow: ral.colors["RAL 1003"] === "#f9a900",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -315,6 +324,7 @@ maybe('subpath exports resolve', () => {
       pokemonFire: true,
       wernerPrussian: true,
       tailwindSlate: true,
+      ralSignalYellow: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,
