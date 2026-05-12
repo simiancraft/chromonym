@@ -141,6 +141,13 @@ maybe('subpath exports resolve', () => {
     expect(m.pokemon.defaultMetric).toBe('deltaE76');
   });
 
+  it('chromonym/werner exports the werner palette object', async () => {
+    const m = await import('../dist/palettes/werner.js');
+    expect(m.werner.name).toBe('werner');
+    expect(m.werner.colors['Prussian Blue']).toBe('#1c1949');
+    expect(m.werner.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/conversions/hex exports hexToRgba / rgbaToHex', async () => {
     const m = await import('../dist/conversions/hex.js');
     expect(m.hexToRgba('#ff0000')).toEqual({ r: 255, g: 0, b: 0, a: 1 });
@@ -235,6 +242,7 @@ maybe('subpath exports resolve', () => {
       "const { ncs } = await import('chromonym/ncs');",
       "const { nbs } = await import('chromonym/nbs');",
       "const { pokemon } = await import('chromonym/pokemon');",
+      "const { werner } = await import('chromonym/werner');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
       "const { hslToRgba } = await import('chromonym/conversions/hsl');",
@@ -258,6 +266,7 @@ maybe('subpath exports resolve', () => {
       '  ncsNeutral: ncs.colors["0500-N"] === "#f2f2f2",',
       '  nbsVividPink: nbs.colors.vividpink === "#ffb5ba",',
       '  pokemonFire: pokemon.colors.Fire === "#ee8130",',
+      '  wernerPrussian: werner.colors["Prussian Blue"] === "#1c1949",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
       '  hsl: hslToRgba({ h: 0, s: 100, l: 50 }).r === 255,',
@@ -294,6 +303,7 @@ maybe('subpath exports resolve', () => {
       ncsNeutral: true,
       nbsVividPink: true,
       pokemonFire: true,
+      wernerPrussian: true,
       hexToRgba: true,
       rgb: true,
       hsl: true,

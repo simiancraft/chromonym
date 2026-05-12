@@ -15,6 +15,7 @@ import {
   pokemon,
   resene,
   web,
+  werner,
   x11,
   xkcd,
 } from 'chromonym';
@@ -41,6 +42,7 @@ export const PALETTES = {
   resene,
   ncs,
   pokemon,
+  werner,
 } as const;
 export type PaletteKey = keyof typeof PALETTES;
 
@@ -58,6 +60,7 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   resene: 'Resene',
   ncs: 'NCS',
   pokemon: 'Pokémon',
+  werner: "Werner's (1821)",
 };
 
 // Short demo-side descriptions surfaced in the palette-picker panel. Kept in
@@ -77,6 +80,7 @@ export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
   resene: "Resene Paints (New Zealand) catalog. 1378 named coatings with te reo Māori and NZ place-names.",
   ncs: "Natural Colour System (Sweden). Perceptual codes like '2030-R80B' describing blackness, chromaticness, and hue.",
   pokemon: 'The 18 canonical Pokémon type colors (Normal through Fairy). Tiny, iconic, useful as a chart theme. Nominative reference, not an official asset set.',
+  werner: "Werner's Nomenclature of Colours (1821), the historical pigment reference Patrick Syme adapted from Abraham Werner and Darwin carried on the Beagle. 110 names with natural-history exemplars; hex values via Rougeux's CC-BY digitization.",
 };
 
 export const PALETTE_KEYS = [
@@ -93,6 +97,7 @@ export const PALETTE_KEYS = [
   'resene',
   'ncs',
   'pokemon',
+  'werner',
 ] as const satisfies readonly PaletteKey[];
 
 interface PaletteGridProps {

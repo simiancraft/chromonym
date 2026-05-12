@@ -313,6 +313,24 @@ terms allowing free reuse with attribution. If the upstream author
 objects to Chromonym's inclusion of the list, open an issue and we
 will revisit.
 
+## Werner's Nomenclature of Colours
+
+The `werner` palette ships the 110 named pigments from **Werner's
+Nomenclature of Colours** (1821), Patrick Syme's adaptation of Abraham
+Werner's mineralogical color system. The original 1821 text is public
+domain.
+
+The sRGB hex values were sampled from physical chip swatches by
+**Nicholas Rougeux** and published at
+[www.c82.net/werner/](https://www.c82.net/werner/) under
+**CC BY 4.0** (Creative Commons Attribution 4.0 International). This
+palette redistributes those values with attribution under the same
+license. If you redistribute the `werner` palette downstream, preserve
+this attribution.
+
+The 1821 names are used as nominative references to publicly identified
+historical pigments; no endorsement is implied.
+
 ## Pokémon™
 
 **Pokémon™** is a trademark of **Nintendo, Game Freak, and The Pokémon

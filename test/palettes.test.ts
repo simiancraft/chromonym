@@ -10,6 +10,7 @@ import { pantone } from '../src/palettes/pantone.js';
 import { pokemon } from '../src/palettes/pokemon.js';
 import { resene } from '../src/palettes/resene.js';
 import { web } from '../src/palettes/web.js';
+import { werner } from '../src/palettes/werner.js';
 import { x11 } from '../src/palettes/x11.js';
 import { xkcd } from '../src/palettes/xkcd.js';
 
@@ -136,6 +137,19 @@ describe.each([
         Fire: '#ee8130',
         Water: '#6390f0',
         Fairy: '#d685ad',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'werner',
+    werner,
+    {
+      minCount: 110,
+      spotChecks: {
+        'Berlin Blue': '#7994b5',
+        'Prussian Blue': '#1c1949',
+        'Lake Red': '#b74a70',
+        'Velvet Black': '#241f20',
       } as Record<string, string>,
     },
   ],

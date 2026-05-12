@@ -66,6 +66,11 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // its own canonical hues instead of trying to blend with the
   // Bauhaus-restrained tones above.
   pokemon: { tone: '#ee8130', ink: 'var(--bh-cream)' },
+  // Werner: Berlin Blue (#7994b5) is the palette's central
+  // characteristic blue — Werner's own "pure" blue, the one Darwin
+  // would have pointed at on his card. Tile color signals the
+  // historical-pigment register, distinct from web/x11 modern blues.
+  werner: { tone: '#7994b5', ink: 'var(--bh-ink)' },
 };
 
 const ORDER: PaletteKey[] = [
@@ -82,6 +87,7 @@ const ORDER: PaletteKey[] = [
   'resene',
   'ncs',
   'pokemon',
+  'werner',
 ];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).

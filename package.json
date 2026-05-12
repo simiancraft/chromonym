@@ -109,6 +109,11 @@
       "import": "./dist/palettes/ntc.js",
       "default": "./dist/palettes/ntc.js"
     },
+    "./werner": {
+      "types": "./dist/palettes/werner.d.ts",
+      "import": "./dist/palettes/werner.js",
+      "default": "./dist/palettes/werner.js"
+    },
     "./xkcd": {
       "types": "./dist/palettes/xkcd.d.ts",
       "import": "./dist/palettes/xkcd.js",
