@@ -1,3 +1,13 @@
+# [3.5.0](https://github.com/simiancraft/chromonym/compare/v3.4.0...v3.5.0) (2026-05-12)
+
+
+### Features
+
+* **palettes:** add pokemon ([fc0841b](https://github.com/simiancraft/chromonym/commit/fc0841bcd10fda084b788c02e0dcf00b9de60af0)), closes [#30](https://github.com/simiancraft/chromonym/issues/30)
+* **palettes:** add ral ([839c7f3](https://github.com/simiancraft/chromonym/commit/839c7f308c7f830b402f961dea983cf18de1b917)), closes [#23](https://github.com/simiancraft/chromonym/issues/23)
+* **palettes:** add tailwind ([06ecbb0](https://github.com/simiancraft/chromonym/commit/06ecbb0c7e210cae402c085f13867abe2e8e9c5d)), closes [#25](https://github.com/simiancraft/chromonym/issues/25)
+* **palettes:** add werner ([d4f3cf1](https://github.com/simiancraft/chromonym/commit/d4f3cf162c6a29d49a75ab1379f3dff61f74f1de)), closes [#21](https://github.com/simiancraft/chromonym/issues/21)
+
 # [3.4.0](https://github.com/simiancraft/chromonym/compare/v3.3.2...v3.4.0) (2026-05-11)
 
 
