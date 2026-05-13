@@ -1,7 +1,6 @@
-// Page footer — the "colophon". A functional hint (shareable URL), a
-// version badge, project + author social links, the trademark + typeface
-// attribution line with a pointer to NOTICE.md, and the canonical
-// Simiancraft credit.
+// Page footer. Version badge, project + author social links, the
+// trademark + typeface attribution line with a pointer to NOTICE.md,
+// and the canonical Simiancraft credit.
 
 import { VERSION } from 'chromonym';
 import { Coffee } from 'lucide-react';
@@ -11,14 +10,8 @@ import SimianMark from './SimianMark.js';
 export function Footer() {
   return (
     <footer className="mt-14 pt-6 bh-rule space-y-3 text-center">
-      <div className="bh-eyebrow">colophon</div>
-      <div className="font-mono text-xs opacity-70 max-w-xl mx-auto leading-relaxed">
-        shareable url: this page's query string updates live as you scrub.
-        copy and send.
-      </div>
-
       <div
-        className="font-mono text-[10px] tracking-wider opacity-70 pt-1"
+        className="font-mono text-[10px] tracking-wider opacity-70"
         aria-label={`chromonym version ${VERSION}`}
       >
         v{VERSION}
