@@ -21,7 +21,7 @@
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
 </p>
 
-**The last color-naming library you'll ever need.** One API — `identify`, `resolve`, `convert` — works against any palette you throw at it. Ships twelve palettes out of the box (CSS, X11, Pantone, Crayola, NTC, XKCD, Resene, NCS, ISCC-NBS, NBS, FS 595 B, FS 595 C); bring your own (brand colors, paint chips, game factions, chart themes) with full TypeScript inference and zero registration. Six distance metrics — from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone — you only pay for palettes you import.
+**The last color-naming library you'll ever need.** Give it any hex, RGB, HSL, or HSV value and get back the nearest named color; give it a color name and get back the value. One API — `identify`, `resolve`, `convert` — works against any palette you throw at it. Ships sixteen palettes out of the box (CSS, X11, Pantone, Crayola, NTC, XKCD, RAL, Tailwind, Resene, NCS, ISCC-NBS, NBS, FS 595 B, FS 595 C, Werner, Pokémon); bring your own (brand colors, paint chips, game factions, chart themes) with full TypeScript inference and zero registration. Six distance metrics — from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone — you only pay for palettes you import.
 
 <sub>*chromonym* (n.): a name for a color; *chroma* + *-onym*. Also the library.</sub>
 
@@ -74,7 +74,7 @@ convert('#e4002b', { palette: pantone, format: 'NAME' })  // '185 C'  (exact mat
 convert('acme red', { palette: brand, format: 'RGB' })    // 'rgb(255, 42, 59)'
 ```
 
-The identification machinery is palette-agnostic — RAL, HKS, NCS, Munsell, or a bespoke in-house set are the same amount of work (a small file each, or a single object literal). PRs welcome; meanwhile, BYO lets you ship today.
+The identification machinery is palette-agnostic — HKS, Munsell, or a bespoke in-house set are the same amount of work (a small file each, or a single object literal). PRs welcome; meanwhile, BYO lets you ship today.
 
 ## Install
 
@@ -296,7 +296,7 @@ Unparseable values are dropped with a `console.warn` naming the palette, the off
 
 If you prefer zero runtime and already have hex-only values, the `as const satisfies Palette<'A' | 'B' | ...>` pattern still works — list the key union once in the generic and it narrows identically.
 
-### The twelve we ship
+### The sixteen we ship
 
 | Name | Entries | Source |
 |---|---|---|
@@ -312,6 +312,10 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `nbs` | 267 | Second digitization of the same 1955 standard; different sRGB (matches 1955 chip book; covers the 7 blocks `isccNbs` leaves as gaps) |
 | `resene` | 1378 | Resene Paints (NZ) catalog; te reo Māori and NZ place-names in the naming |
 | `ncs` | 1950 | Natural Colour System (Sweden) — perceptual, structured notation (`2030-R80B`), not NCS-licensed |
+| `ral` | 216 | RAL Classic, the European industrial coatings standard (community sRGB values; not a licensed RAL product) |
+| `tailwind` | 242 | Tailwind CSS v4 default theme (22 families × 11 shades, computed from the OKLCH spec) |
+| `werner` | 110 | Werner's Nomenclature of Colours (1821, Patrick Syme; the field reference Darwin carried aboard the Beagle) |
+| `pokemon` | 18 | Pokémon type-badge colors (community approximations; not an official asset set) |
 
 Importable directly, or via subpath exports for stricter tree-shaking:
 
@@ -454,7 +458,7 @@ const tryConvert = (input: ColorInput, opts = {}) => {
 
 **Install size and bundle size are not the same number.** Install size is what lands in your `node_modules/` after `npm install`; bundle size is what ships to your users after tree-shaking, minification, and gzip. For chromonym the gap is roughly two orders of magnitude.
 
-The published tarball is **~2.5 MB unpacked / ~557 kB gzipped** because it carries twelve palettes and ~9000 named-color entries; that's the install-size figure `packagephobia` reports. Your **production bundle** pays only for what you actually import, measured with `esbuild --minify`:
+The published tarball is **~2.7 MB unpacked / ~600 kB gzipped** because it carries sixteen palettes and ~9500 named-color entries; that's the install-size figure `packagephobia` reports. Your **production bundle** pays only for what you actually import, measured with `esbuild --minify`:
 
 | Import | min | gzip |
 |---|---|---|
@@ -500,6 +504,8 @@ chromonym deliberately limits its scope to color *naming* (resolving and identif
 ## License
 
 MIT © [the-simian](https://github.com/the-simian)
+
+<sub>Looking for this package and landed here another way? Common misspellings: *chromanym*, *chromonim*. The package name is **chromonym**.</sub>
 
 <p align="center"><sub>Crafted with care by <a href="https://simiancraft.com">Simiancraft</a>.</sub></p>
 
