@@ -40,7 +40,7 @@ jobs:
       - name: ESLint (react-compiler)
         run: bun run check:eslint
 
-      - name: Typecheck (tsgo)
+      - name: Typecheck (tsc)
         run: bun run typecheck
 
       # Build before test so test/subpathExports.test.ts can verify the
@@ -51,7 +51,7 @@ jobs:
       # Strict typecheck for test/. Runs after Build because
       # test/subpathExports.test.ts statically imports dist/* modules
       # that don't exist until the build step emits them.
-      - name: Typecheck tests (tsgo)
+      - name: Typecheck tests (tsc)
         run: bun run typecheck:test
 
       - name: Package hygiene (publint + attw)
