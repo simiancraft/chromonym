@@ -488,7 +488,7 @@ Re-exported from the root barrel — `import type { ... } from 'chromonym'`:
 ```sh
 bun install
 bun run lint       # biome
-bun run typecheck  # tsgo (native-preview)
+bun run typecheck  # tsc (TypeScript 7, native)
 bun test
 bun run build
 ```
