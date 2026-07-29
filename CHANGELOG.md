@@ -1,3 +1,15 @@
+## [3.5.1](https://github.com/simiancraft/chromonym/compare/v3.5.0...v3.5.1) (2026-07-29)
+
+
+### Bug Fixes
+
+* **ci:** drop --exclude-mail, removed in lychee 0.24 ([#47](https://github.com/simiancraft/chromonym/issues/47)) ([24f5f12](https://github.com/simiancraft/chromonym/commit/24f5f128ee2c58d690a4e1bb3d4a6eced4f3e758))
+
+
+### Features
+
+* **demo:** expand footer with version, social links, simiancraft mark ([786aa49](https://github.com/simiancraft/chromonym/commit/786aa490d6f56af5af57ccd5564f137a613ed6fb))
+
 # [3.5.0](https://github.com/simiancraft/chromonym/compare/v3.4.0...v3.5.0) (2026-05-12)
 
 
