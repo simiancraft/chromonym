@@ -26,14 +26,13 @@ jobs:
       - name: Link check (lychee)
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
-          # Skip GitHub's per-IP rate-limited API endpoints (shields.io
-          # badges, codecov.io graphs) and any localhost dev refs; those
-          # return flaky 429s under a cold cache on CI runners.
+          # Skip hosts that reject link checkers rather than 404: shields.io
+          # and codecov.io rate-limit per IP under a cold CI cache, and
+          # npmjs.com answers bots with 403.
           args: >-
             --verbose
             --no-progress
             --max-retries 2
-            --exclude-mail
-            --exclude '^https?://(img\.shields\.io|codecov\.io)'
+            --exclude '^https?://(img\.shields\.io|codecov\.io|www\.npmjs\.com)'
             './**/*.md'
           fail: true
