@@ -1,3 +1,5 @@
+## [3.5.2](https://github.com/simiancraft/chromonym/compare/v3.5.1...v3.5.2) (2026-09-23)
+
 ## [3.5.1](https://github.com/simiancraft/chromonym/compare/v3.5.0...v3.5.1) (2026-07-29)
 
 
