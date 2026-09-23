@@ -4,7 +4,11 @@
     [
       "@semantic-release/commit-analyzer",
       {
-        "releaseRules": [{ "scope": "demo", "release": false }]
+        "releaseRules": [
+          { "scope": "demo", "release": false },
+          { "type": "chore", "scope": "deps", "release": "patch" },
+          { "type": "chore", "scope": "deps-dev", "release": "patch" }
+        ]
       }
     ],
     "@semantic-release/release-notes-generator",
