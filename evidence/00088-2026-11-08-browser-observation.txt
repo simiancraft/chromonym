@@ -1,0 +1,12 @@
+capture_commit=be4a5019a8b9fdcf111d2ee471fbc2ac6ee60a36
+capture_method=Chromium 142 headless against the production Vite build at 1440x2400
+interaction=click the Munsell renotation radio tile through the Chrome DevTools Protocol
+selected=true
+tile_text=2734 Munsell renotation
+description=Munsell renotation real colors. 2734 hue/value/chroma notations from RIT's public-domain xyY data, converted and gamut-clamped to sRGB.
+nearest_section=true
+application_console_errors=0
+ignored_browser_noise=missing favicon.ico only
+screenshot=.proof-munsell-demo-selected.webp
+source_png_bytes=1105586
+optimized_webp_bytes=173296

@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "data", "packaging", "ci"],
+  "covered_paths": ["package.json", "src/index.ts", "src/palettes/munsell.ts", "src/resolve.ts", "test/fixtures/munsell-real.dat", "test/munsellRit.test.ts", "test/palettes.test.ts", "test/subpathExports.test.ts", ".github/workflows/ci.yml"],
+  "capture_commit": "be4a5019a8b9fdcf111d2ee471fbc2ac6ee60a36",
+  "capture_method": "download and byte-compare RIT real.dat; bun test test/munsellRit.test.ts test/subpathExports.test.ts; bun test --coverage --coverage-reporter=lcov",
+  "content_hash": "sha256:b074f54eb27b475463331a414ebb74454eb960f0333a5ef82859b3e845ab2b33"
+}

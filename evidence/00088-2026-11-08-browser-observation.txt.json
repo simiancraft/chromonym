@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["frontend", "flow"],
+  "covered_paths": ["demo/src/components/HeroIdentifier.tsx", "demo/src/components/PaletteGrid.tsx", "demo/src/components/PaletteTiles.tsx", "package.json", "src/index.ts", "src/palettes/munsell.ts"],
+  "capture_commit": "be4a5019a8b9fdcf111d2ee471fbc2ac6ee60a36",
+  "capture_method": "Chromium 142 headless against the production Vite build; select the Munsell tile through Chrome DevTools Protocol and collect page and console errors",
+  "content_hash": "sha256:72f1ce48e178144fead20a6173d9167c4196add8cdda90582cc5a7b36bc05389"
+}

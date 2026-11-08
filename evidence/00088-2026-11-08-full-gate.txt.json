@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "data", "frontend", "packaging", "gate"],
+  "covered_paths": ["NOTICE.md", "README.md", "demo/src/components/PaletteGrid.tsx", "demo/src/components/PaletteTiles.tsx", "package.json", "src/index.ts", "src/palettes/munsell.ts", "test/fixtures/munsell-real.dat", "test/munsellRit.test.ts", "test/palettes.test.ts", "test/subpathExports.test.ts"],
+  "capture_commit": "be4a5019a8b9fdcf111d2ee471fbc2ac6ee60a36",
+  "capture_method": "bun run build && (cd demo && bun install --frozen-lockfile) && bun run check",
+  "content_hash": "sha256:1fee1563839b4d2e1f8e813dcc2ade68a63a931b4de61f1b9300915d77347189"
+}

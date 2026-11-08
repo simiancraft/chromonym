@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["frontend", "flow"],
+  "covered_paths": ["demo/src/components/HeroIdentifier.tsx", "demo/src/components/PaletteGrid.tsx", "demo/src/components/PaletteTiles.tsx", "package.json", "src/index.ts", "src/palettes/munsell.ts"],
+  "capture_commit": "be4a5019a8b9fdcf111d2ee471fbc2ac6ee60a36",
+  "capture_method": "Chromium 142 headless production-build screenshot after selecting the Munsell tile; converted from 1,105,586-byte PNG to 173,296-byte WebP at quality 88 and visually verified",
+  "content_hash": "sha256:607596554f96989dd697eb7fdaa72547010c7261915986326782dc0c69e62c8b"
+}

@@ -1,0 +1,23 @@
+focused_command=bun test test/munsellRit.test.ts test/subpathExports.test.ts
+ci_command=bun test --coverage --coverage-reporter=lcov
+
+Script started on 2026-11-08 01:21:02-06:00 [<not executed on terminal>]
+capture_commit=be4a5019a8b9fdcf111d2ee471fbc2ac6ee60a36
+remote_sha256=493f6880948f159b1aec370c324b0e8fe50d5d169f3cf94d3ef8574f29793117
+fixture_sha256=493f6880948f159b1aec370c324b0e8fe50d5d169f3cf94d3ef8574f29793117
+source_fixture_cmp=identical
+source_lines=2735
+bun test v1.4.4 (38afee6c8)
+
+ 43 pass
+ 0 fail
+ 2945 expect() calls
+Ran 43 tests across 2 files. [76.00ms]
+bun test v1.4.4 (38afee6c8)
+
+ 650 pass
+ 0 fail
+ 32936 expect() calls
+Ran 650 tests across 27 files. [178.00ms]
+
+Script done on 2026-11-08 01:21:03-06:00 [COMMAND_EXIT_CODE="0"]
