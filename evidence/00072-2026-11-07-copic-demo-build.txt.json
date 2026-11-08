@@ -1,0 +1,14 @@
+{
+  "scope_tags": ["frontend", "demo", "build"],
+  "covered_paths": [
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "demo/package.json",
+    "demo/bun.lock",
+    "src/palettes/copic.ts",
+    "src/index.ts"
+  ],
+  "capture_commit": "82e15adc24850fb9048b86baad2fa4bdbcedc396",
+  "capture_method": "bun run typecheck:demo && (cd demo && bun run build)",
+  "content_hash": "sha256:a772ffaebe4c90d44ab98a107123b4f1ee4194418c765adb72f35e0a5b38f834"
+}

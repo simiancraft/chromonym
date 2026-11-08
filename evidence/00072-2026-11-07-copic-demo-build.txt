@@ -1,0 +1,28 @@
+Claim: the demo registrations for the Copic palette typecheck and build in the production demo bundle at commit 82e15adc24850fb9048b86baad2fa4bdbcedc396.
+Captured at: 82e15adc24850fb9048b86baad2fa4bdbcedc396
+Capture date: 2026-11-07 America/Chicago
+
+Command:
+bun run typecheck:demo && (cd demo && bun run build)
+
+Result:
+$ cd demo && bunx tsc --noEmit
+$ vite build
+vite v8.3.0 building client environment for production...
+transforming...
+1940 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   2.07 kB | gzip:   0.76 kB
+dist/assets/index-kcSMw_Uo.css   26.19 kB | gzip:   6.31 kB
+dist/assets/index-B8vwyIKr.js   484.69 kB | gzip: 174.91 kB
+built in 2.47s
+Exit code: 0
+
+The build emitted the existing informational bundler warning that the React Compiler runtime module directive "use no memo" may not be preserved. It did not fail the build.
+
+Covered registration points:
+demo/src/components/PaletteGrid.tsx includes copic in PALETTES, PALETTE_LABELS, PALETTE_DESCRIPTIONS, and PALETTE_KEYS.
+demo/src/components/PaletteTiles.tsx includes the Copic tile tone and ORDER entry.
+
+Re-check: check out 82e15adc24850fb9048b86baad2fa4bdbcedc396, install the root and demo lockfiles, then run the command above.
