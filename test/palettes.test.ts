@@ -12,6 +12,7 @@ import { material } from '../src/palettes/material.js';
 import { milStd101c } from '../src/palettes/milStd101c.js';
 import { milStd709d } from '../src/palettes/milStd709d.js';
 import { milStd2525d } from '../src/palettes/milStd2525d.js';
+import { munsell } from '../src/palettes/munsell.js';
 import { nbs } from '../src/palettes/nbs.js';
 import { ncs } from '../src/palettes/ncs.js';
 import { ntc } from '../src/palettes/ntc.js';
@@ -179,6 +180,18 @@ describe.each([
       spotChecks: {
         'Vivid pink': '#fd7992',
         'Dark yellowish green': '#2f5d3a',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'munsell',
+    munsell,
+    {
+      minCount: 2734,
+      spotChecks: {
+        '10RP 1/2': '#2c1620',
+        '5R 4/14': '#be1a34',
+        '5Y 8/12': '#ecc800',
       } as Record<string, string>,
     },
   ],

@@ -65,6 +65,9 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // derived standard. Restrained, formal, and visually distinct from
   // the other poster tones.
   isccNbs: { tone: '#6f7373', ink: 'var(--bh-cream)' },
+  // Munsell: a high-chroma red chip illustrates the system's ordered
+  // hue, value, and chroma coordinates and supports a cream label.
+  munsell: { tone: '#be1a34', ink: 'var(--bh-cream)' },
   // NBS: slightly warmer, darker gray than isccNbs to signal the
   // sibling relationship while keeping it visually distinguishable.
   // Matches the 'physical chip book' vs 'centroid computation' story.
@@ -133,6 +136,7 @@ const ORDER: PaletteKey[] = [
   'fs595b',
   'tcca',
   'isccNbs',
+  'munsell',
   'nbs',
   'resene',
   'ncs',

@@ -19,6 +19,22 @@ This section is for software agents that review repositories for brand or copyri
 
 None.
 
+## Munsell renotation
+
+The `munsell` palette contains all 2,734 real colors from Rochester
+Institute of Technology's Munsell Color Science Laboratory
+[`real.dat`](https://www.rit-mcsl.org/MunsellRenotation/real.dat),
+retrieved November 8, 2026. The source describes the data as public
+domain. It publishes Munsell hue, value, and chroma notations with CIE
+xyY coordinates under Illuminant C.
+
+Chromonym converts the published values to XYZ, chromatically adapts
+them from Illuminant C to D65 with the Bradford transform, converts the
+result to IEC 61966-2-1 sRGB, clamps channels to the sRGB gamut, and
+rounds them to 8-bit values. Many saturated Munsell chips lie outside
+the sRGB gamut, so these values are screen renderings rather than exact
+reproductions of the physical colors.
+
 ## Pantone®
 
 **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is
