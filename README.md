@@ -298,7 +298,7 @@ Tailwind v3 exports nested hex scales such as `{ red: { 500: '#ef4444' } }`. Fla
 
 ```ts
 import { defineColorPalette, identify } from 'chromonym';
-import tailwindColors = require('tailwindcss/colors');
+import tailwindColors from 'tailwindcss/colors.js';
 
 function flattenTailwindColors(colors: object) {
   const flat: Record<string, `#${string}`> = {};
@@ -343,7 +343,7 @@ identify('#ef4444', { palette: tailwindV3 })
 // → 'red-500'
 ```
 
-`deltaEok` is a good default for design-system matching because Tailwind's shade ramps are perceptual. The skipped Tailwind v3 aliases duplicate newer color families, and reading their getters emits runtime warnings. The TypeScript `require` import also avoids Bun's static-import interop reading those getters before `flattenTailwindColors` can skip them. Tailwind v4's raw theme values use OKLCH, which `defineColorPalette` does not parse; use the built-in `tailwind` palette or convert custom v4 values to hex first.
+`deltaEok` is a good default for design-system matching because Tailwind's shade ramps are perceptual. The skipped Tailwind v3 aliases duplicate newer color families, and reading their getters emits runtime warnings. Under Bun, the default import reads those getters before `flattenTailwindColors` can skip them, so it prints harmless rename warnings. Tailwind v4's raw theme values use OKLCH, which `defineColorPalette` does not parse; use the built-in `tailwind` palette or convert custom v4 values to hex first.
 
 Unparseable values are dropped with a `console.warn` naming the palette, the offending key, and the bad value; the rest of the palette loads normally. This keeps a single typo out of your brand kit from taking down the whole module.
 
