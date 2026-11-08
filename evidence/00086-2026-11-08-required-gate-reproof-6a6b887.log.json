@@ -1,0 +1,17 @@
+{
+  "scope_tags": ["data", "api", "package", "demo", "ci"],
+  "covered_paths": [
+    "NOTICE.md",
+    "README.md",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "package.json",
+    "src/index.ts",
+    "src/palettes/prismacolor.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "d51f09a74a79056ffafc36f5080b72aeb84df79b",
+  "capture_method": "bun run build && (cd demo && bun install --frozen-lockfile) && bun run check",
+  "content_hash": "sha256:6a6b88713f2d7d27a0d266de8c0370797cd967601b98cb26a7d5b064ddf58896"
+}

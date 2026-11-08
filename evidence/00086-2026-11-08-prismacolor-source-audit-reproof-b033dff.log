@@ -1,0 +1,16 @@
+{
+  "captureCommit": "d51f09a74a79056ffafc36f5080b72aeb84df79b",
+  "sourceUrl": "https://cyanindesign.blogspot.com/2022/08/150-prismacolor-premier-colored-pencils.html",
+  "sourceHttpStatus": 200,
+  "sourceRows": 150,
+  "implementationRows": 150,
+  "uniqueSourceCodes": 150,
+  "uniqueImplementationCodes": 150,
+  "mismatches": 0,
+  "extras": 0,
+  "runtimeEntries": 150,
+  "rootAndSubpathIdentity": true,
+  "normalizedResolve": "#162452",
+  "exactIdentify": "PC901",
+  "defaultMetric": "deltaE2000"
+}

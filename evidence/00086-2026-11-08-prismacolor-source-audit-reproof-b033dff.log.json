@@ -1,0 +1,11 @@
+{
+  "scope_tags": ["data", "api", "package"],
+  "covered_paths": [
+    "package.json",
+    "src/index.ts",
+    "src/palettes/prismacolor.ts"
+  ],
+  "capture_commit": "d51f09a74a79056ffafc36f5080b72aeb84df79b",
+  "capture_method": "bun evidence/00086-2026-11-08-prismacolor-source-audit.ts after bun run build",
+  "content_hash": "sha256:b033dff6eb6f9b81e3348c9ddcadc05eab60816f924ffe196a8c28fd8d8f6af2"
+}

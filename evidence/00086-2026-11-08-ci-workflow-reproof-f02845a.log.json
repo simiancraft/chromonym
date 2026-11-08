@@ -1,0 +1,18 @@
+{
+  "scope_tags": ["data", "api", "package", "demo", "ci"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "NOTICE.md",
+    "README.md",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "package.json",
+    "src/index.ts",
+    "src/palettes/prismacolor.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "d51f09a74a79056ffafc36f5080b72aeb84df79b",
+  "capture_method": "CI workflow sequence from .github/workflows/ci.yml, including bun test --coverage --coverage-reporter=lcov",
+  "content_hash": "sha256:f02845a2b14fbb2d25417efbda85f676a6980915c57ec78a166580cd28bc8fc6"
+}
