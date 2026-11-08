@@ -21,7 +21,7 @@
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
 </p>
 
-**The last color-naming library you'll ever need.** Give it any hex, RGB, HSL, or HSV value and get back the nearest named color; give it a color name and get back the value. One API (`identify`, `resolve`, and `convert`) works against any palette you throw at it. Ships twenty-eight palettes out of the box (CSS, X11, Pantone, Copic, Prismacolor, Crayola, Farrow & Ball, NTC, XKCD, Japanese traditional colors, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B, FS 595 C, CARC, TCCA, MIL-STD-101C, MIL-STD-709D, MIL-STD-2525D, U.S. military identity colors, Werner, and Pokémon); bring your own (brand colors, paint chips, game factions, and chart themes) with full TypeScript inference and zero registration. Six distance metrics range from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone; you only pay for palettes you import.
+**The last color-naming library you'll ever need.** Give it any hex, RGB, HSL, or HSV value and get back the nearest named color; give it a color name and get back the value. One API (`identify`, `resolve`, and `convert`) works against any palette you throw at it. Ships twenty-nine palettes out of the box (CSS, X11, Pantone, Copic, Prismacolor, Crayola, Farrow & Ball, NTC, XKCD, Japanese traditional colors, RAL, Tailwind, Material, USWDS, Resene, NCS, Munsell, ISCC-NBS, NBS, FS 595 B, FS 595 C, CARC, TCCA, MIL-STD-101C, MIL-STD-709D, MIL-STD-2525D, U.S. military identity colors, Werner, and Pokémon); bring your own (brand colors, paint chips, game factions, and chart themes) with full TypeScript inference and zero registration. Six distance metrics range from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone; you only pay for palettes you import.
 
 <sub>*chromonym* (n.): a name for a color; *chroma* + *-onym*. Also the library.</sub>
 
@@ -74,7 +74,7 @@ convert('#e4002b', { palette: pantone, format: 'NAME' })  // '185 C'  (exact mat
 convert('acme red', { palette: brand, format: 'RGB' })    // 'rgb(255, 42, 59)'
 ```
 
-The identification machinery is palette-agnostic — HKS, Munsell, or a bespoke in-house set are the same amount of work (a small file each, or a single object literal). PRs welcome; meanwhile, BYO lets you ship today.
+The identification machinery is palette-agnostic: HKS or a bespoke in-house set is the same amount of work (a small file each, or a single object literal). PRs welcome; meanwhile, BYO lets you ship today.
 
 ## Install
 
@@ -349,7 +349,7 @@ Unparseable values are dropped with a `console.warn` naming the palette, the off
 
 If you prefer zero runtime and already have hex-only values, the `as const satisfies Palette<'A' | 'B' | ...>` pattern still works — list the key union once in the generic and it narrows identically.
 
-### The twenty-eight we ship
+### The twenty-nine we ship
 
 | Name | Entries | Source |
 |---|---|---|
@@ -375,6 +375,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `nbs` | 267 | Second digitization of the same 1955 standard; different sRGB (matches 1955 chip book; covers the 7 blocks `isccNbs` leaves as gaps) |
 | `resene` | 1378 | Resene Paints (NZ) catalog; te reo Māori and NZ place-names in the naming |
 | `ncs` | 1950 | Natural Colour System (Sweden) — perceptual, structured notation (`2030-R80B`), not NCS-licensed |
+| `munsell` | 2734 | Munsell renotation real colors from RIT; Illuminant C xyY converted and gamut-clamped to sRGB |
 | `ral` | 216 | RAL Classic, the European industrial coatings standard (community sRGB values; not a licensed RAL product) |
 | `tailwind` | 242 | Tailwind CSS v4 default theme (22 families × 11 shades, computed from the OKLCH spec) |
 | `material` | 98 | Material Design 3 baseline system color roles (49 each for light and dark schemes) |

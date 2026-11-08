@@ -41,6 +41,7 @@ export { type MaterialColorName, material } from './palettes/material.js';
 export { type MilStd101cColorName, milStd101c } from './palettes/milStd101c.js';
 export { type MilStd709dColorName, milStd709d } from './palettes/milStd709d.js';
 export { type MilStd2525dColorName, milStd2525d } from './palettes/milStd2525d.js';
+export { type MunsellColorName, munsell } from './palettes/munsell.js';
 export { type NbsColorName, nbs } from './palettes/nbs.js';
 export { type NcsColorName, ncs } from './palettes/ncs.js';
 export { type NtcColorName, ntc } from './palettes/ntc.js';
