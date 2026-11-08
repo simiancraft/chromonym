@@ -117,6 +117,28 @@ isn't present, open an issue or define a BYO palette.
 - Classic hues are close enough for comparative UI / identification
   work but should not be used as a reference for print color matching.
 
+## Farrow & Ball®
+
+**Farrow & Ball®** is a trademark of **Farrow & Ball Limited**. Chromonym
+is **not affiliated with, endorsed by, licensed by, or certified by Farrow &
+Ball Limited**.
+
+The `farrowBall` palette ships 132 named, approximate sRGB screen values from
+the public [`jpederson/colornerd` Farrow & Ball color book](https://github.com/jpederson/colornerd/blob/5a46ba515d61169e49adc81dddb1bcd88da9d60a/json/farrow-ball.json)
+at commit `5a46ba515d61169e49adc81dddb1bcd88da9d60a`, dated April 9, 2019, and
+accessed November 8, 2026. The source states that its color books and names
+belong to their respective owners, that it is not an official vendor project,
+and that the repository is offered as-is to make the books more accessible.
+It states no license or additional reuse terms for the color data.
+
+The names are nominative references to publicly identified paint colors. The
+values are for on-screen lookup and nearest-color comparison; they are not
+official Farrow & Ball measurements or paint specifications. Farrow & Ball's
+public [terms and conditions](https://www.farrow-ball.com/terms-and-conditions),
+accessed November 8, 2026, state that monitor displays may not accurately
+reflect delivered paint. No gated swatch files, applications, or downloads
+were used.
+
 ## X11 / X.Org
 
 The `x11` palette is derived from the X.Org `rgb.txt` file, which is in

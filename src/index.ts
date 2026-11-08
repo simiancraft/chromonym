@@ -32,6 +32,7 @@ export {
 export { type CarcColorName, carc } from './palettes/carc.js';
 export { type CopicColorName, copic } from './palettes/copic.js';
 export { type CrayolaColorName, crayola } from './palettes/crayola.js';
+export { type FarrowBallColorName, farrowBall } from './palettes/farrowBall.js';
 export { type Fs595bColorName, fs595b } from './palettes/fs595b.js';
 export { type Fs595cColorName, fs595c } from './palettes/fs595c.js';
 export { type IsccNbsColorName, isccNbs } from './palettes/isccNbs.js';
