@@ -1,0 +1,475 @@
+Script started on 2026-11-08 00:53:58-06:00 [<not executed on terminal>]
+$ bun run clean && tsc
+$ rm -rf dist
+bun install v1.4.4 (38afee6c8)
+
++ chromonym@..
+
+2 packages installed [12.00ms]
+$ bun run lint:fix && bun run check:eslint && bun run typecheck && bun run typecheck:demo && bun run build && bun run typecheck:test && bun run test && (cd demo && bun run build) && bun run check:knip && bun run check:package
+$ biome check --write
+biome.json:2:14 deserialize ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i The configuration schema version does not match the CLI version 2.5.14
+  
+    1 │ {
+  > 2 │   "$schema": "https://biomejs.dev/schemas/2.4.13/schema.json",
+      │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    3 │   "vcs": {
+    4 │     "enabled": true,
+  
+  i   Expected:                     2.5.14
+      Found:                        2.4.13
+  
+  
+  i Run the command biome migrate to migrate the configuration file.
+  
+
+biome.json:17:13 deserialize  DEPRECATED  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i The use of the recommended field has been deprecated, and will removed in the next major version of Biome. Use preset instead.
+  
+    15 │     "lineWidth": 100
+    16 │   },
+  > 17 │   "linter": {
+       │             ^
+  > 18 │     "enabled": true,
+  > 19 │     "rules": {
+  > 20 │       "recommended": true
+  > 21 │     }
+  > 22 │   },
+       │   ^
+    23 │   "javascript": {
+    24 │     "formatter": {
+  
+  i Migrate the configuration with the proper command
+  
+  $ biome migrate
+  
+
+test/defineColorPalette.test.ts:189:14 lint/suspicious/noProto ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Avoid use of the deprecated __proto__ accessor.
+  
+    187 │       const colors = palette.colors as Record<string, string>;
+    188 │       expect(colors.good).toBe('#00ff00');
+  > 189 │       expect(colors.__proto__).toBe('#ff0000');
+        │              ^^^^^^^^^^^^^^^^
+    190 │       expect(warnMock).toHaveBeenCalledTimes(0);
+    191 │     });
+  
+  i Object.prototype.__proto__ is an outdated way to get or set an object's prototype,
+    having been deprecated in 2009 for being inefficient and unreliable.
+  
+  i Object.getPrototypeOf() and Object.setPrototypeOf() are modern alternatives that work on all objects and are more performant.
+  
+
+Checked 85 files in 23ms. No fixes applied.
+Found 1 warning.
+Found 2 infos.
+$ cd demo && bun run lint:eslint
+$ eslint src
+$ tsc --noEmit
+$ cd demo && bunx tsc --noEmit
+$ bun run clean && tsc
+$ rm -rf dist
+$ tsc --noEmit --project tsconfig.test.json
+$ bun test
+bun test v1.4.4 (38afee6c8)
+
+ 640 pass
+ 0 fail
+ 24716 expect() calls
+Ran 640 tests across 26 files. [150.00ms]
+$ vite build
+vite v8.3.0 building client environment for production...
+transforming (14) src/App.tsxtransforming (49) node_modules/chromonym/dist/palettes/pokemon.jstransforming (416) node_modules/lucide-react/dist/esm/icons/square-dashed-mouse-pointer.mjstransforming (418) node_modules/lucide-react/dist/esm/icons/badge-plus.mjstransforming (417) node_modules/lucide-react/dist/esm/icons/badge-swiss-franc.mjstransforming (1935) src/components/FuzzyResolver.tsxtransforming (1938) src/components/KandinskyBYO.tsxtransforming (1946) src/components/Eyedropper.tsx✓ 1948 modules transformed.
+rendering chunks (1)...computing gzip size...
+dist/index.html                   2.07 kB │ gzip:   0.76 kB
+dist/assets/index-kcSMw_Uo.css   26.19 kB │ gzip:   6.31 kB
+dist/assets/index-C4TDbVGB.js   509.38 kB │ gzip: 186.42 kB
+
+[MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use no memo" in "node_modules/react-compiler-runtime/dist/index.js" may not be preserved when bundling.
+    ╭─[ node_modules/react-compiler-runtime/dist/index.js:14:1 ]
+    │
+ 14 │ "use no memo";
+    │ ───────┬──────  
+    │        ╰──────── module level directive may not be preserved
+    │ 
+    │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+────╯
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.01s
+$ knip
+Reading workspace configuration…
+Analyzing workspace…
+Analyzing source files…
+Connecting the dots…
+✂️  Excellent, Knip found no issues.
+$ publint && attw --pack --profile esm-only
+Running publint v0.3.24 for chromonym...
+Packing files with `bun pack`...
+Linting...
+All good!
+
+chromonym v3.15.0
+
+Build tools:
+- @arethetypeswrong/cli@^0.18.5
+- typescript@^7.0.2
+
+ (ignoring resolutions: 'node10', 'node16-cjs')
+
+(ignored per resolution) ⚠️ A require call resolved to an ESM JavaScript file, which is an error in Node and some bundlers. CommonJS consumers will need to use a dynamic import. https://github.com/arethetypeswrong/arethetypeswrong.github.io/blob/main/docs/problems/CJSResolvesToESM.md
+
+(ignored per resolution) 💀 Import failed to resolve to type declarations or JavaScript files. https://github.com/arethetypeswrong/arethetypeswrong.github.io/blob/main/docs/problems/NoResolution.md
+
+
+"chromonym"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 🟢 
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/web"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/x11"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/pantone"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/copic"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/prismacolor"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/pokemon"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/ral"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/resene"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/tailwind"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/material"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/crayola"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/farrow-ball"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/carc"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/fs595b"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/fs595c"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/tcca"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/iscc-nbs"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/japanese"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/mil-std-101c"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/mil-std-709d"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/mil-std-2525d"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/us-military"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/nbs"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/ncs"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/ntc"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/uswds"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/werner"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/xkcd"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/conversions/hex"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/conversions/rgb"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/conversions/hsl"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/conversions/hsv"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/conversions/pantone"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/math/deltaE"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/math/colorSpace"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/types"
+
+node16 (from ESM): 🟢 (ESM)
+bundler: 🟢 
+node10: (ignored) 💀 Resolution failed
+node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+
+***********************************
+
+"chromonym/package.json"
+
+node16 (from ESM): 🟢 (JSON)
+bundler: 🟢 (JSON)
+node10: (ignored) 🟢 (JSON)
+node16 (from CJS): (ignored) 🟢 (JSON)
+
+***********************************
+
+Script done on 2026-11-08 00:54:03-06:00 [COMMAND_EXIT_CODE="0"]
