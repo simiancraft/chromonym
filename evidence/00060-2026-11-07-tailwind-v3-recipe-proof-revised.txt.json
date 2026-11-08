@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["docs", "typescript", "runtime", "ci"],
+  "covered_paths": ["README.md", ".github/workflows/ci.yml"],
+  "capture_commit": "2cab8cc6cd202b2a05b2735aa36191f73e5b867c",
+  "capture_method": "Exact README block type-checked and executed with Bun against tailwindcss@3.4.18; GitHub Actions CI run 42434172397 checked at the same SHA",
+  "content_hash": "sha256:d347e819dd5c68f1820a900086ce2718812a601bd856313b1a476130a26e3f43"
+}

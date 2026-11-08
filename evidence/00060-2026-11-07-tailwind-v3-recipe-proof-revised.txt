@@ -1,0 +1,45 @@
+Tailwind v3 README recipe proof
+Capture commit: 2cab8cc6cd202b2a05b2735aa36191f73e5b867c
+Captured: 2026-11-07 America/Chicago
+
+Physical scope
+README.md is the only changed file: 53 inserted lines. The change adds one reversible documentation recipe and changes no package dependency, library code, persistent data, or external runtime state.
+
+Issue alignment
+Issue #16 asks for a Bring your own recipe that flattens Tailwind's nested color scales, keeps top-level colors, uses deltaEok, and demonstrates that #ef4444 identifies as red-500. The README recipe does each of these. It also documents Tailwind v3 alias handling and Tailwind v4 OKLCH guidance.
+
+Focused reproduction
+The TypeScript test file was copied byte-for-byte from the README code block, then followed by one console.log probe of the documented identify expression. A diff between the README block and the copied prefix was empty.
+
+Installed dependencies:
+  chromonym@..
+  tailwindcss@3.4.18
+  typescript@7.0.2
+
+$ bunx tsc --noEmit --project .proof-16/tsconfig.json
+exit 0; no output
+
+$ bun run .proof-16/readme-recipe.ts
+red-500
+exit 0; no deprecated getter warnings or other stderr
+
+Remote CI receipt
+Workflow: CI, .github/workflows/ci.yml
+Run: https://github.com/simiancraft/chromonym/actions/runs/42434172397
+Job: https://github.com/simiancraft/chromonym/actions/runs/42434172397/job/128589332187
+Head SHA: 2cab8cc6cd202b2a05b2735aa36191f73e5b867c
+Event: pull_request
+Conclusion: success
+
+The deciding job passed all repository pipeline steps: frozen dependency install, Biome, demo dependency install, React Compiler ESLint, TypeScript, build, test typecheck, package hygiene, knip, tests with coverage, and Codecov upload.
+
+Supplied local gate record
+$ bun run build && (cd demo && bun install --frozen-lockfile) && bun run check
+Head SHA: 2cab8cc6cd202b2a05b2735aa36191f73e5b867c
+Exit: 0
+
+Re-check
+1. Resolve the capture commit on origin/fix/tailwind-byo-recipe-16.
+2. Copy the README Tailwind recipe into a strict NodeNext TypeScript project with chromonym from this checkout and tailwindcss@3.4.18.
+3. Run tsc with no emit, then run the file in Bun with a console.log around the final identify expression.
+4. Inspect GitHub Actions run 42434172397 for the repository pipeline result at the same full SHA.
