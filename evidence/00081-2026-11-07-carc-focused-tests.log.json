@@ -1,0 +1,15 @@
+{
+  "scope_tags": ["code", "data", "packaging"],
+  "covered_paths": [
+    "src/palettes/carc.ts",
+    "src/palettes/fs595c.ts",
+    "src/index.ts",
+    "package.json",
+    "test/carc.test.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "20bc435a92bd1ccae5a94632386fe27b423ab035",
+  "capture_method": "Bun 1.4.2: bun test test/carc.test.ts test/palettes.test.ts test/subpathExports.test.ts",
+  "content_hash": "sha256:8cbc14e1c8777c3453c75b2f68b15c89950ba86088ff2102656173bac3bb7c95"
+}

@@ -1,0 +1,18 @@
+{
+  "scope_tags": ["code", "data", "packaging", "demo"],
+  "covered_paths": [
+    "src/palettes/carc.ts",
+    "src/index.ts",
+    "package.json",
+    "test/carc.test.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "README.md",
+    "NOTICE.md"
+  ],
+  "capture_commit": "20bc435a92bd1ccae5a94632386fe27b423ab035",
+  "capture_method": "bun run build && (cd demo && bun install --frozen-lockfile) && bun run check",
+  "content_hash": "sha256:b883ac3cc80485cdde1692ab3153c9b70af2ab3457fdb6a32a6250a28d1fea89"
+}
