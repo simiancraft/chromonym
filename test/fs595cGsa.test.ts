@@ -23,6 +23,28 @@ describe('GSA FS595C fixture', () => {
     expect(fixture.split('\n', 1)[0]).toBe('chip\tcolor_group\tgloss_level\td65_l\td65_a\td65_b');
     expect(rows.every((row) => Object.keys(row).length === 6)).toBe(true);
   });
+
+  it('rejects an unexpected header', () => {
+    expect(() => parseFs595cGsaFixture('wrong\theader')).toThrow(
+      'Unexpected FS595C GSA fixture header: wrong\theader',
+    );
+  });
+
+  it('rejects rows with the wrong field count', () => {
+    expect(() =>
+      parseFs595cGsaFixture(
+        'chip\tcolor_group\tgloss_level\td65_l\td65_a\td65_b\n10032\tGray\tGloss\t42.1\t0.2',
+      ),
+    ).toThrow('Expected 6 fields on FS595C GSA fixture line 2');
+  });
+
+  it('rejects invalid row values', () => {
+    expect(() =>
+      parseFs595cGsaFixture(
+        'chip\tcolor_group\tgloss_level\td65_l\td65_a\td65_b\ninvalid\tGray\tGloss\t42.1\t0.2\t-1.3',
+      ),
+    ).toThrow('Invalid FS595C GSA fixture line 2');
+  });
 });
 
 describe('GSA FS595C CIELAB to sRGB conversion', () => {
