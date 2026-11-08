@@ -1,0 +1,23 @@
+{
+  "scope_tags": ["code", "data", "packaging", "frontend", "documentation"],
+  "covered_paths": [
+    "src/palettes/copic.ts",
+    "src/index.ts",
+    "package.json",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "README.md",
+    "NOTICE.md",
+    "src/identify.ts",
+    "src/resolve.ts",
+    "src/indexing.ts",
+    "src/math/colorSpace.ts",
+    "src/math/deltaE.ts",
+    "src/palettes/normalize.ts"
+  ],
+  "capture_commit": "1bd983072e0b12de8a21c7b834b0cb52c838bde7",
+  "capture_method": "semantic comparison with pinned sile/copic_colors source; focused Bun tests; Node ESM package imports and lookup calls; demo TypeScript and Vite build",
+  "content_hash": "sha256:8ef19560303c8ad80d95685fb707edd3c07664cd35c092d9b950617e6b1ce0c9"
+}
