@@ -68,6 +68,23 @@ color-library lookup that rounds it through sRGB loses information.
 If you need Pantone-certified color values, consult Pantone directly:
 <https://www.pantone.com/>.
 
+## Copic®
+
+**Copic®** is a registered trademark of **Too Corporation**. Chromonym
+is **not affiliated with, endorsed by, licensed by, or certified by Too
+Corporation**.
+
+The `copic` palette ships community sRGB approximations of the complete
+358-color Copic Sketch marker range. The codes, names, and RGB values are
+derived from [`sile/copic_colors`](https://github.com/sile/copic_colors)
+at commit `42651233ab925fe872acd1956a77d8d5139f5013`, which publishes the
+dataset under the **MIT License** or the **Apache License 2.0**.
+
+Marker codes such as `B01` and `YG03` are used as nominative references.
+The values are intended for on-screen lookup and nearest-color comparison;
+they are not official measurements, and they should not be used for
+production color matching against physical marker ink.
+
 ## Crayola®
 
 **Crayola®** is a registered trademark of **Crayola LLC**. Chromonym is

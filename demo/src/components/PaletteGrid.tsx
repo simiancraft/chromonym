@@ -4,6 +4,7 @@
 // eyedropper (result-only).
 
 import {
+  copic,
   crayola,
   fs595b,
   fs595c,
@@ -38,6 +39,7 @@ export const PALETTES = {
   web,
   x11,
   pantone,
+  copic,
   crayola,
   ntc,
   xkcd,
@@ -62,6 +64,7 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   web: 'CSS / web',
   x11: 'X11',
   pantone: 'Pantone',
+  copic: 'Copic',
   crayola: 'Crayola',
   ntc: 'NTC',
   xkcd: 'XKCD',
@@ -88,6 +91,7 @@ export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
   web: "CSS Color Module Level 4. The default palette; what browsers recognize in `color: red;` declarations.",
   x11: "X.Org rgb.txt from the UNIX graphical stack. 658 entries including dense gray ramps (gray 0 through gray 100).",
   pantone: "Pantone Coated (C). Print-industry codes like '185 C'; community-approximated sRGB values, not Pantone-licensed.",
+  copic: "Copic Sketch markers. The complete 358-color range keyed by codes like 'B01' and 'YG03'; community sRGB approximations.",
   crayola: "Crayola crayon colors. The classic 64-standard box plus fluorescent neons and selected modern additions.",
   ntc: "Chirag Mehta's 'Name That Color' dataset. 1566 broad-coverage design / UI / hardware names CSS and X11 don't reach.",
   xkcd: "The 2010 XKCD Color Survey. Crowd-sourced common-speech names (923 entries), CC0 public domain.",
@@ -111,6 +115,7 @@ export const PALETTE_KEYS = [
   'web',
   'x11',
   'pantone',
+  'copic',
   'crayola',
   'ntc',
   'xkcd',

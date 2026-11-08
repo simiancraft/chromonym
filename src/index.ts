@@ -29,6 +29,7 @@ export {
   type IdentifyRankedOptions,
   identify,
 } from './identify.js';
+export { type CopicColorName, copic } from './palettes/copic.js';
 export { type CrayolaColorName, crayola } from './palettes/crayola.js';
 export { type Fs595bColorName, fs595b } from './palettes/fs595b.js';
 export { type Fs595cColorName, fs595c } from './palettes/fs595c.js';

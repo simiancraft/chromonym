@@ -23,6 +23,9 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   web: { tone: 'var(--bh-red)', ink: 'var(--bh-cream)' },
   x11: { tone: 'var(--bh-yellow)', ink: 'var(--bh-ink)' },
   pantone: { tone: 'var(--bh-blue)', ink: 'var(--bh-cream)' },
+  // Copic: B29 Ultramarine, a saturated marker blue that distinguishes
+  // the range from Pantone while remaining representative of its inks.
+  copic: { tone: '#0077ba', ink: 'var(--bh-cream)' },
   // Crayola was --bh-ink (pure black), which hid the selection indicator
   // entirely (ink square on ink background). Swap in a saturated warm
   // orange — keeps the primary-poster look, sits in the fourth quadrant
@@ -99,6 +102,7 @@ const ORDER: PaletteKey[] = [
   'web',
   'x11',
   'pantone',
+  'copic',
   'crayola',
   'ntc',
   'xkcd',
