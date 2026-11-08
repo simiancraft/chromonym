@@ -63,6 +63,14 @@ maybe('subpath exports resolve', () => {
     expect(m.pantone.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/copic exports the Copic palette object', async () => {
+    const m = await import('../dist/palettes/copic.js');
+    expect(m.copic.name).toBe('copic');
+    expect(m.copic.colors.B01).toBe('#e1f1f3');
+    expect(Object.keys(m.copic.colors).length).toBe(358);
+    expect(m.copic.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/crayola exports the crayola palette object', async () => {
     const m = await import('../dist/palettes/crayola.js');
     expect(m.crayola.name).toBe('crayola');
@@ -268,6 +276,7 @@ maybe('subpath exports resolve', () => {
     // our own package.json exports map.
     const script = [
       "const { pantone } = await import('chromonym/pantone');",
+      "const { copic } = await import('chromonym/copic');",
       "const { web } = await import('chromonym/web');",
       "const { x11 } = await import('chromonym/x11');",
       "const { crayola } = await import('chromonym/crayola');",
@@ -297,6 +306,7 @@ maybe('subpath exports resolve', () => {
       "const root = await import('chromonym');",
       'const out = {',
       '  pantoneName: pantone.name,',
+      '  copicBlue: copic.colors.B01 === "#e1f1f3",',
       '  webRed: web.colors.red,',
       '  x11Count: Object.keys(x11.colors).length > 600,',
       '  crayolaRazz: crayola.colors.Razzmatazz === "#e3256b",',
@@ -339,6 +349,7 @@ maybe('subpath exports resolve', () => {
     const result = JSON.parse(output);
     expect(result).toEqual({
       pantoneName: 'pantone',
+      copicBlue: true,
       webRed: '#ff0000',
       x11Count: true,
       crayolaRazz: true,

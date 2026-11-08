@@ -1,7 +1,7 @@
 {
   "name": "chromonym",
   "version": "3.7.0",
-  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or nineteen built-in sets (CSS, X11, Pantone, Crayola, NTC, XKCD, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, MIL-STD-2525D, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
+  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or twenty built-in sets (CSS, X11, Pantone, Copic, Crayola, NTC, XKCD, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, MIL-STD-2525D, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
   "keywords": [
     "color",
     "colors",
@@ -16,6 +16,7 @@
     "css-colors",
     "x11-colors",
     "pantone",
+    "copic",
     "crayola",
     "ral",
     "tailwind",
@@ -67,6 +68,11 @@
       "types": "./dist/palettes/pantone.d.ts",
       "import": "./dist/palettes/pantone.js",
       "default": "./dist/palettes/pantone.js"
+    },
+    "./copic": {
+      "types": "./dist/palettes/copic.d.ts",
+      "import": "./dist/palettes/copic.js",
+      "default": "./dist/palettes/copic.js"
     },
     "./pokemon": {
       "types": "./dist/palettes/pokemon.d.ts",

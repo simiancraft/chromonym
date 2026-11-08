@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { identify } from '../src/identify.js';
+import { copic } from '../src/palettes/copic.js';
 import { crayola } from '../src/palettes/crayola.js';
 import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
@@ -31,6 +32,19 @@ describe.each([
     {
       minCount: 900,
       spotChecks: { '100 C': '#f6eb61', '102 C': '#fce300' } as Record<string, string>,
+    },
+  ],
+  [
+    'copic',
+    copic,
+    {
+      minCount: 358,
+      spotChecks: {
+        BV0000: '#eeecf5',
+        B01: '#e1f1f3',
+        YG03: '#eaeeb2',
+        'C-5': '#a4aeb2',
+      } as Record<string, string>,
     },
   ],
   [
