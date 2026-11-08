@@ -87,7 +87,7 @@ maybe('subpath exports resolve', () => {
   it('chromonym/fs595c exports the fs595c palette object', async () => {
     const m = await import('../dist/palettes/fs595c.js');
     expect(m.fs595c.name).toBe('fs595c');
-    expect(m.fs595c.colors['FS 11136']).toBe('#a32b25');
+    expect(m.fs595c.colors['FS 11136']).toBe('#8c4040');
     expect(m.fs595c.defaultMetric).toBe('deltaE2000');
   });
 
@@ -302,7 +302,7 @@ maybe('subpath exports resolve', () => {
       '  crayolaRazz: crayola.colors.Razzmatazz === "#e3256b",',
       '  ntcStratos: ntc.colors.Stratos === "#000741",',
       '  xkcdCloudyBlue: xkcd.colors["cloudy blue"] === "#acc2d9",',
-      '  fs595cInsignia: fs595c.colors["FS 11136"] === "#a32b25",',
+      '  fs595cInsignia: fs595c.colors["FS 11136"] === "#8c4040",',
       '  fs595bInsignia: fs595b.colors["FS 11136"] === "#9b2f25",',
       '  isccNbsVividPink: isccNbs.colors["Vivid pink"] === "#fd7992",',
       '  reseneTreepoppy: resene.colors.treepoppy === "#e2813b",',

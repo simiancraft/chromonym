@@ -4,12 +4,18 @@ import { standardNormalize } from './normalize.js';
 /**
  * Federal Standard 595C (FS595C) palette: US Federal Government
  * paint-color specification, widely used in military, aviation,
- * and government-equipment coatings. 589 entries.
+ * and government-equipment coatings. 682 entries.
  *
- * Source: upstream dataset is Color::Names::FS595C from
- * @thundergnat/Color-Names (Raku module), which digitizes the
- * public Federal Standard 595 paint chips. See NOTICE.md for
- * attribution.
+ * Source: 650 chips use the US General Services Administration's
+ * measured FED-STD-595C and Change Notice 1 data, published in 2008
+ * as a US Government work. The remaining 32 compatibility entries
+ * are absent from GSA's data and retain their prior values from
+ * Color::Names::FS595C. See NOTICE.md for sources and attribution.
+ *
+ * GSA measured CIELAB using the CIE 1964 10 degree observer. sRGB is
+ * defined for the CIE 1931 2 degree observer, so the conversion has
+ * an observer mismatch. Converted values outside the sRGB gamut are
+ * clamped to its channel limits.
  *
  * Keys are the 5-digit FS codes prefixed with 'FS ' (e.g.
  * 'FS 11136'). Common names like "Insignia Red" are captured as
@@ -18,598 +24,691 @@ import { standardNormalize } from './normalize.js';
  * chips (18 different "Green"s, 11 "Tan"s, etc.). Lookups still
  * accept any casing and punctuation via standardNormalize, so
  * 'fs11136', 'FS-11136', and 'FS 11136' all resolve identically.
- * 191 of 589 entries carry a common name
- * in the upstream data.
+ * 191 of 682 entries retain a common name
+ * from Color::Names::FS595C.
  */
 const fs595cColors = {
-  'FS 10032': '#372726',
-  'FS 10045': '#5f4f4a',
-  'FS 10049': '#4f2a25',
-  'FS 10055': '#6f4625',
-  'FS 10059': '#47362c',
-  'FS 10075': '#654037',
-  'FS 10076': '#7c3925',
-  'FS 10080': '#614a36',
-  'FS 10091': '#824725',
-  'FS 10115': '#a66e44',
+  'FS 10032': '#473f3f',
+  'FS 10045': '#605452',
+  'FS 10049': '#534040',
+  'FS 10055': '#6d4c3f',
+  'FS 10059': '#5f504b',
+  'FS 10070': '#5a4842',
+  'FS 10075': '#654a46',
+  'FS 10076': '#7a453f',
+  'FS 10080': '#625046',
+  'FS 10091': '#7e4c3f',
+  'FS 10115': '#9e674b',
   'FS 10129': '#876f55',
-  'FS 10219': '#9a7e67',
-  'FS 10233': '#ac7d6d',
-  'FS 10260': '#d0b072',
-  'FS 10266': '#b18f58',
-  'FS 10324': '#b59b88',
-  'FS 10371': '#cc9a63',
-  'FS 11086': '#ad2328',
-  'FS 11105': '#ae2825',
-  'FS 11120': '#c23b31',
-  'FS 11136': '#a32b25', // Insignia Red
-  'FS 11140': '#ae2b29',
-  'FS 11302': '#cd4f3a',
-  'FS 11328': '#be4a52',
-  'FS 11400': '#d65030',
-  'FS 11630': '#e7c1bb', // Pink
-  'FS 11670': '#f8d4bb',
-  'FS 12160': '#b36647',
-  'FS 12197': '#d24e00', // International Orange
-  'FS 12199': '#ec4300',
-  'FS 12215': '#d76117',
-  'FS 12243': '#e37300',
-  'FS 12246': '#df6100',
-  'FS 12300': '#df8a7f',
-  'FS 12473': '#ed7a00',
-  'FS 12648': '#eec9a2',
-  'FS 13275': '#ab8000',
-  'FS 13415': '#efa400',
-  'FS 13432': '#f5a400',
-  'FS 13507': '#ffb700',
-  'FS 13522': '#d2c1a4',
-  'FS 13523': '#dec809',
-  'FS 13531': '#d7c1a8',
-  'FS 13538': '#f9b000', // Orange Yellow
-  'FS 13578': '#dfcca7',
-  'FS 13591': '#f7d100',
-  'FS 13594': '#f2cd88',
-  'FS 13596': '#e7c686',
-  'FS 13613': '#f1d2aa',
-  'FS 13618': '#f6d26d',
-  'FS 13637': '#e2b41e',
-  'FS 13655': '#ffc700', // Blue Angels Yellow
-  'FS 13670': '#ffdd68', // Lime Yellow
-  'FS 13690': '#ecdab7',
-  'FS 13695': '#f6d488',
-  'FS 13711': '#efd7b1',
-  'FS 14036': '#263d37',
-  'FS 14050': '#42463c',
-  'FS 14052': '#434438', // Green
-  'FS 14056': '#84330c',
-  'FS 14062': '#1f563b', // Dark Green
-  'FS 14064': '#4c4b3c',
-  'FS 14066': '#005b40',
-  'FS 14077': '#464e44',
-  'FS 14079': '#515240',
-  'FS 14084': '#3c3728',
+  'FS 10219': '#947867',
+  'FS 10233': '#a2756a',
+  'FS 10260': '#c8a36d',
+  'FS 10266': '#a9855c',
+  'FS 10324': '#ad9282',
+  'FS 10371': '#c58f61',
+  'FS 11086': '#9f3c3e',
+  'FS 11105': '#a13b3f',
+  'FS 11120': '#b24341',
+  'FS 11136': '#8c4040', // Insignia Red
+  'FS 11140': '#a23d3f',
+  'FS 11302': '#b84d48',
+  'FS 11310': '#b74440',
+  'FS 11328': '#af4e55',
+  'FS 11350': '#ac3e42',
+  'FS 11400': '#ca5144',
+  'FS 11630': '#ddb7b0', // Pink
+  'FS 11670': '#f1cbb2',
+  'FS 12160': '#ac624f',
+  'FS 12197': '#c24e3a', // International Orange
+  'FS 12199': '#dd483a',
+  'FS 12215': '#cb5d3c',
+  'FS 12243': '#d26a38',
+  'FS 12246': '#d45b3a',
+  'FS 12250': '#d34e37',
+  'FS 12300': '#e07a2f',
+  'FS 12473': '#e06e39',
+  'FS 12648': '#e6be9a',
+  'FS 13275': '#b9823a',
+  'FS 13415': '#e99533',
+  'FS 13432': '#eb9531',
+  'FS 13507': '#fca829',
+  'FS 13522': '#c7b69b',
+  'FS 13523': '#d7b784',
+  'FS 13531': '#cdb79f',
+  'FS 13538': '#f19e1e', // Orange Yellow
+  'FS 13578': '#d6c19e',
+  'FS 13591': '#f1c136',
+  'FS 13594': '#ebbf81',
+  'FS 13596': '#e3ba7f',
+  'FS 13613': '#e7c69f',
+  'FS 13618': '#eec368',
+  'FS 13637': '#dda33b',
+  'FS 13655': '#fcb217', // Blue Angels Yellow
+  'FS 13670': '#d8cc64', // Lime Yellow
+  'FS 13690': '#e2cdad',
+  'FS 13695': '#f2c883',
+  'FS 13711': '#eacda8',
+  'FS 13740': '#e8d7c1',
+  'FS 13814': '#e0db9b',
+  'FS 14036': '#3f4946',
+  'FS 14050': '#4c4f4a',
+  'FS 14052': '#4c4d47', // Green
+  'FS 14056': '#474c48',
+  'FS 14062': '#3d5846', // Dark Green
+  'FS 14064': '#525048',
+  'FS 14066': '#2b5b4a',
+  'FS 14077': '#4e534e',
+  'FS 14079': '#55564b',
+  'FS 14081': '#535346',
+  'FS 14084': '#484641',
   'FS 14087': '#3c3727', // Olive Drab
-  'FS 14090': '#007145',
-  'FS 14097': '#60684a',
+  'FS 14090': '#2d6e4e',
+  'FS 14097': '#636753',
   'FS 14108': '#2a563f',
-  'FS 14109': '#005f45',
-  'FS 14110': '#276f3a',
-  'FS 14115': '#007a59', // Green
-  'FS 14120': '#007e60',
-  'FS 14158': '#6b7976',
-  'FS 14159': '#747b6e',
-  'FS 14187': '#528431',
-  'FS 14223': '#5f8c6a',
-  'FS 14241': '#87a298',
-  'FS 14255': '#988e60',
-  'FS 14257': '#949166',
-  'FS 14260': '#639e7e',
-  'FS 14272': '#7a9f81',
-  'FS 14277': '#8b9e96',
-  'FS 14325': '#84ac9b',
-  'FS 14449': '#aabd9c',
-  'FS 14491': '#aec2ad',
-  'FS 14516': '#b8c8b7',
-  'FS 14533': '#b2bf98',
-  'FS 14672': '#d5dbc0',
-  'FS 15042': '#2d373d', // Sea Blue
-  'FS 15044': '#263042', // Insignia Blue
-  'FS 15045': '#213b4a',
-  'FS 15050': '#214061', // "Blue Angels"  Blue
-  'FS 15052': '#1f2f60',
+  'FS 14109': '#30604c',
+  'FS 14110': '#446b46',
+  'FS 14115': '#35765a', // Green
+  'FS 14120': '#0f7c5e',
+  'FS 14151': '#666241',
+  'FS 14158': '#6b7874',
+  'FS 14159': '#72796d',
+  'FS 14187': '#5b7a41',
+  'FS 14193': '#389154',
+  'FS 14223': '#648669',
+  'FS 14241': '#839d91',
+  'FS 14255': '#948663',
+  'FS 14257': '#918a68',
+  'FS 14260': '#699a7b',
+  'FS 14272': '#77987c',
+  'FS 14277': '#889990',
+  'FS 14325': '#81a693',
+  'FS 14449': '#a4b595',
+  'FS 14491': '#a7bba5',
+  'FS 14516': '#aebfad',
+  'FS 14533': '#adb792',
+  'FS 14664': '#bcd0b6',
+  'FS 14672': '#cdd2b5',
+  'FS 15042': '#3e464a', // Sea Blue
+  'FS 15044': '#3c434b', // Insignia Blue
+  'FS 15045': '#3b4851',
+  'FS 15048': '#39495b',
+  'FS 15050': '#384c60', // "Blue Angels"  Blue
+  'FS 15052': '#325273',
   'FS 15053': '#263b56',
-  'FS 15056': '#253273', // Blue
-  'FS 15065': '#005686',
-  'FS 15080': '#1e5270',
-  'FS 15090': '#00537b',
-  'FS 15092': '#0075aa',
-  'FS 15102': '#186493', // Dark Blue
-  'FS 15107': '#628498',
-  'FS 15123': '#3a6ca7',
-  'FS 15125': '#006e8e',
-  'FS 15177': '#61819a',
-  'FS 15180': '#0073b4',
-  'FS 15182': '#0080b0',
-  'FS 15187': '#009cc8',
-  'FS 15193': '#588c95',
-  'FS 15200': '#54b7d4', // Sky Blue
-  'FS 15450': '#97bcd5', // Air Superiority Blue
-  'FS 15526': '#b4c5cc',
-  'FS 16081': '#555856', // Engine Gray
-  'FS 16099': '#565e62',
+  'FS 15055': '#384869',
+  'FS 15056': '#364871', // Blue
+  'FS 15065': '#1c5f80',
+  'FS 15080': '#36596d',
+  'FS 15090': '#205d78',
+  'FS 15092': '#027aa0',
+  'FS 15095': '#236ca4',
+  'FS 15102': '#2c698d', // Dark Blue
+  'FS 15107': '#5f8291',
+  'FS 15109': '#4f7180',
+  'FS 15123': '#3970a0',
+  'FS 15125': '#007488',
+  'FS 15177': '#5a8093',
+  'FS 15180': '#1d76a5',
+  'FS 15182': '#0f86aa',
+  'FS 15187': '#009bbc',
+  'FS 15193': '#56888d',
+  'FS 15200': '#4eb7c8', // Sky Blue
+  'FS 15450': '#8ab8ca', // Air Superiority Blue
+  'FS 15526': '#aac0c2',
+  'FS 16076': '#5a6066',
+  'FS 16081': '#565959', // Engine Gray
+  'FS 16099': '#596265',
   'FS 16152': '#5c6369',
-  'FS 16160': '#8a7752',
-  'FS 16165': '#7b7867',
-  'FS 16187': '#70818f',
+  'FS 16160': '#857257',
+  'FS 16165': '#777366',
+  'FS 16187': '#757e7d',
   'FS 16231': '#767b7f',
-  'FS 16251': '#8e8f8e',
-  'FS 16307': '#9d9d95',
-  'FS 16314': '#9b9f9b',
-  'FS 16350': '#b8857b',
-  'FS 16357': '#afaa97',
-  'FS 16360': '#b6af9b',
-  'FS 16376': '#a9a99e',
-  'FS 16405': '#c8bea8',
-  'FS 16440': '#bcbab2', // Light Gull Gray
-  'FS 16473': '#aab2b0', // Aircraft Gray
-  'FS 16492': '#c5c3bc',
-  'FS 16515': '#c7c9c7', // Canadian Voodoo Gray
-  'FS 16555': '#d2c6a9',
-  'FS 17038': '#2c2926', // Black
-  'FS 17043': '#978449', // Gold
-  'FS 17100': '#744e7a', // Purple
-  'FS 17142': '#a15987',
-  'FS 17155': '#9e6294',
-  'FS 17178': '#9b9d9f', // Aluminum / Silver
+  'FS 16250': '#848b89',
+  'FS 16251': '#858989',
+  'FS 16293': '#8f9594',
+  'FS 16307': '#96988e',
+  'FS 16314': '#949993',
+  'FS 16329': '#8e9f9d',
+  'FS 16350': '#958c78',
+  'FS 16357': '#a4a092',
+  'FS 16360': '#afa793',
+  'FS 16376': '#a1a297',
+  'FS 16405': '#c0b6a0',
+  'FS 16440': '#b5b4aa', // Light Gull Gray
+  'FS 16473': '#a1aba6', // Aircraft Gray
+  'FS 16480': '#adbab3',
+  'FS 16492': '#bcbcb4',
+  'FS 16515': '#bec1bc', // Canadian Voodoo Gray
+  'FS 16555': '#c9bca0',
+  'FS 17038': '#383838', // Black
+  'FS 17043': '#b89964', // Gold
+  'FS 17100': '#6c5574', // Purple
+  'FS 17142': '#925f82',
+  'FS 17155': '#8d658d',
+  'FS 17178': '#c3c6c6', // Aluminum / Silver
   'FS 17200': '#919699',
-  'FS 17773': '#e6eae1',
-  'FS 17778': '#f1e9d2',
-  'FS 17855': '#f5e7c5',
-  'FS 17875': '#f1f0ea', // Insignia White
-  'FS 17886': '#f7f1e3',
-  'FS 17925': '#faf7f1', // Insignia White
-  'FS 20040': '#504337',
-  'FS 20045': '#61504c',
-  'FS 20059': '#5d483e',
-  'FS 20061': '#6c4444', // Maroon
-  'FS 20062': '#564944', // Brown
-  'FS 20095': '#7c6a56',
-  'FS 20100': '#8f5938', // Brown Yellow
-  'FS 20109': '#8c503f', // Red Brown
-  'FS 20117': '#866046',
-  'FS 20122': '#76573c',
+  'FS 17773': '#dde2d4',
+  'FS 17778': '#e9e0c7',
+  'FS 17855': '#ecdcb9',
+  'FS 17860': '#e8e8dc',
+  'FS 17865': '#e1e5e0',
+  'FS 17875': '#e7e8db', // Insignia White
+  'FS 17877': '#e5efe8',
+  'FS 17886': '#f0ead7',
+  'FS 17925': '#f2f3ea', // Insignia White
+  'FS 20040': '#534b46',
+  'FS 20045': '#615553',
+  'FS 20059': '#5e4e4a',
+  'FS 20061': '#654948', // Maroon
+  'FS 20062': '#5a504e', // Brown
+  'FS 20065': '#60564e',
+  'FS 20068': '#62584a',
+  'FS 20090': '#695445',
+  'FS 20095': '#776759',
+  'FS 20100': '#865947', // Brown Yellow
+  'FS 20109': '#85534a', // Red Brown
+  'FS 20117': '#7f5e4e',
+  'FS 20122': '#745949',
   'FS 20129': '#876f55',
-  'FS 20140': '#876e5b', // Brown Special
-  'FS 20152': '#954a3b',
-  'FS 20206': '#9f7f79',
-  'FS 20219': '#9b7f66',
-  'FS 20227': '#a38b78',
-  'FS 20233': '#ac7f71',
-  'FS 20252': '#ba816a', // Tan
-  'FS 20260': '#d1af6f', // Tan
-  'FS 20266': '#af9157', // Yellow Sand
-  'FS 20313': '#b39b8a',
-  'FS 20318': '#b09f85',
-  'FS 20372': '#b8a791',
-  'FS 20400': '#d1a779', // Tan
-  'FS 20450': '#ccb19a', // Night Tan
-  'FS 21105': '#b90f21', // Red
-  'FS 21136': '#a3302a',
-  'FS 21158': '#c25b64',
-  'FS 21302': '#ca4e3f',
-  'FS 21310': '#c32502', // Red
-  'FS 21400': '#d74d2c', // Red
-  'FS 21433': '#d2a08b',
-  'FS 21575': '#e8c0aa',
-  'FS 21643': '#efd5bb',
-  'FS 21667': '#f1d4b4',
-  'FS 21668': '#f0d3ca',
-  'FS 21670': '#f4d2ba',
-  'FS 22144': '#af583a',
-  'FS 22190': '#db4612', // Red
-  'FS 22203': '#c3663e',
-  'FS 22246': '#e10d28',
-  'FS 22276': '#cd7d60',
-  'FS 22356': '#de8970',
-  'FS 22510': '#ff7b00',
-  'FS 22516': '#e1a279', // Tan
-  'FS 22519': '#dfba9e',
-  'FS 22544': '#f9a24d',
-  'FS 22563': '#e0c2a2',
-  'FS 22630': '#ecc9ab',
-  'FS 22648': '#f2ceab',
-  'FS 23448': '#c1aa81',
-  'FS 23522': '#d2c0a4',
-  'FS 23531': '#d7c3a9',
-  'FS 23538': '#feb500',
-  'FS 23564': '#e1cfa4',
-  'FS 23578': '#ddcdaa', // Cream
-  'FS 23594': '#f2cd8c', // Beige
-  'FS 23613': '#efd0a7',
-  'FS 23617': '#e9d0a6',
-  'FS 23619': '#e9d0a6',
-  'FS 23655': '#ffcc00', // Yellow
-  'FS 23685': '#ece3aa',
-  'FS 23690': '#ead8b6',
-  'FS 23695': '#f8d58b',
-  'FS 23697': '#f5d78e', // Yellow Sand
-  'FS 23711': '#f4dbb4',
-  'FS 23717': '#efddba',
-  'FS 23722': '#eedbaf', // Sand
-  'FS 23727': '#f2e1ae',
-  'FS 23785': '#f4d64f',
-  'FS 23793': '#f8e994',
-  'FS 23814': '#e8e7a4',
-  'FS 24052': '#494a3f', // Green
-  'FS 24064': '#504d40',
-  'FS 24079': '#575849', // Forest Green
-  'FS 24084': '#464132',
+  'FS 20140': '#826a5d', // Brown Special
+  'FS 20150': '#7b6851',
+  'FS 20152': '#8c4f48',
+  'FS 20155': '#7f5f4d',
+  'FS 20170': '#83715d',
+  'FS 20180': '#867965',
+  'FS 20206': '#987c77',
+  'FS 20219': '#947967',
+  'FS 20220': '#927f6a',
+  'FS 20227': '#9b8474',
+  'FS 20233': '#a2776b',
+  'FS 20252': '#b07866', // Tan
+  'FS 20260': '#caa470', // Tan
+  'FS 20266': '#a9875d', // Yellow Sand
+  'FS 20270': '#a29283',
+  'FS 20313': '#b2978a',
+  'FS 20318': '#a99881',
+  'FS 20372': '#af9e8b',
+  'FS 20400': '#ca9c76', // Tan
+  'FS 20450': '#c3a692', // Night Tan
+  'FS 20460': '#c3b6a1',
+  'FS 20475': '#d0b08f',
+  'FS 21105': '#99403f', // Red
+  'FS 21136': '#8f4443',
+  'FS 21158': '#b65a64',
+  'FS 21302': '#b84d49',
+  'FS 21310': '#ba4842', // Red
+  'FS 21400': '#cc5347', // Red
+  'FS 21433': '#ca9886',
+  'FS 21575': '#dfb6a3',
+  'FS 21643': '#e8ccb3',
+  'FS 21667': '#e8caab',
+  'FS 21668': '#e8cbc0',
+  'FS 21670': '#f0c9b1',
+  'FS 22144': '#a65747',
+  'FS 22190': '#cd4a3a', // Red
+  'FS 22203': '#b8614b',
+  'FS 22246': '#d95f3c',
+  'FS 22276': '#c27360',
+  'FS 22356': '#d68170',
+  'FS 22473': '#de6e3a',
+  'FS 22510': '#f36730',
+  'FS 22516': '#d79775', // Tan
+  'FS 22519': '#d5af95',
+  'FS 22544': '#ee9353',
+  'FS 22563': '#dab99b',
+  'FS 22630': '#e3bfa3',
+  'FS 22648': '#e5be99',
+  'FS 23275': '#be833d',
+  'FS 23420': '#857e6d',
+  'FS 23430': '#9f9178',
+  'FS 23435': '#9e937b',
+  'FS 23448': '#baa07c',
+  'FS 23522': '#c9b89d',
+  'FS 23525': '#bfb4a3',
+  'FS 23530': '#b4a697',
+  'FS 23531': '#d0bba3',
+  'FS 23538': '#f1a025',
+  'FS 23540': '#e0a14c',
+  'FS 23564': '#d7c49c',
+  'FS 23578': '#d7c29f', // Cream
+  'FS 23594': '#e9bf82', // Beige
+  'FS 23613': '#eac8a2',
+  'FS 23617': '#d7c3a9',
+  'FS 23619': '#e1c59d',
+  'FS 23640': '#fdb424',
+  'FS 23655': '#fdb320', // Yellow
+  'FS 23685': '#e2d6a1',
+  'FS 23690': '#e3cdac',
+  'FS 23695': '#f1c784',
+  'FS 23697': '#edc884', // Yellow Sand
+  'FS 23711': '#eacda8',
+  'FS 23717': '#e7d1af',
+  'FS 23722': '#e7d0a5', // Sand
+  'FS 23727': '#ebd5a3',
+  'FS 23785': '#eec654',
+  'FS 23793': '#f3dc8c',
+  'FS 23814': '#e0dc9c',
+  'FS 24052': '#4d4e48', // Green
+  'FS 24064': '#545249',
+  'FS 24070': '#4c524e',
+  'FS 24079': '#55574d', // Forest Green
+  'FS 24084': '#4a4843',
   'FS 24087': '#454031',
-  'FS 24091': '#645e5a',
-  'FS 24097': '#61694e',
-  'FS 24098': '#686541',
-  'FS 24108': '#426953',
-  'FS 24148': '#617876',
-  'FS 24158': '#6c7976',
-  'FS 24159': '#777d70',
-  'FS 24172': '#6d7e68',
-  'FS 24201': '#8d856b',
-  'FS 24226': '#848f7f',
-  'FS 24227': '#7f9271',
-  'FS 24233': '#839693',
-  'FS 24241': '#89a499',
-  'FS 24260': '#6d9f83',
-  'FS 24272': '#759c7e', // Green
-  'FS 24277': '#8b9d95',
-  'FS 24300': '#8ca494',
-  'FS 24325': '#82ab9a',
-  'FS 24373': '#a1b095',
-  'FS 24410': '#a7b8a8', // Green
-  'FS 24417': '#b1b9a4',
-  'FS 24424': '#b3b69e',
-  'FS 24432': '#b2b8a6',
-  'FS 24441': '#b1bca1',
-  'FS 24449': '#a8bb9a',
-  'FS 24466': '#a7bda4',
-  'FS 24491': '#adc3b0',
-  'FS 24504': '#b2c1a8',
-  'FS 24516': '#b7c5b5',
-  'FS 24518': '#b2c1af',
-  'FS 24525': '#b9c6ac',
-  'FS 24533': '#b3c098',
-  'FS 24552': '#d1ce8c',
-  'FS 24554': '#d7d7ba',
-  'FS 24558': '#c1d1b2',
-  'FS 24583': '#cbdcb8',
-  'FS 24585': '#cee2c7',
-  'FS 24664': '#c5d9c0',
-  'FS 24670': '#d4ddcb',
-  'FS 24672': '#d7ddc1',
-  'FS 25042': '#353f45',
-  'FS 25045': '#2c3f4f',
-  'FS 25051': '#464e63',
-  'FS 25052': '#03265e',
-  'FS 25053': '#344a65',
-  'FS 25056': '#253475',
-  'FS 25102': '#2f628c',
-  'FS 25109': '#517287',
-  'FS 25177': '#647d99',
-  'FS 25183': '#2b7eb1',
-  'FS 25184': '#52869d',
-  'FS 25189': '#748a93',
-  'FS 25190': '#6490a7',
-  'FS 25193': '#5d8e96',
-  'FS 25237': '#849095',
-  'FS 25240': '#7f99bb',
-  'FS 25299': '#7aa7a1',
-  'FS 25352': '#92a7a1', // Blue
-  'FS 25414': '#98b2b0',
+  'FS 24091': '#64605d',
+  'FS 24097': '#616651',
+  'FS 24098': '#666249',
+  'FS 24108': '#4e6757',
+  'FS 24111': '#525f4f',
+  'FS 24112': '#556257',
+  'FS 24119': '#616353',
+  'FS 24148': '#627675',
+  'FS 24158': '#6a7874',
+  'FS 24159': '#737a6e',
+  'FS 24165': '#6d6f69',
+  'FS 24172': '#6d7a68',
+  'FS 24190': '#529b57',
+  'FS 24201': '#897f6b',
+  'FS 24210': '#80745d',
+  'FS 24226': '#808b7b',
+  'FS 24227': '#7d8b6f',
+  'FS 24233': '#80928d',
+  'FS 24241': '#839e91',
+  'FS 24260': '#68977a',
+  'FS 24272': '#78987c', // Green
+  'FS 24277': '#869a91',
+  'FS 24300': '#859d8d',
+  'FS 24325': '#80a694',
+  'FS 24373': '#99a78e',
+  'FS 24410': '#a0b0a0', // Green
+  'FS 24417': '#a9b09b',
+  'FS 24424': '#acae96',
+  'FS 24432': '#a8af9d',
+  'FS 24441': '#a9b399',
+  'FS 24449': '#a3b495',
+  'FS 24466': '#a1b59c',
+  'FS 24491': '#a6baa4',
+  'FS 24504': '#abb8a0',
+  'FS 24516': '#b0c1af',
+  'FS 24518': '#aab9a5',
+  'FS 24525': '#b1bca2',
+  'FS 24533': '#adb894',
+  'FS 24552': '#cac186',
+  'FS 24554': '#cecdb0',
+  'FS 24558': '#b7c6a7',
+  'FS 24583': '#b7ba9d',
+  'FS 24585': '#c3d9bc',
+  'FS 24664': '#bcd1b7',
+  'FS 24670': '#c7d4bf',
+  'FS 24672': '#ccd2b6',
+  'FS 25042': '#40474b',
+  'FS 25045': '#3b4a52',
+  'FS 25048': '#374a5c',
+  'FS 25049': '#434548',
+  'FS 25051': '#4b5463',
+  'FS 25052': '#33516e',
+  'FS 25053': '#405367',
+  'FS 25056': '#36496e',
+  'FS 25060': '#414f5e',
+  'FS 25095': '#276da3',
+  'FS 25102': '#2e698e',
+  'FS 25109': '#507182',
+  'FS 25177': '#5d8092',
+  'FS 25183': '#2a83ac',
+  'FS 25184': '#528495',
+  'FS 25185': '#2c869d',
+  'FS 25189': '#6d878d',
+  'FS 25190': '#5d8d9f',
+  'FS 25193': '#588a8e',
+  'FS 25200': '#4cb7ca',
+  'FS 25230': '#4291c2',
+  'FS 25237': '#7c8a8e',
+  'FS 25240': '#7596b1',
+  'FS 25299': '#75a199',
+  'FS 25352': '#89a09c', // Blue
+  'FS 25414': '#8eaaa6',
+  'FS 25440': '#7fafc5',
   'FS 25466': '#83c2e5',
-  'FS 25488': '#a2bfd9',
-  'FS 25526': '#b7c6cd',
-  'FS 25550': '#d1dfe6', // Light Blue
-  'FS 25622': '#d4dad2',
-  'FS 25630': '#dddcd6',
-  'FS 26008': '#54575b', // Dark Gray
-  'FS 26044': '#3e444b', // Gray
-  'FS 26081': '#585b5b', // Seaplane Gray
-  'FS 26120': '#60534a',
-  'FS 26122': '#6d6a69',
-  'FS 26132': '#6f7172',
-  'FS 26134': '#74746f',
-  'FS 26152': '#727779', // Gray
-  'FS 26173': '#7f848b',
-  'FS 26176': '#76808a',
-  'FS 26187': '#7b8284',
-  'FS 26231': '#898d8f',
-  'FS 26250': '#8c9290',
-  'FS 26251': '#929392',
-  'FS 26270': '#919597', // Medium Gray
-  'FS 26280': '#969896',
-  'FS 26293': '#999b9c',
-  'FS 26306': '#a49a8f',
-  'FS 26307': '#9d9d93',
-  'FS 26314': '#9a9f9c',
-  'FS 26329': '#98a6a7',
-  'FS 26357': '#aca89b',
-  'FS 26360': '#b5af9b',
-  'FS 26373': '#acafb0',
-  'FS 26400': '#d4cab0',
-  'FS 26405': '#c3baa5',
-  'FS 26408': '#c3c1b4',
-  'FS 26424': '#c7bdb2',
-  'FS 26440': '#b9b7b1', // Light Gull Gray
-  'FS 26492': '#c5c4be',
-  'FS 26493': '#c1c2c1',
-  'FS 26496': '#bbbbaf',
-  'FS 26521': '#cfc1b2',
-  'FS 26555': '#d5c9ac',
-  'FS 26559': '#ccc8b9',
-  'FS 26586': '#d5ccb2',
-  'FS 26595': '#cbcabd',
-  'FS 26622': '#d0ccc2',
-  'FS 27038': '#2b2d30', // Black
-  'FS 27040': '#313235',
-  'FS 27043': '#9f8b51',
-  'FS 27142': '#a25b85',
-  'FS 27144': '#8a6a8f',
-  'FS 27722': '#e7e1d3',
-  'FS 27769': '#00dcc4',
-  'FS 27778': '#f0e9d3',
-  'FS 27780': '#f3ecdd', // White
-  'FS 27855': '#f2e6c4',
-  'FS 27875': '#f3f2ec', // Insignia White
-  'FS 27880': '#fbf5e8',
-  'FS 27886': '#faf3e4',
-  'FS 27925': '#faf7f2',
-  'FS 30040': '#5f554d',
-  'FS 30045': '#655551', // Brown
-  'FS 30051': '#4f4239', // Leather Brown
+  'FS 25488': '#96bacd',
+  'FS 25526': '#a9bfc2',
+  'FS 25530': '#b6c4c3',
+  'FS 25550': '#c5d7d8', // Light Blue
+  'FS 25622': '#c8d2c7',
+  'FS 25630': '#d4d4cb',
+  'FS 26008': '#565b5e', // Dark Gray
+  'FS 26044': '#474d51', // Gray
+  'FS 26081': '#585b5a', // Seaplane Gray
+  'FS 26099': '#5a6266',
+  'FS 26118': '#5c646a',
+  'FS 26120': '#615752',
+  'FS 26122': '#6b6867',
+  'FS 26132': '#6b6e70',
+  'FS 26134': '#6f706d',
+  'FS 26152': '#6e7475', // Gray
+  'FS 26173': '#798186',
+  'FS 26176': '#757f87',
+  'FS 26187': '#757c7c',
+  'FS 26231': '#828787',
+  'FS 26250': '#858c89',
+  'FS 26251': '#878a89',
+  'FS 26255': '#828688',
+  'FS 26260': '#8a8a80',
+  'FS 26270': '#888f90', // Medium Gray
+  'FS 26280': '#8e928e',
+  'FS 26290': '#8d9190',
+  'FS 26293': '#8e9494',
+  'FS 26295': '#a1a3a5',
+  'FS 26306': '#9b9288',
+  'FS 26307': '#94958b',
+  'FS 26314': '#939994',
+  'FS 26329': '#90a09e',
+  'FS 26357': '#a4a193',
+  'FS 26360': '#afa895',
+  'FS 26373': '#a3a8a6',
+  'FS 26380': '#a2a9ab',
+  'FS 26400': '#ccc1a6',
+  'FS 26405': '#c0b7a0',
+  'FS 26408': '#bdbaab',
+  'FS 26420': '#b3afab',
+  'FS 26424': '#beb6aa',
+  'FS 26440': '#b4b4aa', // Light Gull Gray
+  'FS 26480': '#aebbb4',
+  'FS 26492': '#bcbbb4',
+  'FS 26493': '#b7bbb7',
+  'FS 26496': '#b2b2a6',
+  'FS 26521': '#c5b9aa',
+  'FS 26555': '#c9bda1',
+  'FS 26559': '#c1beae',
+  'FS 26586': '#cdc3a9',
+  'FS 26595': '#c3c2b2',
+  'FS 26622': '#c5c3b6',
+  'FS 26630': '#ced0ca',
+  'FS 27038': '#3b3c3d', // Black
+  'FS 27040': '#414243',
+  'FS 27041': '#414244',
+  'FS 27043': '#ba9c69',
+  'FS 27142': '#915f82',
+  'FS 27144': '#806b88',
+  'FS 27160': '#8d83b7',
+  'FS 27722': '#ddd8c9',
+  'FS 27769': '#e0d3ba',
+  'FS 27778': '#ece2c8',
+  'FS 27780': '#ece5d2', // White
+  'FS 27855': '#ecdcb9',
+  'FS 27875': '#e8e9dc', // Insignia White
+  'FS 27880': '#f6eeda',
+  'FS 27885': '#f4f2e5',
+  'FS 27886': '#f0ead6',
+  'FS 27925': '#eff1e7',
+  'FS 28913': '#f74432',
+  'FS 28915': '#ff5a23',
+  'FS 30040': '#514741',
+  'FS 30045': '#5a4945', // Brown
+  'FS 30051': '#5a4d45', // Leather Brown
+  'FS 30059': '#513c34',
   'FS 30076': '#620000',
-  'FS 30097': '#6a5c4f', // Brown
-  'FS 30099': '#746252', // Brown
-  'FS 30108': '#6c5447', // Red Brown
-  'FS 30109': '#905a4c',
-  'FS 30111': '#7d5b52', // Brown
-  'FS 30117': '#896750', // Earth Red
-  'FS 30118': '#7b694e', // Field Drab
+  'FS 30097': '#614f41', // Brown
+  'FS 30099': '#685748', // Brown
+  'FS 30108': '#5d453b', // Red Brown
+  'FS 30109': '#834d43',
+  'FS 30111': '#704d46', // Brown
+  'FS 30117': '#805d4c', // Earth Red
+  'FS 30118': '#705b41', // Field Drab
   'FS 30129': '#876f55',
-  'FS 30140': '#886b58', // Brown Special
-  'FS 30145': '#8b7258',
+  'FS 30140': '#7b604e', // Brown Special
+  'FS 30145': '#7f624a',
   'FS 30152': '#843320',
-  'FS 30160': '#87535a', // Brown
-  'FS 30166': '#8f5c51',
-  'FS 30206': '#9f7e77',
-  'FS 30215': '#9e7655', // Brown
-  'FS 30219': '#a1836c', // Tan
-  'FS 30227': '#a38b7a', // Tan
-  'FS 30233': '#ab7e70',
-  'FS 30252': '#bb8369',
-  'FS 30257': '#c39b69', // Tan
-  'FS 30266': '#b0935c', // Yellow Sand
-  'FS 30277': '#a6977d', // Sand Brown
-  'FS 30279': '#b79d8a', // Sand
-  'FS 30313': '#b79c8b',
-  'FS 30315': '#b59c8a',
-  'FS 30318': '#b2a186',
-  'FS 30324': '#b79f8b',
-  'FS 30372': '#b6a690', // Sand
+  'FS 30160': '#75454e', // Brown
+  'FS 30166': '#834f45',
+  'FS 30206': '#916f69',
+  'FS 30215': '#926649', // Brown
+  'FS 30219': '#91735f', // Tan
+  'FS 30227': '#9a7f6e', // Tan
+  'FS 30233': '#9d6e61',
+  'FS 30252': '#b0755e',
+  'FS 30257': '#b8895b', // Tan
+  'FS 30266': '#a58052', // Yellow Sand
+  'FS 30277': '#9b8970', // Sand Brown
+  'FS 30279': '#ae917e', // Sand
+  'FS 30313': '#ac8f80',
+  'FS 30315': '#ae9380',
+  'FS 30318': '#a9967b',
+  'FS 30324': '#aa8e7c',
+  'FS 30340': '#a8927e',
+  'FS 30372': '#ac9a85', // Sand
   'FS 30400': '#c29963', // Yellow Sand
-  'FS 30450': '#cfb49d',
-  'FS 31090': '#846349', // Brown
-  'FS 31136': '#a84946', // Insignia Red
-  'FS 31158': '#c2575f',
-  'FS 31302': '#ce4b40', // Red
-  'FS 31350': '#ba1c00', // Red
-  'FS 31400': '#d4583e', // Red
-  'FS 31433': '#d0a18b',
-  'FS 31575': '#e7bea7',
-  'FS 31638': '#f2b9b9',
-  'FS 31643': '#edd3ba',
-  'FS 31667': '#f2d5b4',
-  'FS 31668': '#edd2c9',
-  'FS 31669': '#f6d4d1',
-  'FS 31670': '#f3d3bd',
-  'FS 32169': '#b66644',
-  'FS 32246': '#ea723d',
-  'FS 32276': '#d28164',
-  'FS 32356': '#de8971',
-  'FS 32473': '#e9864e', // Orange
-  'FS 32516': '#dfa277',
-  'FS 32544': '#fca65f',
-  'FS 32555': '#fdb666',
-  'FS 32630': '#eac8a8',
-  'FS 32648': '#f2cea9', // Sand
-  'FS 33070': '#65604d',
-  'FS 33105': '#7f6c52', // Brown
-  'FS 33245': '#b38c5e', // Tan
-  'FS 33275': '#a98100',
-  'FS 33303': '#b0a183', // Sand
+  'FS 30450': '#c5a892',
+  'FS 30475': '#c9a987',
+  'FS 30480': '#cdab8a',
+  'FS 31090': '#79543b', // Brown
+  'FS 31136': '#90403d', // Insignia Red
+  'FS 31158': '#b25760',
+  'FS 31302': '#ba463e', // Red
+  'FS 31310': '#bc4334',
+  'FS 31350': '#af3837', // Red
+  'FS 31400': '#c24a3a', // Red
+  'FS 31433': '#c4917f',
+  'FS 31575': '#d9b19b',
+  'FS 31638': '#e3abac',
+  'FS 31643': '#e6c8ae',
+  'FS 31667': '#e8c6a7',
+  'FS 31668': '#e9cbbf',
+  'FS 31669': '#e9c7c2',
+  'FS 31670': '#f1cab3',
+  'FS 32169': '#a95536',
+  'FS 32246': '#d35b35',
+  'FS 32276': '#be6c56',
+  'FS 32356': '#d57b68',
+  'FS 32473': '#e16e33', // Orange
+  'FS 32516': '#d6946f',
+  'FS 32540': '#fb8e43',
+  'FS 32544': '#ee934e',
+  'FS 32555': '#ee9f5b',
+  'FS 32630': '#e1bb9d',
+  'FS 32648': '#e4ba96', // Sand
+  'FS 33070': '#564f3c',
+  'FS 33105': '#715b41', // Brown
+  'FS 33245': '#a57b52', // Tan
+  'FS 33275': '#ba7f2d',
+  'FS 33303': '#a19073', // Sand
   'FS 33432': '#e59a00',
-  'FS 33434': '#d9a95a', // Ochre
-  'FS 33440': '#a79065', // Tan
-  'FS 33446': '#b19f7b', // Dessert Tan
-  'FS 33448': '#c3ac84', // Dark Yellow
-  'FS 33481': '#d5ba57',
-  'FS 33522': '#d3c1a3',
-  'FS 33531': '#d6c1aa', // Middlestone
-  'FS 33538': '#ffb700', // Orange Yellow
-  'FS 33564': '#ddcda1',
-  'FS 33578': '#dcccaa',
+  'FS 33434': '#d2994e', // Ochre
+  'FS 33440': '#9e8258', // Tan
+  'FS 33446': '#b79d7f', // Dessert Tan
+  'FS 33448': '#bb9f7a', // Dark Yellow
+  'FS 33481': '#c8a54a',
+  'FS 33510': '#bfab8f',
+  'FS 33522': '#c6b296',
+  'FS 33531': '#c9b49d', // Middlestone
+  'FS 33538': '#f5a01c', // Orange Yellow
+  'FS 33564': '#d8c39b',
+  'FS 33578': '#d7c29f',
   'FS 33591': '#e8d300',
-  'FS 33613': '#efd0a8', // Radome Tan
-  'FS 33617': '#e3d1b9', // Sand
-  'FS 33637': '#efc259',
-  'FS 33655': '#ffca00',
-  'FS 33685': '#eae1a9',
-  'FS 33690': '#efdbb6', // Sand
-  'FS 33695': '#fdb992', // Yellow Sand
-  'FS 33696': '#ffd872',
-  'FS 33711': '#f0d8b0', // Sand
-  'FS 33717': '#efdcbb', // Sand
-  'FS 33722': '#eddab1',
-  'FS 33727': '#f2e0af',
-  'FS 33793': '#f9ed91',
-  'FS 33798': '#fae6a7',
-  'FS 33814': '#e9eaa4',
-  'FS 34031': '#575450', // Dark Green
-  'FS 34052': '#55564f', // USMC Green
+  'FS 33613': '#eac6a1', // Radome Tan
+  'FS 33617': '#d3bfa2', // Sand
+  'FS 33637': '#dea022',
+  'FS 33655': '#f9af00',
+  'FS 33685': '#e2d59f',
+  'FS 33690': '#e0cbaa', // Sand
+  'FS 33695': '#f0c57b', // Yellow Sand
+  'FS 33696': '#ffc667',
+  'FS 33711': '#e7caa5', // Sand
+  'FS 33717': '#e8d1ae', // Sand
+  'FS 33722': '#e7cea3',
+  'FS 33727': '#ebd5a3',
+  'FS 33793': '#f5dc8d',
+  'FS 33798': '#f6d899',
+  'FS 33814': '#dbd799',
+  'FS 34031': '#484742', // Dark Green
+  'FS 34052': '#4c4e47', // USMC Green
   'FS 34056': '#232d24',
-  'FS 34058': '#3d5e5d', // Sea Blue
+  'FS 34058': '#305250', // Sea Blue
   'FS 34062': '#00401e',
-  'FS 34064': '#5e5c56', // Dark Green
+  'FS 34064': '#4c4b41', // Dark Green
   'FS 34077': '#2e3933', // Green
-  'FS 34079': '#595c4e', // Forest Green
-  'FS 34082': '#60644c', // Green
-  'FS 34083': '#5d5d50', // Green
-  'FS 34084': '#565248', // Green
-  'FS 34086': '#615f56', // I. R. Dark Green
+  'FS 34079': '#555547', // Forest Green
+  'FS 34082': '#575c42', // Green
+  'FS 34083': '#494a3b', // Green
+  'FS 34084': '#45433d', // Green
+  'FS 34086': '#56544b', // I. R. Dark Green
   'FS 34087': '#554f44', // Olive Drab
-  'FS 34088': '#554f44', // Olive Drab
-  'FS 34089': '#6f6f4a',
-  'FS 34090': '#238259',
-  'FS 34092': '#53645a', // Dark Green
-  'FS 34094': '#3e4b39', // Green
-  'FS 34095': '#595f43', // Field Green
-  'FS 34096': '#616352', // Dark Green
-  'FS 34097': '#636a51', // Field Green
-  'FS 34098': '#6f6c4c', // Green
-  'FS 34102': '#636750', // Light Green
-  'FS 34108': '#476e56', // Medium Green
+  'FS 34088': '#675e4b', // Olive Drab
+  'FS 34089': '#625e38',
+  'FS 34090': '#1f6947',
+  'FS 34092': '#495950', // Dark Green
+  'FS 34094': '#4f5443', // Green
+  'FS 34095': '#51533d', // Field Green
+  'FS 34096': '#555546', // Dark Green
+  'FS 34097': '#5d6248', // Field Green
+  'FS 34098': '#656042', // Green
+  'FS 34102': '#595b44', // Light Green
+  'FS 34108': '#476653', // Medium Green
   'FS 34115': '#005d39',
-  'FS 34127': '#6f6d4b', // Green
-  'FS 34128': '#65735e', // Deep Green
-  'FS 34130': '#696748',
-  'FS 34138': '#5e8450', // Green
-  'FS 34148': '#657a77',
-  'FS 34151': '#717048', // Interior Green
-  'FS 34158': '#6c7977',
-  'FS 34159': '#737a6c', // Green
+  'FS 34127': '#625e40', // Green
+  'FS 34128': '#5a6651', // Deep Green
+  'FS 34129': '#5c5b4a',
+  'FS 34130': '#5e5a3b',
+  'FS 34138': '#587648', // Green
+  'FS 34148': '#59716f',
+  'FS 34151': '#67633c', // Interior Green
+  'FS 34158': '#62706d',
+  'FS 34159': '#6b7366', // Green
+  'FS 34160': '#676961',
+  'FS 34170': '#616153',
   'FS 34172': '#556f56',
-  'FS 34201': '#8c846a', // Tan Green
-  'FS 34226': '#848e7d',
-  'FS 34227': '#7f9170', // Medium Gray Green
-  'FS 34230': '#599d5a', // Green
-  'FS 34233': '#829795',
-  'FS 34241': '#81a698',
-  'FS 34258': '#909468', // Green
-  'FS 34259': '#8e8342', // Yellow Green
-  'FS 34272': '#779d80',
-  'FS 34277': '#889d95',
-  'FS 34300': '#8ba395',
-  'FS 34325': '#80a998',
-  'FS 34373': '#a0b4a5',
-  'FS 34410': '#a2b4a5',
-  'FS 34414': '#b8c4ad', // Green
-  'FS 34424': '#b3b69f', // Light Gray Green
-  'FS 34432': '#b1b7a4',
-  'FS 34441': '#afbb9f',
-  'FS 34449': '#a7bd9b',
-  'FS 34491': '#b1c4ae',
-  'FS 34504': '#b6c4ab',
-  'FS 34516': '#b6c6b4',
-  'FS 34518': '#b2c2b3',
-  'FS 34524': '#bbc69c',
-  'FS 34533': '#b5c49e',
-  'FS 34540': '#a1d28b',
-  'FS 34552': '#d4cf90', // Light Green
-  'FS 34554': '#d2d5b9', // Sky
-  'FS 34558': '#c0d0b0',
-  'FS 34583': '#c2c3a4',
-  'FS 34666': '#dbe7ab', // Green
-  'FS 34670': '#d0dac9',
-  'FS 34672': '#d5dbbf',
-  'FS 35042': '#454a4e', // Sea Blue
-  'FS 35044': '#444854', // Insignia Blue
-  'FS 35045': '#41505d', // Dark Blue
+  'FS 34201': '#847962', // Tan Green
+  'FS 34226': '#7b8676',
+  'FS 34227': '#7b8a6d', // Medium Gray Green
+  'FS 34230': '#578f4d', // Green
+  'FS 34233': '#7d8f8a',
+  'FS 34241': '#809b8d',
+  'FS 34258': '#828159', // Green
+  'FS 34259': '#857134', // Yellow Green
+  'FS 34272': '#729475',
+  'FS 34277': '#819489',
+  'FS 34300': '#849b8c',
+  'FS 34325': '#81a694',
+  'FS 34350': '#6ec7af',
+  'FS 34373': '#99a78e',
+  'FS 34410': '#9eae9e',
+  'FS 34414': '#adb8a2', // Green
+  'FS 34424': '#abad94', // Light Gray Green
+  'FS 34432': '#a6ad9b',
+  'FS 34441': '#a6b094',
+  'FS 34449': '#a4b596',
+  'FS 34491': '#a4b9a2',
+  'FS 34504': '#a8b59b',
+  'FS 34516': '#b1c0ad',
+  'FS 34518': '#a8b6a2',
+  'FS 34524': '#b3ba90',
+  'FS 34533': '#abb68f',
+  'FS 34540': '#9cc47e',
+  'FS 34552': '#c9be81', // Light Green
+  'FS 34554': '#cccaad', // Sky
+  'FS 34558': '#bac8a9',
+  'FS 34583': '#b4b697',
+  'FS 34666': '#d2da9f', // Green
+  'FS 34670': '#c9d3c0',
+  'FS 34672': '#cad0b3',
+  'FS 35042': '#3d4549', // Sea Blue
+  'FS 35044': '#383b48', // Insignia Blue
+  'FS 35045': '#35444d', // Dark Blue
+  'FS 35048': '#33445a',
   'FS 35050': '#18324d',
-  'FS 35052': '#00285c', // Blue
+  'FS 35052': '#324e6a', // Blue
   'FS 35053': '#263b56',
-  'FS 35056': '#334685',
-  'FS 35109': '#457285', // Dark Blue
+  'FS 35056': '#33436a',
+  'FS 35095': '#1f639a',
+  'FS 35109': '#466b7d', // Dark Blue
   'FS 35115': '#035c3c',
-  'FS 35164': '#6f7c8a', // Intermediate Blue
-  'FS 35177': '#65829a', // Medium Blue
-  'FS 35180': '#137abb',
+  'FS 35164': '#61727e', // Intermediate Blue
+  'FS 35177': '#53798d', // Medium Blue
+  'FS 35180': '#0b70a1',
   'FS 35182': '#2a6da2',
-  'FS 35183': '#2280b2',
-  'FS 35189': '#6f8a91', // Blue Gray
-  'FS 35190': '#6390a9', // Dark Blue
-  'FS 35193': '#598f98',
-  'FS 35231': '#7d91b9', // Azure Blue
-  'FS 35237': '#879297', // Gray Blue
-  'FS 35240': '#7f9cbf', // Blue
-  'FS 35250': '#5ba6d6', // Blue
-  'FS 35275': '#35a49e',
-  'FS 35299': '#77a59e',
-  'FS 35352': '#94a8a4', // Blue
-  'FS 35414': '#9db3ae', // Blue
-  'FS 35450': '#92b6d1', // Air Superiority Blue
-  'FS 35466': '#86cbe4',
-  'FS 35488': '#a1bbd1',
-  'FS 35526': '#b6c4cc', // Light Sky Blue
-  'FS 35550': '#cedbe2',
-  'FS 35622': '#cdd8cd', // Light Blue
-  'FS 35630': '#dbdbd5',
-  'FS 36076': '#575b62', // Gray
-  'FS 36081': '#5b5e5f', // Dark Gunship Gray
-  'FS 36099': '#5f656a', // Dark Gray
-  'FS 36118': '#676c73', // Medium Gunship Gray
-  'FS 36134': '#565654',
-  'FS 36152': '#74797b', // Gray
-  'FS 36173': '#7f848a', // Neutral Gray
-  'FS 36176': '#778089', // Dark Gull Gray
+  'FS 35183': '#187da6',
+  'FS 35189': '#6f868b', // Blue Gray
+  'FS 35190': '#5a8b9d', // Dark Blue
+  'FS 35193': '#51868b',
+  'FS 35231': '#698aab', // Azure Blue
+  'FS 35237': '#7a898d', // Gray Blue
+  'FS 35240': '#6e92b0', // Blue
+  'FS 35250': '#42a2c8', // Blue
+  'FS 35260': '#30abc7',
+  'FS 35275': '#289fa1',
+  'FS 35299': '#70a097',
+  'FS 35352': '#819b96', // Blue
+  'FS 35414': '#86a4a0', // Blue
+  'FS 35450': '#84b2c4', // Air Superiority Blue
+  'FS 35466': '#76c7d7',
+  'FS 35488': '#93b9cc',
+  'FS 35526': '#a3bbbd', // Light Sky Blue
+  'FS 35550': '#c5d8d8',
+  'FS 35622': '#c6d0c6', // Light Blue
+  'FS 35630': '#d2d2c8',
+  'FS 36076': '#4c5259', // Gray
+  'FS 36081': '#575a59', // Dark Gunship Gray
+  'FS 36099': '#515c60', // Dark Gray
+  'FS 36118': '#5b6268', // Medium Gunship Gray
+  'FS 36134': '#676864',
+  'FS 36152': '#676e70', // Gray
+  'FS 36170': '#6d6d6b',
+  'FS 36173': '#6f787e', // Neutral Gray
+  'FS 36176': '#6d7881', // Dark Gull Gray
   'FS 36187': '#697374',
-  'FS 36231': '#888b8d', // Dark Gull Gray
-  'FS 36251': '#8e908f', // Gray
-  'FS 36270': '#8f9396', // Medium Gray
-  'FS 36280': '#8f9396', // Dark Gray
-  'FS 36293': '#989a9b',
-  'FS 36300': '#9da2a8', // Aircraft Exterior Gray
-  'FS 36306': '#a99e93',
-  'FS 36307': '#9fa097', // Gray
-  'FS 36314': '#9b9f9b', // Flint Gray
-  'FS 36320': '#98a1a9', // Dark Compass Ghost Gray
+  'FS 36231': '#7f8586', // Dark Gull Gray
+  'FS 36251': '#828584', // Gray
+  'FS 36270': '#848a8c', // Medium Gray
+  'FS 36280': '#898d8a', // Dark Gray
+  'FS 36293': '#898f8f',
+  'FS 36300': '#91989d', // Aircraft Exterior Gray
+  'FS 36306': '#988e84',
+  'FS 36307': '#96978e', // Gray
+  'FS 36314': '#8f9590', // Flint Gray
+  'FS 36320': '#8a969c', // Dark Compass Ghost Gray
   'FS 36329': '#849899', // Light Gray
-  'FS 36357': '#aca99c',
-  'FS 36373': '#aeb1b2', // Light Gray
-  'FS 36375': '#a6adb4', // Light Compass Ghost Gray
+  'FS 36357': '#a09c8e',
+  'FS 36373': '#9ba2a1', // Light Gray
+  'FS 36375': '#9ba5a9', // Light Compass Ghost Gray
   'FS 36400': '#c3c19b',
-  'FS 36405': '#c6bea8',
-  'FS 36415': '#c6b69c',
-  'FS 36424': '#c4baaf', // Medium Gray
-  'FS 36440': '#b6b5b0', // Light Gull Gray
-  'FS 36463': '#b1b3b2', // Gray
-  'FS 36473': '#adb5b3', // Sky Gray
-  'FS 36492': '#c2c0bf', // Gray
-  'FS 36495': '#cfd1d2', // Light Gray
-  'FS 36521': '#d2c5b4', // Tan
-  'FS 36555': '#d4c6a8', // Tan
-  'FS 36559': '#c9c4b3', // Gray
-  'FS 36586': '#d3ccb7',
-  'FS 36595': '#cdcabe',
-  'FS 36622': '#d4d0c7', // Gray
-  'FS 36628': '#d8d8d4', // Flat Aluminum
-  'FS 36642': '#e9d7c3',
-  'FS 37030': '#454445',
-  'FS 37031': '#434244', // Black Gray
-  'FS 37038': '#424243', // Black
+  'FS 36405': '#beb49d',
+  'FS 36415': '#bdab91',
+  'FS 36424': '#bcb3a6', // Medium Gray
+  'FS 36440': '#aeada2', // Light Gull Gray
+  'FS 36463': '#a5a9a8', // Gray
+  'FS 36473': '#9da9a5', // Sky Gray
+  'FS 36480': '#aab7b0',
+  'FS 36492': '#bbbbb3', // Gray
+  'FS 36495': '#c3c8c5', // Light Gray
+  'FS 36521': '#c3b7a7', // Tan
+  'FS 36555': '#cbbda0', // Tan
+  'FS 36559': '#c2bfae', // Gray
+  'FS 36586': '#cabfa6',
+  'FS 36595': '#c3c3b3',
+  'FS 36622': '#c3c1b3', // Gray
+  'FS 36628': '#cbcec6', // Flat Aluminum
+  'FS 36642': '#e2ccb6',
+  'FS 36650': '#e3e0d6',
+  'FS 37030': '#363738',
+  'FS 37031': '#353637', // Black Gray
+  'FS 37038': '#373838', // Black
   'FS 37043': '#807537',
-  'FS 37056': '#564e4a',
-  'FS 37100': '#79537f', // Purple
-  'FS 37142': '#9f5d87',
-  'FS 37144': '#8b6c8f',
-  'FS 37150': '#ded3c4',
+  'FS 37056': '#4c4542',
+  'FS 37100': '#644871', // Purple
+  'FS 37142': '#8f567d',
+  'FS 37144': '#7d6686',
+  'FS 37150': '#d1c8b9',
   'FS 37178': '#879296',
-  'FS 37200': '#a09f9f',
-  'FS 37722': '#ebe3d4',
-  'FS 37769': '#e2d6c0',
-  'FS 37778': '#f1e7cf',
-  'FS 37855': '#f6ebc8', // White
-  'FS 37875': '#f2f1ea', // Insignia White
-  'FS 37886': '#f8f1e1',
-  'FS 37925': '#fbf8f6', // Insignia White
-  'FS 38903': '#ff5500',
+  'FS 37200': '#9c9d9d',
+  'FS 37722': '#dad4c3',
+  'FS 37769': '#e1d3bb',
+  'FS 37778': '#e8dec6',
+  'FS 37855': '#ecdcb8', // White
+  'FS 37875': '#e4e5d8', // Insignia White
+  'FS 37886': '#efe8d5',
+  'FS 37925': '#f0f1e5', // Insignia White
+  'FS 38901': '#10a03e',
+  'FS 38903': '#ff520b',
+  'FS 38905': '#fc3b2c',
+  'FS 38907': '#ffa900',
   'FS 38913': '#ff2d00',
 } as const;
 
@@ -617,17 +716,17 @@ export type Fs595cColorName = keyof typeof fs595cColors;
 
 /**
  * Federal Standard 595C paint-color specification
- * (589 entries), widely used in US military,
+ * (682 entries), widely used in US military,
  * aviation, and government-equipment coatings. Revised from
  * the 1989 FS595B; pick whichever revision matches your
  * reference documentation. Default metric CIEDE2000 for the
  * dense olive / tan / grey regions where ΔE76 mis-ranks.
  *
  * @example
- * identify('#a32b25', { palette: fs595c });         // 'FS 11136' (aka "Insignia Red")
- * resolve('FS 11136', { palette: fs595c });         // '#a32b25'
- * resolve('fs-11136', { palette: fs595c });         // '#a32b25' (normalize strips casing + dash)
- * fs595c.colors['FS 10032'];                        // '#372726'
+ * identify('#8c4040', { palette: fs595c });         // 'FS 11136' (aka "Insignia Red")
+ * resolve('FS 11136', { palette: fs595c });         // '#8c4040'
+ * resolve('fs-11136', { palette: fs595c });         // '#8c4040' (normalize strips casing + dash)
+ * fs595c.colors['FS 10032'];                        // '#473f3f'
  */
 export const fs595c = {
   name: 'fs595c',
