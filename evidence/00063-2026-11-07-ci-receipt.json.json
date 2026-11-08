@@ -1,0 +1,13 @@
+{
+  "scope_tags": ["ci", "repository-gate"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "README.md",
+    "package.json",
+    "bun.lock",
+    "demo/package.json"
+  ],
+  "capture_commit": "79c7346fe48c69c19965028cf426156581691879",
+  "capture_method": "GitHub Actions pull_request run 42436079833; re-check with gh run view 42436079833 -R simiancraft/chromonym",
+  "content_hash": "sha256:62acea562a1e6b71cb73ce215b37b6682837dea99f57ca48f9ff2fac90589319"
+}

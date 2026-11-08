@@ -1,0 +1,14 @@
+{
+  "scope_tags": ["docs", "typescript", "runtime"],
+  "covered_paths": [
+    "README.md",
+    "package.json",
+    "bun.lock",
+    "src/defineColorPalette.ts",
+    "src/identify.ts",
+    "src/index.ts"
+  ],
+  "capture_commit": "79c7346fe48c69c19965028cf426156581691879",
+  "capture_method": "byte-compare README lines 300-343; TypeScript 5.9.3 tsc under NodeNext and Bundler; Node 24.22.2 and Bun 1.4.4 runtime checks with Tailwind CSS 3.4.17",
+  "content_hash": "sha256:339184645fd87940d992d74f67f57056d3b822b3456c46f16008f9eeee06663f"
+}

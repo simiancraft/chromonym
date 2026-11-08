@@ -1,0 +1,27 @@
+capture_commit=79c7346fe48c69c19965028cf426156581691879
+node=v24.22.2
+bun=1.4.4
+typescript=5.9.3
+tailwindcss=3.4.17
+readme_recipe_match=PASS
+typescript_nodenext=PASS
+typescript_bundler=PASS
+node_runtime_output=red-500
+bun_runtime_output_and_warnings:
+
+warn - As of Tailwind CSS v2.2, `lightBlue` has been renamed to `sky`.
+warn - Update your configuration file to silence this warning.
+
+warn - As of Tailwind CSS v3.0, `warmGray` has been renamed to `stone`.
+warn - Update your configuration file to silence this warning.
+
+warn - As of Tailwind CSS v3.0, `trueGray` has been renamed to `neutral`.
+warn - Update your configuration file to silence this warning.
+
+warn - As of Tailwind CSS v3.0, `coolGray` has been renamed to `gray`.
+warn - Update your configuration file to silence this warning.
+
+warn - As of Tailwind CSS v3.0, `blueGray` has been renamed to `slate`.
+warn - Update your configuration file to silence this warning.
+red-500
+focused_receipt_exit=0

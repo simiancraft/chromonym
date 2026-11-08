@@ -1,0 +1,29 @@
+{
+  "conclusion": "success",
+  "createdAt": "2026-11-08T01:52:00Z",
+  "databaseId": 42436079833,
+  "event": "pull_request",
+  "headSha": "79c7346fe48c69c19965028cf426156581691879",
+  "job": {
+    "completedAt": "2026-11-08T01:53:12Z",
+    "conclusion": "success",
+    "name": "Lint, Typecheck, Test",
+    "startedAt": "2026-11-08T01:52:03Z",
+    "steps": [
+      { "conclusion": "success", "name": "Install dependencies" },
+      { "conclusion": "success", "name": "Biome check" },
+      { "conclusion": "success", "name": "Install demo dependencies" },
+      { "conclusion": "success", "name": "ESLint (react-compiler)" },
+      { "conclusion": "success", "name": "Typecheck (tsc)" },
+      { "conclusion": "success", "name": "Build" },
+      { "conclusion": "success", "name": "Typecheck tests (tsc)" },
+      { "conclusion": "success", "name": "Package hygiene (publint + attw)" },
+      { "conclusion": "success", "name": "Dead code (knip)" },
+      { "conclusion": "success", "name": "Test with coverage" },
+      { "conclusion": "success", "name": "Upload coverage reports to Codecov" }
+    ]
+  },
+  "updatedAt": "2026-11-08T01:53:13Z",
+  "url": "https://github.com/simiancraft/chromonym/actions/runs/42436079833",
+  "workflowName": "CI"
+}
