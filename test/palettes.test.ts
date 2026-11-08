@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { identify } from '../src/identify.js';
+import { carc } from '../src/palettes/carc.js';
 import { copic } from '../src/palettes/copic.js';
 import { crayola } from '../src/palettes/crayola.js';
 import { fs595b } from '../src/palettes/fs595b.js';
@@ -79,6 +80,18 @@ describe.each([
       spotChecks: {
         'cloudy blue': '#acc2d9',
         dust: '#b2996e',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'carc',
+    carc,
+    {
+      minCount: 26,
+      spotChecks: {
+        'Green 383': '#4f5443',
+        'Tan 686A': '#b79d7f',
+        'Weapons Safety Red': '#fc3b2c',
       } as Record<string, string>,
     },
   ],

@@ -393,6 +393,22 @@ to copyright restrictions when faithfully reproduced.
 - Chromonym is **not affiliated with** any US Government agency
   or defense contractor; no endorsement is implied.
 
+## Chemical Agent Resistant Coating (CARC)
+
+The `carc` palette reproduces the 26 coating color names and their
+FED-STD-595 chip assignments from section 1.2.2 of **MIL-DTL-53039E,
+Chemical Agent Resistant Coating, Aliphatic Polyurethane, Single Component**
+(16 May 2013). MIL-DTL-64159B, the water-dispersible CARC specification,
+uses the same colors. The source is available from
+[EverySpec](https://everyspec.com/MIL-SPECS/MIL-SPECS-MIL-DTL/MIL-DTL-53039E_51370/).
+It is a US Government specification and public-domain work.
+
+MIL-DTL-53039E defines each color by its FED-STD-595 chip number. Chromonym
+therefore duplicates the corresponding sRGB value from its `fs595c` palette,
+which is derived from GSA's measured data as described above. Table I also
+gives colorimetric targets for eleven colors under illuminant C; those targets
+are not identical to the FS chips and are not the values used here.
+
 ## TCCA textile color cards (NBS RP1700)
 
 The `tcca` palette (238 entries) reproduces Table 5 of G. Reimann,

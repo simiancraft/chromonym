@@ -40,6 +40,9 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // Survey data has an irreverent character; the tone stays inside
   // the muted Bauhaus palette rather than going neon.
   xkcd: { tone: '#5c2a6b', ink: 'var(--bh-cream)' },
+  // CARC: Green 383 is a primary camouflage color from the palette and
+  // separates the focused coating set from the broader FS 595 revisions.
+  carc: { tone: '#4f5443', ink: 'var(--bh-cream)' },
   // FS 595C: olive-drab, the signature color of US military coatings
   // and a real FS595C chip ('FS 34087' is close). Wears the ink label
   // (cream would float too bright on the muted military tone).
@@ -109,6 +112,7 @@ const ORDER: PaletteKey[] = [
   'crayola',
   'ntc',
   'xkcd',
+  'carc',
   'fs595c',
   'fs595b',
   'tcca',

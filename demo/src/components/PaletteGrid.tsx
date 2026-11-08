@@ -4,6 +4,7 @@
 // eyedropper (result-only).
 
 import {
+  carc,
   copic,
   crayola,
   fs595b,
@@ -44,6 +45,7 @@ export const PALETTES = {
   crayola,
   ntc,
   xkcd,
+  carc,
   fs595c,
   fs595b,
   tcca,
@@ -70,6 +72,7 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   crayola: 'Crayola',
   ntc: 'NTC',
   xkcd: 'XKCD',
+  carc: 'CARC coatings',
   fs595c: 'FS 595C',
   fs595b: 'FS 595B',
   tcca: 'TCCA textile cards',
@@ -98,6 +101,7 @@ export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
   crayola: "Crayola crayon colors. The classic 64-standard box plus fluorescent neons and selected modern additions.",
   ntc: "Chirag Mehta's 'Name That Color' dataset. 1566 broad-coverage design / UI / hardware names CSS and X11 don't reach.",
   xkcd: "The 2010 XKCD Color Survey. Crowd-sourced common-speech names (923 entries), CC0 public domain.",
+  carc: 'Chemical Agent Resistant Coating colors for U.S. military vehicles and equipment, keyed by the names in MIL-DTL-53039E.',
   fs595c: "US Federal Standard 595C paint chips (682 entries). Military, aviation, and government-equipment coatings.",
   fs595b: "Federal Standard 595B, the 1989 predecessor to FS 595C. Many shared codes have different hex across the two revisions.",
   tcca: 'The 1946 NBS measurements of 238 silk colors from the ninth-edition TCCA Standard Color Card of America and U.S. Army Color Card.',
@@ -123,6 +127,7 @@ export const PALETTE_KEYS = [
   'crayola',
   'ntc',
   'xkcd',
+  'carc',
   'fs595c',
   'fs595b',
   'tcca',
