@@ -32,6 +32,8 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // next to red/yellow/blue, and gives the ink indicator somewhere to
   // be seen.
   crayola: { tone: '#E8751A', ink: 'var(--bh-ink)' },
+  // Farrow & Ball: Hague Blue is one of the catalog's best-known colors.
+  farrowBall: { tone: '#3d4e57', ink: 'var(--bh-cream)' },
   // NTC: cool muted green to sit apart from the warm quadrant (red,
   // yellow, orange); keeps the Bauhaus primary-poster feel without
   // crowding the existing tiles.
@@ -119,6 +121,7 @@ const ORDER: PaletteKey[] = [
   'pantone',
   'copic',
   'crayola',
+  'farrowBall',
   'ntc',
   'xkcd',
   'japanese',

@@ -36,7 +36,7 @@ export function Footer() {
       </nav>
 
       <div className="font-mono text-[10px] tracking-wider opacity-60 max-w-xl mx-auto leading-relaxed pt-1">
-        Pantone®, Crayola®, RAL® and Pokémon™ are trademarks of their
+        Pantone®, Crayola®, Farrow & Ball®, RAL®, and Pokémon™ are trademarks of their
         respective owners; chromonym is not affiliated. Palette values are
         community approximations. Demo typeface{' '}
         <a

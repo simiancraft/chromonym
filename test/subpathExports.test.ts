@@ -78,6 +78,14 @@ maybe('subpath exports resolve', () => {
     expect(m.crayola.defaultMetric).toBe('deltaEok');
   });
 
+  it('chromonym/farrow-ball exports the Farrow & Ball palette object', async () => {
+    const m = await import('../dist/palettes/farrowBall.js');
+    expect(m.farrowBall.name).toBe('farrowBall');
+    expect(m.farrowBall.colors["Elephant's Breath"]).toBe('#ccbfb3');
+    expect(Object.keys(m.farrowBall.colors)).toHaveLength(132);
+    expect(m.farrowBall.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/ntc exports the ntc palette object', async () => {
     const m = await import('../dist/palettes/ntc.js');
     expect(m.ntc.name).toBe('ntc');
@@ -327,6 +335,7 @@ maybe('subpath exports resolve', () => {
       "const { web } = await import('chromonym/web');",
       "const { x11 } = await import('chromonym/x11');",
       "const { crayola } = await import('chromonym/crayola');",
+      "const { farrowBall } = await import('chromonym/farrow-ball');",
       "const { ntc } = await import('chromonym/ntc');",
       "const { xkcd } = await import('chromonym/xkcd');",
       "const { carc } = await import('chromonym/carc');",
@@ -363,6 +372,7 @@ maybe('subpath exports resolve', () => {
       '  webRed: web.colors.red,',
       '  x11Count: Object.keys(x11.colors).length > 600,',
       '  crayolaRazz: crayola.colors.Razzmatazz === "#e3256b",',
+      '  farrowBallElephant: farrowBall.colors["Elephant\'s Breath"] === "#ccbfb3",',
       '  ntcStratos: ntc.colors.Stratos === "#000741",',
       '  xkcdCloudyBlue: xkcd.colors["cloudy blue"] === "#acc2d9",',
       '  carcGreen383: carc.colors["Green 383"] === "#4f5443",',
@@ -412,6 +422,7 @@ maybe('subpath exports resolve', () => {
       webRed: '#ff0000',
       x11Count: true,
       crayolaRazz: true,
+      farrowBallElephant: true,
       ntcStratos: true,
       xkcdCloudyBlue: true,
       carcGreen383: true,

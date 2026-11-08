@@ -1,6 +1,6 @@
 {
   "name": "chromonym",
-  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or twenty-six built-in sets (CSS, X11, Pantone, Copic, Crayola, NTC, XKCD, Japanese traditional colors, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, CARC, TCCA, MIL-STD-101C, MIL-STD-709D, MIL-STD-2525D, US military identity colors, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
+  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or twenty-seven built-in sets (CSS, X11, Pantone, Copic, Crayola, Farrow & Ball, NTC, XKCD, Japanese traditional colors, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, CARC, TCCA, MIL-STD-101C, MIL-STD-709D, MIL-STD-2525D, US military identity colors, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
   "keywords": [
     "color",
     "colors",
@@ -17,6 +17,7 @@
     "pantone",
     "copic",
     "crayola",
+    "farrow-ball",
     "ral",
     "tailwind",
     "material-design",
@@ -103,6 +104,11 @@
       "types": "./dist/palettes/crayola.d.ts",
       "import": "./dist/palettes/crayola.js",
       "default": "./dist/palettes/crayola.js"
+    },
+    "./farrow-ball": {
+      "types": "./dist/palettes/farrowBall.d.ts",
+      "import": "./dist/palettes/farrowBall.js",
+      "default": "./dist/palettes/farrowBall.js"
     },
     "./carc": {
       "types": "./dist/palettes/carc.d.ts",

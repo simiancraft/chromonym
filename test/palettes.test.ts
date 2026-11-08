@@ -3,6 +3,7 @@ import { identify } from '../src/identify.js';
 import { carc } from '../src/palettes/carc.js';
 import { copic } from '../src/palettes/copic.js';
 import { crayola } from '../src/palettes/crayola.js';
+import { farrowBall } from '../src/palettes/farrowBall.js';
 import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
@@ -62,6 +63,18 @@ describe.each([
       spotChecks: {
         Razzmatazz: '#e3256b',
         'Granny Smith Apple': '#a8e4a0',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'farrowBall',
+    farrowBall,
+    {
+      minCount: 132,
+      spotChecks: {
+        "Elephant's Breath": '#ccbfb3',
+        'Dead Salmon': '#b49d8d',
+        'Borrowed Light': '#d5dbdb',
       } as Record<string, string>,
     },
   ],
