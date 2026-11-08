@@ -9,6 +9,7 @@ import {
   fs595c,
   isccNbs,
   material,
+  milStd2525d,
   nbs,
   ncs,
   ntc,
@@ -17,6 +18,7 @@ import {
   ral,
   resene,
   tailwind,
+  uswds,
   web,
   werner,
   x11,
@@ -49,6 +51,8 @@ export const PALETTES = {
   tailwind,
   ral,
   material,
+  uswds,
+  milStd2525d,
 } as const;
 export type PaletteKey = keyof typeof PALETTES;
 
@@ -70,6 +74,8 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   tailwind: 'Tailwind',
   ral: 'RAL Classic',
   material: 'Material Design 3',
+  uswds: 'USWDS',
+  milStd2525d: 'MIL-STD-2525D',
 };
 
 // Short demo-side descriptions surfaced in the palette-picker panel. Kept in
@@ -93,6 +99,8 @@ export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
   tailwind: "Tailwind CSS default theme (v4.0). 22 hue families × 11 shades = 242 entries with keys matching the Tailwind class suffix ('slate-500', 'rose-950'). sRGB values converted from v4.0's OKLCH spec.",
   ral: "RAL Classic (RAL gGmbH, Bonn). 216 European industrial / architectural coatings keyed by RAL code ('RAL 1003', 'RAL 9011'). Pantone analog for European product, paint, and signage work; nominative reference, not a licensed RAL product.",
   material: "Material Design 3 baseline system color roles. 98 light and dark scheme tokens with keys like 'light-primary' and 'dark-on-surface'.",
+  uswds: "U.S. Web Design System, the GSA's design system for federal websites. 461 system tokens keyed by name ('blue-60v', 'gray-cool-30'); grades 50 apart meet WCAG AA contrast. Public domain.",
+  milStd2525d: "MIL-STD-2525D Joint Military Symbology. The 20 colors map symbols use for standard identity: hostile, friend, neutral, unknown, and civilian, each in dark, medium, light, and unfilled.",
 };
 
 export const PALETTE_KEYS = [
@@ -113,6 +121,8 @@ export const PALETTE_KEYS = [
   'tailwind',
   'ral',
   'material',
+  'uswds',
+  'milStd2525d',
 ] as const satisfies readonly PaletteKey[];
 
 interface PaletteGridProps {

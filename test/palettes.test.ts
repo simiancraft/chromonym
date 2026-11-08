@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'bun:test';
+import { identify } from '../src/identify.js';
 import { crayola } from '../src/palettes/crayola.js';
 import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
 import { material } from '../src/palettes/material.js';
+import { milStd2525d } from '../src/palettes/milStd2525d.js';
 import { nbs } from '../src/palettes/nbs.js';
 import { ncs } from '../src/palettes/ncs.js';
 import { ntc } from '../src/palettes/ntc.js';
@@ -12,6 +14,7 @@ import { pokemon } from '../src/palettes/pokemon.js';
 import { ral } from '../src/palettes/ral.js';
 import { resene } from '../src/palettes/resene.js';
 import { tailwind } from '../src/palettes/tailwind.js';
+import { uswds } from '../src/palettes/uswds.js';
 import { web } from '../src/palettes/web.js';
 import { werner } from '../src/palettes/werner.js';
 import { x11 } from '../src/palettes/x11.js';
@@ -195,6 +198,32 @@ describe.each([
       } as Record<string, string>,
     },
   ],
+  [
+    'uswds',
+    uswds,
+    {
+      minCount: 461,
+      spotChecks: {
+        'blue-60v': '#005ea2',
+        'red-warm-60v': '#9c3d10',
+        'cyan-5': '#e7f6f8',
+        'gray-100': '#000000',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'milStd2525d',
+    milStd2525d,
+    {
+      minCount: 20,
+      spotChecks: {
+        'Hostile Medium': '#ff3031',
+        'Friend Light': '#80e0ff',
+        'Civilian Dark': '#500050',
+        'Friend Unfilled': '#00ffff',
+      } as Record<string, string>,
+    },
+  ],
 ])('%s palette', (name, space, { minCount, spotChecks }) => {
   it('declares its own name', () => {
     expect(space.name as string).toBe(name);
@@ -234,5 +263,57 @@ describe.each([
 
   it('declares a default distance metric', () => {
     expect(typeof space.defaultMetric).toBe('string');
+  });
+});
+
+/** WCAG 2 contrast ratio between two sRGB hex colors. */
+function contrast(a: string, b: string): number {
+  const luminance = (hex: string) => {
+    const [r, g, bl] = [1, 3, 5].map((i) => {
+      const c = Number.parseInt(hex.slice(i, i + 2), 16) / 255;
+      return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    }) as [number, number, number];
+    return 0.2126 * r + 0.7152 * g + 0.0722 * bl;
+  };
+  const [lo, hi] = [luminance(a), luminance(b)].sort((x, y) => x - y) as [number, number];
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+describe('uswds palette', () => {
+  const entries = Object.entries(uswds.colors);
+  const grade = (key: string) => Number(/-(\d+)v?$/.exec(key)?.[1]);
+
+  it('ships the 461 v3.14.0 system tokens', () => {
+    expect(entries.length).toBe(461);
+  });
+
+  it('keeps every token distinct once normalized', () => {
+    const normalized = entries.map(([key]) => uswds.normalize(key));
+    expect(new Set(normalized).size).toBe(entries.length);
+  });
+
+  it('meets WCAG AA (4.5:1) for every pair 50 or more grades apart', () => {
+    let worst = Number.POSITIVE_INFINITY;
+    for (const [i, [a, hexA]] of entries.entries()) {
+      for (const [b, hexB] of entries.slice(i + 1)) {
+        if (Math.abs(grade(a) - grade(b)) >= 50) worst = Math.min(worst, contrast(hexA, hexB));
+      }
+    }
+    expect(worst).toBeGreaterThanOrEqual(4.5);
+  });
+});
+
+describe('milStd2525d palette', () => {
+  const identities = ['Hostile', 'Friend', 'Neutral', 'Unknown', 'Civilian'] as const;
+  const shades = ['Dark', 'Medium', 'Light', 'Unfilled'] as const;
+
+  it('carries a dark, medium, light, and unfilled color for each identity, and nothing else', () => {
+    const expected = identities.flatMap((id) => shades.map((shade) => `${id} ${shade}`));
+    expect(Object.keys(milStd2525d.colors).sort()).toEqual(expected.sort());
+  });
+
+  it('answers the shared yellow with the filled entry, first in insertion order', () => {
+    expect(milStd2525d.colors['Unknown Unfilled']).toBe(milStd2525d.colors['Unknown Medium']);
+    expect(identify('#ffff00', { palette: milStd2525d })).toBe('Unknown Medium');
   });
 });

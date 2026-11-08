@@ -21,7 +21,7 @@
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
 </p>
 
-**The last color-naming library you'll ever need.** Give it any hex, RGB, HSL, or HSV value and get back the nearest named color; give it a color name and get back the value. One API (`identify`, `resolve`, and `convert`) works against any palette you throw at it. Ships seventeen palettes out of the box (CSS, X11, Pantone, Crayola, NTC, XKCD, RAL, Tailwind, Material, Resene, NCS, ISCC-NBS, NBS, FS 595 B, FS 595 C, Werner, and Pokémon); bring your own (brand colors, paint chips, game factions, and chart themes) with full TypeScript inference and zero registration. Six distance metrics range from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone; you only pay for palettes you import.
+**The last color-naming library you'll ever need.** Give it any hex, RGB, HSL, or HSV value and get back the nearest named color; give it a color name and get back the value. One API (`identify`, `resolve`, and `convert`) works against any palette you throw at it. Ships nineteen palettes out of the box (CSS, X11, Pantone, Crayola, NTC, XKCD, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B, FS 595 C, MIL-STD-2525D, Werner, and Pokémon); bring your own (brand colors, paint chips, game factions, and chart themes) with full TypeScript inference and zero registration. Six distance metrics range from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone; you only pay for palettes you import.
 
 <sub>*chromonym* (n.): a name for a color; *chroma* + *-onym*. Also the library.</sub>
 
@@ -349,7 +349,7 @@ Unparseable values are dropped with a `console.warn` naming the palette, the off
 
 If you prefer zero runtime and already have hex-only values, the `as const satisfies Palette<'A' | 'B' | ...>` pattern still works — list the key union once in the generic and it narrows identically.
 
-### The seventeen we ship
+### The nineteen we ship
 
 | Name | Entries | Source |
 |---|---|---|
@@ -361,6 +361,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `xkcd` | 923 | XKCD 2010 color-survey results (CC0; crowd-sourced common-speech names) |
 | `fs595b` | 209 | Federal Standard 595B paint chips (1989 revision; modelers / historical equipment) |
 | `fs595c` | 589 | Federal Standard 595C paint chips (US Government spec; military / aviation coatings) |
+| `milStd2525d` | 20 | MIL-STD-2525D military symbology colors: hostile, friend, neutral, unknown, and civilian, in dark, medium, light, and unfilled |
 | `isccNbs` | 260 | ISCC-NBS Method of Designating Colors (1955 US standard; Munsell-partitioned named blocks) |
 | `nbs` | 267 | Second digitization of the same 1955 standard; different sRGB (matches 1955 chip book; covers the 7 blocks `isccNbs` leaves as gaps) |
 | `resene` | 1378 | Resene Paints (NZ) catalog; te reo Māori and NZ place-names in the naming |
@@ -368,6 +369,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `ral` | 216 | RAL Classic, the European industrial coatings standard (community sRGB values; not a licensed RAL product) |
 | `tailwind` | 242 | Tailwind CSS v4 default theme (22 families × 11 shades, computed from the OKLCH spec) |
 | `material` | 98 | Material Design 3 baseline system color roles (49 each for light and dark schemes) |
+| `uswds` | 461 | U.S. Web Design System system color tokens (`blue-60v`, `gray-cool-30`); the federal web palette, public domain |
 | `werner` | 110 | Werner's Nomenclature of Colours (1821, Patrick Syme; the field reference Darwin carried aboard the Beagle) |
 | `pokemon` | 18 | Pokémon type-badge colors (community approximations; not an official asset set) |
 
@@ -518,7 +520,7 @@ const tryConvert = (input: ColorInput, opts = {}) => {
 
 **Install size and bundle size are not the same number.** Install size is what lands in your `node_modules/` after `npm install`; bundle size is what ships to your users after tree-shaking, minification, and gzip. For chromonym the gap is roughly two orders of magnitude.
 
-The published tarball is **~2.7 MB unpacked / ~600 kB gzipped** because it carries seventeen palettes and ~9600 named-color entries; that's the install-size figure `packagephobia` reports. Your **production bundle** pays only for what you actually import, measured with `esbuild --minify`:
+The published tarball is **~2.4 MB unpacked / ~530 kB gzipped** because it carries nineteen palettes and ~10,100 named-color entries; that's the install-size figure `packagephobia` reports. Your **production bundle** pays only for what you actually import, measured with `esbuild --minify`:
 
 | Import | min | gzip |
 |---|---|---|
