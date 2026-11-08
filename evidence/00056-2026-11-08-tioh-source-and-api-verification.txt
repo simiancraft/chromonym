@@ -1,0 +1,24 @@
+capture_commit=82ef49b46dfd7d8dc1b56678be9107b6eec734a1
+sampler_source=https://generalstaff.org/BBOW/Colors/TIOH_Palette_Sampler_2023.pdf
+a84a643e9abd7c8c8a5a9f7f6f3f22a52bd51f530a57f429dccf151f10828aae  .proof-evidence-56/TIOH_Palette_Sampler_2023.pdf
+white_correction_source=https://generalstaff.org/BBOW/Colors/DOD_Std_Shades_Heraldic_Yarn_1993.pdf
+5770e470fc4b223e792fb4212279cd5953b25ec25faa3c587762f43c5ff31994  .proof-evidence-56/DOD_Std_Shades_Heraldic_Yarn_1993.pdf
+command=CAPTURE_COMMIT=82ef49b46dfd7d8dc1b56678be9107b6eec734a1 node --input-type=module < .proof-evidence-56/verify-tioh.txt
+{
+  "captureCommit": "82ef49b46dfd7d8dc1b56678be9107b6eec734a1",
+  "sampler": "TIOH Palette Sampler 2023, Common Colors Conversion Chart",
+  "chartRows": 45,
+  "paletteRows": 45,
+  "exactOrderedRowsAfterDocumentedWhiteCorrection": true,
+  "whiteCorrection": {
+    "sampler": "67103",
+    "verifiedPalette": "67101",
+    "textile": "65005"
+  },
+  "rootAndSubpathExportsMatch": true,
+  "cableLookup": {
+    "input": "cable 67111",
+    "output": "#c10230"
+  }
+}
+exit_code=0

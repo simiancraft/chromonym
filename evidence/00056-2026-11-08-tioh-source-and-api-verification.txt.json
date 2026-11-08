@@ -1,0 +1,14 @@
+{
+  "scope_tags": ["code", "data", "packaging"],
+  "covered_paths": [
+    "src/palettes/tioh.ts",
+    "src/index.ts",
+    "package.json",
+    "test/tioh.test.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "82ef49b46dfd7d8dc1b56678be9107b6eec734a1",
+  "capture_method": "Download the cited TIOH sampler and 1993 DoD yarn card, extract their tables with pdftotext, compare all 45 ordered palette rows, and exercise the built root and chromonym/tioh exports with Node",
+  "content_hash": "sha256:271a2100393b6cd16bee9a6aec7a88ef2638e580c938ce5954ce09086f966c7a"
+}
