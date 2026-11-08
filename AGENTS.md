@@ -18,11 +18,13 @@ src/
 │   ├── web.ts               # 148 CSS/SVG colors — Palette wrapper over webColors
 │   ├── x11.ts               # 658 X.Org rgb.txt entries — Palette wrapper
 │   ├── pantone.ts           # 907 Pantone Coated approximations — Palette wrapper
-│   └── index.ts             # barrel
-├── conversions/             # per-format converters (hex, rgb, hsl, hsv, pantone)
-│   └── index.ts             # barrel
+│   └── <name>.ts            # one file per built-in palette; no barrel, src/index.ts re-exports each
+├── conversions/             # per-format converters (hex, rgb, hsl, hsv, pantone); no barrel
 └── math/
     ├── euclideanDistance.ts # squared + unsquared Euclidean in sRGB
+    ├── colorSpace.ts        # sRGB, linear, XYZ, Lab, OKLab, and OKLCH conversions
+    ├── deltaE.ts            # ΔE76, ΔE94, ΔE2000, and ΔEok
+    ├── editDistance.ts      # fuzzy name matching for resolve's k option
     ├── clamp.ts             # clamp + requireFinite guards
     └── hueSector.ts         # HSL/HSV shared hue-sector table
 ```
@@ -54,18 +56,25 @@ bun run check:eslint                 # eslint-plugin-react-compiler on demo/src
 bun run check                        # full pre-PR gate (lint, eslint, typechecks, build, tests, demo build, knip, packaging)
 bun run build                        # emit dist/ via tsc
 bun run scripts/bench.ts             # hot-path micro-benchmarks
-bun run scripts/generate-x11.ts      # regenerate src/palettes/x11.ts
-bun run scripts/generate-pantone.ts  # regenerate src/palettes/pantone.ts (requires color_library)
 ```
 
 The demo has its own deps; before the first `check`, `check:eslint`, or `demo` run, do `cd demo && bun install`.
+
+## Palette data provenance
+
+Every new or updated built-in palette needs a source whose terms allow redistribution in an MIT package: public domain (US Government works included), CC0, MIT, Apache-2.0, or another permissive license.
+
+- Record the source, its version or date, and its license in the palette's doc comment and in a `NOTICE.md` section.
+- Trademarked names are fine as nominative references; the values are what need the license. Do not copy values from a vendor's website, app, or swatch files, or from a third-party site that repackages them, unless that source itself carries such a license.
+- No new Pantone values ship, whatever license a dataset claims: Pantone LLC asserts copyright in its color libraries and has had redistributed copies taken down.
+- If an issue asks for a palette that has no qualifying source, do not implement it from an unlicensed one. Say so on the issue, name the sources you checked, and leave it for a maintainer.
 
 ## Adding a new built-in palette
 
 1. Add data at `src/palettes/<name>.ts`:
    ```ts
-   import type { Palette } from '../types';
-   import { standardNormalize } from './normalize';  // or pantoneNormalize / custom
+   import type { Palette } from '../types.js';
+   import { standardNormalize } from './normalize.js';  // or pantoneNormalize / custom
 
    const <name>Colors = { /* key: '#hex', ... */ } as const;
    export type <Name>ColorName = keyof typeof <name>Colors;
@@ -76,10 +85,12 @@ The demo has its own deps; before the first `check`, `check:eslint`, or `demo` r
      defaultMetric: 'deltaE76',  // pick a sensible default per palette density
    } as const satisfies Palette<<Name>ColorName>;
    ```
-2. Re-export from `src/palettes/index.ts` and `src/index.ts`.
-3. Add subpath export in `package.json` (mirror `./web`, `./x11`, `./pantone`).
-4. Add tests mirroring `test/palettes.test.ts` table-driven structure.
-5. No registry to update — `identify` / `resolve` accept the object directly.
+2. Re-export the palette and its name type from `src/index.ts`; there is no palettes barrel.
+3. Add a subpath export in `package.json`, mirroring `./web`; a camelCase file gets a kebab-case subpath (`./iscc-nbs` for `isccNbs.ts`).
+4. Add a row to the table in `test/palettes.test.ts`, and the subpath to both checks in `test/subpathExports.test.ts` (the `dist/` import test and the Node ESM script with its expected output).
+5. Register it in the demo: `PALETTES`, `PALETTE_LABELS`, `PALETTE_DESCRIPTIONS`, and `PALETTE_KEYS` in `demo/src/components/PaletteGrid.tsx`, and a tone plus an `ORDER` entry in `demo/src/components/PaletteTiles.tsx`.
+6. Document it: a row in the README palette table, the palette count and list in the README introduction, the table heading, and the `package.json` description, and a `NOTICE.md` section (see Palette data provenance).
+7. No registry to update; `identify` and `resolve` accept the object directly.
 
 ## BYO palette (user-facing)
 
