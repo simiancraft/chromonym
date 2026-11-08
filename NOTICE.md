@@ -99,6 +99,26 @@ the Apache License 2.0. The palette is provided as a nominative reference to
 the published tokens, not as an imitation of, or substitute for, Material
 Design tooling.
 
+## U.S. Web Design System (USWDS)
+
+The `uswds` palette (461 entries) ships the **system color tokens** of
+the [U.S. Web Design System](https://designsystem.digital.gov/), the
+design system the US General Services Administration maintains for
+federal websites, from `packages/uswds-tokens/colors/*.json` at tag
+`v3.14.0` of <https://github.com/uswds/uswds> (identical to the SCSS
+token maps in `packages/uswds-core`).
+
+- USWDS's own code and design tokens are a US Government work, not
+  subject to copyright in the United States, and GSA waives copyright
+  worldwide under the **CC0 1.0 Universal** public domain dedication.
+  (The fonts and icons USWDS bundles carry other licenses; the palette
+  uses none of them.)
+- Keys are the USWDS token names verbatim (`blue-60v`,
+  `gray-cool-30`). Black, white, and transparent are USWDS global
+  tokens outside the system palette and are not included.
+- Chromonym is **not affiliated with** GSA or any US Government
+  agency; no endorsement is implied.
+
 ## CSS / SVG named colors
 
 The `web` palette mirrors the CSS Color Module Level 4 named-color

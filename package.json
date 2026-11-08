@@ -1,7 +1,7 @@
 {
   "name": "chromonym",
   "version": "3.6.0",
-  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or seventeen built-in sets (CSS, X11, Pantone, Crayola, NTC, XKCD, RAL, Tailwind, Material, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
+  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or eighteen built-in sets (CSS, X11, Pantone, Crayola, NTC, XKCD, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
   "keywords": [
     "color",
     "colors",
@@ -127,6 +127,11 @@
       "types": "./dist/palettes/ntc.d.ts",
       "import": "./dist/palettes/ntc.js",
       "default": "./dist/palettes/ntc.js"
+    },
+    "./uswds": {
+      "types": "./dist/palettes/uswds.d.ts",
+      "import": "./dist/palettes/uswds.js",
+      "default": "./dist/palettes/uswds.js"
     },
     "./werner": {
       "types": "./dist/palettes/werner.d.ts",

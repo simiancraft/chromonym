@@ -21,7 +21,7 @@
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
 </p>
 
-**The last color-naming library you'll ever need.** Give it any hex, RGB, HSL, or HSV value and get back the nearest named color; give it a color name and get back the value. One API (`identify`, `resolve`, and `convert`) works against any palette you throw at it. Ships seventeen palettes out of the box (CSS, X11, Pantone, Crayola, NTC, XKCD, RAL, Tailwind, Material, Resene, NCS, ISCC-NBS, NBS, FS 595 B, FS 595 C, Werner, and Pokémon); bring your own (brand colors, paint chips, game factions, and chart themes) with full TypeScript inference and zero registration. Six distance metrics range from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone; you only pay for palettes you import.
+**The last color-naming library you'll ever need.** Give it any hex, RGB, HSL, or HSV value and get back the nearest named color; give it a color name and get back the value. One API (`identify`, `resolve`, and `convert`) works against any palette you throw at it. Ships eighteen palettes out of the box (CSS, X11, Pantone, Crayola, NTC, XKCD, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B, FS 595 C, Werner, and Pokémon); bring your own (brand colors, paint chips, game factions, and chart themes) with full TypeScript inference and zero registration. Six distance metrics range from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone; you only pay for palettes you import.
 
 <sub>*chromonym* (n.): a name for a color; *chroma* + *-onym*. Also the library.</sub>
 
@@ -349,7 +349,7 @@ Unparseable values are dropped with a `console.warn` naming the palette, the off
 
 If you prefer zero runtime and already have hex-only values, the `as const satisfies Palette<'A' | 'B' | ...>` pattern still works — list the key union once in the generic and it narrows identically.
 
-### The seventeen we ship
+### The eighteen we ship
 
 | Name | Entries | Source |
 |---|---|---|
@@ -368,6 +368,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `ral` | 216 | RAL Classic, the European industrial coatings standard (community sRGB values; not a licensed RAL product) |
 | `tailwind` | 242 | Tailwind CSS v4 default theme (22 families × 11 shades, computed from the OKLCH spec) |
 | `material` | 98 | Material Design 3 baseline system color roles (49 each for light and dark schemes) |
+| `uswds` | 461 | U.S. Web Design System system color tokens (`blue-60v`, `gray-cool-30`); the federal web palette, public domain |
 | `werner` | 110 | Werner's Nomenclature of Colours (1821, Patrick Syme; the field reference Darwin carried aboard the Beagle) |
 | `pokemon` | 18 | Pokémon type-badge colors (community approximations; not an official asset set) |
 
@@ -518,7 +519,7 @@ const tryConvert = (input: ColorInput, opts = {}) => {
 
 **Install size and bundle size are not the same number.** Install size is what lands in your `node_modules/` after `npm install`; bundle size is what ships to your users after tree-shaking, minification, and gzip. For chromonym the gap is roughly two orders of magnitude.
 
-The published tarball is **~2.7 MB unpacked / ~600 kB gzipped** because it carries seventeen palettes and ~9600 named-color entries; that's the install-size figure `packagephobia` reports. Your **production bundle** pays only for what you actually import, measured with `esbuild --minify`:
+The published tarball is **~2.7 MB unpacked / ~600 kB gzipped** because it carries eighteen palettes and ~9600 named-color entries; that's the install-size figure `packagephobia` reports. Your **production bundle** pays only for what you actually import, measured with `esbuild --minify`:
 
 | Import | min | gzip |
 |---|---|---|

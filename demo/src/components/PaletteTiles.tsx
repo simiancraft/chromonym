@@ -84,6 +84,9 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // Material 3: the baseline light-scheme primary token. Its violet
   // is representative of the reference theme and supports cream ink.
   material: { tone: '#6750a4', ink: 'var(--bh-cream)' },
+  // USWDS: blue-60v (#005ea2), the 'primary' color of the default USWDS
+  // theme, so it reads as "a .gov website" to anyone who has used one.
+  uswds: { tone: '#005ea2', ink: 'var(--bh-cream)' },
 };
 
 const ORDER: PaletteKey[] = [
@@ -104,6 +107,7 @@ const ORDER: PaletteKey[] = [
   'tailwind',
   'ral',
   'material',
+  'uswds',
 ];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).
