@@ -1,3 +1,10 @@
+## [3.7.1](https://github.com/simiancraft/chromonym/compare/v3.7.0...v3.7.1) (2026-11-08)
+
+
+### Bug Fixes
+
+* **palettes:** add GSA FS595C source fixture ([9b03e6a](https://github.com/simiancraft/chromonym/commit/9b03e6a603d632693b4a07f54254172d1b7c546d))
+
 # [3.7.0](https://github.com/simiancraft/chromonym/compare/v3.6.0...v3.7.0) (2026-11-08)
 
 
