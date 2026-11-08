@@ -1,0 +1,1 @@
+{"scope_tags":["test"],"covered_paths":["test/fixtures/fs595c-gsa.tsv","test/fs595cGsa.ts","test/fs595cGsa.test.ts"],"capture_commit":"9b03e6a603d632693b4a07f54254172d1b7c546d","capture_method":"bun test test/fs595cGsa.test.ts","content_hash":"sha256:2b6f91afe91df8862ca5d92ab612fff490a2a114d6944163e390a83a949380c5"}

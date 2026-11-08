@@ -1,0 +1,7 @@
+Capture commit: 9b03e6a603d632693b4a07f54254172d1b7c546d
+Changed paths:
+test/fixtures/fs595c-gsa.tsv
+test/fs595cGsa.test.ts
+test/fs595cGsa.ts
+Forbidden-path diff check: src/palettes/fs595c.ts, src/palettes/fs595b.ts, NOTICE.md, scripts/
+Forbidden-path diff exit code: 0
