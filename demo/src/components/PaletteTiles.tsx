@@ -26,6 +26,8 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // Copic: B29 Ultramarine, a saturated marker blue that distinguishes
   // the range from Pantone while remaining representative of its inks.
   copic: { tone: '#0077ba', ink: 'var(--bh-cream)' },
+  // Prismacolor: PC901 Indigo Blue represents the physical pencil range.
+  prismacolor: { tone: '#162452', ink: 'var(--bh-cream)' },
   // Crayola was --bh-ink (pure black), which hid the selection indicator
   // entirely (ink square on ink background). Swap in a saturated warm
   // orange — keeps the primary-poster look, sits in the fourth quadrant
@@ -120,6 +122,7 @@ const ORDER: PaletteKey[] = [
   'x11',
   'pantone',
   'copic',
+  'prismacolor',
   'crayola',
   'farrowBall',
   'ntc',

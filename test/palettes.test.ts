@@ -17,6 +17,7 @@ import { ncs } from '../src/palettes/ncs.js';
 import { ntc } from '../src/palettes/ntc.js';
 import { pantone } from '../src/palettes/pantone.js';
 import { pokemon } from '../src/palettes/pokemon.js';
+import { prismacolor } from '../src/palettes/prismacolor.js';
 import { ral } from '../src/palettes/ral.js';
 import { resene } from '../src/palettes/resene.js';
 import { tailwind } from '../src/palettes/tailwind.js';
@@ -52,6 +53,19 @@ describe.each([
         B01: '#e1f1f3',
         YG03: '#eaeeb2',
         'C-5': '#a4aeb2',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'prismacolor',
+    prismacolor,
+    {
+      minCount: 150,
+      spotChecks: {
+        PC901: '#162452',
+        PC1035: '#eefd02',
+        PC1099: '#474443',
+        PC938: '#ffffff',
       } as Record<string, string>,
     },
   ],
