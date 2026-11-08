@@ -81,6 +81,9 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // European traffic signs use). Reads as "European industrial
   // standard" without being indistinguishable from web's bh-red.
   ral: { tone: '#bb1f11', ink: 'var(--bh-cream)' },
+  // Material 3: the baseline light-scheme primary token. Its violet
+  // is representative of the reference theme and supports cream ink.
+  material: { tone: '#6750a4', ink: 'var(--bh-cream)' },
 };
 
 const ORDER: PaletteKey[] = [
@@ -100,6 +103,7 @@ const ORDER: PaletteKey[] = [
   'werner',
   'tailwind',
   'ral',
+  'material',
 ];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).

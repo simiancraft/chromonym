@@ -8,6 +8,7 @@ import {
   fs595b,
   fs595c,
   isccNbs,
+  material,
   nbs,
   ncs,
   ntc,
@@ -47,6 +48,7 @@ export const PALETTES = {
   werner,
   tailwind,
   ral,
+  material,
 } as const;
 export type PaletteKey = keyof typeof PALETTES;
 
@@ -67,6 +69,7 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   werner: "Werner's (1821)",
   tailwind: 'Tailwind',
   ral: 'RAL Classic',
+  material: 'Material Design 3',
 };
 
 // Short demo-side descriptions surfaced in the palette-picker panel. Kept in
@@ -89,6 +92,7 @@ export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
   werner: "Werner's Nomenclature of Colours (1821), the historical pigment reference Patrick Syme adapted from Abraham Werner and Darwin carried on the Beagle. 110 names with natural-history exemplars; hex values via Rougeux's CC-BY digitization.",
   tailwind: "Tailwind CSS default theme (v4.0). 22 hue families × 11 shades = 242 entries with keys matching the Tailwind class suffix ('slate-500', 'rose-950'). sRGB values converted from v4.0's OKLCH spec.",
   ral: "RAL Classic (RAL gGmbH, Bonn). 216 European industrial / architectural coatings keyed by RAL code ('RAL 1003', 'RAL 9011'). Pantone analog for European product, paint, and signage work; nominative reference, not a licensed RAL product.",
+  material: "Material Design 3 baseline system color roles. 98 light and dark scheme tokens with keys like 'light-primary' and 'dark-on-surface'.",
 };
 
 export const PALETTE_KEYS = [
@@ -108,6 +112,7 @@ export const PALETTE_KEYS = [
   'werner',
   'tailwind',
   'ral',
+  'material',
 ] as const satisfies readonly PaletteKey[];
 
 interface PaletteGridProps {

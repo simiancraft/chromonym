@@ -1,7 +1,7 @@
 {
   "name": "chromonym",
   "version": "3.5.3",
-  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or sixteen built-in sets (CSS, X11, Pantone, Crayola, NTC, XKCD, RAL, Tailwind, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
+  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or seventeen built-in sets (CSS, X11, Pantone, Crayola, NTC, XKCD, RAL, Tailwind, Material, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
   "keywords": [
     "color",
     "colors",
@@ -19,6 +19,7 @@
     "crayola",
     "ral",
     "tailwind",
+    "material-design",
     "deltaE",
     "ciede2000",
     "oklab",
@@ -86,6 +87,11 @@
       "types": "./dist/palettes/tailwind.d.ts",
       "import": "./dist/palettes/tailwind.js",
       "default": "./dist/palettes/tailwind.js"
+    },
+    "./material": {
+      "types": "./dist/palettes/material.d.ts",
+      "import": "./dist/palettes/material.js",
+      "default": "./dist/palettes/material.js"
     },
     "./crayola": {
       "types": "./dist/palettes/crayola.d.ts",
