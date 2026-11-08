@@ -1,0 +1,20 @@
+{
+  "scope_tags": ["code", "data", "package", "demo", "docs"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "src/palettes/milStd101c.ts",
+    "src/palettes/fs595c.ts",
+    "src/index.ts",
+    "package.json",
+    "test/milStd101c.test.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "README.md",
+    "NOTICE.md"
+  ],
+  "capture_commit": "c2a4f181c1ce96586e78eab26bb23db3ef8e598f",
+  "capture_method": "exact required repository gate; CI coverage decision command under workflow-pinned Bun 1.4.2; focused Bun tests; remote PR checks; primary MIL-STD-101C PDF text extraction",
+  "content_hash": "sha256:da1bf8ae9e7b8b8d01665c097787d8039999356fac5cd52cc726691553bdd86c"
+}
