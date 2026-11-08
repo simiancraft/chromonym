@@ -1,3 +1,10 @@
+# [3.10.0](https://github.com/simiancraft/chromonym/compare/v3.9.0...v3.10.0) (2026-11-08)
+
+
+### Features
+
+* **palettes:** add TCCA textile cards ([a06914a](https://github.com/simiancraft/chromonym/commit/a06914a7b27bf9a6bc2b043e72edce553fc4110a))
+
 # [3.9.0](https://github.com/simiancraft/chromonym/compare/v3.8.0...v3.9.0) (2026-11-08)
 
 
