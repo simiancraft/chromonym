@@ -36,6 +36,7 @@ export { type Fs595bColorName, fs595b } from './palettes/fs595b.js';
 export { type Fs595cColorName, fs595c } from './palettes/fs595c.js';
 export { type IsccNbsColorName, isccNbs } from './palettes/isccNbs.js';
 export { type MaterialColorName, material } from './palettes/material.js';
+export { type MilStd101cColorName, milStd101c } from './palettes/milStd101c.js';
 export { type MilStd2525dColorName, milStd2525d } from './palettes/milStd2525d.js';
 export { type NbsColorName, nbs } from './palettes/nbs.js';
 export { type NcsColorName, ncs } from './palettes/ncs.js';

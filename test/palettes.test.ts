@@ -7,6 +7,7 @@ import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
 import { material } from '../src/palettes/material.js';
+import { milStd101c } from '../src/palettes/milStd101c.js';
 import { milStd2525d } from '../src/palettes/milStd2525d.js';
 import { nbs } from '../src/palettes/nbs.js';
 import { ncs } from '../src/palettes/ncs.js';
@@ -261,6 +262,19 @@ describe.each([
         'Air Force Blue': '#00308f',
         'Air Force Ultramarine Blue': '#00539f',
         'DOW Space Blue': '#15263b',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'milStd101c',
+    milStd101c,
+    {
+      minCount: 10,
+      spotChecks: {
+        Yellow: '#fcb217',
+        Brown: '#625046',
+        Blue: '#2c698d',
+        Green: '#5b7a41',
       } as Record<string, string>,
     },
   ],

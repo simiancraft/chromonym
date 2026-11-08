@@ -409,6 +409,26 @@ which is derived from GSA's measured data as described above. Table I also
 gives colorimetric targets for eleven colors under illuminant C; those targets
 are not identical to the FS chips and are not the values used here.
 
+## MIL-STD-101C (Pipeline and Gas Cylinder Identification)
+
+The `milStd101c` palette (10 entries) reproduces the color names and
+FED-STD-595 chip assignments in sections 4.2 and 4.3 of **MIL-STD-101C,
+*Color Code for Pipelines and for Compressed Gas Cylinders*** (26 August
+2014). The standard assigns the colors to flammable, toxic, anesthetic,
+oxidizing, physically dangerous, and fire-protection materials. It also
+assigns black, white, orange, and buff for uses with no significant hazard
+meaning, including cylinder segregation.
+
+MIL-STD-101C defines each color by its FED-STD-595 chip number. Chromonym
+therefore duplicates the corresponding converted sRGB value from its
+`fs595c` palette, which is derived from GSA's measured data as described
+above.
+
+The [standard](https://www.wbdg.org/FFC/FEDMIL/milstd101.pdf) is a US
+Government work marked **Distribution A: approved for public release;
+distribution is unlimited**. It was published without stated licensing
+terms and is a public-domain work.
+
 ## TCCA textile color cards (NBS RP1700)
 
 The `tcca` palette (238 entries) reproduces Table 5 of G. Reimann,

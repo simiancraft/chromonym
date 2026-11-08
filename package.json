@@ -1,6 +1,6 @@
 {
   "name": "chromonym",
-  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or twenty-three built-in sets (CSS, X11, Pantone, Copic, Crayola, NTC, XKCD, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, CARC, TCCA, MIL-STD-2525D, US military identity colors, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
+  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or twenty-four built-in sets (CSS, X11, Pantone, Copic, Crayola, NTC, XKCD, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, CARC, TCCA, MIL-STD-101C, MIL-STD-2525D, US military identity colors, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
   "keywords": [
     "color",
     "colors",
@@ -128,6 +128,11 @@
       "types": "./dist/palettes/isccNbs.d.ts",
       "import": "./dist/palettes/isccNbs.js",
       "default": "./dist/palettes/isccNbs.js"
+    },
+    "./mil-std-101c": {
+      "types": "./dist/palettes/milStd101c.d.ts",
+      "import": "./dist/palettes/milStd101c.js",
+      "default": "./dist/palettes/milStd101c.js"
     },
     "./mil-std-2525d": {
       "types": "./dist/palettes/milStd2525d.d.ts",
