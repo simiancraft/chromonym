@@ -1,0 +1,22 @@
+{
+  "scope_tags": ["code", "data", "ci"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "NOTICE.md",
+    "README.md",
+    "bun.lock",
+    "demo/src/components/PaletteGrid.tsx",
+    "package.json",
+    "src/palettes/fs595b.ts",
+    "src/palettes/fs595c.ts",
+    "test/fixtures/fs595c-gsa.tsv",
+    "test/fs595cGsa.test.ts",
+    "test/fs595cGsa.ts",
+    "test/fs595cPalette.test.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "87775b11183b8b03a6cf0fa2323a2716d53b5a4f",
+  "capture_method": "required gate, workflow-pinned Bun 1.4.2 coverage run, focused Bun tests, independent baseline audit, and GitHub Actions CI run 42443556444",
+  "content_hash": "sha256:36c2c94cde6dc7a02a5c7a046c6892e98b76480ed8689e6e9ed98f74f2864bb3"
+}

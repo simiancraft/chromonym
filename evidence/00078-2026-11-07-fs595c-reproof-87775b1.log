@@ -1,0 +1,110 @@
+PR 78 fresh proof receipt
+Capture commit: 87775b11183b8b03a6cf0fa2323a2716d53b5a4f
+Captured: 2026-11-07 America/Chicago
+
+Claim
+The caught-up FS595C change still converts all 650 GSA fixture rows, retains all
+32 compatibility-only rows unchanged, preserves the existing common-name comments,
+and passes the repository and CI gates.
+
+1. Required deciding command
+
+Command:
+bun run build && (cd demo && bun install --frozen-lockfile) && bun run check
+
+Exit code: 0
+
+Relevant output:
+  Checked 70 files in 35ms. No fixes applied.
+  547 pass
+  0 fail
+  21886 expect() calls
+  Ran 547 tests across 22 files.
+  vite v8.3.0 building client environment for production...
+  1939 modules transformed.
+  built in 1.40s
+  Running publint v0.3.24 for chromonym...
+  All good!
+
+The command also completed the library build, demo dependency install, Biome,
+React Compiler ESLint, library and demo typechecks, test typecheck, demo build,
+knip, publint, and arethetypeswrong package checks.
+
+2. CI workflow command
+
+.github/workflows/ci.yml pins Bun 1.4.2 and runs:
+bun test --coverage --coverage-reporter=lcov
+
+Reproduced with the pinned Bun binary:
+bunx bun@1.4.2 test --coverage --coverage-reporter=lcov
+
+Output:
+  bun test v1.4.2 (744846f84)
+  547 pass
+  0 fail
+  21886 expect() calls
+  Ran 547 tests across 22 files. [208.00ms]
+
+Exit code: 0
+
+GitHub's CI workflow also passed at this exact capture commit:
+https://github.com/simiancraft/chromonym/actions/runs/42443556444
+Workflow: CI
+Job: Lint, Typecheck, Test
+Conclusion: success
+Head SHA: 87775b11183b8b03a6cf0fa2323a2716d53b5a4f
+
+3. Focused palette and conversion checks
+
+Command:
+bun test test/fs595cPalette.test.ts test/fs595cGsa.test.ts
+
+Output:
+  bun test v1.4.4 (38afee6c8)
+  14 pass
+  0 fail
+  679 expect() calls
+  Ran 14 tests across 2 files. [10.00ms]
+
+Exit code: 0
+
+The tests convert every fixture row with lab10ToSrgbHex, check all four requested
+chips, compare every retained row, and check the total key count and key format.
+
+4. Independent baseline audit
+
+The current palette, the committed TSV fixture, and the pre-change palette at
+85719d1 were parsed independently of the palette test assertions.
+
+Result:
+  baseline keys: 589
+  fixture rows and unique fixture keys: 650
+  current keys: 682
+  shared baseline and fixture keys: 557
+  fixture keys added to the palette: 93
+  current keys absent from fixture: 32
+  retained value mismatches against baseline: 0
+  baseline common-name comments: 191
+  comment mismatches against baseline: 0
+  dropped baseline keys: 0
+  FS 27769: #e0d3ba
+  FS 14056: #474c48
+  FS 11136: #8c4040
+  FS 34088: #675e4b
+
+5. Protected inputs and diff hygiene
+
+Commands:
+git diff --quiet origin/main...HEAD -- src/palettes/fs595b.ts test/fixtures/fs595c-gsa.tsv test/fs595cGsa.ts test/fs595cGsa.test.ts
+git diff --check origin/main...HEAD
+
+Exit codes: 0, 0
+
+The change does not modify FS595B, the landed GSA fixture, the conversion
+implementation, or its unit tests. The worktree remained clean after the deciding
+command.
+
+Re-check
+At commit 87775b11183b8b03a6cf0fa2323a2716d53b5a4f, run the commands above from
+the repository root. The GitHub Actions URL independently resolves the CI result
+for the same full commit SHA.
