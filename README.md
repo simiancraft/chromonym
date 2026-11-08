@@ -298,9 +298,9 @@ Tailwind v3 exports nested hex scales such as `{ red: { 500: '#ef4444' } }`. Fla
 
 ```ts
 import { defineColorPalette, identify } from 'chromonym';
-import tailwindColors from 'tailwindcss/colors';
+import tailwindColors = require('tailwindcss/colors');
 
-function flattenTailwindColors(colors: Record<string, unknown>) {
+function flattenTailwindColors(colors: object) {
   const flat: Record<string, `#${string}`> = {};
   const deprecatedAliases = new Set([
     'lightBlue',
@@ -313,7 +313,7 @@ function flattenTailwindColors(colors: Record<string, unknown>) {
   for (const name of Object.keys(colors)) {
     // Avoid reading Tailwind v3's deprecated getters, which emit warnings.
     if (deprecatedAliases.has(name)) continue;
-    const value = colors[name];
+    const value: unknown = Object.getOwnPropertyDescriptor(colors, name)?.value;
 
     // Black and white are top-level strings; color scales are nested objects.
     if (typeof value === 'string' && value.startsWith('#')) {
@@ -343,7 +343,7 @@ identify('#ef4444', { palette: tailwindV3 })
 // → 'red-500'
 ```
 
-`deltaEok` is a good default for design-system matching because Tailwind's shade ramps are perceptual. The skipped Tailwind v3 aliases duplicate newer color families, and reading their getters emits runtime warnings. Tailwind v4's raw theme values use OKLCH, which `defineColorPalette` does not parse; use the built-in `tailwind` palette or convert custom v4 values to hex first.
+`deltaEok` is a good default for design-system matching because Tailwind's shade ramps are perceptual. The skipped Tailwind v3 aliases duplicate newer color families, and reading their getters emits runtime warnings. The TypeScript `require` import also avoids Bun's static-import interop reading those getters before `flattenTailwindColors` can skip them. Tailwind v4's raw theme values use OKLCH, which `defineColorPalette` does not parse; use the built-in `tailwind` palette or convert custom v4 values to hex first.
 
 Unparseable values are dropped with a `console.warn` naming the palette, the offending key, and the bad value; the rest of the palette loads normally. This keeps a single typo out of your brand kit from taking down the whole module.
 
