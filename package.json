@@ -1,6 +1,6 @@
 {
   "name": "chromonym",
-  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or twenty-one built-in sets (CSS, X11, Pantone, Copic, Crayola, NTC, XKCD, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, MIL-STD-2525D, US military identity colors, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
+  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or twenty-two built-in sets (CSS, X11, Pantone, Copic, Crayola, NTC, XKCD, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, TCCA, MIL-STD-2525D, US military identity colors, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
   "keywords": [
     "color",
     "colors",
@@ -113,6 +113,11 @@
       "types": "./dist/palettes/fs595c.d.ts",
       "import": "./dist/palettes/fs595c.js",
       "default": "./dist/palettes/fs595c.js"
+    },
+    "./tcca": {
+      "types": "./dist/palettes/tcca.d.ts",
+      "import": "./dist/palettes/tcca.js",
+      "default": "./dist/palettes/tcca.js"
     },
     "./iscc-nbs": {
       "types": "./dist/palettes/isccNbs.d.ts",

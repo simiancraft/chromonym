@@ -108,6 +108,13 @@ maybe('subpath exports resolve', () => {
     expect(m.fs595b.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/tcca exports the TCCA palette object', async () => {
+    const m = await import('../dist/palettes/tcca.js');
+    expect(m.tcca.name).toBe('tcca');
+    expect(m.tcca.colors['Old Glory Red 70180']).toBe('#9c1c2d');
+    expect(m.tcca.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/iscc-nbs exports the isccNbs palette object', async () => {
     const m = await import('../dist/palettes/isccNbs.js');
     expect(m.isccNbs.name).toBe('isccNbs');
@@ -292,6 +299,7 @@ maybe('subpath exports resolve', () => {
       "const { xkcd } = await import('chromonym/xkcd');",
       "const { fs595c } = await import('chromonym/fs595c');",
       "const { fs595b } = await import('chromonym/fs595b');",
+      "const { tcca } = await import('chromonym/tcca');",
       "const { isccNbs } = await import('chromonym/iscc-nbs');",
       "const { resene } = await import('chromonym/resene');",
       "const { ncs } = await import('chromonym/ncs');",
@@ -323,6 +331,7 @@ maybe('subpath exports resolve', () => {
       '  xkcdCloudyBlue: xkcd.colors["cloudy blue"] === "#acc2d9",',
       '  fs595cInsignia: fs595c.colors["FS 11136"] === "#8c4040",',
       '  fs595bInsignia: fs595b.colors["FS 11136"] === "#9b2f25",',
+      '  tccaOldGloryRed: tcca.colors["Old Glory Red 70180"] === "#9c1c2d",',
       '  isccNbsVividPink: isccNbs.colors["Vivid pink"] === "#fd7992",',
       '  reseneTreepoppy: resene.colors.treepoppy === "#e2813b",',
       '  ncsNeutral: ncs.colors["0500-N"] === "#f2f2f2",',
@@ -367,6 +376,7 @@ maybe('subpath exports resolve', () => {
       xkcdCloudyBlue: true,
       fs595cInsignia: true,
       fs595bInsignia: true,
+      tccaOldGloryRed: true,
       isccNbsVividPink: true,
       reseneTreepoppy: true,
       ncsNeutral: true,

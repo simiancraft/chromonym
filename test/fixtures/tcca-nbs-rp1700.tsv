@@ -1,0 +1,239 @@
+card	name	cable	Y	x	y
+standard	White	70001	0.753	0.320	0.327
+standard	Ivory	70002	0.765	0.329	0.335
+standard	Cream	70003	0.750	0.334	0.344
+standard	Eggshell	70004	0.632	0.348	0.354
+standard	Leghorn	70005	0.621	0.371	0.376
+standard	Maize	70006	0.622	0.409	0.403
+standard	Pale Blue	70007	0.634	0.305	0.317
+standard	Pastel Blue	70008	0.524	0.285	0.300
+standard	Baby Blue	70009	0.532	0.281	0.298
+standard	Sky Blue	70010	0.377	0.273	0.292
+standard	Blue Flower	70011	0.400	0.262	0.279
+standard	Forget-me-not	70012	0.360	0.241	0.265
+standard	Flesh Pink	70013	0.662	0.340	0.327
+standard	Baby Pink	70014	0.648	0.348	0.319
+standard	Pastel Pink	70015	0.580	0.359	0.316
+standard	Arbutus Pink	70016	0.552	0.362	0.313
+standard	Rose Pink	70017	0.459	0.384	0.308
+standard	Sea Pink	70018	0.327	0.400	0.310
+standard	Tourmaline	70019	0.548	0.299	0.323
+standard	Turquoise	70020	0.472	0.271	0.316
+standard	Blue Turquoise	70021	0.340	0.239	0.293
+standard	Grotto Blue	70022	0.229	0.207	0.260
+standard	Peacock	70023	0.106	0.199	0.257
+standard	Duckling	70024	0.052	0.205	0.264
+standard	Tea Rose	70025	0.554	0.398	0.331
+standard	Salmon Pink	70026	0.524	0.414	0.343
+standard	Shell Pink	70027	0.523	0.432	0.330
+standard	Melon Pink	70028	0.385	0.458	0.326
+standard	Tigerlily	70029	0.252	0.486	0.330
+standard	Flame Red	70030	0.182	0.542	0.335
+standard	Nile	70031	0.508	0.339	0.378
+standard	Pistache	70032	0.370	0.311	0.371
+standard	Tarragon	70033	0.228	0.305	0.370
+standard	Palmetto	70034	0.171	0.315	0.355
+standard	Reseda	70035	0.092	0.306	0.361
+standard	Evergreen	70036	0.046	0.302	0.377
+standard	Apricot	70037	0.410	0.412	0.374
+standard	Honeydew	70038	0.435	0.442	0.370
+standard	Salmon	70039	0.336	0.480	0.353
+standard	Tangerine	70040	0.172	0.535	0.337
+standard	Paprica	70041	0.162	0.583	0.340
+standard	Pimento	70042	0.132	0.587	0.327
+standard	Sistine	70043	0.326	0.262	0.273
+standard	Copenhagen	70044	0.158	0.249	0.254
+standard	Tile Blue	70045	0.121	0.239	0.250
+standard	Flemish Blue	70046	0.078	0.231	0.235
+standard	Peking Blue	70047	0.063	0.214	0.215
+standard	Marine Corps	70048	0.046	0.227	0.221
+standard	Cherry	70049	0.127	0.464	0.262
+standard	Harvard Crimson	70050	0.087	0.484	0.274
+standard	Ruby	70051	0.083	0.443	0.265
+standard	American Beauty	70052	0.059	0.465	0.263
+standard	Magenta	70053	0.066	0.458	0.261
+standard	Redgrape	70054	0.049	0.426	0.251
+standard	Lavender	70055	0.300	0.300	0.271
+standard	Lilac	70056	0.187	0.303	0.248
+standard	Mauve	70057	0.172	0.287	0.216
+standard	Violet	70058	0.130	0.259	0.184
+standard	Pansy	70059	0.044	0.234	0.147
+standard	Purple	70060	0.027	0.241	0.165
+standard	Spring Green	70061	0.348	0.353	0.459
+standard	Mintleaf	70062	0.289	0.324	0.458
+standard	Emerald	70063	0.163	0.286	0.478
+standard	Hunter	70064	0.070	0.290	0.434
+standard	Myrtle	70065	0.074	0.264	0.397
+standard	Bottle Green	70066	0.043	0.281	0.363
+standard	Jasmine	70067	0.659	0.414	0.424
+standard	Spanish Yellow	70068	0.525	0.482	0.448
+standard	Orange	70069	0.380	0.516	0.419
+standard	Princeton Orange	70070	0.347	0.519	0.406
+standard	Golden Poppy	70071	0.264	0.555	0.386
+standard	Indian Orange	70072	0.203	0.560	0.359
+standard	Perwinkle	70073	0.166	0.253	0.227
+standard	Cornflower Blue	70074	0.110	0.222	0.176
+standard	Old Glory Blue	70075	0.040	0.229	0.186
+standard	Independence	70076	0.030	0.241	0.209
+standard	National Flag Blue	70077	0.025	0.259	0.238
+standard	Homage Blue	70078	0.023	0.269	0.252
+standard	Geranium	70079	0.201	0.509	0.297
+standard	Scarlet	70080	0.153	0.567	0.307
+standard	Cardinal	70081	0.086	0.528	0.300
+standard	Dark Cardinal	70082	0.056	0.480	0.290
+standard	Garnet	70083	0.041	0.422	0.294
+standard	Maroon	70084	0.042	0.383	0.294
+standard	Lustre Blue	70085	0.081	0.213	0.188
+standard	Yale Blue	70086	0.063	0.204	0.165
+standard	Royal Blue	70087	0.041	0.195	0.153
+standard	Navy 1	70088	0.039	0.238	0.226
+standard	Navy 2	70089	0.027	0.240	0.230
+standard	Midnight	70090	0.022	0.263	0.255
+standard	Champagne	70091	0.518	0.366	0.358
+standard	Cork	70092	0.237	0.393	0.366
+standard	Sandalwood	70093	0.178	0.392	0.362
+standard	Oakwood	70094	0.124	0.411	0.366
+standard	Tobacco	70095	0.053	0.418	0.358
+standard	African Brown	70096	0.046	0.347	0.331
+standard	Vassar Rose	70097	0.387	0.379	0.298
+standard	Peach Blossom	70098	0.242	0.422	0.291
+standard	Strawberry	70099	0.148	0.418	0.283
+standard	Raspberry	70100	0.090	0.425	0.273
+standard	Claret	70101	0.036	0.374	0.287
+standard	Burgundy	70102	0.032	0.354	0.289
+standard	Ecru	70103	0.343	0.353	0.354
+standard	Beige	70104	0.245	0.368	0.355
+standard	Fawn	70105	0.178	0.370	0.356
+standard	Beaver	70106	0.127	0.366	0.351
+standard	Autumn Brown	70107	0.058	0.396	0.363
+standard	Seal	70108	0.043	0.357	0.342
+standard	Old Blue	70109	0.345	0.293	0.304
+standard	Mistiblu	70110	0.192	0.286	0.293
+standard	West Point	70111	0.091	0.279	0.286
+standard	Bluesteel	70112	0.073	0.271	0.276
+standard	Stone Blue	70113	0.069	0.275	0.271
+standard	Graphite Blue	70114	0.032	0.267	0.261
+standard	Amberlite	70115	0.371	0.414	0.389
+standard	Topaz	70116	0.311	0.438	0.394
+standard	Burnished Straw	70117	0.209	0.430	0.380
+standard	Gold Brown	70118	0.156	0.456	0.374
+standard	Brown	70119	0.071	0.441	0.368
+standard	Caramel Brown	70120	0.047	0.431	0.354
+standard	Starlight Blue	70121	0.407	0.283	0.288
+standard	Lupine	70122	0.273	0.264	0.264
+standard	Hydrangea Blue	70123	0.136	0.248	0.243
+standard	Grecian Rose	70124	0.312	0.390	0.331
+standard	Bois de Rose	70125	0.190	0.419	0.331
+standard	Mahogany	70126	0.057	0.421	0.325
+standard	Sunset	70127	0.598	0.377	0.365
+standard	Tan	70128	0.334	0.389	0.374
+standard	Maple Sugar	70129	0.182	0.414	0.387
+standard	Almond Green	70130	0.182	0.310	0.352
+standard	Blue Spruce	70131	0.138	0.284	0.346
+standard	Jungle Green	70132	0.042	0.267	0.337
+standard	Orchid	70133	0.418	0.311	0.275
+standard	Amethyst	70134	0.104	0.306	0.226
+standard	Plum	70135	0.041	0.298	0.222
+standard	Sand	70136	0.404	0.336	0.341
+standard	Castor	70137	0.081	0.342	0.340
+standard	Taupe	70138	0.060	0.340	0.336
+standard	Nude	70139	0.346	0.352	0.347
+standard	Toast Brown	70140	0.135	0.401	0.355
+standard	Spicebrown	70141	0.053	0.416	0.355
+standard	Brittany Blue	70142	0.236	0.247	0.275
+standard	Old China	70143	0.128	0.230	0.246
+standard	Peasant Blue	70144	0.087	0.239	0.245
+standard	Aqua	70145	0.259	0.270	0.315
+standard	River Blue	70146	0.143	0.260	0.303
+standard	Teal	70147	0.067	0.232	0.271
+standard	Peach	70148	0.554	0.395	0.358
+standard	Crab Apple	70149	0.293	0.493	0.345
+standard	Lacquer	70150	0.123	0.511	0.334
+standard	Silver	70151	0.310	0.322	0.325
+standard	Nickel	70152	0.286	0.314	0.316
+standard	Steel	70153	0.171	0.309	0.307
+standard	Limepeel	70154	0.285	0.380	0.450
+standard	Mosstone	70155	0.197	0.375	0.441
+standard	Olive	70156	0.081	0.357	0.415
+standard	Old Gold	70157	0.313	0.433	0.428
+standard	Gold	70158	0.266	0.445	0.427
+standard	Bronze	70159	0.088	0.414	0.402
+standard	Burnt Orange	70160	0.184	0.506	0.373
+standard	Terra Cotta	70161	0.088	0.494	0.350
+standard	Henna	70162	0.080	0.454	0.342
+standard	Heliotrope	70163	0.110	0.343	0.256
+standard	Prune	70164	0.030	0.311	0.237
+standard	Eggplant	70165	0.030	0.308	0.279
+standard	Jade Green	70166	0.267	0.320	0.401
+standard	Primitive Green	70167	0.156	0.247	0.450
+standard	Irish Green	70168	0.081	0.224	0.460
+standard	Putty	70169	0.305	0.332	0.330
+standard	Pigeon	70170	0.196	0.325	0.317
+standard	Smoke	70171	0.061	0.321	0.316
+standard	Purple Orchid	70172	0.097	0.323	0.187
+standard	Dahlia Purple	70173	0.057	0.296	0.171
+standard	Imperial Purple	70174	0.054	0.306	0.195
+standard	Saxe Blue	70175	0.205	0.250	0.269
+standard	Electric	70176	0.094	0.225	0.254
+standard	Majolica Blue	70177	0.088	0.220	0.235
+standard	Shrimp Pink	70178	0.301	0.478	0.317
+standard	Apple Red	70179	0.142	0.551	0.309
+standard	Old Glory Red	70180	0.082	0.560	0.308
+standard	Chalk Pink	70181	0.497	0.362	0.323
+standard	Old Rose	70182	0.282	0.383	0.310
+standard	Goldmist	70183	0.425	0.378	0.397
+standard	Lt. Olive Drab	70184	0.097	0.386	0.381
+standard	Gull	70185	0.389	0.325	0.325
+standard	Grebe	70186	0.092	0.318	0.319
+standard	Flax	70187	0.399	0.369	0.369
+standard	Khaki	70188	0.276	0.366	0.365
+standard	Ashes of Rose	70189	0.214	0.359	0.288
+standard	Catawba	70190	0.044	0.360	0.267
+standard	Rose Beige	70191	0.310	0.383	0.354
+standard	Cocoa	70192	0.102	0.417	0.351
+standard	Pearl Gray	70193	0.388	0.324	0.330
+standard	Dusty Pink	70194	0.392	0.369	0.338
+standard	Dustblu	70195	0.252	0.285	0.292
+standard	Chamois	70196	0.379	0.399	0.395
+standard	Crayon Green	70197	0.494	0.313	0.379
+standard	Violine Pink	70198	0.206	0.378	0.267
+standard	Natural	70199	0.454	0.339	0.342
+standard	Spraygreen	70200	0.379	0.306	0.342
+standard	Bisque	70201	0.351	0.362	0.350
+standard	Crocus	70202	0.340	0.324	0.271
+standard	Popcorn	70203	0.568	0.412	0.416
+standard	Robin's Egg	70204	0.222	0.273	0.301
+standard	Lemon Yellow	70205	0.603	0.424	0.443
+standard	Coral	70206	0.450	0.426	0.314
+standard	Parrot Blue	70207	0.232	0.222	0.297
+standard	Chartreuse	70208	0.492	0.418	0.471
+standard	Oriental Blue	70209	0.102	0.176	0.168
+standard	Carmine	70210	0.126	0.533	0.286
+standard	Bluebird	70211	0.112	0.217	0.226
+standard	Parma Violet	70212	0.131	0.254	0.187
+standard	Fuchsia	70213	0.129	0.404	0.195
+standard	Scarab Green	70214	0.302	0.256	0.420
+standard	Nugget Gold	70215	0.345	0.457	0.462
+standard	Sapphire Blue	70216	0.049	0.202	0.145
+army	Golden Yellow	65001	0.449	0.474	0.458
+army	Yellow	65002	0.414	0.510	0.438
+army	Golden Orange	65003	0.316	0.510	0.399
+army	Orange	65004	0.212	0.559	0.361
+army	White	65005	0.677	0.329	0.335
+army	Scarlet	65006	0.102	0.548	0.320
+army	Green	65007	0.078	0.295	0.403
+army	Silver Gray	65008	0.309	0.319	0.324
+army	Pansy	65009	0.058	0.247	0.166
+army	Ultramarine Blue	65010	0.051	0.180	0.127
+army	Cobalt Blue	65011	0.045	0.231	0.205
+army	Dark Blue	65012	0.027	0.301	0.304
+army	Crimson	65013	0.083	0.485	0.276
+army	Light Blue	65014	0.234	0.265	0.287
+army	Buff	65015	0.468	0.398	0.382
+army	Brown	65016	0.072	0.415	0.363
+army	Maroon	65017	0.044	0.378	0.307
+army	Black	65018	0.027	0.305	0.309
+army	Sky Blue	65019	0.041	0.238	0.230
+army	Brick Red	65020	0.063	0.508	0.326
+army	Old Gold	65021	0.393	0.425	0.427
+army	Mosstone	65022	0.203	0.362	0.442

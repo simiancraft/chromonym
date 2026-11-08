@@ -393,6 +393,31 @@ to copyright restrictions when faithfully reproduced.
 - Chromonym is **not affiliated with** any US Government agency
   or defense contractor; no endorsement is implied.
 
+## TCCA textile color cards (NBS RP1700)
+
+The `tcca` palette (238 entries) reproduces Table 5 of G. Reimann,
+D. B. Judd, and H. J. Keegan, **"Spectrophotometric and colorimetric
+determination of the colors of the TCCA standard color cards,"**
+*Journal of Research of the National Bureau of Standards* 36, 209
+(March 1946), Research Paper RP1700. The paper is a US Government
+publication and is in the public domain. Table 5 records 216 colors
+from the Textile Color Card Association's *Standard Color Card of
+America*, ninth edition, and 22 colors from the U.S. Army Color Card.
+
+The source measurements are CIE 1931 Y, x, and y under Illuminant C,
+with Y relative to magnesium oxide. Chromonym converts them to XYZ,
+uses Bradford chromatic adaptation from Illuminant C (x 0.31006,
+y 0.31616) to D65, converts D65 XYZ to linear sRGB with the IEC
+61966-2-1 matrix, applies the sRGB transfer function, clamps channels
+outside the sRGB gamut, and rounds to 8-bit hex. The transcribed Table
+5 measurements and the complete conversion are retained as tests.
+
+These are 1946 measurements of silk samples from the ninth-edition
+cards. Later editions may differ, and the 10th edition renumbered many
+shades with 80xxx cable numbers. Present-day heraldic yarns may also
+differ. Several measured shades are fluorescent, so their sRGB values
+are approximations by construction; values outside sRGB are clamped.
+
 ## MIL-STD-2525D (Joint Military Symbology)
 
 The `milStd2525d` palette (20 entries) reproduces the symbol colors in
