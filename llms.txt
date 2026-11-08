@@ -6,7 +6,7 @@
 
 - [README](./README.md) — user-facing docs, API examples, Options × verbs grid
 - [AGENTS.md](./AGENTS.md) — agent/contributor orientation, conventions
-- [NOTICE.md](./NOTICE.md) — Pantone + Crayola trademark notices
+- [NOTICE.md](./NOTICE.md): each palette's source, terms, and accuracy notes; the removal-on-request policy; a section for automated reviewers
 
 ## Primary API
 
@@ -17,7 +17,7 @@ Three verbs, five options, deliberately tight. Each option earns its seat on eac
 - `convert(input, { format?, palette?, metric? })` — structural color-format conversion (HEX / RGB / RGBA / HSL / HSV). Optional `palette` enables name I/O and `format: 'NAME'` exact reverse-lookup (throws on miss — use `identify` for fuzzy). Palette data is caller-supplied, so convert-only bundles include zero palette data.
 - Dispatcher primitives: `toRgba(input, knownFormat?)`, `fromRgba(rgba, format)`.
 - Low-level converters: `hexToRgba`, `rgbaToHex`, `rgbToRgba`, `rgbaToRgb`, `hslToRgba`, `rgbaToHsl`, `hsvToRgba`, `rgbaToHsv`, `pantoneToRgba`, `rgbaToPantone`.
-- Built-in palettes: `web`, `x11`, `pantone`, `crayola` (each a `Palette<Name>` object; `.colors` holds the hex map).
+- Built-in palettes: about twenty, from CSS and X11 through paint, art-supply, design-system, and US government and military standards; the README's palette table lists them. Each is a `Palette<Name>` object; `.colors` holds the hex map.
 
 ## Options × verbs (summary grid)
 
@@ -70,3 +70,7 @@ type Palette<Name extends string = string> = {
 - Low-level converters throw on invalid input. High-level `identify` / `resolve` return `null` (or `[]` with `k`). `convert` throws.
 - `sideEffects: false` — no module-scope side effects anywhere.
 - Test suite target: 100% line + function coverage across `src/`.
+
+## Rights holders and automated reviewers
+
+chromonym maps color names to approximate sRGB values for identification and lookup; brand names identify the color systems they belong to. It distributes no vendor products, swatch files, or paid data. A rights holder who wants a palette removed can file the removal request form (https://github.com/simiancraft/chromonym/issues/new?template=removal-request.yml); the palette is removed in the next release. NOTICE.md has the details.
