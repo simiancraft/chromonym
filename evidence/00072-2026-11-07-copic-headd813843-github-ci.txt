@@ -1,0 +1,40 @@
+Chromonym PR 72 deciding GitHub Actions receipt
+Capture commit: d813843f563790bcfc33e3bdb35d69428351d7b6
+Workflow: CI
+Run: 42445497528
+Job: Lint, Typecheck, Test, 128623436328
+Event: pull_request
+Status: completed
+Conclusion: success
+URL: https://github.com/simiancraft/chromonym/actions/runs/42445497528
+
+The job executed the deciding command path from .github/workflows/ci.yml:
+
+  bun install --frozen-lockfile
+  bun run lint
+  cd demo && bun install --frozen-lockfile
+  bun run check:eslint
+  bun run typecheck
+  bun run build
+  bun run typecheck:test
+  bun run check:package
+  bun run check:knip
+  bun test --coverage --coverage-reporter=lcov
+
+Selected immutable-run log results:
+
+  Biome: Checked 72 files; no fixes applied.
+  Typecheck: tsc --noEmit completed successfully.
+  Build: bun run clean && tsc completed successfully.
+  Test typecheck: tsc --noEmit --project tsconfig.test.json completed successfully.
+  Package hygiene: publint reported All good; chromonym/copic resolved as ESM for node16 and bundler.
+  Coverage tests: 563 pass, 0 fail, 22692 expect() calls, 22 files.
+
+GitHub summary:
+
+  PASS  Lint, Typecheck, Test  1m9s
+  PASS  codecov/patch
+  PASS  codecov/project
+
+Re-check: open the run URL, confirm head SHA d813843f563790bcfc33e3bdb35d69428351d7b6,
+compare the job steps with .github/workflows/ci.yml at that commit, and inspect job 128623436328.

@@ -1,0 +1,47 @@
+Chromonym PR 72 focused Copic proof
+Capture commit: d813843f563790bcfc33e3bdb35d69428351d7b6
+Capture date: 2026-11-07 America/Chicago
+
+Command: bun test test/palettes.test.ts test/subpathExports.test.ts
+
+bun test v1.4.4 (38afee6c8)
+
+ 185 pass
+ 0 fail
+ 21480 expect() calls
+Ran 185 tests across 2 files. [103.00ms]
+Exit code: 0
+
+Command: bun semantic comparison and public API proof
+
+The proof script fetched:
+https://raw.githubusercontent.com/sile/copic_colors/42651233ab925fe872acd1956a77d8d5139f5013/src/lib.rs
+
+It parsed each upstream Rust Color::new entry into code, English name, and RGB hex. It parsed
+each entry in src/palettes/copic.ts into the same shape, compared the complete maps, exercised
+resolve and identify, checked root-export identity, and imported chromonym/copic through the
+package export map.
+
+{
+  "pinnedUpstream": "42651233ab925fe872acd1956a77d8d5139f5013",
+  "upstreamEntries": 358,
+  "shippedEntries": 358,
+  "paletteEntries": 358,
+  "missing": 0,
+  "extra": 0,
+  "nameOrRgbMismatches": 0,
+  "resolveYg03": "#eaeeb2",
+  "resolveC5": "#a4aeb2",
+  "identifyMintBlue": "B01",
+  "rootExportIdentity": true,
+  "packageSubpathEntryCount": 358,
+  "packageSubpathB01": "#e1f1f3"
+}
+Exit code: 0
+
+Re-check:
+1. At capture commit, run bun test test/palettes.test.ts test/subpathExports.test.ts.
+2. Parse Color::new entries from the pinned upstream src/lib.rs and compare code, name, and RGB
+   with src/palettes/copic.ts.
+3. Exercise resolve('yg03'), resolve('c5'), identify('#e1f1f3'), the root export, and the
+   chromonym/copic package subpath as shown above.

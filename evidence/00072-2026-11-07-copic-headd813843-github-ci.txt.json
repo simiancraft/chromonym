@@ -1,0 +1,18 @@
+{
+  "scope_tags": ["code", "data", "packaging", "frontend", "documentation", "ci", "coverage"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "NOTICE.md",
+    "README.md",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "package.json",
+    "src/index.ts",
+    "src/palettes/copic.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "d813843f563790bcfc33e3bdb35d69428351d7b6",
+  "capture_method": "GitHub Actions CI run 42445497528, job 128623436328, using the commands in .github/workflows/ci.yml",
+  "content_hash": "sha256:26af42a0ed5d05c8d66157eb73ad0c47e99f5f9b1b58dd293153a5d7de0d8ecc"
+}

@@ -1,0 +1,17 @@
+{
+  "scope_tags": ["code", "data", "packaging"],
+  "covered_paths": [
+    "src/palettes/copic.ts",
+    "src/index.ts",
+    "src/identify.ts",
+    "src/resolve.ts",
+    "src/indexing.ts",
+    "src/palettes/normalize.ts",
+    "package.json",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "d813843f563790bcfc33e3bdb35d69428351d7b6",
+  "capture_method": "bun focused tests plus semantic comparison with pinned sile/copic_colors src/lib.rs and runtime public API checks",
+  "content_hash": "sha256:0189c1d41a3658066f23314932c81a54c567b85a0dd9e2bd12832b5aa5acadfc"
+}
