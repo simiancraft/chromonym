@@ -1,0 +1,16 @@
+Capture commit: 00a96890192578b38253040d43b8bbab0fa739b3
+Archived source: https://web.archive.org/web/20170515085542id_/https://www.gsa.gov/portal/getMediaData?mediaId=213223
+Workbook SHA-256: 0df98398d1b792a1dd28c096bb4a643f1504c5db46d6f3cd5778bc9876f28955
+Workbook sheet: CIE only
+Compared fields: chip, color group, gloss level, displayed D65/10 L*, D65/10 a*, displayed D65/10 b*
+Numeric comparison precision: 0.01, matching workbook cell display precision
+Workbook data rows: 650
+Fixture data rows: 650
+Unique workbook chips: 650
+Unique fixture chips: 650
+Fixture header exact: True
+Workbook row count exact: True
+Fixture row count exact: True
+Workbook chips unique: True
+Fixture chips unique: True
+Ordered rows equal: True

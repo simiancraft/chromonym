@@ -1,0 +1,8 @@
+Capture commit: 00a96890192578b38253040d43b8bbab0fa739b3
+Changed paths from origin/main:
+test/fixtures/fs595c-gsa.tsv
+test/fs595cGsa.test.ts
+test/fs595cGsa.ts
+Forbidden paths: scripts/, src/palettes/fs595c.ts, src/palettes/fs595b.ts, NOTICE.md
+Forbidden-path diff exit code: 0
+Ruled test-only scope respected: True

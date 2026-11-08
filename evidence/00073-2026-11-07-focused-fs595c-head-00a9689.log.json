@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "test"],
+  "covered_paths": ["test/fixtures/fs595c-gsa.tsv", "test/fs595cGsa.ts", "test/fs595cGsa.test.ts"],
+  "capture_commit": "00a96890192578b38253040d43b8bbab0fa739b3",
+  "capture_method": "Bun 1.4.2: bun test test/fs595cGsa.test.ts",
+  "content_hash": "sha256:65143a53a6264b392588b224685a72cc53e82da29cec7b8dbb0c6b80d05097de"
+}

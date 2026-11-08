@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["data", "test"],
+  "covered_paths": ["test/fixtures/fs595c-gsa.tsv"],
+  "capture_commit": "00a96890192578b38253040d43b8bbab0fa739b3",
+  "capture_method": "Download the archived GSA workbook, parse the CIE only worksheet, and compare its six requested fields in order at the workbook display precision.",
+  "content_hash": "sha256:6e6887e922ae6888dd4c2736a4b693dff6d161cb54a0e4ca6193c63b9abdaaed"
+}

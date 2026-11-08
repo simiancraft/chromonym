@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "test"],
+  "covered_paths": ["test/fixtures/fs595c-gsa.tsv", "test/fs595cGsa.ts", "test/fs595cGsa.test.ts"],
+  "capture_commit": "00a96890192578b38253040d43b8bbab0fa739b3",
+  "capture_method": "Compare origin/main...HEAD and reject changes under scripts/, either FS595 palette, or NOTICE.md.",
+  "content_hash": "sha256:0002a4d88cb0da6d6da80513512bbedc3b55763c1024309812806cce8d212df3"
+}

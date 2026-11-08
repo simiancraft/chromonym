@@ -1,0 +1,15 @@
+Capture commit: 00a96890192578b38253040d43b8bbab0fa739b3
+Bun version: 1.4.2
+Command: bun test --coverage --coverage-reporter=lcov
+bun test v1.4.2 (744846f84)
+
+ 543 pass
+ 0 fail
+ 21042 expect() calls
+Ran 543 tests across 21 files. [173.00ms]
+Exit code: 0
+LCOV record: test/fs595cGsa.ts
+FNF:9
+FNH:9
+LF:46
+LH:46

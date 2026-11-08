@@ -1,0 +1,10 @@
+Capture commit: 00a96890192578b38253040d43b8bbab0fa739b3
+Bun version: 1.4.2
+Command: bun test test/fs595cGsa.test.ts
+bun test v1.4.2 (744846f84)
+
+ 10 pass
+ 0 fail
+ 21 expect() calls
+Ran 10 tests across 1 file. [5.00ms]
+Exit code: 0
