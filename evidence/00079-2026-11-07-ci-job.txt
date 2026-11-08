@@ -1,0 +1,1557 @@
+Lint, Typecheck, Test	UNKNOWN STEP	﻿2026-11-08T03:40:15.7083937Z Current runner version: '2.338.2'
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7102281Z ##[group]Runner Image Provisioner
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7102870Z Hosted Compute Agent
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7103240Z Version: 20261028.624
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7103592Z Commit: 54898b74c23fde5556c9b3c3a2290865feef0dfe
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7104125Z Build Date: 2026-10-28T21:51:42Z
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7104513Z Worker ID: {ed435309-b7a2-4881-a064-4ca3d2783ef7}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7104928Z Region: centralus
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7105260Z Cloud: Azure
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7105584Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7106637Z ##[group]Operating System
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7106987Z Ubuntu
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7107321Z 26.04.1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7107627Z LTS
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7107922Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7108301Z ##[group]Runner Image
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7108666Z Image: ubuntu-26.04
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7109023Z Version: 20261101.186.1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7109792Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261101.186/images/ubuntu/Ubuntu2604-Readme.md
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7110707Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261101.186
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7111243Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7112044Z ##[group]GITHUB_TOKEN Permissions
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7113235Z Contents: read
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7113631Z Metadata: read
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7114081Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7115401Z Secret source: Actions
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7115960Z Cache mode: write
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7116417Z Prepare workflow directory
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7332841Z Prepare all required actions
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:15.7364644Z Getting action download info
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:16.0079295Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:16.1337218Z Download action repository 'oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:16.4443433Z Download action repository 'codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5' (SHA:303a32d7a59b442fa8d48b6a1cc6825c09c847a5)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:16.6888531Z Getting action download info
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:16.7910602Z Download action repository 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd' (SHA:ed597411d8f924073f98dfc5c65a23a2325f34cd)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.1496992Z Complete job name: Lint, Typecheck, Test
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2421648Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2422602Z with:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2423121Z   repository: simiancraft/chromonym
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2428107Z   token: ***
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2428602Z   ssh-strict: true
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2429115Z   ssh-user: git
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2429641Z   persist-credentials: true
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2430213Z   clean: true
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2430738Z   sparse-checkout-cone-mode: true
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2431359Z   fetch-depth: 1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2431951Z   fetch-tags: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2432519Z   show-progress: true
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2433056Z   lfs: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2433533Z   submodules: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2434053Z   set-safe-directory: true
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2434651Z   allow-unsafe-pr-checkout: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.2435321Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4714697Z Syncing repository: simiancraft/chromonym
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4717350Z ##[group]Getting Git version info
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4718610Z Working directory is '/home/runner/work/chromonym/chromonym'
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4720412Z [command]/usr/bin/git version
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4721356Z git version 2.56.0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4733301Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4741158Z Temporarily overriding HOME='/home/runner/work/_temp/2e047aff-b4df-427e-98d6-a8da3380d5d3' before making global git config changes
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4743757Z Adding repository directory to the temporary git global config as a safe directory
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4745740Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/chromonym/chromonym
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4806463Z Deleting the contents of '/home/runner/work/chromonym/chromonym'
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4808780Z ##[group]Determining repository object format
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4810575Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4813933Z ##[group]Initializing the repository
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4820191Z [command]/usr/bin/git init /home/runner/work/chromonym/chromonym
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4915962Z hint: Using 'master' as the name for the initial branch. This default branch name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4917217Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4918293Z hint: to use in all of your new repositories, which will suppress this warning,
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4919154Z hint: call:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4919646Z hint:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4920283Z hint: 	git config --global init.defaultBranch <name>
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4921003Z hint:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4921829Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4922898Z hint: 'development'. The just-created branch can be renamed via this command:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4923773Z hint:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4924278Z hint: 	git branch -m <name>
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4924844Z hint:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4925570Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4930877Z Initialized empty Git repository in /home/runner/work/chromonym/chromonym/.git/
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4939207Z [command]/usr/bin/git remote add origin https://github.com/simiancraft/chromonym
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4986407Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4987798Z ##[group]Disabling automatic garbage collection
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.4988715Z [command]/usr/bin/git config --local gc.auto 0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5015901Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5017058Z ##[group]Setting up auth
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5018754Z Removing SSH command configuration
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5019765Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5045823Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5383817Z Removing HTTP extra header
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5387776Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5415758Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5623148Z Removing includeIf entries pointing to credentials config files
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5627266Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5654462Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5865006Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-6fc3169c-37e9-442f-9c40-e70e0d110e52.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5896704Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/chromonym/chromonym/.git.path /home/runner/work/_temp/git-credentials-6fc3169c-37e9-442f-9c40-e70e0d110e52.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5922417Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/chromonym/chromonym/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-6fc3169c-37e9-442f-9c40-e70e0d110e52.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5950742Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-6fc3169c-37e9-442f-9c40-e70e0d110e52.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5975830Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-6fc3169c-37e9-442f-9c40-e70e0d110e52.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.5999660Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.6000510Z ##[group]Fetching the repository
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:17.6004494Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +c563d3efc54fc808621fa73d1e5991c1babe522f:refs/remotes/pull/79/merge
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0225051Z From https://github.com/simiancraft/chromonym
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0226389Z  * [new ref]         c563d3efc54fc808621fa73d1e5991c1babe522f -> pull/79/merge
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0229412Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0230754Z ##[group]Determining the checkout info
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0232204Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0233334Z [command]/usr/bin/git sparse-checkout disable
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0279613Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0306795Z ##[group]Checking out the ref
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0308686Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/79/merge
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0439903Z Note: switching to 'refs/remotes/pull/79/merge'.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0440566Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0441045Z You are in 'detached HEAD' state. You can look around, make experimental
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0442273Z changes and commit them, and you can discard any commits you make in this
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0443312Z state without impacting any branches by switching back to a branch.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0443958Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0444385Z If you want to create a new branch to retain commits you create, you may
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0445447Z do so (now or later) by using -c with the switch command. Example:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0446320Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0446725Z   git switch -c <new-branch-name>
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0447344Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0447736Z Or undo this operation with:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0448284Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0448616Z   git switch -
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0449081Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0449820Z Turn off this advice by setting config variable advice.detachedHead to false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0450898Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0452218Z HEAD is now at c563d3e Merge 95accbc591277cc4af54582ca0e090b7d8167189 into b6d99849ef8dd0930bd8d89fe71a9cea09b1218b
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0455774Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0489224Z [command]/usr/bin/git log -1 --format=%H
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0511953Z c563d3efc54fc808621fa73d1e5991c1babe522f
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0764876Z ##[group]Run oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0765679Z with:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0766157Z   bun-version: 1.4.2
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0766673Z   no-cache: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0771522Z   token: ***
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.0772031Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:18.3081967Z Cache hit for: bun-gmoqYqdUbaYsI0KujeXt7Zg/p0I=
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.0716022Z Received 35684133 of 35684133 (100.0%), 56.2 MBs/sec
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.0716787Z Cache Size: ~34 MB (35684133 B)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.0735265Z [command]/usr/bin/tar -xf /home/runner/work/_temp/7dfaac21-1709-4404-9eb4-f4b4eb6b6292/cache.tzst -P -C /home/runner/work/chromonym/chromonym --use-compress-program unzstd
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.1654463Z Cache restored successfully
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.1674836Z [command]/home/runner/.bun/bin/bun --revision
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.1735707Z 1.4.2+744846f84
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.1740254Z Using a cached version of Bun: 1.4.2+744846f84
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.1903098Z ##[group]Run bun install --frozen-lockfile
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.1903404Z ^[[36;1mbun install --frozen-lockfile^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.1946757Z shell: /usr/bin/bash -e {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.1947042Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.2034239Z bun install v1.4.2 (744846f84)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8072714Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8073733Z + @arethetypeswrong/cli@0.18.5
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8074203Z + @biomejs/biome@2.5.14
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8074466Z + @semantic-release/changelog@6.0.3
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8074745Z + @semantic-release/git@10.0.1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8075028Z + @semantic-release/npm@13.2.0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8075306Z + @types/bun@1.4.2
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8076125Z + fast-check@4.10.2
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8076335Z + knip@6.37.0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8076530Z + publint@0.3.24
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8076738Z + semantic-release@25.0.9
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8076971Z + typescript@7.0.2
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8077094Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8077217Z 351 packages installed [604.00ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8147803Z ##[group]Run bun run lint
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8148003Z ^[[36;1mbun run lint^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8192865Z shell: /usr/bin/bash -e {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8193023Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:19.8267332Z $ biome check
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0484124Z biome.json:2:14 deserialize ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0484510Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0484729Z   i The configuration schema version does not match the CLI version 2.5.14
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0485063Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0485266Z     1 │ {
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0485632Z   > 2 │   "$schema": "https://biomejs.dev/schemas/2.4.13/schema.json",
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0486081Z       │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0486419Z     3 │   "vcs": {
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0486692Z     4 │     "enabled": true,
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0486901Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0487130Z   i   Expected:                     2.5.14
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0487465Z       Found:                        2.4.13
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0487700Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0487858Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0488194Z   i Run the command biome migrate to migrate the configuration file.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0488511Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0488600Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0488935Z biome.json:17:13 deserialize  DEPRECATED  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0489251Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0489598Z   i The use of the recommended field has been deprecated, and will removed in the next major version of Biome. Use preset instead.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0489927Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0490062Z     15 │     "lineWidth": 100
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0490220Z     16 │   },
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0490372Z   > 17 │   "linter": {
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0490515Z        │             ^
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0490670Z   > 18 │     "enabled": true,
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0490829Z   > 19 │     "rules": {
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0491066Z   > 20 │       "recommended": true
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0512009Z   > 21 │     }
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0512240Z Checked 72 files in 58ms. No fixes applied.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0521989Z   > 22 │   },
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0522175Z Found 1 warning.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0522387Z        │   ^
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0522603Z     23 │   "javascript": {
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0522842Z     24 │     "formatter": {
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0523003Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0523163Z   i Migrate the configuration with the proper command
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0523337Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0523452Z   $ biome migrate
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0523573Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0523634Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0523868Z test/defineColorPalette.test.ts:189:14 lint/suspicious/noProto ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0524085Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0524178Z   ! Avoid use of the deprecated __proto__ accessor.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0524346Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0524541Z     187 │       const colors = palette.colors as Record<string, string>;
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0524795Z     188 │       expect(colors.good).toBe('#00ff00');
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0525021Z   > 189 │       expect(colors.__proto__).toBe('#ff0000');
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0525230Z         │              ^^^^^^^^^^^^^^^^
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0525437Z     190 │       expect(warnMock).toHaveBeenCalledTimes(0);
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0525626Z     191 │     });
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0525821Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0526130Z   i Object.prototype.__proto__ is an outdated way to get or set an object's prototype,
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0526598Z     having been deprecated in 2009 for being inefficient and unreliable.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0526863Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0527162Z   i Object.getPrototypeOf() and Object.setPrototypeOf() are modern alternatives that work on all objects and are more performant.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0527781Z   
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0527847Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0527899Z Found 2 infos.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0628560Z ##[group]Run cd demo && bun install --frozen-lockfile
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0628829Z ^[[36;1mcd demo && bun install --frozen-lockfile^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0669092Z shell: /usr/bin/bash -e {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0669252Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:20.0738655Z bun install v1.4.2 (744846f84)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7784048Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7784687Z + @rolldown/plugin-babel@0.2.4
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7785319Z + @tailwindcss/vite@4.3.3
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7785571Z + @types/react@18.3.31
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7785786Z + @types/react-dom@18.3.7
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7786021Z + @typescript-eslint/parser@8.70.1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7786267Z + @vitejs/plugin-react@6.1.1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7786506Z + babel-plugin-react-compiler@1.0.0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7786748Z + eslint@9.39.5
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7786959Z + eslint-plugin-react-compiler@19.1.0-rc.2
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7787259Z + eslint-plugin-react-hooks@5.2.0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7787492Z + tailwindcss@4.3.3
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7787740Z + typescript@6.0.3
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7787932Z + vite@8.3.0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7788104Z + chromonym@..
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7788281Z + lucide-react@1.47.0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7788472Z + react@18.3.1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7788660Z + react-compiler-runtime@1.0.0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7788873Z + react-dom@18.3.1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7788986Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7789072Z 514 packages installed [26.70s]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7844316Z ##[group]Run bun run check:eslint
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7844521Z ^[[36;1mbun run check:eslint^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7887490Z shell: /usr/bin/bash -e {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7887656Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7973359Z $ cd demo && bun run lint:eslint
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:46.7995650Z $ eslint src
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.2887078Z ##[group]Run bun run typecheck
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.2887273Z ^[[36;1mbun run typecheck^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.2927487Z shell: /usr/bin/bash -e {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.2927650Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.2996006Z $ tsc --noEmit
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.5322011Z ##[group]Run bun run build
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.5322306Z ^[[36;1mbun run build^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.5364462Z shell: /usr/bin/bash -e {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.5364623Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.5439298Z $ bun run clean && tsc
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.5462973Z $ rm -rf dist
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.7471828Z ##[group]Run bun run typecheck:test
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.7472042Z ^[[36;1mbun run typecheck:test^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.7511182Z shell: /usr/bin/bash -e {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.7511333Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:48.7582539Z $ tsc --noEmit --project tsconfig.test.json
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:49.1029242Z ##[group]Run bun run check:package
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:49.1029464Z ^[[36;1mbun run check:package^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:49.1107852Z shell: /usr/bin/bash -e {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:49.1108018Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:49.1177985Z $ publint && attw --pack --profile esm-only
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:49.1984454Z Running ^[[1mpublint v0.3.24^[[22m for ^[[1mchromonym^[[22m...
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:49.2004693Z Packing files with `bun pack`...
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:50.5693704Z Linting...
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:50.6019630Z ^[[1m^[[32mAll good!^[[39m^[[22m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2259419Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2505877Z chromonym v3.7.1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2506080Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2506162Z Build tools:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2506370Z - @arethetypeswrong/cli@^0.18.5
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2506648Z - typescript@^7.0.2
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2506774Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2506894Z  (ignoring resolutions: 'node10', 'node16-cjs')
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2507082Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2508483Z (ignored per resolution) ⚠️ A require call resolved to an ESM JavaScript file, which is an error in Node and some bundlers. CommonJS consumers will need to use a dynamic import. https://github.com/arethetypeswrong/arethetypeswrong.github.io/blob/main/docs/problems/CJSResolvesToESM.md
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2509349Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2509983Z (ignored per resolution) 💀 Import failed to resolve to type declarations or JavaScript files. https://github.com/arethetypeswrong/arethetypeswrong.github.io/blob/main/docs/problems/NoResolution.md
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2511000Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2511054Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2511140Z "chromonym"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2511239Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2511470Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2511699Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2511906Z node10: (ignored) 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2512202Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2512415Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2512492Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2512641Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2512731Z "chromonym/web"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2512837Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2512952Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2513170Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2513408Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2513741Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2513964Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2514041Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2514187Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2514266Z "chromonym/x11"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2514372Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2514489Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2514709Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2514932Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2515263Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2515461Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2515547Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2515692Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2515772Z "chromonym/pantone"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2515895Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2516006Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2516234Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2516451Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2516779Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2516973Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2517053Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2517197Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2517257Z "chromonym/pokemon"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2517336Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2517409Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2517550Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2517689Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2518018Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2518216Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2518296Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2518437Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2518510Z "chromonym/ral"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2518618Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2518727Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2518941Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2519157Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2519727Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2519935Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2520016Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2520155Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2520236Z "chromonym/resene"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2520352Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2520453Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2520730Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2520951Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2521277Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2521591Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2521668Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2521801Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2521883Z "chromonym/tailwind"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2522006Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2522110Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2522332Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2522551Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2522852Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2523056Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2523147Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2523283Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2523347Z "chromonym/material"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2523428Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2523497Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2523639Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2523777Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2524095Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2524218Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2524267Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2524359Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2524409Z "chromonym/crayola"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2524480Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2524553Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2524690Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2524833Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2525144Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2525306Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2525358Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2525444Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2525504Z "chromonym/fs595b"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2525616Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2525760Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2525982Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2526231Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2526555Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2526768Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2526845Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2526983Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2527063Z "chromonym/fs595c"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2527176Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2527279Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2527506Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2527729Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2528048Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2528251Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2528335Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2528473Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2528555Z "chromonym/tcca"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2528695Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2528797Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2529031Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2529254Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2529594Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2529796Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2529866Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2530017Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2530103Z "chromonym/iscc-nbs"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2530248Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2530359Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2530633Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2530856Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2531171Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2531477Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2531549Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2531674Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2531732Z "chromonym/mil-std-2525d"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2531813Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2531884Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2532025Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2532302Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2532505Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2532632Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2532679Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2532771Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2532822Z "chromonym/nbs"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2532889Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2532970Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2533109Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2533249Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2533452Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2533576Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2533630Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2533724Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2533772Z "chromonym/ncs"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2533843Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2533917Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2534058Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2534229Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2534450Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2534587Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2534639Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2534729Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2534775Z "chromonym/ntc"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2534844Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2534917Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2535055Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2535192Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2535488Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2535606Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2535658Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2535750Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2535799Z "chromonym/uswds"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2535874Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2535946Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2536084Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2536225Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2536424Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2536551Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2536603Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2536695Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2536751Z "chromonym/werner"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2536825Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2536891Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2537034Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2537174Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2537372Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2537505Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2537558Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2537646Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2537697Z "chromonym/xkcd"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2537770Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2537836Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2537979Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2538119Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2538315Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2538440Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2538497Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2538585Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2538643Z "chromonym/conversions/hex"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2538729Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2538803Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2538949Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2539089Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2539287Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2539414Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2539467Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2539561Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2539618Z "chromonym/conversions/rgb"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2539707Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2539772Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2539938Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2540086Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2540289Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2540413Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2540462Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2540554Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2540612Z "chromonym/conversions/hsl"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2540695Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2540768Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2540904Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2541160Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2541500Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2541648Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2541695Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2541787Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2541842Z "chromonym/conversions/hsv"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2541945Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2542022Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2542161Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2542307Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2542527Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2542654Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2542704Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2542796Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2542860Z "chromonym/conversions/pantone"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2542966Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2543042Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2543182Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2543334Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2543555Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2543675Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2543745Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2543840Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2543892Z "chromonym/math/deltaE"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2543975Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2544051Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2544305Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2544444Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2544666Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2544785Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2544851Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2544946Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2544999Z "chromonym/math/colorSpace"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2545087Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2545175Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2545317Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2545457Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2545680Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2545817Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2545879Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2545971Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2546034Z "chromonym/types"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2546114Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2546187Z node16 (from ESM): 🟢 (ESM)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2546357Z bundler: 🟢 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2546511Z node10: (ignored) 💀 Resolution failed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2546729Z node16 (from CJS): (ignored) ⚠️ ESM (dynamic import only)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2546869Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2546925Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2547015Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2547069Z "chromonym/package.json"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2547169Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2547246Z node16 (from ESM): 🟢 (JSON)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2547398Z bundler: 🟢 (JSON)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2547556Z node10: (ignored) 🟢 (JSON)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2547716Z node16 (from CJS): (ignored) 🟢 (JSON)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2547833Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2547884Z ***********************************
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2916024Z ##[group]Run bun run check:knip
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2916242Z ^[[36;1mbun run check:knip^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2958663Z shell: /usr/bin/bash -e {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.2958819Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.3152799Z $ knip
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7540623Z ##[group]Run bun test --coverage --coverage-reporter=lcov
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7540895Z ^[[36;1mbun test --coverage --coverage-reporter=lcov^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7581610Z shell: /usr/bin/bash -e {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7581828Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7651844Z bun test v1.4.2 (744846f84)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7674181Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7674797Z ##[group]test/fuzz.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7935414Z (pass) rgbToRgba fuzz > only throws Error instances on arbitrary string input [9.23ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7935697Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7936106Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7936184Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.7936356Z ##[group]test/subpathExports.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8083869Z (pass) subpath exports resolve > chromonym (root barrel) exposes the primary API [10.61ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8084439Z (pass) subpath exports resolve > chromonym/web exports the web palette object [0.11ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8085006Z (pass) subpath exports resolve > chromonym/x11 exports the x11 palette object [0.07ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8085505Z (pass) subpath exports resolve > chromonym/pantone exports the pantone palette object [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8086047Z (pass) subpath exports resolve > chromonym/crayola exports the crayola palette object [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8086551Z (pass) subpath exports resolve > chromonym/ntc exports the ntc palette object [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8087023Z (pass) subpath exports resolve > chromonym/xkcd exports the xkcd palette object [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8087530Z (pass) subpath exports resolve > chromonym/fs595c exports the fs595c palette object [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8088047Z (pass) subpath exports resolve > chromonym/fs595b exports the fs595b palette object [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8088541Z (pass) subpath exports resolve > chromonym/tcca exports the TCCA palette object [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8089054Z (pass) subpath exports resolve > chromonym/iscc-nbs exports the isccNbs palette object [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8089567Z (pass) subpath exports resolve > chromonym/nbs exports the nbs palette object [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8090083Z (pass) subpath exports resolve > chromonym/resene exports the resene palette object [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8090805Z (pass) subpath exports resolve > chromonym/ncs exports the ncs palette object [0.11ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8091288Z (pass) subpath exports resolve > chromonym/uswds exports the uswds palette object [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8091943Z (pass) subpath exports resolve > chromonym/mil-std-2525d exports the milStd2525d palette object [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8092502Z (pass) subpath exports resolve > chromonym/pokemon exports the pokemon palette object [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8093018Z (pass) subpath exports resolve > chromonym/werner exports the werner palette object [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8093546Z (pass) subpath exports resolve > chromonym/tailwind exports the tailwind palette object [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8094092Z (pass) subpath exports resolve > chromonym/material exports the Material palette object [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8094597Z (pass) subpath exports resolve > chromonym/ral exports the ral palette object [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8095113Z (pass) subpath exports resolve > chromonym/conversions/hex exports hexToRgba / rgbaToHex [0.17ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8095672Z (pass) subpath exports resolve > chromonym/conversions/rgb exports rgb[a]ToRgba / rgbaToRgb [0.10ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8096222Z (pass) subpath exports resolve > chromonym/conversions/hsl exports hslToRgba / rgbaToHsl [0.15ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8096762Z (pass) subpath exports resolve > chromonym/conversions/hsv exports hsvToRgba / rgbaToHsv [0.10ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8134678Z (pass) subpath exports resolve > chromonym/conversions/pantone exports pantoneToRgba / rgbaToPantone [3.72ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8142784Z (pass) subpath exports resolve > chromonym/math/deltaE exports the distance functions [0.85ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8143653Z (pass) subpath exports resolve > chromonym/math/colorSpace exports conversions [0.09ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8144165Z (pass) subpath exports resolve > chromonym/types is resolvable (type-only module) [0.06ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8147454Z (pass) subpath exports resolve > every package.json exports entry points to an emitted file [0.32ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8148040Z (pass) subpath exports resolve > stale v1 registry artifacts are not shipped [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8623176Z (pass) subpath exports resolve > real Node ESM resolves every subpath via the package specifier [47.38ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8623461Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8623976Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8624053Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8624228Z ##[group]test/defineColorPalette.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8653391Z (pass) defineColorPalette > value normalization > preserves hex values as-is [0.36ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8653896Z (pass) defineColorPalette > value normalization > normalizes rgb string values to hex [0.08ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8654601Z (pass) defineColorPalette > value normalization > normalizes hsl string values to hex [0.08ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8655073Z (pass) defineColorPalette > value normalization > normalizes rgb tuple values to hex [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8655947Z (pass) defineColorPalette > value normalization > normalizes rgb object values to hex [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8656276Z (pass) defineColorPalette > value normalization > normalizes hsv object values to hex [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8657389Z (pass) defineColorPalette > value normalization > accepts a mixed-format jagged palette and smooths every entry to hex [0.11ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8659994Z (pass) defineColorPalette > bad-value handling > discards a key with an unparseable string value and logs a warning [0.25ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8660753Z (pass) defineColorPalette > bad-value handling > survives a garbage object value (drops just that key) [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8661713Z (pass) defineColorPalette > bad-value handling > drops every bad key but reports each via its own warn call [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8662461Z (pass) defineColorPalette > bad-value handling > returns an empty palette (but does not throw) when every value is bad [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8663480Z (pass) defineColorPalette > bad-value handling > describe() handles a value whose JSON.stringify returns undefined [0.06ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8664229Z (pass) defineColorPalette > bad-value handling > preserves __proto__ as a literal key when the palette is JSON-hydrated [0.12ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8720691Z (pass) defineColorPalette > bad-value handling > describe() survives a value whose JSON.stringify throws (circular ref) [5.75ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8725364Z (pass) defineColorPalette > downstream integration > returned palette works with identify, including narrow key return type [0.30ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8726567Z (pass) defineColorPalette > downstream integration > returned palette works with resolve [0.31ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8726879Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8727353Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8727455Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8727742Z ##[group]test/palettes.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8852093Z (pass) web palette > declares its own name [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8852522Z (pass) web palette > has at least 140 entries [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8852892Z (pass) web palette > every value is a valid 6-digit lowercase hex [0.13ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8860176Z (pass) web palette > every key round-trips through its own normalizer to match another key [0.17ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8860715Z (pass) web palette > spot-checks known values [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8861058Z (pass) web palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8861510Z (pass) web palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8861835Z (pass) x11 palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8862136Z (pass) x11 palette > has at least 600 entries [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8862511Z (pass) x11 palette > every value is a valid 6-digit lowercase hex [0.15ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8863304Z (pass) x11 palette > every key round-trips through its own normalizer to match another key [0.39ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8863775Z (pass) x11 palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8864098Z (pass) x11 palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8864430Z (pass) x11 palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8864764Z (pass) pantone palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8865096Z (pass) pantone palette > has at least 900 entries [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8865505Z (pass) pantone palette > every value is a valid 6-digit lowercase hex [0.15ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8867015Z (pass) pantone palette > every key round-trips through its own normalizer to match another key [0.40ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8867473Z (pass) pantone palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8867786Z (pass) pantone palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8868140Z (pass) pantone palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8868480Z (pass) crayola palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8868767Z (pass) crayola palette > has at least 60 entries
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8869160Z (pass) crayola palette > every value is a valid 6-digit lowercase hex [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8869716Z (pass) crayola palette > every key round-trips through its own normalizer to match another key [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8870184Z (pass) crayola palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8870551Z (pass) crayola palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8870903Z (pass) crayola palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8871237Z (pass) ntc palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8871653Z (pass) ntc palette > has at least 1500 entries [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8872042Z (pass) ntc palette > every value is a valid 6-digit lowercase hex [0.24ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8876951Z (pass) ntc palette > every key round-trips through its own normalizer to match another key [0.61ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8877518Z (pass) ntc palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8880103Z (pass) ntc palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8880431Z (pass) ntc palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8881043Z (pass) xkcd palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8881529Z (pass) xkcd palette > has at least 900 entries [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8881975Z (pass) xkcd palette > every value is a valid 6-digit lowercase hex [0.13ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8882543Z (pass) xkcd palette > every key round-trips through its own normalizer to match another key [0.41ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8883039Z (pass) xkcd palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8883385Z (pass) xkcd palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8883796Z (pass) xkcd palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8884147Z (pass) fs595c palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8884506Z (pass) fs595c palette > has at least 580 entries [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8884943Z (pass) fs595c palette > every value is a valid 6-digit lowercase hex [0.09ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8885755Z (pass) fs595c palette > every key round-trips through its own normalizer to match another key [0.25ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8886264Z (pass) fs595c palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8886623Z (pass) fs595c palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8886990Z (pass) fs595c palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8887353Z (pass) fs595b palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8887688Z (pass) fs595b palette > has at least 200 entries [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8888085Z (pass) fs595b palette > every value is a valid 6-digit lowercase hex [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8888672Z (pass) fs595b palette > every key round-trips through its own normalizer to match another key [0.10ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8889195Z (pass) fs595b palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8889523Z (pass) fs595b palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8892110Z (pass) fs595b palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8892432Z (pass) tcca palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8892726Z (pass) tcca palette > has at least 238 entries
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8893083Z (pass) tcca palette > every value is a valid 6-digit lowercase hex [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8893638Z (pass) tcca palette > every key round-trips through its own normalizer to match another key [0.20ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8894134Z (pass) tcca palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8894470Z (pass) tcca palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8894823Z (pass) tcca palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8895182Z (pass) isccNbs palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8895539Z (pass) isccNbs palette > has at least 255 entries [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8895979Z (pass) isccNbs palette > every value is a valid 6-digit lowercase hex [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8896541Z (pass) isccNbs palette > every key round-trips through its own normalizer to match another key [0.14ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8897045Z (pass) isccNbs palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8897457Z (pass) isccNbs palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8897842Z (pass) isccNbs palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8898205Z (pass) nbs palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8898540Z (pass) nbs palette > has at least 260 entries [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8899070Z (pass) nbs palette > every value is a valid 6-digit lowercase hex [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8899619Z (pass) nbs palette > every key round-trips through its own normalizer to match another key [0.11ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8900099Z (pass) nbs palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8900439Z (pass) nbs palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8900803Z (pass) nbs palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8901161Z (pass) resene palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8901605Z (pass) resene palette > has at least 1300 entries [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8902024Z (pass) resene palette > every value is a valid 6-digit lowercase hex [0.23ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8902759Z (pass) resene palette > every key round-trips through its own normalizer to match another key [0.53ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8903263Z (pass) resene palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8903598Z (pass) resene palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8903925Z (pass) resene palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8904238Z (pass) ncs palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8905181Z (pass) ncs palette > has at least 1900 entries [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8909431Z (pass) ncs palette > every value is a valid 6-digit lowercase hex [0.68ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8916488Z (pass) ncs palette > every key round-trips through its own normalizer to match another key [0.69ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8917871Z (pass) ncs palette > spot-checks known values [0.16ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8918206Z (pass) ncs palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8918532Z (pass) ncs palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8918858Z (pass) pokemon palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8919166Z (pass) pokemon palette > has at least 18 entries
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8919524Z (pass) pokemon palette > every value is a valid 6-digit lowercase hex
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8920025Z (pass) pokemon palette > every key round-trips through its own normalizer to match another key
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8920476Z (pass) pokemon palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8920801Z (pass) pokemon palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8921149Z (pass) pokemon palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8921577Z (pass) werner palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8921874Z (pass) werner palette > has at least 110 entries
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8922425Z (pass) werner palette > every value is a valid 6-digit lowercase hex [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8922966Z (pass) werner palette > every key round-trips through its own normalizer to match another key [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8923437Z (pass) werner palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8923751Z (pass) werner palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8924093Z (pass) werner palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8924420Z (pass) tailwind palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8924748Z (pass) tailwind palette > has at least 242 entries [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8925165Z (pass) tailwind palette > every value is a valid 6-digit lowercase hex [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8925699Z (pass) tailwind palette > every key round-trips through its own normalizer to match another key [0.07ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8926138Z (pass) tailwind palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8926469Z (pass) tailwind palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8926833Z (pass) tailwind palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8927170Z (pass) material palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8927481Z (pass) material palette > has at least 98 entries
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8927860Z (pass) material palette > every value is a valid 6-digit lowercase hex [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8928381Z (pass) material palette > every key round-trips through its own normalizer to match another key [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8928824Z (pass) material palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8929124Z (pass) material palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8929461Z (pass) material palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8929763Z (pass) ral palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8930056Z (pass) ral palette > has at least 215 entries [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8930399Z (pass) ral palette > every value is a valid 6-digit lowercase hex [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8930903Z (pass) ral palette > every key round-trips through its own normalizer to match another key [0.07ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8931363Z (pass) ral palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8931990Z (pass) ral palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8932327Z (pass) ral palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8932654Z (pass) uswds palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8932969Z (pass) uswds palette > has at least 461 entries [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8933368Z (pass) uswds palette > every value is a valid 6-digit lowercase hex [0.06ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8933917Z (pass) uswds palette > every key round-trips through its own normalizer to match another key [0.16ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8934381Z (pass) uswds palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8934697Z (pass) uswds palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8935048Z (pass) uswds palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8935391Z (pass) milStd2525d palette > declares its own name
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8935714Z (pass) milStd2525d palette > has at least 20 entries
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8936110Z (pass) milStd2525d palette > every value is a valid 6-digit lowercase hex
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8936639Z (pass) milStd2525d palette > every key round-trips through its own normalizer to match another key
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8937120Z (pass) milStd2525d palette > spot-checks known values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8937474Z (pass) milStd2525d palette > exposes a normalize function
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8937853Z (pass) milStd2525d palette > declares a default distance metric
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8938256Z (pass) uswds palette > ships the 461 v3.14.0 system tokens [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.8938686Z (pass) uswds palette > keeps every token distinct once normalized [0.21ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9187614Z (pass) uswds palette > meets WCAG AA (4.5:1) for every pair 50 or more grades apart [25.81ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9190824Z (pass) milStd2525d palette > carries a dark, medium, light, and unfilled color for each identity, and nothing else [0.35ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9192906Z (pass) milStd2525d palette > answers the shared yellow with the filled entry, first in insertion order [0.26ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9193436Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9194083Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9194384Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9194746Z ##[group]test/identify.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9208284Z (pass) identify > web palette (default) > returns exact name for pure red via hex [0.27ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9209601Z (pass) identify > web palette (default) > returns exact name for pure red via rgb tuple [0.08ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9210296Z (pass) identify > web palette (default) > returns 'crimson' for its canonical rgb [0.06ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9211558Z (pass) identify > web palette (default) > returns nearest 'crimson' for a slightly offset rgb [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9212376Z (pass) identify > web palette (default) > returns 'lime' for #00ff00 [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9212965Z (pass) identify > web palette (default) > returns 'white' for #ffffff [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9213533Z (pass) identify > web palette (default) > returns 'black' for #000000 [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9214171Z (pass) identify > web palette (default) > returns 'red' for one-unit-off hex (#fe0001) [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9214786Z (pass) identify > web palette (default) > accepts hsl input [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9215327Z (pass) identify > web palette (default) > accepts hsv input [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9215935Z (pass) identify > web palette (default) > accepts rgba input (alpha ignored in distance) [0.06ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9216608Z (pass) identify > web palette (default) > is explicit when palette: web is passed [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9218352Z (pass) identify > x11 palette > returns 'red' for #ff0000 (alphabetically first among red/red1/…) [0.54ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9219054Z (pass) identify > x11 palette > returns 'gray 50' for #7f7f7f (x11-only entry) [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9219836Z (pass) identify > x11 palette > returns 'light goldenrod' for #eedd82 (x11-only) [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9220401Z (pass) identify > x11 palette > returns 'sea green' for #2e8b57 (shared name, same rgb) [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9221132Z (pass) identify > x11 palette > accepts tuple input [0.09ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9221643Z (pass) identify > x11 palette > returns a string for any recognized input [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9230995Z (pass) identify > pantone palette > returns '100 C' exactly for its canonical rgb [0.94ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9235885Z (pass) identify > pantone palette > returns '185 C' for #e4002b (exact) [0.50ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9238930Z (pass) identify > pantone palette > returns a Pantone code for pure red (nearest match) [0.30ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9240659Z (pass) identify > pantone palette > accepts hsl input [0.19ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9244265Z (pass) identify > pantone palette > ignores alpha in distance [0.35ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9244787Z (pass) identify > distance metric option > defaults to deltaE76 for web (still returns red for pure red) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9246848Z (pass) identify > distance metric option > defaults to deltaE2000 for pantone [0.23ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9248463Z (pass) identify > distance metric option > metric: 'euclidean-srgb' still returns pure-red match [0.15ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9250248Z (pass) identify > distance metric option > metric: 'euclidean-linear' still returns pure-red match [0.17ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9250800Z (pass) identify > distance metric option > metric: 'deltaE76' still returns pure-red match [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9252667Z (pass) identify > distance metric option > metric: 'deltaE94' still returns pure-red match [0.19ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9253170Z (pass) identify > distance metric option > metric: 'deltaE2000' still returns pure-red match [0.06ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9255662Z (pass) identify > distance metric option > metric: 'deltaEok' still returns pure-red match [0.25ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9266499Z (pass) identify > distance metric option > all metrics return a string for any recognized input [1.00ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9267234Z (pass) identify > distance metric option > metric override works cross-palette [0.10ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9269349Z (pass) identify > BYO palette > returns a user-defined key for an exact input match [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9269991Z (pass) identify > BYO palette > returns the nearest user-defined key for a nearby input [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9270693Z (pass) identify > BYO palette > distinguishes closely-related reds (picks adeptus red over world eaters red) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9271292Z (pass) identify > error / null cases > returns null for garbage string input [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9271849Z (pass) identify > error / null cases > returns null for empty string
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9272357Z (pass) identify > error / null cases > returns null regardless of palette when input is unrecognized [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9273263Z (pass) identify > source — cross-palette (name in, nearest name out) > web name → pantone: 'rebeccapurple' → '267 C' [0.26ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9274076Z (pass) identify > source — cross-palette (name in, nearest name out) > crayola name → pantone: 'Razzmatazz' → '213 C' [0.29ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9274610Z (pass) identify > source — cross-palette (name in, nearest name out) > web name → x11: 'dodgerblue' → 'dodger blue' (shared hex, exact neighbor) [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9277099Z (pass) identify > source — cross-palette (name in, nearest name out) > source palette normalizer is applied to the input (case/punctuation tolerant) [0.29ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9278611Z (pass) identify > source — cross-palette (name in, nearest name out) > metric override works on the target side: 'rebeccapurple' → '526 C' under deltaEok [0.14ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9279374Z (pass) identify > source — cross-palette (name in, nearest name out) > returns null when the name is not in the source palette [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9280235Z (pass) identify > source — cross-palette (name in, nearest name out) > structural input still wins when source is present — hex parses as hex [0.13ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9286119Z (pass) identify > k — ranked top-k matches > returns a single-entry array with k: 1 [0.59ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9289412Z (pass) identify > k — ranked top-k matches > returns k entries sorted ascending by distance [0.33ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9289964Z (pass) identify > k — ranked top-k matches > exact-hex match has distance 0 [0.07ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9290421Z (pass) identify > k — ranked top-k matches > k: 0 returns [] [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9292803Z (pass) identify > k — ranked top-k matches > k > palette size caps at palette size [0.23ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9294708Z (pass) identify > k — ranked top-k matches > fractional k rounds to the nearest integer (3.7 -> 4) [0.06ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9295220Z (pass) identify > k — ranked top-k matches > fractional k rounds down at 3.4 (-> 3) [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9295550Z (pass) identify > k — ranked top-k matches > negative k returns [] [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9295860Z (pass) identify > k — ranked top-k matches > NaN k returns [] (no RangeError crash) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9296203Z (pass) identify > k — ranked top-k matches > Infinity k returns [] (no RangeError crash)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9296518Z (pass) identify > k — ranked top-k matches > k with unrecognized input returns []
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9297569Z (pass) identify > k — ranked top-k matches > k honors metric override [0.33ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9300145Z (pass) identify > k — ranked top-k matches > k combines with source — cross-palette top-k [0.25ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9300842Z (pass) identify > k — ranked top-k matches > euclidean-srgb metric ranks in sRGB channel-unit distance [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9301686Z (pass) identify > k — ranked top-k matches > euclidean-linear metric ranks in linear-RGB distance units [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9304449Z (pass) identify > k — ranked top-k matches > deltaE94 ranks in ΔE94 units [0.30ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9304770Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9305308Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9305470Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9305840Z ##[group]test/resolve.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9314677Z (pass) resolve > README examples > resolve('crimson') → '#dc143c' [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9315169Z (pass) resolve > README examples > resolve('Alice Blue') → '#f0f8ff'
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9315651Z (pass) resolve > README examples > resolve('alice-blue!') → '#f0f8ff' [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9316673Z (pass) resolve > README examples > resolve('185 C', { palette: pantone }) → '#e4002b' [0.20ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9317305Z (pass) resolve > README examples > resolve('Pantone 185 C', { palette: pantone }) → '#e4002b' [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9317905Z (pass) resolve > README examples > resolve('crimson', { format: 'RGB' }) → 'rgb(220, 20, 60)' [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9318600Z (pass) resolve > README examples > resolve('crimson', { format: 'RGBA' }) → { r: 220, g: 20, b: 60, a: 1 } [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9319166Z (pass) resolve > README examples > resolve('not-a-color') → null
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9319684Z (pass) resolve > output format > resolve('red', { format: 'HSL' }) → 'hsl(0, 100%, 50%)' [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9320282Z (pass) resolve > output format > resolve('red', { format: 'HSV' }) → 'hsv(0, 100%, 100%)' [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9321004Z (pass) resolve > output format > 'PANTONE' output is off the core path — throws, route through rgbaToPantone instead [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9321838Z (pass) resolve > output format > resolve('185 C', { palette: pantone, format: 'RGBA' }) returns the rgba object [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9322343Z (pass) resolve > normalization > is case-insensitive [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9322674Z (pass) resolve > normalization > strips spaces
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9322999Z (pass) resolve > normalization > strips punctuation [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9323365Z (pass) resolve > normalization > returns null for empty string
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9325650Z (pass) resolve > x11 palette > resolves x11-only name [0.16ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9325936Z (pass) resolve > x11 palette > normalizes x11 spaced input [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9326372Z (pass) resolve > x11 palette > returns null for x11-only name under web palette
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9326801Z (pass) resolve > pantone palette > resolves bare numeric code [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9327216Z (pass) resolve > pantone palette > resolves case-insensitively [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9327573Z (pass) resolve > pantone palette > resolves with PMS prefix
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9327970Z (pass) resolve > pantone palette > returns null for unknown pantone code
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9328380Z (pass) resolve > BYO palette > resolves a BYO key to its hex [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9328860Z (pass) resolve > BYO palette > applies the BYO normalizer (case + punctuation insensitive) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9329342Z (pass) resolve > BYO palette > returns null for an unknown key
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9330178Z (pass) resolve > k — fuzzy top-k (Levenshtein) > returns an array of top-k matches sorted ascending by edit distance [0.79ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9335506Z (pass) resolve > k — fuzzy top-k (Levenshtein) > exact match has distance 0 and appears at the top [0.52ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9339261Z (pass) resolve > k — fuzzy top-k (Levenshtein) > honors the palette normalizer before computing edit distance [0.36ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9341810Z (pass) resolve > k — fuzzy top-k (Levenshtein) > handles punctuation / whitespace typos via normalization + Levenshtein [0.26ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9342545Z (pass) resolve > k — fuzzy top-k (Levenshtein) > crayola typo 'Razmataz' finds 'Razzmatazz' within a few edits [0.08ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9343590Z (pass) resolve > k — fuzzy top-k (Levenshtein) > respects the output format option on match values [0.12ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9344188Z (pass) resolve > k — fuzzy top-k (Levenshtein) > RGBA format returns the object shape [0.06ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9344982Z (pass) resolve > k — fuzzy top-k (Levenshtein) > k: 0 returns [] without scanning the palette [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9345486Z (pass) resolve > k — fuzzy top-k (Levenshtein) > negative k returns []
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9348236Z (pass) resolve > k — fuzzy top-k (Levenshtein) > k greater than palette size caps at palette size [0.35ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9350069Z (pass) resolve > k — fuzzy top-k (Levenshtein) > fractional k rounds to the nearest integer [0.20ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9350829Z (pass) resolve > k — fuzzy top-k (Levenshtein) > NaN k returns [] (no RangeError crash) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9351616Z (pass) resolve > k — fuzzy top-k (Levenshtein) > Infinity k returns [] (no RangeError crash) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9361277Z (pass) resolve > k — fuzzy top-k (Levenshtein) > defaults to web palette when palette omitted [1.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9362062Z (pass) resolve > k — fuzzy top-k (Levenshtein) > fuzzy-resolve works on BYO palettes [0.13ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9376692Z (pass) resolve > k — fuzzy top-k (Levenshtein) > empty string input returns the full ranked list (all keys 1+ edits away) [0.07ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9380359Z (pass) resolve > k — fuzzy top-k (Levenshtein) > returns [] for oversized input (> 64 chars post-normalize) — DoS guard [1.73ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9380645Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9381021Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9381094Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9381292Z ##[group]test/metricDivergence.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9387546Z (pass) cross-metric divergence (pantone, saturated blue region) > #0000ff: non-perceptual metrics pick 2736C; OKLAB picks 2728C [0.26ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9390235Z (pass) cross-metric divergence (pantone, saturated blue region) > #1e90ff: perceptual metrics pick 279C; non-perceptual pick 2727C [0.29ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9393585Z (pass) cross-metric divergence (pantone, saturated blue region) > #8a2be2 (blueviolet): ΔE76 diverges from the other three [0.29ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9395806Z (pass) cross-metric divergence (pantone, saturated blue region) > pure primaries on web palette: all metrics agree [0.27ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9396212Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9396527Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9396640Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9397187Z ##[group]test/tccaNbsRp1700.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9410895Z (pass) NBS RP1700 TCCA fixture > contains all 238 card measurements and unique cable numbers [0.18ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9411781Z (pass) NBS RP1700 TCCA fixture > contains only the requested source columns [0.10ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9412241Z (pass) NBS RP1700 TCCA fixture > rejects malformed fixture data [0.11ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9412687Z (pass) NBS RP1700 Illuminant C xyY to sRGB conversion > converts xyY to XYZ [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9413249Z (pass) NBS RP1700 Illuminant C xyY to sRGB conversion > adapts the Illuminant C white point to D65 [0.08ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9413884Z (pass) NBS RP1700 Illuminant C xyY to sRGB conversion > applies the IEC 61966-2-1 matrix and transfer function [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9414587Z (pass) NBS RP1700 Illuminant C xyY to sRGB conversion > clamps out-of-gamut channels before transfer and rounding [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9427937Z (pass) NBS RP1700 Illuminant C xyY to sRGB conversion > derives every shipped palette value from its fixture row [0.74ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9428512Z (pass) TCCA palette > contains the required converted spot checks [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9428850Z (pass) TCCA palette > normalizes any lookup containing a cable number to that number [0.08ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9429038Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9429255Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9429324Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9429484Z ##[group]test/fs595cGsa.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9435103Z (pass) GSA FS595C fixture > contains exactly one complete row for each of 650 chips [0.13ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9437347Z (pass) GSA FS595C fixture > contains only the requested source columns [0.12ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9437760Z (pass) GSA FS595C fixture > rejects an unexpected header [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9438408Z (pass) GSA FS595C fixture > rejects rows with the wrong field count [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9438798Z (pass) GSA FS595C fixture > rejects invalid row values [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9439303Z (pass) GSA FS595C CIELAB to sRGB conversion > converts 10 degree D65 white and black through the Lab inverse [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9439909Z (pass) GSA FS595C CIELAB to sRGB conversion > applies the IEC 61966-2-1 XYZ to linear-sRGB matrix [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9440531Z (pass) GSA FS595C CIELAB to sRGB conversion > uses both branches of the sRGB transfer function at its boundary [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9441156Z (pass) GSA FS595C CIELAB to sRGB conversion > clamps out-of-gamut channels before transfer and rounding [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9441738Z (pass) GSA FS595C CIELAB to sRGB conversion > matches independently calculated GSA row vectors [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9441941Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9442127Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9442195Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9442375Z ##[group]test/convert.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9446619Z (pass) convert > README examples > convert('#ff0000') → '#ff0000' (identity, default HEX) [0.10ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9447209Z (pass) convert > README examples > convert('#ff0000', { format: 'RGB' }) → 'rgb(255, 0, 0)' [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9447833Z (pass) convert > README examples > convert('#ff0000', { format: 'RGBA' }) → { r: 255, g: 0, b: 0, a: 1 } [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9448432Z (pass) convert > README examples > convert([255, 0, 0], { format: 'HEX' }) → '#ff0000' [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9449023Z (pass) convert > README examples > convert('rgb(255, 0, 0)', { format: 'HSL' }) → 'hsl(0, 100%, 50%)' [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9449635Z (pass) convert > README examples > convert({ h: 0, s: 100, l: 50 }, { format: 'HEX' }) → '#ff0000' [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9450141Z (pass) convert > round-trips through RGBA > hex → rgba → hex [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9450613Z (pass) convert > round-trips through RGBA > rgb string → object → string [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9451066Z (pass) convert > alpha handling > preserves alpha in RGBA output [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9451584Z (pass) convert > alpha handling > drops alpha for HEX output (6-digit) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9452172Z (pass) convert > alpha handling > drops alpha for RGB string output [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9452615Z (pass) convert > HSV output and input > converts hex → hsv [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9453035Z (pass) convert > HSV output and input > converts rgb → hsv [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9453427Z (pass) convert > HSV output and input > accepts hsv object as input [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9453840Z (pass) convert > HSV output and input > accepts hsv string as input [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9454486Z (pass) convert > structural-only (no palette) rejects palette-name inputs > rejects a pantone-code string as input when no palette is supplied [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9455433Z (pass) convert > structural-only (no palette) rejects palette-name inputs > the 'PANTONE' format key is no longer accepted — supply a palette instead [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9456328Z (pass) convert > unified palette option — palette name → color > accepts a pantone name as input when a palette is supplied [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9457138Z (pass) convert > unified palette option — palette name → color > honors the palette normalizer (case / punctuation / prefix) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9457942Z (pass) convert > unified palette option — palette name → color > emits a non-HEX format from a palette-name input [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9458683Z (pass) convert > unified palette option — palette name → color > accepts a web name with the web palette [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9459343Z (pass) convert > unified palette option — palette name → color > works for BYO palettes inline [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9459991Z (pass) convert > unified palette option — palette name → color > throws if the name is not in the palette [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9460938Z (pass) convert > unified palette option — palette name → color > structural format wins over palette lookup (priority rule) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9461642Z (pass) convert > unified palette option — palette name → color > guards against palette mutation between name-index build and color lookup [0.09ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9462223Z (pass) convert > unified palette option — format: 'NAME' emits the exact canonical key > convert('#e4002b', { palette: pantone, format: 'NAME' }) → '185 C' [0.26ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9463028Z (pass) convert > unified palette option — format: 'NAME' emits the exact canonical key > round-trips name → rgba → name through a palette [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9463799Z (pass) convert > unified palette option — format: 'NAME' emits the exact canonical key > web name round-trip [0.06ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9464665Z (pass) convert > unified palette option — format: 'NAME' emits the exact canonical key > throws when the input has no exact palette match (use identify for fuzzy) [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9465602Z (pass) convert > unified palette option — format: 'NAME' emits the exact canonical key > format: 'NAME' without a palette throws at runtime (type error at compile time) [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9466242Z (pass) convert > unified palette option — format: 'NAME' emits the exact canonical key > format: 'NAME' rejects partially-transparent input (strict-convert contract) [0.07ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9466809Z (pass) convert > unified palette option — format: 'NAME' emits the exact canonical key > format: 'NAME' accepts alpha === 1 normally [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9467166Z (pass) convert > error handling > throws on unrecognized input [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9467414Z (pass) convert > error handling > throws on empty string [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9467699Z (pass) convert > error handling > error message JSON-stringifies objects (not [object Object]) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9468003Z (pass) convert > error handling > error message handles undefined [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9471066Z (pass) convert > error handling > error message handles circular references safely [1.20ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9471357Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9471723Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9471864Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9472274Z ##[group]test/detectFormat.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9476277Z (pass) detectFormat > HEX > detects 6-digit hex [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9476624Z (pass) detectFormat > HEX > detects 3-digit hex (shorthand) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9476990Z (pass) detectFormat > HEX > detects 8-digit hex (with alpha)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9477307Z (pass) detectFormat > HEX > is case-insensitive
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9477616Z (pass) detectFormat > RGB > detects rgb() string with spaces
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9477966Z (pass) detectFormat > RGB > detects rgb() string without spaces
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9478280Z (pass) detectFormat > RGB > detects 3-tuple
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9478569Z (pass) detectFormat > RGB > detects {r,g,b} object [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9478888Z (pass) detectFormat > RGBA > detects rgba() string
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9479196Z (pass) detectFormat > RGBA > detects 4-tuple [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9479524Z (pass) detectFormat > RGBA > detects {r,g,b,a} object [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9479865Z (pass) detectFormat > HSL > detects hsl() string [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9480171Z (pass) detectFormat > HSL > detects {h,s,l} object
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9480456Z (pass) detectFormat > HSV > detects hsv() string
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9480761Z (pass) detectFormat > HSV > detects {h,s,v} object [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9481208Z (pass) detectFormat > PANTONE strings no longer detected (off core path) > returns UNKNOWN for "185 C"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9481900Z (pass) detectFormat > PANTONE strings no longer detected (off core path) > returns UNKNOWN for "Pantone 185 C"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9482412Z (pass) detectFormat > UNKNOWN > returns UNKNOWN for garbage string
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9482781Z (pass) detectFormat > UNKNOWN > returns UNKNOWN for empty string
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9483294Z (pass) detectFormat > UNKNOWN > returns UNKNOWN for empty object
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9483659Z (pass) detectFormat > UNKNOWN > returns UNKNOWN for 2-length array
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9484025Z (pass) detectFormat > UNKNOWN > returns UNKNOWN for 5-length array
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9484374Z (pass) detectFormat > UNKNOWN > returns UNKNOWN for null
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9484704Z (pass) detectFormat > UNKNOWN > returns UNKNOWN for undefined
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9485048Z (pass) detectFormat > UNKNOWN > returns UNKNOWN for number
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9485374Z (pass) detectFormat > UNKNOWN > returns UNKNOWN for boolean
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9485842Z (pass) detectFormat > UNKNOWN > returns UNKNOWN for prototype-polluted object (own-property check) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9486379Z (pass) detectFormat > UNKNOWN > returns UNKNOWN for object with only alpha (no r/g/b)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9486802Z (pass) isColor > returns true for recognized color shapes [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9487247Z (pass) isColor > returns false for Pantone codes (palette data, not a structural format) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9487680Z (pass) isColor > returns false for garbage [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9487870Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9488103Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9488212Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9488427Z ##[group]test/conversions/hsl.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9488726Z (pass) hslToRgba > converts pure red { h:0, s:100, l:50 } [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9489117Z (pass) hslToRgba > converts pure green via string "hsl(120, 100%, 50%)" [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9489527Z (pass) hslToRgba > converts pure blue { h:240, s:100, l:50 } [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9489882Z (pass) hslToRgba > converts achromatic gray { h:0, s:0, l:50 }
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9490217Z (pass) hslToRgba > converts white { h:0, s:0, l:100 } [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9490559Z (pass) hslToRgba > wraps hue modulo 360 (h=360 == h=0) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9490908Z (pass) hslToRgba > handles magenta { h:300, s:100, l:50 } [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9491293Z (pass) hslToRgba > handles yellow { h:60, s:100, l:50 } (hue in [1, 2) sector)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9491806Z (pass) hslToRgba > handles cyan { h:180, s:100, l:50 } (hue in [3, 4) sector)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9492325Z (pass) hslToRgba > throws on malformed string [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9492652Z (pass) rgbaToHsl > emits "hsl(0, 100%, 50%)" for pure red [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9492989Z (pass) rgbaToHsl > emits "hsl(120, 100%, 50%)" for pure green
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9493217Z (pass) rgbaToHsl > emits "hsl(0, 0%, 50%)" for mid-gray (achromatic)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9493422Z (pass) rgbaToHsl > emits "hsl(0, 0%, 0%)" for black
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9493627Z (pass) hslToRgba input validation > throws on NaN h [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9493852Z (pass) hslToRgba input validation > throws on non-numeric s [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9494210Z (pass) round-trip hsl ↔ rgba (primary colors) > preserves pure red through rgba → hsl → rgba [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9494601Z (pass) round-trip hsl ↔ rgba (primary colors) > preserves pure blue through rgba → hsl → rgba [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9494801Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9494942Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9495006Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9495183Z ##[group]test/conversions/pantone.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9495401Z (pass) pantoneToRgba > resolves "100 C" (exact canonical key) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9495717Z (pass) pantoneToRgba > resolves "100C" (normalizer strips spaces — still matches) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9495987Z (pass) pantoneToRgba > resolves "100 C" (space-normalized)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9496208Z (pass) pantoneToRgba > resolves "Pantone 185 C" (prefixed) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9496438Z (pass) pantoneToRgba > resolves "PMS 100c" (prefixed + lowercase)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9496659Z (pass) pantoneToRgba > throws on unknown code [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9497005Z (pass) pantoneToRgba > throws on non-Pantone string [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9497433Z (pass) rgbaToPantone > returns exact Pantone code when the rgba matches a known entry [0.65ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9503865Z (pass) rgbaToPantone > returns nearest-match when rgba is close but not exact [0.66ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9510627Z (pass) rgbaToPantone > ignores alpha channel in distance calculation [0.69ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9512469Z (pass) rgbaToPantone > never returns null (always finds a nearest) [0.18ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9514323Z (pass) round-trip pantone ↔ rgba > exact Pantone entries round-trip to themselves [0.17ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9514513Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9514664Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9514736Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9514885Z ##[group]test/conversions/hsv.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9517342Z (pass) hsvToRgba > converts pure red { h:0, s:100, v:100 } [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9517747Z (pass) hsvToRgba > converts pure green via string "hsv(120, 100%, 100%)" [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9518300Z (pass) hsvToRgba > converts half-brightness green { h:120, s:100, v:50 } → rgb(0, 128, 0) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9518721Z (pass) hsvToRgba > converts black { h:0, s:0, v:0 }
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9519047Z (pass) hsvToRgba > converts white { h:0, s:0, v:100 } [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9519346Z (pass) hsvToRgba > wraps hue modulo 360
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9519679Z (pass) hsvToRgba > handles yellow { h:60, s:100, v:100 } (hue in [1, 2) sector)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9520125Z (pass) hsvToRgba > handles cyan { h:180, s:100, v:100 } (hue in [3, 4) sector)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9520563Z (pass) hsvToRgba > handles pure blue { h:240, s:100, v:100 } (hue in [4, 5) sector)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9520895Z (pass) hsvToRgba > throws on malformed string [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9521530Z (pass) rgbaToHsv > emits "hsv(0, 100%, 100%)" for pure red [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9521909Z (pass) rgbaToHsv > emits "hsv(120, 100%, 50%)" for half-brightness green (README)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9522234Z (pass) rgbaToHsv > emits "hsv(0, 0%, 0%)" for black
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9533252Z (pass) rgbaToHsv > emits "hsv(0, 0%, 100%)" for white
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9533633Z (pass) rgbaToHsv > emits "hsv(240, 100%, 100%)" for pure blue (max === b branch)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9534031Z (pass) hsvToRgba input validation > throws on NaN h [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9534399Z (pass) hsvToRgba input validation > throws on non-numeric v [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9535056Z (pass) round-trip hsv ↔ rgba > preserves pure red [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9535447Z (pass) round-trip hsv ↔ rgba > preserves pure magenta [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9535671Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9535945Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9536051Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9536273Z ##[group]test/conversions/hex.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9536543Z (pass) hexToRgba > parses 6-digit hex [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9536851Z (pass) hexToRgba > parses 3-digit shorthand hex [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9537180Z (pass) hexToRgba > parses 8-digit hex with alpha [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9537482Z (pass) hexToRgba > is case-insensitive
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9537799Z (pass) hexToRgba > throws on invalid hex (non-hex chars) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9538148Z (pass) hexToRgba > throws on invalid hex (wrong length)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9538457Z (pass) hexToRgba > throws on missing hash prefix
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9538751Z (pass) rgbaToHex > emits 6-digit lowercase hex
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9539050Z (pass) rgbaToHex > zero-pads single-digit channels
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9539372Z (pass) rgbaToHex > drops alpha (emits 6-digit, not 8-digit)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9539702Z (pass) rgbaToHex > rounds fractional channel values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9539995Z (pass) rgbaToHex > clamps out-of-range values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9540392Z (pass) round-trip hex ↔ rgba > preserves value through hex → rgba → hex
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9540885Z (pass) round-trip hex ↔ rgba > preserves through rgba → hex → rgba (alpha dropped)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9541154Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9541585Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9541684Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9541914Z ##[group]test/conversions/rgb.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9542130Z (pass) rgbToRgba > object form > adds a=1 to plain RgbObject [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9542481Z (pass) rgbToRgba > object form > preserves alpha on Rgba object
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9542702Z (pass) rgbToRgba > tuple form > parses 3-tuple as rgb
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9542924Z (pass) rgbToRgba > tuple form > parses 4-tuple as rgba [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9543177Z (pass) rgbToRgba > string form > parses "rgb(r, g, b)" with spaces [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9543490Z (pass) rgbToRgba > string form > parses "rgb(r,g,b)" without spaces
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9543861Z (pass) rgbToRgba > string form > parses "rgba(r, g, b, a)"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9544217Z (pass) rgbToRgba > string form > parses leading-dot alpha like ".5"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9544603Z (pass) rgbToRgba > string form > throws on malformed string [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9545003Z (pass) rgbToRgba > string form > throws on wrong function name [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9545499Z (pass) rgbToRgba > string form > matches malformed input in linear time (ReDoS regression guard) [0.31ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9545955Z (pass) rgbaToRgb > emits "rgb(r, g, b)" string [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9546252Z (pass) rgbaToRgb > drops alpha
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9546498Z (pass) rgbaToRgb > rounds fractional values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9546780Z (pass) rgbaToRgb > clamps out-of-range values
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9547114Z (pass) rgbToRgba input validation > throws on NaN channel [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9547484Z (pass) rgbToRgba input validation > throws on Infinity channel
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9547894Z (pass) rgbToRgba input validation > throws on non-numeric channel (tuple) [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9548377Z (pass) rgbToRgba input validation > clamps out-of-range high channel to 255 [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9548829Z (pass) rgbToRgba input validation > clamps out-of-range low channel to 0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9549231Z (pass) rgbToRgba input validation > clamps alpha to [0, 1] [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9549712Z (pass) round-trip rgb ↔ rgba > preserves rgba object through rgb string [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9549975Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9550192Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9550294Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9550526Z ##[group]test/math/clamp.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9550783Z (pass) clamp > returns n when within range
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9551163Z (pass) clamp > clamps high to hi
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9551512Z (pass) clamp > clamps low to lo
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9551779Z (pass) clamp > passes through boundary values [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9552125Z (pass) requireFinite > returns a finite number unchanged [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9552464Z (pass) requireFinite > throws on NaN [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9552754Z (pass) requireFinite > throws on Infinity [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9553041Z (pass) requireFinite > throws on non-number [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9553167Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9553296Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9553366Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9553508Z ##[group]test/math/deltaE.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9553675Z (pass) deltaE76 > identity: d(x, x) === 0 [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9553881Z (pass) deltaE76 > symmetry: d(p, q) === d(q, p) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9554105Z (pass) deltaE76 > known value: pure red vs pure green [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9554462Z (pass) deltaE76 > just-noticeable difference: ΔE ≈ 1 for a minimally-different pair [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9554738Z (pass) deltaE76 > deltaE94: identity is 0 [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9554997Z (pass) deltaE76 > deltaE94: red vs green is smaller than deltaE76 (chroma de-weighting) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9555495Z (pass) deltaE76 > deltaE94: clamps dH² to 0 when floating-point drift makes it negative [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9556035Z (pass) deltaE76 > square variant is monotonic with unsquared (argmin preserved) [0.06ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9556725Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > deltaE2000([50,2.6772,-79.7751], [50,0,-82.7485]) ≈ 2.0425 [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9557454Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > deltaE2000([50,3.1571,-77.2803], [50,0,-82.7485]) ≈ 2.8615
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9558284Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > deltaE2000([50,2.8361,-74.02], [50,0,-82.7485]) ≈ 3.4412
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9558963Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > deltaE2000([50,-1.3802,-84.2814], [50,0,-82.7485]) ≈ 1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9559645Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > deltaE2000([50,-1.1848,-84.8006], [50,0,-82.7485]) ≈ 1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9560315Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > deltaE2000([50,-0.9009,-85.5211], [50,0,-82.7485]) ≈ 1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9560972Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > deltaE2000([50,2.5,0], [73,25,-18]) ≈ 27.1492 [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9561714Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > deltaE2000([50,2.5,0], [61,-5,29]) ≈ 22.8977
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9562328Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > deltaE2000([50,2.5,0], [56,-27,-3]) ≈ 31.903
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9562951Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > deltaE2000([50,2.5,0], [58,24,15]) ≈ 19.4535
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9563532Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > identity: d(x, x) === 0 [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9564116Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > symmetric: d(p, q) === d(q, p) [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9564814Z (pass) deltaE2000 — Sharma et al. (2005) reference vectors > ΔE2000 differs from ΔE94 in blue region (rotation term active) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9565377Z (pass) deltaEok (Euclidean in OKLAB) > identity: d(x, x) === 0 [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9565796Z (pass) deltaEok (Euclidean in OKLAB) > symmetric: d(p, q) === d(q, p) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9566262Z (pass) deltaEok (Euclidean in OKLAB) > red vs green is substantially > 0 in OKLAB [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9566758Z (pass) deltaEok (Euclidean in OKLAB) > square variant preserves argmin ordering [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9567045Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9567258Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9567359Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9567597Z ##[group]test/math/hueSector.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9567957Z (pass) hueSectorToPrime > returns [chroma, secondary, 0] for sector [0, 1) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9568545Z (pass) hueSectorToPrime > returns [secondary, chroma, 0] for sector [1, 2) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9569024Z (pass) hueSectorToPrime > returns [0, chroma, secondary] for sector [2, 3) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9569474Z (pass) hueSectorToPrime > returns [0, secondary, chroma] for sector [3, 4)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9569841Z (pass) hueSectorToPrime > returns [secondary, 0, chroma] for sector [4, 5)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9570115Z (pass) hueSectorToPrime > returns [chroma, 0, secondary] for sector [5, 6)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9570273Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9570407Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9570473Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9570624Z ##[group]test/math/colorSpace.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9570836Z (pass) srgbToLinear / linearToSrgb > maps 0 → 0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9571047Z (pass) srgbToLinear / linearToSrgb > maps 255 → 1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9571329Z (pass) srgbToLinear / linearToSrgb > maps 128 → ~0.2159 (known gamma curve value)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9571798Z (pass) srgbToLinear / linearToSrgb > uses linear segment near black (below 0.04045 threshold)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9572202Z (pass) srgbToLinear / linearToSrgb > round-trips sRGB → linear → sRGB within sub-channel tolerance [0.05ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9572498Z (pass) rgbaToLinearRgb > drops alpha [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9572764Z (pass) linearRgbToXyz > white (1,1,1) → Y ≈ 1 (maps to D65 luminance) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9573021Z (pass) linearRgbToXyz > black → (0, 0, 0) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9573256Z (pass) xyzToLab > D65 white → L=100, a=0, b=0 [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9573468Z (pass) xyzToLab > black (0,0,0) → L=0 [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9573946Z (pass) rgbaToLab (end-to-end pipeline) > pure white → L≈100, a≈0, b≈0 [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9574264Z (pass) rgbaToLab (end-to-end pipeline) > pure black → L≈0 [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9574680Z (pass) rgbaToLab (end-to-end pipeline) > pure red → L≈53.24, a≈80.09, b≈67.20 [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9575078Z (pass) rgbaToLab (end-to-end pipeline) > pure green (sRGB #00ff00) → L≈87.73, a≈-86.18, b≈83.18 [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9575455Z (pass) rgbaToLab (end-to-end pipeline) > pure blue → L≈32.3, a≈79.19, b≈-107.86 [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9575846Z (pass) rgbaToLab (end-to-end pipeline) > mid-gray sRGB #808080 → L≈53.58 (gamma correction matters here) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9576215Z (pass) rgbaToOklab (Björn Ottosson, 2020) > white → L≈1, a≈0, b≈0 [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9576507Z (pass) rgbaToOklab (Björn Ottosson, 2020) > black → (0, 0, 0) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9576860Z (pass) rgbaToOklab (Björn Ottosson, 2020) > pure red → L≈0.628, a≈0.225, b≈0.126 (Ottosson reference) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9577235Z (pass) rgbaToOklab (Björn Ottosson, 2020) > pure green → L≈0.866, a≈-0.234, b≈0.179 [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9577606Z (pass) rgbaToOklab (Björn Ottosson, 2020) > pure blue → L≈0.452, a≈-0.032, b≈-0.312 [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9577978Z (pass) rgbaToOklab (Björn Ottosson, 2020) > linearRgbToOklab takes already-linearized channels [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9578425Z (pass) OKLCh (polar form of OKLAB) > achromatic input: (L, 0, 0) → (L, 0, 0) [0.03ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9578749Z (pass) OKLCh (polar form of OKLAB) > pure-a axis: (L, 1, 0) → (L, 1, 0°) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9579052Z (pass) OKLCh (polar form of OKLAB) > pure-b axis: (L, 0, 1) → (L, 1, 90°) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9579350Z (pass) OKLCh (polar form of OKLAB) > negative-b: hue wraps to 270° [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9579651Z (pass) OKLCh (polar form of OKLAB) > round-trip OKLAB → OKLCh → OKLAB [0.04ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9579938Z (pass) OKLCh (polar form of OKLAB) > rgbaToOklch: pure red has hue in red region [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9580121Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9580260Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9580333Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9580481Z ##[group]test/math/editDistance.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9580687Z (pass) levenshtein > returns 0 for identical strings [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9580910Z (pass) levenshtein > returns length(b) when a is empty
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9581136Z (pass) levenshtein > returns length(a) when b is empty [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9581357Z (pass) levenshtein > counts single insertion [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9581733Z (pass) levenshtein > counts single deletion [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9581935Z (pass) levenshtein > counts single substitution [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9582272Z (pass) levenshtein > transpositions count as two edits (not one — this is Levenshtein, not Damerau) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9582616Z (pass) levenshtein > computes the canonical kitten/sitting example (distance = 3)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9582908Z (pass) levenshtein > handles realistic typo patterns on palette names [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9583167Z (pass) levenshtein > is symmetric (distance is a metric) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9583452Z (pass) levenshtein > swaps a and b when a is longer (space-optimization path) [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9583632Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9583766Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9583840Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9583994Z ##[group]test/math/euclideanDistance.test.ts:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9584217Z (pass) euclideanDistance > returns 0 for identical colors [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9584481Z (pass) euclideanDistance > computes distance between black and white [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9584777Z (pass) euclideanDistance > computes distance between pure red and pure green [0.01ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9585062Z (pass) euclideanDistance > is symmetric: d(a,b) === d(b,a) [0.02ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9585323Z (pass) euclideanDistance > returns 1 for one-channel-one-unit difference
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9585603Z (pass) euclideanDistance > ignores alpha channel (d=0 when only alpha differs)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9585923Z (pass) euclideanDistance > handles negative component deltas (squared, so always non-negative)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9586118Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9586358Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9663564Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9671933Z  561 pass
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9672108Z  0 fail
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9672258Z  21793 expect() calls
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9672448Z Ran 561 tests across 22 files. [201.00ms]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9928503Z ##[group]Run codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9928740Z with:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9929180Z   token: ***
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9929303Z   files: ./coverage/lcov.info
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9929555Z   fail_ci_if_error: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9929751Z   cleanup: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9929956Z   disable_file_fixes: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9930104Z   disable_search: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9930242Z   disable_safe_directory: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9930392Z   disable_telem: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9930520Z   dry_run: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9930674Z   git_service: github
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9930844Z   gcov_executable: gcov
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9930979Z   handle_no_reports_found: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9931136Z   recurse_submodules: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9931288Z   run_command: upload-coverage
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9931768Z   skip_validation: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9931910Z   use_legacy_upload_endpoint: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9932084Z   use_oidc: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9932205Z   use_pypi: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9932323Z   verbose: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9932446Z   version: latest
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9932632Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9976826Z ##[start-action display=Check system dependencies;id=__codecov_codecov-action.__run]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9996552Z ##[group]Run missing_deps=""
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9996773Z ^[[36;1mmissing_deps=""^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9996910Z ^[[36;1m^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9997050Z ^[[36;1m# Check for always-required commands^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9997230Z ^[[36;1mfor cmd in bash git curl; do^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9997425Z ^[[36;1m  if ! command -v "$cmd" >/dev/null 2>&1; then^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9997623Z ^[[36;1m    missing_deps="$missing_deps $cmd"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9997786Z ^[[36;1m  fi^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9997900Z ^[[36;1mdone^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9998036Z ^[[36;1m^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9998205Z ^[[36;1m# Check for gpg only if validation is not being skipped^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9998433Z ^[[36;1mif [ "$INPUT_SKIP_VALIDATION" != "true" ]; then^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9998643Z ^[[36;1m  if ! command -v gpg >/dev/null 2>&1; then^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9998826Z ^[[36;1m    missing_deps="$missing_deps gpg"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9998984Z ^[[36;1m  fi^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9999096Z ^[[36;1mfi^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9999213Z ^[[36;1m^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9999346Z ^[[36;1m# Report missing required dependencies^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9999524Z ^[[36;1mif [ -n "$missing_deps" ]; then^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:52.9999769Z ^[[36;1m  echo "Error: The following required dependencies are missing:$missing_deps"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0000068Z ^[[36;1m  echo "Please install these dependencies before using this action."^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0000279Z ^[[36;1m  exit 1^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0000398Z ^[[36;1mfi^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0000509Z ^[[36;1m^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0000672Z ^[[36;1mecho "All required system dependencies are available."^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0065142Z shell: /usr/bin/sh -e {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0065299Z env:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0065427Z   INPUT_SKIP_VALIDATION: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0065575Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0128085Z All required system dependencies are available.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0137075Z ##[end-action id=__codecov_codecov-action.__run;outcome=success;conclusion=success;duration_ms=15]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0138961Z ##[start-action display=Action version;id=__codecov_codecov-action.__run_2]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0152967Z ##[group]Run CC_ACTION_VERSION=$(cat ${GITHUB_ACTION_PATH}/src/version)
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0153268Z ^[[36;1mCC_ACTION_VERSION=$(cat ${GITHUB_ACTION_PATH}/src/version)^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0153543Z ^[[36;1mecho -e "\033[0;32m==>\033[0m Running Action version $CC_ACTION_VERSION"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0192019Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0192224Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0277754Z ^[[0;32m==>^[[0m Running Action version 7.1.1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0283674Z ##[end-action id=__codecov_codecov-action.__run_2;outcome=success;conclusion=success;duration_ms=14]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0285699Z ##[start-action display=Set safe directory;id=__codecov_codecov-action.__run_3]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0331650Z ##[group]Run git config --global --add safe.directory "/home/runner/work/chromonym/chromonym"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0332033Z ^[[36;1mgit config --global --add safe.directory "/home/runner/work/chromonym/chromonym"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0332333Z ^[[36;1mgit config --global --add safe.directory "$GITHUB_WORKSPACE"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0372372Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0372567Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0462686Z ##[end-action id=__codecov_codecov-action.__run_3;outcome=success;conclusion=success;duration_ms=17]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0465591Z ##[start-action display=Set fork;id=__codecov_codecov-action.__run_4]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0478632Z ##[group]Run CC_FORK="false"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0478819Z ^[[36;1mCC_FORK="false"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0479146Z ^[[36;1mif [ -n "$GITHUB_EVENT_PULL_REQUEST_HEAD_REPO_FULL_NAME" ] && [ "$GITHUB_EVENT_PULL_REQUEST_HEAD_REPO_FULL_NAME" != "$GITHUB_REPOSITORY" ];^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0479477Z ^[[36;1mthen^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0479624Z ^[[36;1m  echo -e "\033[0;32m==>\033[0m Fork detected"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0479805Z ^[[36;1m  CC_FORK="true"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0479938Z ^[[36;1mfi^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0480077Z ^[[36;1mecho "CC_FORK=$CC_FORK" >> "$GITHUB_ENV"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0517707Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0517899Z env:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0518087Z   GITHUB_EVENT_PULL_REQUEST_HEAD_LABEL: simiancraft:fix/add-tcca-palette-76
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0518361Z   GITHUB_EVENT_PULL_REQUEST_HEAD_REPO_FULL_NAME: simiancraft/chromonym
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0518578Z   GITHUB_REPOSITORY: simiancraft/chromonym
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0518742Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0581000Z ##[end-action id=__codecov_codecov-action.__run_4;outcome=success;conclusion=success;duration_ms=11]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0584121Z ##[start-action display=Get OIDC token;id=__codecov_codecov-action.oidc]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0622478Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0622695Z with:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0623036Z   script: if (process.env.CC_USE_OIDC === 'true' && process.env.CC_FORK != 'true') {
+Lint, Typecheck, Test	UNKNOWN STEP	  const id_token = await core.getIDToken(process.env.CC_OIDC_AUDIENCE)
+Lint, Typecheck, Test	UNKNOWN STEP	  return id_token
+Lint, Typecheck, Test	UNKNOWN STEP	}
+Lint, Typecheck, Test	UNKNOWN STEP	
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0624818Z   github-token: ***
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0624948Z   debug: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0625084Z   user-agent: actions/github-script
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0625244Z   result-encoding: json
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0625376Z   retries: 0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0625525Z   retry-exempt-status-codes: 400,401,403,404,422
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0625693Z env:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0625799Z   CC_FORK: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0625950Z   CC_OIDC_AUDIENCE: https://codecov.io
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0626107Z   CC_USE_OIDC: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.0626240Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1215544Z ##[end-action id=__codecov_codecov-action.oidc;outcome=success;conclusion=success;duration_ms=63]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1222840Z ##[start-action display=Get and set token;id=__codecov_codecov-action.__run_5]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1237089Z ##[group]Run if [ "$INPUT_USE_OIDC" == 'true' ] && [ "$CC_FORK" != 'true' ];
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1237377Z ^[[36;1mif [ "$INPUT_USE_OIDC" == 'true' ] && [ "$CC_FORK" != 'true' ];^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1237564Z ^[[36;1mthen^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1237716Z ^[[36;1m  echo "CC_TOKEN=$CC_OIDC_TOKEN" >> "$GITHUB_ENV"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1237910Z ^[[36;1melif [ -n "$INPUT_CODECOV_TOKEN" ];^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1238062Z ^[[36;1mthen^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1238215Z ^[[36;1m  echo -e "\033[0;32m==>\033[0m Token set from env"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1238427Z ^[[36;1m    echo "CC_TOKEN=$INPUT_CODECOV_TOKEN" >> "$GITHUB_ENV"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1238620Z ^[[36;1melse^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1238894Z ^[[36;1m  if [ -n "$INPUT_TOKEN" ];^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1239034Z ^[[36;1m  then^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1239184Z ^[[36;1m    echo -e "\033[0;32m==>\033[0m Token set from input"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1239391Z ^[[36;1m    CC_TOKEN=$(echo "$INPUT_TOKEN" | tr -d '\n')^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1239587Z ^[[36;1m    echo "CC_TOKEN=$CC_TOKEN" >> "$GITHUB_ENV"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1239748Z ^[[36;1m  fi^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1239857Z ^[[36;1mfi^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1279836Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1280027Z env:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1280143Z   CC_FORK: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1280269Z   CC_OIDC_TOKEN: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1280418Z   CC_OIDC_AUDIENCE: https://codecov.io
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1280574Z   INPUT_USE_OIDC: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1280866Z   INPUT_TOKEN: ***
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1280988Z   INPUT_CODECOV_TOKEN: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1281117Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1337755Z ^[[0;32m==>^[[0m Token set from input
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1374644Z ##[end-action id=__codecov_codecov-action.__run_5;outcome=success;conclusion=success;duration_ms=15]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1377561Z ##[start-action display=Override branch for forks;id=__codecov_codecov-action.__run_6]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1390258Z ##[group]Run if [ -z "$CC_BRANCH" ] && [ -z "$CC_TOKEN" ] && [ "$CC_FORK" == 'true' ]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1390561Z ^[[36;1mif [ -z "$CC_BRANCH" ] && [ -z "$CC_TOKEN" ] && [ "$CC_FORK" == 'true' ]^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1390759Z ^[[36;1mthen^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1390992Z ^[[36;1m  echo -e "\033[0;32m==>\033[0m Fork detected, setting branch to $GITHUB_EVENT_PULL_REQUEST_HEAD_LABEL"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1391282Z ^[[36;1m  TOKENLESS="$GITHUB_EVENT_PULL_REQUEST_HEAD_LABEL"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1391687Z ^[[36;1m  CC_BRANCH="$GITHUB_EVENT_PULL_REQUEST_HEAD_LABEL"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1391897Z ^[[36;1m  echo "TOKENLESS=$TOKENLESS" >> "$GITHUB_ENV"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1392062Z ^[[36;1mfi^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1392183Z ^[[36;1m^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1392331Z ^[[36;1mecho "CC_BRANCH=$CC_BRANCH" >> "$GITHUB_ENV"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1430108Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1430294Z env:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1430411Z   CC_FORK: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1430674Z   CC_TOKEN: ***
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1430789Z   CC_BRANCH: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1430978Z   GITHUB_EVENT_PULL_REQUEST_HEAD_LABEL: simiancraft:fix/add-tcca-palette-76
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1431247Z   GITHUB_EVENT_PULL_REQUEST_HEAD_REPO_FULL_NAME: simiancraft/chromonym
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1431603Z   GITHUB_REPOSITORY: simiancraft/chromonym
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1431762Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1490235Z ##[end-action id=__codecov_codecov-action.__run_6;outcome=success;conclusion=success;duration_ms=11]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1495226Z ##[start-action display=Override commits and pr for pull requests;id=__codecov_codecov-action.__run_7]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1507817Z ##[group]Run if [ -z "$CC_SHA" ];
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1508019Z ^[[36;1mif [ -z "$CC_SHA" ];^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1508157Z ^[[36;1mthen^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1508317Z ^[[36;1m  CC_SHA="$GITHUB_EVENT_PULL_REQUEST_HEAD_SHA"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1508486Z ^[[36;1mfi^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1508629Z ^[[36;1mif [ -z "$CC_PR" ] && [ "$CC_FORK" == 'true' ];^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1508793Z ^[[36;1mthen^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1508920Z ^[[36;1m  CC_PR="$GITHUB_EVENT_NUMBER"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1509064Z ^[[36;1mfi^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1509172Z ^[[36;1m^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1509302Z ^[[36;1mecho "CC_SHA=$CC_SHA" >> "$GITHUB_ENV"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1509477Z ^[[36;1mecho "CC_PR=$CC_PR" >> "$GITHUB_ENV"^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1546476Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1546666Z env:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1546778Z   CC_FORK: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1547037Z   CC_TOKEN: ***
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1547155Z   CC_BRANCH: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1547264Z   CC_PR: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1547365Z   CC_SHA: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1547495Z   GITHUB_EVENT_NAME: pull_request
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1547647Z   GITHUB_EVENT_NUMBER: 79
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1547982Z   GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: 95accbc591277cc4af54582ca0e090b7d8167189
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1548197Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1607812Z ##[end-action id=__codecov_codecov-action.__run_7;outcome=success;conclusion=success;duration_ms=11]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1613117Z ##[start-action display=Upload coverage to Codecov;id=__codecov_codecov-action.__run_8]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1625482Z ##[group]Run ${GITHUB_ACTION_PATH}/dist/codecov.sh
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1625719Z ^[[36;1m${GITHUB_ACTION_PATH}/dist/codecov.sh^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1661097Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1661282Z env:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1661524Z   CC_FORK: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1661847Z   CC_TOKEN: ***
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1661985Z   CC_BRANCH: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1662148Z   CC_SHA: 95accbc591277cc4af54582ca0e090b7d8167189
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1662542Z   CC_PR: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1662659Z   CC_BASE_SHA: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1662770Z   CC_BINARY: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1662886Z   CC_BUILD: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1662998Z   CC_BUILD_URL: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1663113Z   CC_CLEANUP: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1663231Z   CC_CODE: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1663341Z   CC_DIR: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1663465Z   CC_DISABLE_FILE_FIXES: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1663609Z   CC_DISABLE_SEARCH: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1663743Z   CC_DISABLE_TELEM: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1663871Z   CC_DRY_RUN: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1664250Z   CC_ENTERPRISE_URL: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1664433Z   CC_ENV: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1664643Z   CC_EXCLUDES: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1664881Z   CC_FAIL_ON_ERROR: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1665102Z   CC_FILES: ./coverage/lcov.info
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1665314Z   CC_FLAGS: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1678520Z   CC_FORCE: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1678654Z   CC_GCOV_ARGS: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1678785Z   CC_GCOV_EXECUTABLE: gcov
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1678927Z   CC_GCOV_IGNORE: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1679059Z   CC_GCOV_INCLUDE: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1679182Z   CC_GIT_SERVICE: github
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1679327Z   CC_HANDLE_NO_REPORTS_FOUND: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1679476Z   CC_JOB_CODE: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1679591Z   CC_LEGACY: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1679709Z   CC_NAME: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1679826Z   CC_NETWORK_FILTER: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1679954Z   CC_NETWORK_PREFIX: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1680080Z   CC_NETWORK_ROOT_FOLDER: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1680212Z   CC_OS: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1680319Z   CC_PARENT_SHA: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1680434Z   CC_PLUGINS: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1680554Z   CC_RECURSE_SUBMODULES: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1680700Z   CC_REPORT_TYPE: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1680830Z   CC_RUN_CMD: upload-coverage
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1680968Z   CC_SERVICE: github
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1681098Z   CC_SKIP_VALIDATION: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1681226Z   CC_SLUG: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1681336Z   CC_SWIFT_PROJECT: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1681595Z   CC_USE_PYPI: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1681723Z   CC_VERBOSE: false
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1681841Z   CC_VERSION: latest
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1681960Z   CC_YML_PATH: 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1682090Z ##[endgroup]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1771763Z      _____          _
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1772007Z     / ____|        | |
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1772226Z    | |     ___   __| | ___  ___ _____   __
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1772474Z    | |    / _ \ / _` |/ _ \/ __/ _ \ \ / /
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1772704Z    | |___| (_) | (_| |  __/ (_| (_) \ V /
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1772940Z     \_____\___/ \__,_|\___|\___\___/ \_/
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1773474Z                            ^[[0;31m Wrapper-0.3.1^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1773727Z                            
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1857268Z ^[[0;32m==>^[[0m Detected ^[[0;36mlinux^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1857790Z ^[[0;32m ->^[[0m Downloading ^[[0;36mhttps://cli.codecov.io/latest/linux/codecov^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1935788Z   % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1936185Z                                  Dload  Upload  Total   Spent   Left   Speed
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.1936548Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.4391926Z   0      0   0      0   0      0      0      0                              0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.4392374Z 100 17.61M 100 17.61M   0      0 71.54M      0                              0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.4392720Z 100 17.61M 100 17.61M   0      0 71.53M      0                              0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.4393073Z 100 17.61M 100 17.61M   0      0 71.52M      0                              0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.4422762Z ^[[0;32m==>^[[0m Finishing downloading ^[[0;36mlinux:latest^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.4971582Z       Version: ^[[0;36mv11.3.2^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.4971989Z  
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.5451966Z gpg: directory '/home/runner/.gnupg' created
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.5454852Z gpg: keybox '/home/runner/.gnupg/pubring.kbx' created
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.6900646Z gpg: /home/runner/.gnupg/trustdb.gpg: trustdb created
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.6901066Z gpg: key 806BB28AED779869: public key "Codecov Uploader (Codecov Uploader Verification Key) <security@codecov.io>" imported
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.7002154Z gpg: Total number processed: 1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.7002427Z gpg:               imported: 1
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.7007721Z ^[[0;32m==>^[[0m Verifying GPG signature integrity
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.7008232Z ^[[0;32m ->^[[0m Downloading ^[[0;36mhttps://cli.codecov.io/latest/linux/codecov.SHA256SUM^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.7008744Z ^[[0;32m ->^[[0m Downloading ^[[0;36mhttps://cli.codecov.io/latest/linux/codecov.SHA256SUM.sig^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.7009068Z  
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.8100463Z gpg: Signature made Wed Oct 28 17:39:34 2026 UTC
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.8100894Z gpg:                using RSA key 27034E7FDB850E0BBC2C62FF806BB28AED779869
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.8101960Z gpg: Good signature from "Codecov Uploader (Codecov Uploader Verification Key) <security@codecov.io>" [unknown]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.8102308Z gpg: WARNING: This key is not certified with a trusted signature!
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.8102566Z gpg:          There is no indication that the signature belongs to the owner.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.8102875Z Primary key fingerprint: 2703 4E7F DB85 0E0B BC2C  62FF 806B B28A ED77 9869
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.9277116Z codecov: OK
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.9290031Z ^[[0;32m==>^[[0m CLI integrity verified
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.9830739Z 
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.9831701Z ^[[0;32m ->^[[0m Token length: 36
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.9832004Z ^[[0;32m==>^[[0m Running upload-coverage
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:53.9838690Z       ^[[0;36m./codecov  upload-coverage -t <redacted> --git-service github --sha 95accbc591277cc4af54582ca0e090b7d8167189 --file ./coverage/lcov.info --gcov-executable gcov^[[0m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:54.2953765Z info - 2026-11-08 03:40:54,295 -- ci service found: github-actions
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:40:54.3189743Z warning - 2026-11-08 03:40:54,318 -- xcrun is not installed or can't be found.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:06.1188573Z warning - 2026-11-08 03:41:06,118 -- No gcov data found.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:06.1191317Z warning - 2026-11-08 03:41:06,119 -- coverage.py is not installed or can't be found.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:17.9532633Z info - 2026-11-08 03:41:17,952 -- Found 1 coverage files to report
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:17.9533157Z info - 2026-11-08 03:41:17,953 -- > /home/runner/work/chromonym/chromonym/coverage/lcov.info
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.4178958Z info - 2026-11-08 03:41:18,417 -- Your upload is now queued for processing. When finished, results will be available at: https://app.codecov.io/github/simiancraft/chromonym/commit/95accbc591277cc4af54582ca0e090b7d8167189
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.4179809Z info - 2026-11-08 03:41:18,417 -- Sending upload (43897 bytes) to storage
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.6454051Z info - 2026-11-08 03:41:18,645 -- Upload queued for processing complete
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.8098774Z ##[end-action id=__codecov_codecov-action.__run_8;outcome=success;conclusion=success;duration_ms=25648]
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.8155010Z Post job cleanup.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.9234129Z Post job cleanup.
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.9808429Z [command]/usr/bin/git version
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.9844949Z git version 2.56.0
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.9864313Z Copying '/home/runner/.gitconfig' to '/home/runner/work/_temp/377ebf07-e4c7-4f40-8703-72db49f05ce0/.gitconfig'
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.9870495Z Temporarily overriding HOME='/home/runner/work/_temp/377ebf07-e4c7-4f40-8703-72db49f05ce0' before making global git config changes
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.9871171Z Adding repository directory to the temporary git global config as a safe directory
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.9874338Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/chromonym/chromonym
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.9907030Z Removing SSH command configuration
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.9911332Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:18.9941753Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0171534Z Removing HTTP extra header
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0175869Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0207618Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0440167Z Removing includeIf entries pointing to credentials config files
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0446217Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0471581Z includeif.gitdir:/home/runner/work/chromonym/chromonym/.git.path
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0472077Z includeif.gitdir:/home/runner/work/chromonym/chromonym/.git/worktrees/*.path
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0472373Z includeif.gitdir:/github/workspace/.git.path
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0472626Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0478187Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/chromonym/chromonym/.git.path
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0534851Z /home/runner/work/_temp/git-credentials-6fc3169c-37e9-442f-9c40-e70e0d110e52.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0545161Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/chromonym/chromonym/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-6fc3169c\-37e9\-442f\-9c40\-e70e0d110e52\.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0582861Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/chromonym/chromonym/.git/worktrees/*.path
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0606751Z /home/runner/work/_temp/git-credentials-6fc3169c-37e9-442f-9c40-e70e0d110e52.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0614917Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/chromonym/chromonym/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-6fc3169c\-37e9\-442f\-9c40\-e70e0d110e52\.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0646586Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0668484Z /github/runner_temp/git-credentials-6fc3169c-37e9-442f-9c40-e70e0d110e52.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0675879Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-6fc3169c\-37e9\-442f\-9c40\-e70e0d110e52\.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0707148Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0729791Z /github/runner_temp/git-credentials-6fc3169c-37e9-442f-9c40-e70e0d110e52.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0737318Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-6fc3169c\-37e9\-442f\-9c40\-e70e0d110e52\.config
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0770834Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.0996019Z Removing credentials config '/home/runner/work/_temp/git-credentials-6fc3169c-37e9-442f-9c40-e70e0d110e52.config'
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:41:19.1140050Z Cleaning up orphan processes

@@ -1,0 +1,31 @@
+TCCA RP1700 source audit
+
+Capture commit: 95accbc591277cc4af54582ca0e090b7d8167189
+Official source: https://nvlpubs.nist.gov/nistpubs/jres/36/jresv36n3p209_A1b.pdf
+Source title: Spectrophotometric and colorimetric determination of the colors of the TCCA standard color cards
+Source authors: G. Reimann, D. B. Judd, and H. J. Keegan
+Source table: Table 5, PDF pages 28 through 33, journal pages 235 through 240
+Source PDF sha256: 9df8badf86bc0bcdbe99105d12e01c0244805b6a96694afe34fc7f63ab31f1fb
+Fixture sha256: 3ca4d1a90aa5c3a5ec6fabd00e8d03ac3ab8bce7c364538a7d4cc93295af95af
+Palette source sha256: 4bd7eb899e42063de10eb57ba4ba0ddaf7097d26d616fdaf38a785d45466b9f0
+
+Scope checked:
+- 216 Standard Color Card of America rows, cable 70001 through 70216
+- 22 United States Army Color Card rows, cable 65001 through 65022
+- TCCA name, five-digit cable number, Y, x, and y for every row
+
+Method and result:
+- Downloaded the official NIST PDF and rendered Table 5 pages from the scan.
+- Compared the fixture against the PDF text layer by cable and ordered Y/x/y values.
+- 206 rows matched the embedded OCR mechanically.
+- The 32 OCR-corrupted rows were checked against the rendered page images:
+  70027, 70034, 70039, 70041, 70042, 70049, 70052, 70053,
+  70054, 70058, 70070, 70075, 70091, 70099, 70121, 70135,
+  70148, 70160, 70165, 70166, 70178, 70181, 70186, 70192,
+  70198, 70208, 70209, 70210, 70211, 70216, 65005, and 65007.
+- All 238 fixture rows match Table 5. No transcription mismatch was found.
+
+Re-check:
+1. Download the official source URL and verify its SHA-256 digest.
+2. Open PDF pages 28 through 33.
+3. Compare test/fixtures/tcca-nbs-rp1700.tsv at the capture commit with Table 5.

@@ -1,0 +1,16 @@
+{
+  "paletteEntries": 238,
+  "fixtureRows": 238,
+  "standardRows": 216,
+  "armyRows": 22,
+  "uniqueCables": 238,
+  "missing": [],
+  "extras": [],
+  "normalizer": {
+    "number": "70180",
+    "prefixed": "70180",
+    "full": "70180",
+    "nameOnly": "oldgloryred"
+  },
+  "defaultMetric": "deltaE2000"
+}

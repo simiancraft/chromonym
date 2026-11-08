@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "data"],
+  "covered_paths": ["src/palettes/tcca.ts", "test/fixtures/tcca-nbs-rp1700.tsv"],
+  "capture_commit": "95accbc591277cc4af54582ca0e090b7d8167189",
+  "capture_method": "Read-only Bun audit of exact palette-fixture key correspondence, card counts, cable uniqueness, normalization, and default metric",
+  "content_hash": "sha256:b90763e7fc018ef8e2216db695a901aad706c8dac31a679d92ac305c8524237f"
+}

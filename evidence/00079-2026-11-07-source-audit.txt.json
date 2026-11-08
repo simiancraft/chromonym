@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["data", "provenance"],
+  "covered_paths": ["test/fixtures/tcca-nbs-rp1700.tsv", "src/palettes/tcca.ts", "NOTICE.md"],
+  "capture_commit": "95accbc591277cc4af54582ca0e090b7d8167189",
+  "capture_method": "Official NIST RP1700 PDF Table 5 OCR comparison plus rendered-page inspection of OCR exceptions",
+  "content_hash": "sha256:7677ac78abe906c84f4e72c3e36826d14c815d76022995c668425a0e1f7190ed"
+}

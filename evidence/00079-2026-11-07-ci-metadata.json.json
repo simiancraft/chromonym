@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "ci", "package", "demo"],
+  "covered_paths": ["NOTICE.md", "README.md", "demo/src/components/PaletteGrid.tsx", "demo/src/components/PaletteTiles.tsx", "package.json", "src/index.ts", "src/palettes/tcca.ts", "test/fixtures/tcca-nbs-rp1700.tsv", "test/palettes.test.ts", "test/subpathExports.test.ts", "test/tccaNbsRp1700.test.ts", "test/tccaNbsRp1700.ts", ".github/workflows/ci.yml"],
+  "capture_commit": "95accbc591277cc4af54582ca0e090b7d8167189",
+  "capture_method": "GitHub Actions run 42443682450 metadata via gh run view",
+  "content_hash": "sha256:f3c371c8a84e1f9366fc808ccda2d2b65abef8f85dfa6ae224d3cad923d527f5"
+}
