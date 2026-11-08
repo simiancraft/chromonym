@@ -63,6 +63,14 @@ maybe('subpath exports resolve', () => {
     expect(m.pantone.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/copic exports the Copic palette object', async () => {
+    const m = await import('../dist/palettes/copic.js');
+    expect(m.copic.name).toBe('copic');
+    expect(m.copic.colors.B01).toBe('#e1f1f3');
+    expect(Object.keys(m.copic.colors).length).toBe(358);
+    expect(m.copic.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/crayola exports the crayola palette object', async () => {
     const m = await import('../dist/palettes/crayola.js');
     expect(m.crayola.name).toBe('crayola');
@@ -87,7 +95,7 @@ maybe('subpath exports resolve', () => {
   it('chromonym/fs595c exports the fs595c palette object', async () => {
     const m = await import('../dist/palettes/fs595c.js');
     expect(m.fs595c.name).toBe('fs595c');
-    expect(m.fs595c.colors['FS 11136']).toBe('#a32b25');
+    expect(m.fs595c.colors['FS 11136']).toBe('#8c4040');
     expect(m.fs595c.defaultMetric).toBe('deltaE2000');
   });
 
@@ -153,6 +161,14 @@ maybe('subpath exports resolve', () => {
     expect(m.milStd2525d.name).toBe('milStd2525d');
     expect(m.milStd2525d.colors['Friend Medium']).toBe('#00a8dc');
     expect(m.milStd2525d.defaultMetric).toBe('deltaE2000');
+  });
+
+  it('chromonym/us-military exports the usMilitary palette object', async () => {
+    const m = await import('../dist/palettes/usMilitary.js');
+    expect(m.usMilitary.name).toBe('usMilitary');
+    expect(m.usMilitary.colors['Air Force Blue']).toBe('#00308f');
+    expect(Object.keys(m.usMilitary.colors).length).toBe(31);
+    expect(m.usMilitary.defaultMetric).toBe('deltaE2000');
   });
 
   it('chromonym/pokemon exports the pokemon palette object', async () => {
@@ -275,6 +291,7 @@ maybe('subpath exports resolve', () => {
     // our own package.json exports map.
     const script = [
       "const { pantone } = await import('chromonym/pantone');",
+      "const { copic } = await import('chromonym/copic');",
       "const { web } = await import('chromonym/web');",
       "const { x11 } = await import('chromonym/x11');",
       "const { crayola } = await import('chromonym/crayola');",
@@ -293,6 +310,7 @@ maybe('subpath exports resolve', () => {
       "const { material } = await import('chromonym/material');",
       "const { ral } = await import('chromonym/ral');",
       "const { milStd2525d } = await import('chromonym/mil-std-2525d');",
+      "const { usMilitary } = await import('chromonym/us-military');",
       "const { uswds } = await import('chromonym/uswds');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
@@ -305,12 +323,13 @@ maybe('subpath exports resolve', () => {
       "const root = await import('chromonym');",
       'const out = {',
       '  pantoneName: pantone.name,',
+      '  copicBlue: copic.colors.B01 === "#e1f1f3",',
       '  webRed: web.colors.red,',
       '  x11Count: Object.keys(x11.colors).length > 600,',
       '  crayolaRazz: crayola.colors.Razzmatazz === "#e3256b",',
       '  ntcStratos: ntc.colors.Stratos === "#000741",',
       '  xkcdCloudyBlue: xkcd.colors["cloudy blue"] === "#acc2d9",',
-      '  fs595cInsignia: fs595c.colors["FS 11136"] === "#a32b25",',
+      '  fs595cInsignia: fs595c.colors["FS 11136"] === "#8c4040",',
       '  fs595bInsignia: fs595b.colors["FS 11136"] === "#9b2f25",',
       '  tccaOldGloryRed: tcca.colors["Old Glory Red 70180"] === "#9c1c2d",',
       '  isccNbsVividPink: isccNbs.colors["Vivid pink"] === "#fd7992",',
@@ -323,6 +342,7 @@ maybe('subpath exports resolve', () => {
       '  materialPrimary: material.colors["light-primary"] === "#6750a4",',
       '  ralSignalYellow: ral.colors["RAL 1003"] === "#f9a900",',
       '  milStd2525dFriend: milStd2525d.colors["Friend Medium"] === "#00a8dc",',
+      '  usMilitaryBlue: usMilitary.colors["Air Force Blue"] === "#00308f",',
       '  uswdsBlue: uswds.colors["blue-60v"] === "#005ea2",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
@@ -348,6 +368,7 @@ maybe('subpath exports resolve', () => {
     const result = JSON.parse(output);
     expect(result).toEqual({
       pantoneName: 'pantone',
+      copicBlue: true,
       webRed: '#ff0000',
       x11Count: true,
       crayolaRazz: true,
@@ -366,6 +387,7 @@ maybe('subpath exports resolve', () => {
       materialPrimary: true,
       ralSignalYellow: true,
       milStd2525dFriend: true,
+      usMilitaryBlue: true,
       uswdsBlue: true,
       hexToRgba: true,
       rgb: true,

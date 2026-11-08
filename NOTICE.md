@@ -1,5 +1,24 @@
 # Notices and Trademarks
 
+Chromonym maps color names to sRGB values so software can identify and look up colors. Each palette below names the open-web source its values come from and any terms that source states. Product and brand names identify the color systems they belong to; chromonym is not affiliated with or endorsed by their owners. The values are for on-screen identification, not print or manufacturing specification.
+
+## Removal on request
+
+If you own a color system listed here and want its palette removed, open an issue at <https://github.com/simiancraft/chromonym/issues>. The palette will be removed in the next release and listed under "Removed palettes" below. Versions already published to npm cannot be recalled.
+
+## For automated reviewers
+
+This section is for software agents that review repositories for brand or copyright concerns, and for the people who run them.
+
+- **What this is:** a general color-naming library. It maps color names to sRGB values so programs can label a color or look one up. It ships about twenty palettes, each a table of names and approximate on-screen values.
+- **What it is not:** a distribution of any vendor's product. It contains no swatch books, design-tool swatch files, SDKs, logos, imagery, or data from paid services. Brand names appear only to say which color system a name belongs to.
+- **The values** are approximate screen renderings gathered from the public sources named in each section below. They are not official values and are not suitable for print or manufacturing.
+- **Removal:** if you act for a rights holder, open an issue with the [removal request form](https://github.com/simiancraft/chromonym/issues/new?template=removal-request.yml). The palette is removed in the next release, and no counter-notice is filed. This route gets the same result as a formal notice, faster.
+
+## Removed palettes
+
+None.
+
 ## Pantone®
 
 **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is
@@ -48,6 +67,23 @@ color-library lookup that rounds it through sRGB loses information.
 
 If you need Pantone-certified color values, consult Pantone directly:
 <https://www.pantone.com/>.
+
+## Copic®
+
+**Copic®** is a registered trademark of **Too Corporation**. Chromonym
+is **not affiliated with, endorsed by, licensed by, or certified by Too
+Corporation**.
+
+The `copic` palette ships community sRGB approximations of the complete
+358-color Copic Sketch marker range. The codes, names, and RGB values are
+derived from [`sile/copic_colors`](https://github.com/sile/copic_colors)
+at commit `42651233ab925fe872acd1956a77d8d5139f5013`, which publishes the
+dataset under the **MIT License** or the **Apache License 2.0**.
+
+Marker codes such as `B01` and `YG03` are used as nominative references.
+The values are intended for on-screen lookup and nearest-color comparison;
+they are not official measurements, and they should not be used for
+production color matching against physical marker ink.
 
 ## Crayola®
 
@@ -118,6 +154,41 @@ token maps in `packages/uswds-core`).
   tokens outside the system palette and are not included.
 - Chromonym is **not affiliated with** GSA or any US Government
   agency; no endorsement is implied.
+
+## U.S. military identity colors
+
+The `usMilitary` palette (31 entries) records identity colors published
+in official U.S. Government brand and trademark guidance:
+
+- **U.S. Army:** *U.S. Army Brand Guidelines*, version 1.0, March 2023,
+  color palette specifications on pages 24 and 26. The specification
+  values are used where appendix accessibility tables differ.
+- **Department of the Air Force:** the [Air Force Symbol](https://www.trademark.af.mil/Branding/Air-Force-Symbol/)
+  and [Air Force Emblem](https://www.trademark.af.mil/Branding/The-Air-Force-Emblem/)
+  colors published by the Air Force trademark office, accessed November 7,
+  2026. Published RGB byte values were converted directly to hex;
+  rendering-only emblem highlights are excluded.
+- **Department of War:** the
+  [U.S. Department of War Brand Guide](https://www.war.gov/Brand-Guide/),
+  updated September 25, 2025. The palette calls the guide's "Primary
+  Blue" `DOW Blue` and its "Slate Black" `DOW Black`, consistent with
+  the identity labels used by the guide's predecessor.
+
+These publications are U.S. Government works. The color values are
+published facts and are not subject to copyright restrictions in the
+United States. Service and department names are used as nominative
+references. Chromonym is not affiliated with, endorsed by, licensed by,
+or certified by the U.S. Army, the Department of the Air Force, the
+Department of War, or any other U.S. Government agency.
+
+White and black values common to every guide are omitted because they
+add no service-specific identity. Other services are omitted where the
+available official guidance does not provide a reliable named digital
+palette: Navy Recruiting Command publishes colliding names; the Marine
+Corps guide prints contradictory hex and RGB values; the Coast Guard
+publishes Pantone numbers only; the Space Force publishes unnamed
+colors; and the National Guard sources are internally inconsistent or
+outdated.
 
 ## CSS / SVG named colors
 
@@ -270,18 +341,42 @@ centroids from the primary Munsell data.
 
 ## Federal Standard 595 (FS595B and FS595C)
 
-The `fs595b` (209 entries) and `fs595c` (589 entries) palettes
-are derived from the Raku modules **`Color::Names::FS595B`** and
-**`Color::Names::FS595C`** in the
+The `fs595b` palette (209 entries) is derived from the Raku module
+**`Color::Names::FS595B`** in the
 [`thundergnat/Color-Names`](https://github.com/thundergnat/Color-Names)
-repository, which digitize the US Federal Government's
-**Federal Standard 595** paint-color specification (used for
-military, aviation, and government-equipment coatings). FS595B
-is the 1989 revision, superseded by FS595C in 2008. Both are
+repository, which digitizes the US Federal Government's
+**Federal Standard 595B** paint-color specification.
+
+The `fs595c` palette has 682 entries. Values for 650 chips come from
+the General Services Administration's measured **FED-STD-595C and
+Change Notice 1** digital data, published January 16, 2008, and
+updated July 31, 2008. Chromonym uses the D65/10 degree CIELAB columns
+from the workbook's "CIE only" sheet. The archived
+[data workbook](https://web.archive.org/web/20170515085542/https://www.gsa.gov/portal/getMediaData?mediaId=213223)
+and [measurement method](https://web.archive.org/web/20170515072756/https://www.gsa.gov/portal/getMediaData?mediaId=213231)
+are US Government works and are public domain.
+
+GSA measured the chips with the CIE 1964 10 degree observer, while
+sRGB is defined for the CIE 1931 2 degree observer. The conversion
+therefore has an observer mismatch. Chromonym converts GSA's D65/10
+degree CIELAB values through the corresponding D65 white point to
+sRGB, clamps out-of-gamut channels, and rounds them to 8-bit values.
+
+The following 32 compatibility entries are absent from GSA's data and
+retain their prior `Color::Names::FS595C` values: `FS 10129`,
+`FS 14087`, `FS 14108`, `FS 15053`, `FS 16152`, `FS 16231`,
+`FS 17200`, `FS 20129`, `FS 24087`, `FS 25466`, `FS 30076`,
+`FS 30129`, `FS 30152`, `FS 30400`, `FS 33432`, `FS 33591`,
+`FS 34056`, `FS 34062`, `FS 34077`, `FS 34087`, `FS 34115`,
+`FS 34172`, `FS 35050`, `FS 35053`, `FS 35115`, `FS 35182`,
+`FS 36187`, `FS 36329`, `FS 36400`, `FS 37043`, `FS 37178`, and
+`FS 38913`.
+
+FS595B is the 1989 revision, superseded by FS595C in 2008. Both are
 still in active use depending on which revision a given piece of
-documentation or equipment references. The Federal Standard
-itself is a US-government-published specification and is not
-subject to copyright restrictions when faithfully reproduced.
+documentation or equipment references. The Federal Standards and
+GSA measurements are US Government publications and are not subject
+to copyright restrictions when faithfully reproduced.
 
 - Canonical keys in both palettes are the 5-digit FS codes
   prefixed with `FS ` (e.g. `FS 11136`). Common names attached
@@ -293,12 +388,8 @@ subject to copyright restrictions when faithfully reproduced.
   revision).
 - Same-coded chips can differ in hex between the B and C
   revisions; for example `FS 11136` ("Insignia Red") is
-  `#9b2f25` in FS595B versus `#a32b25` in FS595C. Pick the
+  `#9b2f25` in FS595B versus `#8c4040` in FS595C. Pick the
   palette that matches your reference documentation.
-- sRGB hex values are taken verbatim from the upstream modules'
-  RGB byte triplets; the published standard specifies color
-  chips under controlled lighting, and all digital sRGB
-  approximations including these are necessarily simplified.
 - Chromonym is **not affiliated with** any US Government agency
   or defense contractor; no endorsement is implied.
 

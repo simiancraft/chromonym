@@ -1,6 +1,6 @@
 {
   "name": "chromonym",
-  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or twenty built-in sets (CSS, X11, Pantone, Crayola, NTC, XKCD, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, TCCA, MIL-STD-2525D, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
+  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or twenty-two built-in sets (CSS, X11, Pantone, Copic, Crayola, NTC, XKCD, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, TCCA, MIL-STD-2525D, US military identity colors, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
   "keywords": [
     "color",
     "colors",
@@ -15,6 +15,7 @@
     "css-colors",
     "x11-colors",
     "pantone",
+    "copic",
     "crayola",
     "ral",
     "tailwind",
@@ -33,7 +34,7 @@
   ],
   "author": "the-simian <info@simiancraft.com>",
   "license": "MIT",
-  "version": "3.7.1",
+  "version": "3.8.0",
   "homepage": "https://github.com/simiancraft/chromonym#readme",
   "repository": {
     "type": "git",
@@ -67,6 +68,11 @@
       "types": "./dist/palettes/pantone.d.ts",
       "import": "./dist/palettes/pantone.js",
       "default": "./dist/palettes/pantone.js"
+    },
+    "./copic": {
+      "types": "./dist/palettes/copic.d.ts",
+      "import": "./dist/palettes/copic.js",
+      "default": "./dist/palettes/copic.js"
     },
     "./pokemon": {
       "types": "./dist/palettes/pokemon.d.ts",
@@ -122,6 +128,11 @@
       "types": "./dist/palettes/milStd2525d.d.ts",
       "import": "./dist/palettes/milStd2525d.js",
       "default": "./dist/palettes/milStd2525d.js"
+    },
+    "./us-military": {
+      "types": "./dist/palettes/usMilitary.d.ts",
+      "import": "./dist/palettes/usMilitary.js",
+      "default": "./dist/palettes/usMilitary.js"
     },
     "./nbs": {
       "types": "./dist/palettes/nbs.d.ts",

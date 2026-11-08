@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { identify } from '../src/identify.js';
+import { copic } from '../src/palettes/copic.js';
 import { crayola } from '../src/palettes/crayola.js';
 import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
@@ -15,6 +16,7 @@ import { ral } from '../src/palettes/ral.js';
 import { resene } from '../src/palettes/resene.js';
 import { tailwind } from '../src/palettes/tailwind.js';
 import { tcca } from '../src/palettes/tcca.js';
+import { usMilitary } from '../src/palettes/usMilitary.js';
 import { uswds } from '../src/palettes/uswds.js';
 import { web } from '../src/palettes/web.js';
 import { werner } from '../src/palettes/werner.js';
@@ -32,6 +34,19 @@ describe.each([
     {
       minCount: 900,
       spotChecks: { '100 C': '#f6eb61', '102 C': '#fce300' } as Record<string, string>,
+    },
+  ],
+  [
+    'copic',
+    copic,
+    {
+      minCount: 358,
+      spotChecks: {
+        BV0000: '#eeecf5',
+        B01: '#e1f1f3',
+        YG03: '#eaeeb2',
+        'C-5': '#a4aeb2',
+      } as Record<string, string>,
     },
   ],
   [
@@ -71,10 +86,10 @@ describe.each([
     'fs595c',
     fs595c,
     {
-      minCount: 580,
+      minCount: 680,
       spotChecks: {
-        'FS 10032': '#372726',
-        'FS 11136': '#a32b25',
+        'FS 10032': '#473f3f',
+        'FS 11136': '#8c4040',
       } as Record<string, string>,
     },
   ],
@@ -220,6 +235,19 @@ describe.each([
         'red-warm-60v': '#9c3d10',
         'cyan-5': '#e7f6f8',
         'gray-100': '#000000',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'usMilitary',
+    usMilitary,
+    {
+      minCount: 31,
+      spotChecks: {
+        'Army Gold': '#ffcc01',
+        'Air Force Blue': '#00308f',
+        'Air Force Ultramarine Blue': '#00539f',
+        'DOW Space Blue': '#15263b',
       } as Record<string, string>,
     },
   ],

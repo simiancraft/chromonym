@@ -4,6 +4,7 @@
 // eyedropper (result-only).
 
 import {
+  copic,
   crayola,
   fs595b,
   fs595c,
@@ -19,6 +20,7 @@ import {
   resene,
   tailwind,
   tcca,
+  usMilitary,
   uswds,
   web,
   werner,
@@ -38,6 +40,7 @@ export const PALETTES = {
   web,
   x11,
   pantone,
+  copic,
   crayola,
   ntc,
   xkcd,
@@ -55,6 +58,7 @@ export const PALETTES = {
   material,
   uswds,
   milStd2525d,
+  usMilitary,
 } as const;
 export type PaletteKey = keyof typeof PALETTES;
 
@@ -62,6 +66,7 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   web: 'CSS / web',
   x11: 'X11',
   pantone: 'Pantone',
+  copic: 'Copic',
   crayola: 'Crayola',
   ntc: 'NTC',
   xkcd: 'XKCD',
@@ -79,6 +84,7 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   material: 'Material Design 3',
   uswds: 'USWDS',
   milStd2525d: 'MIL-STD-2525D',
+  usMilitary: 'US military identity',
 };
 
 // Short demo-side descriptions surfaced in the palette-picker panel. Kept in
@@ -88,10 +94,11 @@ export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
   web: "CSS Color Module Level 4. The default palette; what browsers recognize in `color: red;` declarations.",
   x11: "X.Org rgb.txt from the UNIX graphical stack. 658 entries including dense gray ramps (gray 0 through gray 100).",
   pantone: "Pantone Coated (C). Print-industry codes like '185 C'; community-approximated sRGB values, not Pantone-licensed.",
+  copic: "Copic Sketch markers. The complete 358-color range keyed by codes like 'B01' and 'YG03'; community sRGB approximations.",
   crayola: "Crayola crayon colors. The classic 64-standard box plus fluorescent neons and selected modern additions.",
   ntc: "Chirag Mehta's 'Name That Color' dataset. 1566 broad-coverage design / UI / hardware names CSS and X11 don't reach.",
   xkcd: "The 2010 XKCD Color Survey. Crowd-sourced common-speech names (923 entries), CC0 public domain.",
-  fs595c: "US Federal Standard 595C paint chips (589 entries). Military, aviation, and government-equipment coatings.",
+  fs595c: "US Federal Standard 595C paint chips (682 entries). Military, aviation, and government-equipment coatings.",
   fs595b: "Federal Standard 595B, the 1989 predecessor to FS 595C. Many shared codes have different hex across the two revisions.",
   tcca: 'The 1946 NBS measurements of 238 silk colors from the ninth-edition TCCA Standard Color Card of America and U.S. Army Color Card.',
   isccNbs: "ISCC-NBS Method of Designating Colors (1955). 260 Munsell-partitioned named blocks; sRGB centroids by Paul Centore.",
@@ -105,12 +112,14 @@ export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
   material: "Material Design 3 baseline system color roles. 98 light and dark scheme tokens with keys like 'light-primary' and 'dark-on-surface'.",
   uswds: "U.S. Web Design System, the GSA's design system for federal websites. 461 system tokens keyed by name ('blue-60v', 'gray-cool-30'); grades 50 apart meet WCAG AA contrast. Public domain.",
   milStd2525d: "MIL-STD-2525D Joint Military Symbology. The 20 colors map symbols use for standard identity: hostile, friend, neutral, unknown, and civilian, each in dark, medium, light, and unfilled.",
+  usMilitary: 'Identity colors published by the U.S. Army, Department of the Air Force, and Department of War. 31 named colors from official brand and trademark guidance.',
 };
 
 export const PALETTE_KEYS = [
   'web',
   'x11',
   'pantone',
+  'copic',
   'crayola',
   'ntc',
   'xkcd',
@@ -128,6 +137,7 @@ export const PALETTE_KEYS = [
   'material',
   'uswds',
   'milStd2525d',
+  'usMilitary',
 ] as const satisfies readonly PaletteKey[];
 
 interface PaletteGridProps {

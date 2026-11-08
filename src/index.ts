@@ -29,6 +29,7 @@ export {
   type IdentifyRankedOptions,
   identify,
 } from './identify.js';
+export { type CopicColorName, copic } from './palettes/copic.js';
 export { type CrayolaColorName, crayola } from './palettes/crayola.js';
 export { type Fs595bColorName, fs595b } from './palettes/fs595b.js';
 export { type Fs595cColorName, fs595c } from './palettes/fs595c.js';
@@ -44,6 +45,7 @@ export { type RalColorName, ral } from './palettes/ral.js';
 export { type ReseneColorName, resene } from './palettes/resene.js';
 export { type TailwindColorName, tailwind } from './palettes/tailwind.js';
 export { type TccaColorName, tcca } from './palettes/tcca.js';
+export { type UsMilitaryColorName, usMilitary } from './palettes/usMilitary.js';
 export { type UswdsColorName, uswds } from './palettes/uswds.js';
 export { type WebColorName, web } from './palettes/web.js';
 export { type WernerColorName, werner } from './palettes/werner.js';

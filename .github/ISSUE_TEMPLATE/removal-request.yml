@@ -1,0 +1,41 @@
+name: Removal request
+description: Ask for a palette to be removed on behalf of the owner of its color system.
+title: "[removal] "
+labels: ["removal-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        chromonym removes a palette when the owner of its color system asks. A request through this form gets the palette removed in the next release; no counter-notice is filed. See NOTICE.md, "Removal on request".
+
+  - type: input
+    id: palette
+    attributes:
+      label: Palette
+      description: The palette's export name, as listed in the README (for example `copic` or `resene`).
+    validations:
+      required: true
+
+  - type: input
+    id: rights_holder
+    attributes:
+      label: Rights holder
+      description: The company or person who owns the color system, and whom you represent.
+    validations:
+      required: true
+
+  - type: input
+    id: contact
+    attributes:
+      label: Contact
+      description: How to reach you if anything needs clarifying.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: What should be removed
+      description: The whole palette, or specific entries. Leave blank to remove the whole palette.
+    validations:
+      required: false
