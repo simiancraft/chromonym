@@ -1,0 +1,13 @@
+{
+  "scope_tags": ["code", "data", "package"],
+  "covered_paths": [
+    "package.json",
+    "src/index.ts",
+    "src/palettes/farrowBall.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "e67d15c3853cba32b6e184a48b7b58e371b2d162",
+  "capture_method": "bun .proof-85/focused-proof.mjs; compares the package to colornerd commit 5a46ba515d61169e49adc81dddb1bcd88da9d60a and exercises root and subpath imports, resolve, and identify",
+  "content_hash": "sha256:aa5c5f4998b5a67238282dd0469c131d04ec0c3e0bf4a0cbbad53a3559da24f2"
+}
