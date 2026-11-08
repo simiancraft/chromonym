@@ -1,3 +1,10 @@
+# [3.8.0](https://github.com/simiancraft/chromonym/compare/v3.7.2...v3.8.0) (2026-11-08)
+
+
+### Features
+
+* **palettes:** add US military identity colors ([3956c50](https://github.com/simiancraft/chromonym/commit/3956c503113d0583fe764c5e696489427d966cd2))
+
 ## [3.7.2](https://github.com/simiancraft/chromonym/compare/v3.7.1...v3.7.2) (2026-11-08)
 
 

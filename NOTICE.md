@@ -155,6 +155,41 @@ token maps in `packages/uswds-core`).
 - Chromonym is **not affiliated with** GSA or any US Government
   agency; no endorsement is implied.
 
+## U.S. military identity colors
+
+The `usMilitary` palette (31 entries) records identity colors published
+in official U.S. Government brand and trademark guidance:
+
+- **U.S. Army:** *U.S. Army Brand Guidelines*, version 1.0, March 2023,
+  color palette specifications on pages 24 and 26. The specification
+  values are used where appendix accessibility tables differ.
+- **Department of the Air Force:** the [Air Force Symbol](https://www.trademark.af.mil/Branding/Air-Force-Symbol/)
+  and [Air Force Emblem](https://www.trademark.af.mil/Branding/The-Air-Force-Emblem/)
+  colors published by the Air Force trademark office, accessed November 7,
+  2026. Published RGB byte values were converted directly to hex;
+  rendering-only emblem highlights are excluded.
+- **Department of War:** the
+  [U.S. Department of War Brand Guide](https://www.war.gov/Brand-Guide/),
+  updated September 25, 2025. The palette calls the guide's "Primary
+  Blue" `DOW Blue` and its "Slate Black" `DOW Black`, consistent with
+  the identity labels used by the guide's predecessor.
+
+These publications are U.S. Government works. The color values are
+published facts and are not subject to copyright restrictions in the
+United States. Service and department names are used as nominative
+references. Chromonym is not affiliated with, endorsed by, licensed by,
+or certified by the U.S. Army, the Department of the Air Force, the
+Department of War, or any other U.S. Government agency.
+
+White and black values common to every guide are omitted because they
+add no service-specific identity. Other services are omitted where the
+available official guidance does not provide a reliable named digital
+palette: Navy Recruiting Command publishes colliding names; the Marine
+Corps guide prints contradictory hex and RGB values; the Coast Guard
+publishes Pantone numbers only; the Space Force publishes unnamed
+colors; and the National Guard sources are internally inconsistent or
+outdated.
+
 ## CSS / SVG named colors
 
 The `web` palette mirrors the CSS Color Module Level 4 named-color

@@ -19,6 +19,7 @@ import {
   ral,
   resene,
   tailwind,
+  usMilitary,
   uswds,
   web,
   werner,
@@ -55,6 +56,7 @@ export const PALETTES = {
   material,
   uswds,
   milStd2525d,
+  usMilitary,
 } as const;
 export type PaletteKey = keyof typeof PALETTES;
 
@@ -79,6 +81,7 @@ export const PALETTE_LABELS: Record<PaletteKey, string> = {
   material: 'Material Design 3',
   uswds: 'USWDS',
   milStd2525d: 'MIL-STD-2525D',
+  usMilitary: 'US military identity',
 };
 
 // Short demo-side descriptions surfaced in the palette-picker panel. Kept in
@@ -105,6 +108,7 @@ export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
   material: "Material Design 3 baseline system color roles. 98 light and dark scheme tokens with keys like 'light-primary' and 'dark-on-surface'.",
   uswds: "U.S. Web Design System, the GSA's design system for federal websites. 461 system tokens keyed by name ('blue-60v', 'gray-cool-30'); grades 50 apart meet WCAG AA contrast. Public domain.",
   milStd2525d: "MIL-STD-2525D Joint Military Symbology. The 20 colors map symbols use for standard identity: hostile, friend, neutral, unknown, and civilian, each in dark, medium, light, and unfilled.",
+  usMilitary: 'Identity colors published by the U.S. Army, Department of the Air Force, and Department of War. 31 named colors from official brand and trademark guidance.',
 };
 
 export const PALETTE_KEYS = [
@@ -128,6 +132,7 @@ export const PALETTE_KEYS = [
   'material',
   'uswds',
   'milStd2525d',
+  'usMilitary',
 ] as const satisfies readonly PaletteKey[];
 
 interface PaletteGridProps {

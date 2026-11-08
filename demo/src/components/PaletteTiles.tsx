@@ -93,6 +93,9 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // MIL-STD-2525D: Friend Dark (#006b8c), the friendly-unit blue of a
   // map symbol, deep enough to carry the cream label.
   milStd2525d: { tone: '#006b8c', ink: 'var(--bh-cream)' },
+  // U.S. military identity colors: Army Gold is the shared palette's
+  // brightest service color and supports the dark label.
+  usMilitary: { tone: '#ffcc01', ink: 'var(--bh-ink)' },
 };
 
 const ORDER: PaletteKey[] = [
@@ -116,6 +119,7 @@ const ORDER: PaletteKey[] = [
   'material',
   'uswds',
   'milStd2525d',
+  'usMilitary',
 ];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).
