@@ -1,0 +1,15 @@
+{
+  "scope_tags": ["code", "data", "package"],
+  "covered_paths": [
+    "src/palettes/milStd709d.ts",
+    "src/palettes/fs595c.ts",
+    "src/identify.ts",
+    "package.json",
+    "test/milStd709d.test.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "24b7491662801b050ef5d2d2e34bb134a6bf4cd8",
+  "capture_method": "Extract MIL-STD-709D w/Change 1 Table II with pdftotext, then run bun test test/milStd709d.test.ts test/palettes.test.ts test/subpathExports.test.ts",
+  "content_hash": "sha256:336b75e7b80217f48b776c64fdbd76d67df345dbb3645904ec85ef92fe1bf533"
+}

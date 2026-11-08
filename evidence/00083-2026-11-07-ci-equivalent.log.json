@@ -1,0 +1,18 @@
+{
+  "scope_tags": ["code", "package", "demo", "ci"],
+  "covered_paths": [
+    "NOTICE.md",
+    "README.md",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "package.json",
+    "src/index.ts",
+    "src/palettes/milStd709d.ts",
+    "test/milStd709d.test.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "24b7491662801b050ef5d2d2e34bb134a6bf4cd8",
+  "capture_method": "CI-equivalent commands from .github/workflows/ci.yml, plus the demo build from .github/workflows/deploy-demo.yml",
+  "content_hash": "sha256:3d441e4a73e868e518c1786048bf1d81b11b3588992cb6a57717fc3abbf7762e"
+}

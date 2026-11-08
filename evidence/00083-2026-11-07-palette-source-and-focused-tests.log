@@ -1,0 +1,92 @@
+Source receipt: MIL-STD-709D w/Change 1, Table II
+                                   MIL-STD-709D
+                                   w/CHANGE 1
+
+                TABLE II. Ammunition Color Code for Tier II
+
+TIER    COLOR 5/               STANDARD                INTERPRETATION
+                                                       Identifies High Explosive (HE)
+ II    Yellow             FED-STD-595/33538            ammunition or indicates the
+                                                       presence of a high explosive
+                          FED-STD-595/30117            Identifies low explosive items or
+ II    Brown              or                           components or indicates the
+                          FED-STD-595/30140            presence of a low explosive
+                                                       Identifies chemical ammunition
+                                                       containing a toxic chemical,
+ II    Gray 1/ 6/         FED-STD-595/36231
+                                                       incapacitating or riot control
+                                                       agent
+                                                       Identifies a riot control agent
+ II    Dark Red           FED-STD-595/31136
+                                                       filler
+       Dark Green                                      Identifies a toxic chemical agent
+ II                       FED-STD-595/34108
+       1/                                              filler
+                                                       Identifies an incapacitating agent
+ II    Violet             FED-STD-595/17100
+                                                       filler
+                                                       Identifies an armor defeating
+ II    Black 1/ 3/        FED-STD-595/37038            ammunition or indicates an
+                                                       armor defeating capability
+                                                       Identifies countermeasure
+       Silver /
+ II                       FED-STD-595/17178            ammunition (e.g. radar echo,
+       Aluminum
+                                                       leaflets)
+                          FED-STD-595/34558            Identifies screening or marking
+       Light Green
+ II                       or                           smoke ammunition
+       1/
+                          FED-STD-595/34449
+                                                       Identifies incendiary
+                                                       ammunition or indicates the
+                                                       presence of highly flammable
+ II    Light Red          FED-STD-595/31158
+                                                       material (liquids, jellies, solids),
+                                                       designed to produce damage by
+                                                       fire
+                                                       Identifies illuminating
+                                                       ammunition or ammunition
+ II    White 1/ 2/ 3/     FED-STD-595/37875
+                                                       designed to produce a colored
+                                                       light
+
+
+
+
+                                           19
+                          Downloaded from https://www.everyspec.com
+
+
+
+                                     MIL-STD-709D
+                                     w/CHANGE 1
+
+             TABLE II. Ammunition Color Code for Tier II - Continued
+
+TIER      COLOR 4/ 5/            STANDARD                     INTERPRETATION
+                                                        Identifies practice
+  II      Light Blue         FED-STD-595/35109
+                                                        ammunition/munitions (see 6.6.1)
+                                                        May be used to identify
+                                                        ammunition used for tracking and
+  II      Orange             FED-STD-595/32246          recovery in tests or in training
+                                                        operations (e.g. underwater mines
+                                                        and torpedoes)
+                                                        Identifies ammunition with the
+                                                        potential to burst and/or explode
+  II      Light Orange       FED-STD-595/32544          (i.e. ammunition with no HE,
+                                                        ammunition that may contain low
+                                                        explosives, etc.)
+                                                        Identifies inert ammunition
+          Bronze, Gold,
+  II                         FED-STD-595/17043          designed for use in activities other
+          Brass
+                                                        than practice (see 6.6.2)
+$ bun test test/milStd709d.test.ts test/palettes.test.ts test/subpathExports.test.ts
+bun test v1.4.4 (38afee6c8)
+
+ 220 pass
+ 0 fail
+ 22137 expect() calls
+Ran 220 tests across 3 files. [100.00ms]
