@@ -1,3 +1,10 @@
+# [3.18.0](https://github.com/simiancraft/chromonym/compare/v3.17.0...v3.18.0) (2026-11-08)
+
+
+### Features
+
+* **palettes:** add TIOH heraldic colors ([343eecc](https://github.com/simiancraft/chromonym/commit/343eeccd87adbd99e2ca77546d94e1a0aa745166))
+
 # [3.17.0](https://github.com/simiancraft/chromonym/compare/v3.16.0...v3.17.0) (2026-11-08)
 
 
