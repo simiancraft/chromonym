@@ -1,3 +1,10 @@
+# [3.16.0](https://github.com/simiancraft/chromonym/compare/v3.15.0...v3.16.0) (2026-11-08)
+
+
+### Features
+
+* **palettes:** add Prismacolor Premier ([9cba73f](https://github.com/simiancraft/chromonym/commit/9cba73f7be93a5476772cbf1cf80dfe88dddb2f5))
+
 # [3.15.0](https://github.com/simiancraft/chromonym/compare/v3.14.0...v3.15.0) (2026-11-08)
 
 
