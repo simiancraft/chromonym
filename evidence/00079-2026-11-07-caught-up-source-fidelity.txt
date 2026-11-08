@@ -1,0 +1,26 @@
+TCCA RP1700 source-fidelity freshness receipt
+
+Capture commit: 10d6288ac8f8fa4a14ce482edf3408bc6f4649df
+Official source: https://nvlpubs.nist.gov/nistpubs/jres/36/jresv36n3p209_A1b.pdf
+Source table: Table 5, PDF pages 28 through 33, journal pages 235 through 240
+Source PDF sha256: 9df8badf86bc0bcdbe99105d12e01c0244805b6a96694afe34fc7f63ab31f1fb
+Fixture sha256: 3ca4d1a90aa5c3a5ec6fabd00e8d03ac3ab8bce7c364538a7d4cc93295af95af
+Palette source sha256: 4bd7eb899e42063de10eb57ba4ba0ddaf7097d26d616fdaf38a785d45466b9f0
+
+Freshness method and result:
+- Downloaded the official NIST PDF again at the capture commit and recomputed its SHA-256 digest.
+- Recomputed the fixture and palette source digests at the capture commit.
+- The PDF, fixture, and palette digests exactly match the prior full Table 5 audit.
+- Git confirms the prior audit capture 95accbc591277cc4af54582ca0e090b7d8167189 is an ancestor of this capture.
+- Git reports no byte changes between the two captures in the fixture, palette source, conversion implementation, or conversion test.
+- Therefore the prior row-by-row result applies unchanged to this head: all 216 Standard Color Card rows and all 22 Army Card rows match Table 5 for name, cable, Y, x, and y.
+
+Prior immutable full audit:
+https://github.com/simiancraft/chromonym/raw/db54e4860fa11edccb3856422b8d070ce2624927/evidence/00079-2026-11-07-source-audit.txt
+
+The prior audit mechanically matched 206 rows against the PDF text layer and checked the 32 OCR-corrupted rows against rendered scan pages. Its current source PDF, fixture, and palette digests are reproduced above.
+
+Re-check:
+1. Download the official source URL and verify its SHA-256 digest.
+2. Compute SHA-256 for test/fixtures/tcca-nbs-rp1700.tsv and src/palettes/tcca.ts at the capture commit.
+3. Diff 95accbc591277cc4af54582ca0e090b7d8167189..10d6288ac8f8fa4a14ce482edf3408bc6f4649df for test/fixtures/tcca-nbs-rp1700.tsv, src/palettes/tcca.ts, test/tccaNbsRp1700.ts, and test/tccaNbsRp1700.test.ts; the diff is empty.

@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["data", "provenance"],
+  "covered_paths": ["test/fixtures/tcca-nbs-rp1700.tsv", "src/palettes/tcca.ts", "test/tccaNbsRp1700.ts", "test/tccaNbsRp1700.test.ts"],
+  "capture_commit": "10d6288ac8f8fa4a14ce482edf3408bc6f4649df",
+  "capture_method": "Fresh NIST RP1700 download and SHA-256 comparison, plus empty path-scoped diff from the prior full Table 5 audit",
+  "content_hash": "sha256:e42f22cb704d946588bfb753c702bdae0008eb2474b8fc027388f5255656c736"
+}

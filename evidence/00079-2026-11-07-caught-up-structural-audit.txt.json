@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "data"],
+  "covered_paths": ["src/palettes/tcca.ts", "test/fixtures/tcca-nbs-rp1700.tsv"],
+  "capture_commit": "10d6288ac8f8fa4a14ce482edf3408bc6f4649df",
+  "capture_method": "Read-only Bun structural audit over the palette object and fixture rows",
+  "content_hash": "sha256:4303fd263368b100a37d02016fb7e3324facb7135af1b1fb9511c81f94a4c5d8"
+}

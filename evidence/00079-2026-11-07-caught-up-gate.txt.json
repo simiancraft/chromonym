@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "data", "package", "demo", "ci"],
+  "covered_paths": [".github/workflows/ci.yml", "bun.lock", "demo/bun.lock", "package.json", "src", "test", "demo/src"],
+  "capture_commit": "10d6288ac8f8fa4a14ce482edf3408bc6f4649df",
+  "capture_method": "bun run build && (cd demo && bun install --frozen-lockfile) && bun run check",
+  "content_hash": "sha256:6039f9761398f36d7377a2adba8c20403cc30588d4f4a755a0d13f7afafccdc3"
+}

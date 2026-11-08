@@ -1,0 +1,17 @@
+Script started on 2026-11-07 22:30:59-06:00 [<not executed on terminal>]
+{
+  "paletteEntries": 238,
+  "fixtureRows": 238,
+  "standardRows": 216,
+  "armyRows": 22,
+  "uniqueCables": 238,
+  "missingKeys": [],
+  "extraKeys": [],
+  "normalizeNumber": "70180",
+  "normalizeCablePhrase": "70180",
+  "normalizeFullName": "70180",
+  "normalizeNameFallback": "oldgloryred",
+  "defaultMetric": "deltaE2000"
+}
+
+Script done on 2026-11-07 22:30:59-06:00 [COMMAND_EXIT_CODE="0"]

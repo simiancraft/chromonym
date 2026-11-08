@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "data", "package"],
+  "covered_paths": ["src/palettes/tcca.ts", "test/fixtures/tcca-nbs-rp1700.tsv", "test/tccaNbsRp1700.ts", "test/tccaNbsRp1700.test.ts", "test/palettes.test.ts", "test/subpathExports.test.ts", "src/index.ts", "package.json"],
+  "capture_commit": "10d6288ac8f8fa4a14ce482edf3408bc6f4649df",
+  "capture_method": "bun test test/tccaNbsRp1700.test.ts test/palettes.test.ts test/subpathExports.test.ts",
+  "content_hash": "sha256:d6c9cc1e6e5fad14e450691957a35192fc786fbae06480693b2de5a5110ce4cb"
+}
