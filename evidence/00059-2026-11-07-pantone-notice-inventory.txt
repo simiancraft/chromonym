@@ -1,0 +1,54 @@
+Pantone NOTICE inventory proof
+
+Capture commit: b2157e06761b750f5c888644396db71d8b252863
+Command: bun -e (import pantone from src/palettes/pantone.ts, read NOTICE.md, assert the shipped 801 C through 814 C keys, assert no 8xxx or named Red keys exist, and assert NOTICE names only shipped inventory)
+Exit code: 0
+
+{
+  "head": "b2157e06761b750f5c888644396db71d8b252863",
+  "paletteEntries": 907,
+  "fluorescentRange": {
+    "expected": [
+      "801 C",
+      "802 C",
+      "803 C",
+      "804 C",
+      "805 C",
+      "806 C",
+      "807 C",
+      "808 C",
+      "809 C",
+      "810 C",
+      "811 C",
+      "812 C",
+      "813 C",
+      "814 C"
+    ],
+    "present": [
+      "801 C",
+      "802 C",
+      "803 C",
+      "804 C",
+      "805 C",
+      "806 C",
+      "807 C",
+      "808 C",
+      "809 C",
+      "810 C",
+      "811 C",
+      "812 C",
+      "813 C",
+      "814 C"
+    ],
+    "complete": true
+  },
+  "absentInventory": {
+    "metallic8xxx": [],
+    "named": []
+  },
+  "notice": {
+    "statesFluorescentRange": true,
+    "staleAbsentClaims": []
+  },
+  "pass": true
+}

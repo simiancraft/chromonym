@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["docs", "data"],
+  "covered_paths": ["NOTICE.md", "src/palettes/pantone.ts"],
+  "capture_commit": "b2157e06761b750f5c888644396db71d8b252863",
+  "capture_method": "bun -e inventory assertion over pantone.colors and NOTICE.md",
+  "content_hash": "sha256:a7ef58456016642730f84892c625451a56b4c2cc6663adc1abf9c106b47092d2"
+}
