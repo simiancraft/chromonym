@@ -1,3 +1,10 @@
+# [3.17.0](https://github.com/simiancraft/chromonym/compare/v3.16.0...v3.17.0) (2026-11-08)
+
+
+### Features
+
+* **palettes:** add Munsell renotation ([da01680](https://github.com/simiancraft/chromonym/commit/da01680804782d1886bbce8b6280cc821e4977cc))
+
 # [3.16.0](https://github.com/simiancraft/chromonym/compare/v3.15.0...v3.16.0) (2026-11-08)
 
 
