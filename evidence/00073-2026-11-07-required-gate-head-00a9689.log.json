@@ -1,0 +1,11 @@
+{
+  "scope_tags": ["code", "data", "test", "ci"],
+  "covered_paths": [
+    "test/fixtures/fs595c-gsa.tsv",
+    "test/fs595cGsa.ts",
+    "test/fs595cGsa.test.ts"
+  ],
+  "capture_commit": "00a96890192578b38253040d43b8bbab0fa739b3",
+  "capture_method": "Bun 1.4.4: bun run build && (cd demo && bun install --frozen-lockfile) && bun run check",
+  "content_hash": "sha256:dcd1b7d99cd6c628e70cb365938899e2b0d19ef25de91a11dbe9289ca990436a"
+}

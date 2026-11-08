@@ -1,0 +1,19 @@
+Capture commit: 00a96890192578b38253040d43b8bbab0fa739b3
+Bun version: 1.4.4
+Command: bun run build && (cd demo && bun install --frozen-lockfile) && bun run check
+
+Initial library build: passed
+Demo frozen-lockfile install: passed
+Biome check: passed with 1 warning and 2 configuration infos
+Demo ESLint: passed
+Library typecheck: passed
+Demo typecheck: passed
+Library build: passed
+Test typecheck: passed
+Tests: 543 pass, 0 fail, 21042 expect() calls
+Demo build: passed, 1939 modules transformed
+Knip: passed
+Publint: All good!
+Package type checks: passed under configured resolutions
+
+Exit code: 0
