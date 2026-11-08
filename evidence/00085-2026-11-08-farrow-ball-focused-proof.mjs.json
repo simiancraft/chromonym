@@ -1,0 +1,13 @@
+{
+  "scope_tags": ["code", "data", "package"],
+  "covered_paths": [
+    "package.json",
+    "src/index.ts",
+    "src/palettes/farrowBall.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "e67d15c3853cba32b6e184a48b7b58e371b2d162",
+  "capture_method": "read-only Bun harness used to produce 00085-2026-11-08-farrow-ball-focused-v2.log",
+  "content_hash": "sha256:b2c38b6371e0431c64648591e190edb27829e90d723f6f0405215884cdaae709"
+}
