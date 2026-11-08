@@ -14,6 +14,7 @@ import { pokemon } from '../src/palettes/pokemon.js';
 import { ral } from '../src/palettes/ral.js';
 import { resene } from '../src/palettes/resene.js';
 import { tailwind } from '../src/palettes/tailwind.js';
+import { tcca } from '../src/palettes/tcca.js';
 import { uswds } from '../src/palettes/uswds.js';
 import { web } from '../src/palettes/web.js';
 import { werner } from '../src/palettes/werner.js';
@@ -85,6 +86,17 @@ describe.each([
       spotChecks: {
         'FS 11136': '#9b2f25',
         'FS 10140': '#532f15',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'tcca',
+    tcca,
+    {
+      minCount: 238,
+      spotChecks: {
+        'Old Glory Red 70180': '#9c1c2d',
+        'Scarlet 65006': '#a62c30',
       } as Record<string, string>,
     },
   ],
