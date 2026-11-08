@@ -6,6 +6,7 @@ import { crayola } from '../src/palettes/crayola.js';
 import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
+import { japanese } from '../src/palettes/japanese.js';
 import { material } from '../src/palettes/material.js';
 import { milStd101c } from '../src/palettes/milStd101c.js';
 import { milStd709d } from '../src/palettes/milStd709d.js';
@@ -82,6 +83,18 @@ describe.each([
       spotChecks: {
         'cloudy blue': '#acc2d9',
         dust: '#b2996e',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'japanese',
+    japanese,
+    {
+      minCount: 226,
+      spotChecks: {
+        'Sakura-iro': '#fcc9b9',
+        Ainezumi: '#5c544e',
+        'Kōbai-iro': '#db5a6b',
       } as Record<string, string>,
     },
   ],
@@ -344,6 +357,18 @@ describe.each([
 
   it('declares a default distance metric', () => {
     expect(typeof space.defaultMetric).toBe('string');
+  });
+});
+
+describe('japanese palette', () => {
+  it('ships the 226 uniquely romanized entries', () => {
+    expect(Object.keys(japanese.colors)).toHaveLength(226);
+  });
+
+  it('normalizes macrons, case, spaces, hyphens, and apostrophes', () => {
+    expect(japanese.normalize('Kōbai-iro')).toBe('kobaiiro');
+    expect(japanese.normalize('KOBAI IRO')).toBe('kobaiiro');
+    expect(japanese.normalize("Su'ō")).toBe('suo');
   });
 });
 

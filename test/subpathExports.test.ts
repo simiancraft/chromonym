@@ -146,6 +146,14 @@ maybe('subpath exports resolve', () => {
     expect(m.isccNbs.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/japanese exports the japanese palette object', async () => {
+    const m = await import('../dist/palettes/japanese.js');
+    expect(m.japanese.name).toBe('japanese');
+    expect(m.japanese.colors['Sakura-iro']).toBe('#fcc9b9');
+    expect(Object.keys(m.japanese.colors)).toHaveLength(226);
+    expect(m.japanese.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/nbs exports the nbs palette object', async () => {
     const m = await import('../dist/palettes/nbs.js');
     expect(m.nbs.name).toBe('nbs');
@@ -328,6 +336,7 @@ maybe('subpath exports resolve', () => {
       "const { fs595b } = await import('chromonym/fs595b');",
       "const { tcca } = await import('chromonym/tcca');",
       "const { isccNbs } = await import('chromonym/iscc-nbs');",
+      "const { japanese } = await import('chromonym/japanese');",
       "const { resene } = await import('chromonym/resene');",
       "const { ncs } = await import('chromonym/ncs');",
       "const { nbs } = await import('chromonym/nbs');",
@@ -363,6 +372,7 @@ maybe('subpath exports resolve', () => {
       '  fs595bInsignia: fs595b.colors["FS 11136"] === "#9b2f25",',
       '  tccaOldGloryRed: tcca.colors["Old Glory Red 70180"] === "#9c1c2d",',
       '  isccNbsVividPink: isccNbs.colors["Vivid pink"] === "#fd7992",',
+      '  japaneseSakura: japanese.colors["Sakura-iro"] === "#fcc9b9",',
       '  reseneTreepoppy: resene.colors.treepoppy === "#e2813b",',
       '  ncsNeutral: ncs.colors["0500-N"] === "#f2f2f2",',
       '  nbsVividPink: nbs.colors.vividpink === "#ffb5ba",',
@@ -411,6 +421,7 @@ maybe('subpath exports resolve', () => {
       fs595bInsignia: true,
       tccaOldGloryRed: true,
       isccNbsVividPink: true,
+      japaneseSakura: true,
       reseneTreepoppy: true,
       ncsNeutral: true,
       nbsVividPink: true,
