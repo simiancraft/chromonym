@@ -1,0 +1,29 @@
+{
+  "scope_tags": ["code", "data", "packaging", "frontend", "documentation", "ci", "coverage", "security"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "bun.lock",
+    "bunfig.toml",
+    "biome.json",
+    "package.json",
+    "NOTICE.md",
+    "README.md",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "src/index.ts",
+    "src/palettes/copic.ts",
+    "src/identify.ts",
+    "src/resolve.ts",
+    "src/indexing.ts",
+    "src/math/colorSpace.ts",
+    "src/math/deltaE.ts",
+    "src/palettes/normalize.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts",
+    "tsconfig.json",
+    "tsconfig.test.json"
+  ],
+  "capture_commit": "1bd983072e0b12de8a21c7b834b0cb52c838bde7",
+  "capture_method": "GitHub Actions run 42444460916, Lint, Typecheck, Test job 128620362341; workflow metadata plus selected command and result log lines",
+  "content_hash": "sha256:f166b1ca5b56c31d76217661860d815262e7c4b2c86c407eea9787ad1084f71c"
+}
