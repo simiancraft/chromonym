@@ -62,12 +62,15 @@ The demo has its own deps; before the first `check`, `check:eslint`, or `demo` r
 
 ## Palette data provenance
 
-Every new or updated built-in palette needs a source whose terms allow redistribution in an MIT package: public domain (US Government works included), CC0, MIT, Apache-2.0, or another permissive license.
+Ship a palette when you can name an open-web source for it and its owner has no record of taking down redistributed color data.
 
-- Record the source, its version or date, and its license in the palette's doc comment and in a `NOTICE.md` section.
-- Trademarked names are fine as nominative references; the values are what need the license. Do not copy values from a vendor's website, app, or swatch files, or from a third-party site that repackages them, unless that source itself carries such a license.
-- No new Pantone values ship, whatever license a dataset claims: Pantone LLC asserts copyright in its color libraries and has had redistributed copies taken down.
-- If an issue asks for a palette that has no qualifying source, do not implement it from an unlicensed one. Say so on the issue, name the sources you checked, and leave it for a maintainer.
+- Record the source, its version or date, and its stated terms (or "none stated") in the palette's doc comment and its `NOTICE.md` section.
+- Describe the values honestly: *reproduced* (copied as published), *converted* (computed from published measurements), or *approximate* (screen values for physical colors, including vendor values taken from a third-party dataset). Never present community values as official.
+- Never copy a vendor's paid or gated product: swatch files, SDKs, apps, or anything behind a login.
+- Give attribution wherever a source's license asks for it (CC BY-SA, for example).
+- Pantone is frozen: the existing `pantone` palette stays as it is, and no Pantone values are added. Pantone LLC has had redistributed copies of its libraries taken down (2022, 2024).
+- If a rights holder asks for removal, remove the palette in the next release and record it under "Removed palettes" in `NOTICE.md`.
+- Do not park or close a palette request over licensing alone. When a case is borderline, ship it and flag the uncertainty in the pull request; the maintainer decides.
 
 ## Adding a new built-in palette
 

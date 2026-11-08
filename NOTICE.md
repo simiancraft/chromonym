@@ -1,5 +1,15 @@
 # Notices and Trademarks
 
+Chromonym maps color names to sRGB values so software can identify and look up colors. Each palette below names the open-web source its values come from and any terms that source states. Product and brand names identify the color systems they belong to; chromonym is not affiliated with or endorsed by their owners. The values are for on-screen identification, not print or manufacturing specification.
+
+## Removal on request
+
+If you own a color system listed here and want its palette removed, open an issue at <https://github.com/simiancraft/chromonym/issues>. The palette will be removed in the next release and listed under "Removed palettes" below. Versions already published to npm cannot be recalled.
+
+## Removed palettes
+
+None.
+
 ## Pantone®
 
 **Pantone®** is a registered trademark of **Pantone LLC**. Chromonym is
