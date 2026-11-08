@@ -88,7 +88,7 @@ export const PALETTE_DESCRIPTIONS: Record<PaletteKey, string> = {
   crayola: "Crayola crayon colors. The classic 64-standard box plus fluorescent neons and selected modern additions.",
   ntc: "Chirag Mehta's 'Name That Color' dataset. 1566 broad-coverage design / UI / hardware names CSS and X11 don't reach.",
   xkcd: "The 2010 XKCD Color Survey. Crowd-sourced common-speech names (923 entries), CC0 public domain.",
-  fs595c: "US Federal Standard 595C paint chips (589 entries). Military, aviation, and government-equipment coatings.",
+  fs595c: "US Federal Standard 595C paint chips (682 entries). Military, aviation, and government-equipment coatings.",
   fs595b: "Federal Standard 595B, the 1989 predecessor to FS 595C. Many shared codes have different hex across the two revisions.",
   isccNbs: "ISCC-NBS Method of Designating Colors (1955). 260 Munsell-partitioned named blocks; sRGB centroids by Paul Centore.",
   nbs: "Alternate NBS digitization: same 1955 vocabulary as isccNbs, different sRGB values matching the physical chip book.",
