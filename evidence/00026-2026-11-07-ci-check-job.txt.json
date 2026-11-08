@@ -1,0 +1,15 @@
+{
+  "scope_tags": ["code", "ci", "package"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "package.json",
+    "src/index.ts",
+    "src/palettes/material.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts",
+    "demo"
+  ],
+  "capture_commit": "fd6a65bad530104e34f2aa41e3f74b2fff05e51c",
+  "capture_method": "Executed every command in the ci.yml check job, in workflow order, with its pinned Bun 1.4.2 runtime",
+  "content_hash": "sha256:e40af3344df0194d34cffde9b9c6bf866f4235b7825c7a66942b5bac99b8385e"
+}

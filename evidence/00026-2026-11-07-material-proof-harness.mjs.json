@@ -1,0 +1,11 @@
+{
+  "scope_tags": ["code", "data", "package"],
+  "covered_paths": [
+    "package.json",
+    "src/index.ts",
+    "src/palettes/material.ts"
+  ],
+  "capture_commit": "fd6a65bad530104e34f2aa41e3f74b2fff05e51c",
+  "capture_method": "Re-check harness for the focused Material Web v0.192 comparison and public export behavior",
+  "content_hash": "sha256:a78e9690626eb639c00530e01dba6c072419c0b3f5f189c8b2fced2ed128fadf"
+}

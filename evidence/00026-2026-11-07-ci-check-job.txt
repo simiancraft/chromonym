@@ -1,0 +1,30 @@
+Chromonym issue 26 CI check-job receipt
+capture_commit=fd6a65bad530104e34f2aa41e3f74b2fff05e51c
+workflow=.github/workflows/ci.yml
+runtime=bun-1.4.2
+node=v24.22.2
+
+The workflow's check-job commands were executed in order at the capture commit:
+
+1. bun install --frozen-lockfile
+   exit=0; 382 installs across 543 packages checked; no changes
+2. bun run lint
+   exit=0; 66 files checked; no fixes applied
+3. cd demo && bun install --frozen-lockfile
+   exit=0
+4. bun run check:eslint
+   exit=0
+5. bun run typecheck
+   exit=0
+6. bun run build
+   exit=0
+7. bun run typecheck:test
+   exit=0
+8. bun run check:package
+   exit=0; publint reported "All good!"; chromonym/material resolved for Node ESM and bundler profiles
+9. bun run check:knip
+   exit=0
+10. bun test --coverage --coverage-reporter=lcov
+    exit=0; 512 pass; 0 fail; 20,027 expectations across 20 files
+
+CI_WORKFLOW_CHECK_JOB_EXIT=0

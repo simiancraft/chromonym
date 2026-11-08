@@ -1,0 +1,11 @@
+{
+  "scope_tags": ["code", "data", "package"],
+  "covered_paths": [
+    "package.json",
+    "src/index.ts",
+    "src/palettes/material.ts"
+  ],
+  "capture_commit": "fd6a65bad530104e34f2aa41e3f74b2fff05e51c",
+  "capture_method": "Node 24 executed the pinned focused proof harness against Material Web v0.192 files at upstream commit d872455c4be56022da2095349b30ef46e0b55bc3",
+  "content_hash": "sha256:7f43551f4666c22821af27d96cb7998c5f8a9862aa26d985d1e7adb288edbfe6"
+}
