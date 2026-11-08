@@ -1,0 +1,17 @@
+{
+  "scope_tags": ["code", "data", "packaging", "demo", "documentation"],
+  "covered_paths": [
+    "src/palettes/copic.ts",
+    "src/index.ts",
+    "package.json",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "README.md",
+    "NOTICE.md"
+  ],
+  "capture_commit": "82e15adc24850fb9048b86baad2fa4bdbcedc396",
+  "capture_method": "Pinned upstream semantic comparison, focused Bun tests, and Node ESM runtime assertions",
+  "content_hash": "sha256:ecc5c85f10fd8a450e3a3a1b12248a2b0a568b0e2c74cfa6487761150a534c3c"
+}

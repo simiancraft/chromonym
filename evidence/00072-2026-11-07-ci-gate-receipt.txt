@@ -1,0 +1,45 @@
+Claim: the pull request CI deciding job completed successfully at commit 82e15adc24850fb9048b86baad2fa4bdbcedc396.
+Captured at: 82e15adc24850fb9048b86baad2fa4bdbcedc396
+Capture date: 2026-11-07 America/Chicago
+
+Workflow: CI
+Run: 42439138971
+Job: Lint, Typecheck, Test, 128604394655
+Event: pull_request
+Head branch: fix/add-copic-markers-28
+Head SHA: 82e15adc24850fb9048b86baad2fa4bdbcedc396
+Status: completed
+Conclusion: success
+Started: 2026-11-08T02:34:45Z
+Completed: 2026-11-08T02:35:51Z
+Run URL: https://github.com/simiancraft/chromonym/actions/runs/42439138971
+Job URL: https://github.com/simiancraft/chromonym/actions/runs/42439138971/job/128604394655
+
+Successful deciding steps and commands
+
+Install dependencies: bun install --frozen-lockfile
+Biome check: bun run lint
+Install demo dependencies: cd demo && bun install --frozen-lockfile
+ESLint (react-compiler): bun run check:eslint
+Typecheck (tsc): bun run typecheck
+Build: bun run build
+Typecheck tests (tsc): bun run typecheck:test
+Package hygiene (publint + attw): bun run check:package
+Dead code (knip): bun run check:knip
+Test with coverage: bun test --coverage --coverage-reporter=lcov
+
+Coverage test result
+
+541 pass
+0 fail
+Ran 541 tests across 20 files. [320.00ms]
+
+Relevant passing cases in the deciding run
+
+subpath exports resolve > chromonym/copic exports the Copic palette object
+subpath exports resolve > every package.json exports entry points to an emitted file
+subpath exports resolve > real Node ESM resolves every subpath via the package specifier
+
+Independent security checks on the same pull request also passed: CodeQL, CodeQL actions analysis, and CodeQL JavaScript and TypeScript analyses.
+
+Re-check: open the pinned GitHub Actions job URL above and confirm the head SHA, commands, step conclusions, and test totals.

@@ -1,0 +1,75 @@
+Claim: commit 82e15adc24850fb9048b86baad2fa4bdbcedc396 adds the complete pinned Copic dataset and exposes its required runtime behavior.
+Captured at: 82e15adc24850fb9048b86baad2fa4bdbcedc396
+Capture date: 2026-11-07 America/Chicago
+
+Physical size
+
+9 files changed, 462 insertions, 5 deletions.
+The change adds one 358-entry palette module, public exports, demo registration, documentation, and tests. It adds no dependency, migration, or persistent state.
+
+Pinned source and license
+
+Source: https://github.com/sile/copic_colors/tree/42651233ab925fe872acd1956a77d8d5139f5013
+Cargo.toml at that commit declares: license = "MIT OR Apache-2.0"
+That commit contains LICENSE-MIT and LICENSE-APACHE.
+
+Dataset comparison
+
+Method: fetch src/lib.rs from the pinned source commit; parse every Color::new code, name, and Rgb::new tuple; parse every code, name comment, and hex value from src/palettes/copic.ts; compare both maps.
+
+Result:
+{
+  "sourceCount": 358,
+  "shippedCount": 358,
+  "missing": [],
+  "extra": [],
+  "mismatches": []
+}
+
+Focused tests
+
+Command:
+bun test test/palettes.test.ts test/subpathExports.test.ts
+
+Result:
+bun test v1.4.4 (38afee6c8)
+177 pass
+0 fail
+21218 expect() calls
+Ran 177 tests across 2 files. [119.00ms]
+
+Runtime package smoke test
+
+Method: import the package root and chromonym/copic through Node ESM, then assert the exact JSON below.
+
+Result:
+{
+  "count": 358,
+  "normalized": "#eaeeb2",
+  "punctuationNormalized": "#a4aeb2",
+  "identified": "B01",
+  "metric": "deltaE2000",
+  "sameSubpathObject": true
+}
+
+Assertions exercised:
+resolve('yg03', { palette: copic }) === '#eaeeb2'
+resolve('c5', { palette: copic }) === '#a4aeb2'
+identify('#e1f1f3', { palette: copic }) === 'B01'
+Object.keys(copic.colors).length === 358
+copic.defaultMetric === 'deltaE2000'
+import('chromonym/copic').copic === import('chromonym').copic
+
+Static integration re-check
+
+src/index.ts explicitly exports copic and CopicColorName.
+package.json maps ./copic to emitted JavaScript and declarations.
+demo/src/components/PaletteGrid.tsx registers copic in PALETTES, PALETTE_LABELS, PALETTE_DESCRIPTIONS, and PALETTE_KEYS.
+demo/src/components/PaletteTiles.tsx registers a tone and ORDER entry.
+README.md and NOTICE.md record the count, source, pinned source commit, license, and trademark status.
+
+Re-check:
+1. Check out 82e15adc24850fb9048b86baad2fa4bdbcedc396.
+2. Run bun run build.
+3. Run bun test test/palettes.test.ts test/subpathExports.test.ts.
+4. Compare src/palettes/copic.ts against the pinned upstream src/lib.rs.

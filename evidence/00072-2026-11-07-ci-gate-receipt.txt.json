@@ -1,0 +1,14 @@
+{
+  "scope_tags": ["ci", "code", "packaging", "security"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "package.json",
+    "bun.lock",
+    "src",
+    "test",
+    "demo"
+  ],
+  "capture_commit": "82e15adc24850fb9048b86baad2fa4bdbcedc396",
+  "capture_method": "GitHub Actions run 42439138971, job 128604394655, plus pull request security check rollup",
+  "content_hash": "sha256:003a9eccaa59a571791788389e8256b126b2cd4451d6dd298c190f785aebbd95"
+}
