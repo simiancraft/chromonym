@@ -108,6 +108,14 @@ maybe('subpath exports resolve', () => {
     expect(m.milStd101c.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/mil-std-709d exports the milStd709d palette object', async () => {
+    const m = await import('../dist/palettes/milStd709d.js');
+    expect(m.milStd709d.name).toBe('milStd709d');
+    expect(m.milStd709d.colors.Yellow).toBe('#f5a01c');
+    expect(Object.keys(m.milStd709d.colors).length).toBe(18);
+    expect(m.milStd709d.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/fs595c exports the fs595c palette object', async () => {
     const m = await import('../dist/palettes/fs595c.js');
     expect(m.fs595c.name).toBe('fs595c');
@@ -315,6 +323,7 @@ maybe('subpath exports resolve', () => {
       "const { xkcd } = await import('chromonym/xkcd');",
       "const { carc } = await import('chromonym/carc');",
       "const { milStd101c } = await import('chromonym/mil-std-101c');",
+      "const { milStd709d } = await import('chromonym/mil-std-709d');",
       "const { fs595c } = await import('chromonym/fs595c');",
       "const { fs595b } = await import('chromonym/fs595b');",
       "const { tcca } = await import('chromonym/tcca');",
@@ -349,6 +358,7 @@ maybe('subpath exports resolve', () => {
       '  xkcdCloudyBlue: xkcd.colors["cloudy blue"] === "#acc2d9",',
       '  carcGreen383: carc.colors["Green 383"] === "#4f5443",',
       '  milStd101cYellow: milStd101c.colors.Yellow === "#fcb217",',
+      '  milStd709dYellow: milStd709d.colors.Yellow === "#f5a01c",',
       '  fs595cInsignia: fs595c.colors["FS 11136"] === "#8c4040",',
       '  fs595bInsignia: fs595b.colors["FS 11136"] === "#9b2f25",',
       '  tccaOldGloryRed: tcca.colors["Old Glory Red 70180"] === "#9c1c2d",',
@@ -396,6 +406,7 @@ maybe('subpath exports resolve', () => {
       xkcdCloudyBlue: true,
       carcGreen383: true,
       milStd101cYellow: true,
+      milStd709dYellow: true,
       fs595cInsignia: true,
       fs595bInsignia: true,
       tccaOldGloryRed: true,

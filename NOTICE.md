@@ -429,6 +429,29 @@ Government work marked **Distribution A: approved for public release;
 distribution is unlimited**. It was published without stated licensing
 terms and is a public-domain work.
 
+## MIL-STD-709D (Ammunition Color Coding)
+
+The `milStd709d` palette (18 entries) reproduces the Tier II color names and
+FED-STD-595 chip assignments in Table II of **MIL-STD-709D w/Change 1,
+*Ammunition Color Coding*** (3 May 2011). The colors identify high and low
+explosives, chemical and incendiary fillers, practice and inert ammunition,
+and other ammunition roles. Tier I small-caliber tip colors are omitted
+because some are specified only as broad FED-STD-595 digit ranges.
+
+MIL-STD-709D defines each color by its FED-STD-595 chip number. Chromonym
+therefore duplicates the corresponding converted sRGB value from its
+`fs595c` palette, which is derived from GSA's measured data as described
+above. Where Table II permits alternatives, the palette uses the first chip
+listed: FS 30117 for Brown instead of FS 30140, and FS 34558 for Light Green
+instead of FS 34449. Silver and Aluminum share FS 17178; Bronze, Gold, and
+Brass share FS 17043. Exact identification returns the first name in palette
+order for each shared value.
+
+The [standard](https://everyspec.com/MIL-STD/MIL-STD-0700-0799/MIL-STD-709D_CHG-1_33308/)
+is a US Government work marked **Distribution A: approved for public release;
+distribution is unlimited**. It was published without stated licensing terms
+and is a public-domain work.
+
 ## TCCA textile color cards (NBS RP1700)
 
 The `tcca` palette (238 entries) reproduces Table 5 of G. Reimann,
