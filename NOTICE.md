@@ -31,13 +31,11 @@ observer. As a rough guide:
   blue-violet region (~2736 C through ~2746 C). `identify` will still
   converge on a plausible neighbor, but the *which* can depend on metric
   choice — see the "Distance metrics" section of the README.
-- **Fluorescents (801 C – 814 C)** and the **metallic series (8xxx C)**
-  are defined outside the sRGB gamut. Their sRGB approximations are
-  perceptually wrong by construction — the physical inks can't be
-  reproduced on a standard monitor. Do not use these values as a
-  reference for brand-critical matching; identify carefully or skip.
-- **Neons / warm reds** clipping against the sRGB gamut boundary (Pantone
-  Red 032 / Warm Red / Red 021 area) are approximated via hard clip.
+- **Fluorescents (801 C – 814 C)** are defined outside the sRGB gamut.
+  Their sRGB approximations are perceptually wrong by construction; the
+  physical inks can't be reproduced on a standard monitor. Do not use
+  these values as a reference for brand-critical matching; identify
+  carefully or skip.
 
 ### What `identify` does *not* guarantee
 
