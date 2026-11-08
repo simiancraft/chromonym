@@ -1,0 +1,35 @@
+chromonym PR #75 GitHub Actions decision receipt
+Workflow: CI
+Run: 42441751681
+Run URL: https://github.com/simiancraft/chromonym/actions/runs/42441751681
+Event: pull_request
+Head SHA: 3956c503113d0583fe764c5e696489427d966cd2
+Created: 2026-11-08T03:12:44Z
+Completed: 2026-11-08T03:13:37Z
+Conclusion: success
+
+Decision job: Lint, Typecheck, Test
+Job: 128612255841
+Job URL: https://github.com/simiancraft/chromonym/actions/runs/42441751681/job/128612255841
+Conclusion: success
+
+Successful decision steps and repository commands:
+  Install dependencies: bun install --frozen-lockfile
+  Biome check: bun run lint
+  Install demo dependencies: cd demo && bun install --frozen-lockfile
+  ESLint (react-compiler): bun run check:eslint
+  Typecheck (tsc): bun run typecheck
+  Build: bun run build
+  Typecheck tests (tsc): bun run typecheck:test
+  Package hygiene (publint + attw): bun run check:package
+  Dead code (knip): bun run check:knip
+  Test with coverage: bun test --coverage --coverage-reporter=lcov
+
+Test result:
+  541 pass
+  0 fail
+  Ran 541 tests across 20 files.
+
+Re-check:
+  gh run view 42441751681 -R simiancraft/chromonym
+  gh run view 42441751681 -R simiancraft/chromonym --job 128612255841 --log

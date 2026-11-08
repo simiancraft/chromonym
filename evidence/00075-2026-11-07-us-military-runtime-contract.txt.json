@@ -1,0 +1,14 @@
+{
+  "scope_tags": ["code", "data", "package"],
+  "covered_paths": [
+    "src/palettes/usMilitary.ts",
+    "src/index.ts",
+    "src/resolve.ts",
+    "package.json",
+    "dist/index.js",
+    "dist/palettes/usMilitary.js"
+  ],
+  "capture_commit": "3956c503113d0583fe764c5e696489427d966cd2",
+  "capture_method": "bun -e package self-reference runtime assertions against all 31 issue values",
+  "content_hash": "sha256:4268fbe1c83667252f762b6abe61982d984c0a947b46305a7da3126c84860e55"
+}

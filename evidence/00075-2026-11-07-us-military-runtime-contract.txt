@@ -1,0 +1,25 @@
+chromonym PR #75 focused runtime and package contract receipt
+Capture commit: 3956c503113d0583fe764c5e696489427d966cd2
+Captured: 2026-11-07 America/Chicago
+
+Method:
+  bun -e with package self-references "chromonym" and
+  "chromonym/us-military". The script hard-coded all 31 names and values
+  specified by issue #74, compared them to usMilitary.colors, checked every
+  value against /^#[0-9a-f]{6}$/, checked the default metric, and resolved
+  "army gold" through the public resolve API. Any failed assertion exited 1.
+
+Exit code: 0
+
+Output:
+{
+  "rootImport": "usMilitary",
+  "subpathImport": "usMilitary",
+  "sameObject": true,
+  "entryCount": 31,
+  "allExpectedValues": true,
+  "allLowercaseHex": true,
+  "defaultMetric": "deltaE2000",
+  "resolvedArmyGold": "#ffcc01",
+  "mismatchCount": 0
+}

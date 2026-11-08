@@ -1,0 +1,18 @@
+{
+  "scope_tags": ["code", "data", "package", "demo", "ci"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "NOTICE.md",
+    "README.md",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "package.json",
+    "src/index.ts",
+    "src/palettes/usMilitary.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "3956c503113d0583fe764c5e696489427d966cd2",
+  "capture_method": "GitHub Actions CI run 42441751681, decision job 128612255841",
+  "content_hash": "sha256:2f1e21f4068884072012a31e73b712b5357885c977f5db5902a0bd012cff732a"
+}
