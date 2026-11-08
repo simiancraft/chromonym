@@ -155,6 +155,13 @@ maybe('subpath exports resolve', () => {
     expect(m.tcca.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/tioh exports the TIOH palette object', async () => {
+    const m = await import('../dist/palettes/tioh.js');
+    expect(m.tioh.name).toBe('tioh');
+    expect(m.tioh.colors['Scarlet 67111']).toBe('#c10230');
+    expect(m.tioh.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/iscc-nbs exports the isccNbs palette object', async () => {
     const m = await import('../dist/palettes/isccNbs.js');
     expect(m.isccNbs.name).toBe('isccNbs');
@@ -361,6 +368,7 @@ maybe('subpath exports resolve', () => {
       "const { fs595c } = await import('chromonym/fs595c');",
       "const { fs595b } = await import('chromonym/fs595b');",
       "const { tcca } = await import('chromonym/tcca');",
+      "const { tioh } = await import('chromonym/tioh');",
       "const { isccNbs } = await import('chromonym/iscc-nbs');",
       "const { munsell } = await import('chromonym/munsell');",
       "const { japanese } = await import('chromonym/japanese');",
@@ -400,6 +408,7 @@ maybe('subpath exports resolve', () => {
       '  fs595cInsignia: fs595c.colors["FS 11136"] === "#8c4040",',
       '  fs595bInsignia: fs595b.colors["FS 11136"] === "#9b2f25",',
       '  tccaOldGloryRed: tcca.colors["Old Glory Red 70180"] === "#9c1c2d",',
+      '  tiohScarlet: tioh.colors["Scarlet 67111"] === "#c10230",',
       '  isccNbsVividPink: isccNbs.colors["Vivid pink"] === "#fd7992",',
       '  munsellRed: munsell.colors["5R 4/14"] === "#be1a34",',
       '  japaneseSakura: japanese.colors["Sakura-iro"] === "#fcc9b9",',
@@ -452,6 +461,7 @@ maybe('subpath exports resolve', () => {
       fs595cInsignia: true,
       fs595bInsignia: true,
       tccaOldGloryRed: true,
+      tiohScarlet: true,
       isccNbsVividPink: true,
       munsellRed: true,
       japaneseSakura: true,

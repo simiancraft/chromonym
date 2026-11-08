@@ -52,6 +52,7 @@ export { type RalColorName, ral } from './palettes/ral.js';
 export { type ReseneColorName, resene } from './palettes/resene.js';
 export { type TailwindColorName, tailwind } from './palettes/tailwind.js';
 export { type TccaColorName, tcca } from './palettes/tcca.js';
+export { type TiohColorName, tioh } from './palettes/tioh.js';
 export { type UsMilitaryColorName, usMilitary } from './palettes/usMilitary.js';
 export { type UswdsColorName, uswds } from './palettes/uswds.js';
 export { type WebColorName, web } from './palettes/web.js';
