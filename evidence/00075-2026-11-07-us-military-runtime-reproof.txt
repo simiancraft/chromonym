@@ -1,0 +1,21 @@
+PR: 75
+Issue: 74
+Capture commit: 3956c503113d0583fe764c5e696489427d966cd2
+Captured: 2026-11-07 America/Chicago
+Method: Bun runtime import of chromonym and chromonym/us-military; exact comparison against all 31 values specified in issue 74; resolve and identify checks.
+Exit code: 0
+
+{
+  "rootImport": "usMilitary",
+  "subpathImport": "usMilitary",
+  "sameObject": true,
+  "entryCount": 31,
+  "mismatches": [],
+  "extra": [],
+  "allLowercaseHex": true,
+  "defaultMetric": "deltaE2000",
+  "resolvedArmyGold": "#ffcc01",
+  "resolvedHighlightRed": "#cf0000",
+  "identifiedAirForceBlue": "Air Force Blue",
+  "identifiedDowSpace": "DOW Space Blue"
+}

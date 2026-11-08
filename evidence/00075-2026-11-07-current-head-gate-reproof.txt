@@ -1,0 +1,48 @@
+PR: 75
+Issue: 74
+Capture commit: 3956c503113d0583fe764c5e696489427d966cd2
+Captured: 2026-11-07 America/Chicago
+Command: bun run build && (cd demo && bun install --frozen-lockfile) && bun run check
+Exit code: 0
+
+Selected output:
+
+$ bun run clean && tsc
+$ rm -rf dist
+bun install v1.4.4 (38afee6c8)
+514 packages installed
+$ bun run lint:fix && bun run check:eslint && bun run typecheck && bun run typecheck:demo && bun run build && bun run typecheck:test && bun run test && (cd demo && bun run build) && bun run check:knip && bun run check:package
+$ biome check --write
+Checked 68 files. No fixes applied.
+$ cd demo && bun run lint:eslint
+$ eslint src
+$ tsc --noEmit
+$ cd demo && bunx tsc --noEmit
+$ bun run clean && tsc
+$ rm -rf dist
+$ tsc --noEmit --project tsconfig.test.json
+$ bun test
+bun test v1.4.4 (38afee6c8)
+
+ 541 pass
+ 0 fail
+ 21097 expect() calls
+Ran 541 tests across 20 files.
+
+$ vite build
+1940 modules transformed.
+dist/index.html                   2.07 kB | gzip:   0.76 kB
+dist/assets/index-kcSMw_Uo.css   26.19 kB | gzip:   6.31 kB
+dist/assets/index-CQp-waNn.js   480.41 kB | gzip: 172.63 kB
+Built successfully.
+$ knip
+$ publint && attw --pack --profile esm-only
+Running publint v0.3.24 for chromonym...
+All good!
+
+Subpath result:
+"chromonym/us-military"
+node16 (from ESM): green (ESM)
+bundler: green
+
+The command completed with numeric exit code 0.

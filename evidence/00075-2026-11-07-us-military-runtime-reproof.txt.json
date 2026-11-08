@@ -1,0 +1,14 @@
+{
+  "scope_tags": ["code", "data", "package"],
+  "covered_paths": [
+    "package.json",
+    "src/identify.ts",
+    "src/index.ts",
+    "src/palettes/normalize.ts",
+    "src/palettes/usMilitary.ts",
+    "src/resolve.ts"
+  ],
+  "capture_commit": "3956c503113d0583fe764c5e696489427d966cd2",
+  "capture_method": "Bun runtime imports from chromonym and chromonym/us-military; exact comparison with the 31 issue values; resolve and identify checks",
+  "content_hash": "sha256:41c6d9de43c89e3fc3bf15624728229d75c5e2230880bbd374a089198f311efe"
+}
