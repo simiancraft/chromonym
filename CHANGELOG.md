@@ -1,3 +1,15 @@
+# [3.14.0](https://github.com/simiancraft/chromonym/compare/v3.13.0...v3.14.0) (2026-11-08)
+
+
+### Bug Fixes
+
+* **palettes:** repair Japanese color aliases ([3b6b9ad](https://github.com/simiancraft/chromonym/commit/3b6b9ad95e61f1e4f0323baac9d1b68e1f1ead01))
+
+
+### Features
+
+* **palettes:** add Japanese traditional colors ([0b63626](https://github.com/simiancraft/chromonym/commit/0b636264963b26cc19395f31578926d2db648db6))
+
 # [3.13.0](https://github.com/simiancraft/chromonym/compare/v3.12.0...v3.13.0) (2026-11-08)
 
 
