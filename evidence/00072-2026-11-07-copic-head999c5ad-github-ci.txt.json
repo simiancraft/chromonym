@@ -1,0 +1,17 @@
+{
+  "scope_tags": ["ci", "code", "data", "packaging", "frontend", "coverage"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "bun.lock",
+    "package.json",
+    "src/index.ts",
+    "src/palettes/copic.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx"
+  ],
+  "capture_commit": "999c5adbfeb3017e1db7bf7ed13e09f99f98e8a7",
+  "capture_method": "GitHub Actions CI run 42444909967, Lint, Typecheck, Test job 128621697859; includes bun test --coverage --coverage-reporter=lcov",
+  "content_hash": "sha256:546c1fe7e0e9fc86d416e44a297fd1024585ae39970b75a472f2a21931ad5f7e"
+}

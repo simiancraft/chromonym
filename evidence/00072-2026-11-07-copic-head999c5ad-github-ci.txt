@@ -1,0 +1,21 @@
+Chromonym PR #72 GitHub CI proof
+Captured at: 999c5adbfeb3017e1db7bf7ed13e09f99f98e8a7
+Workflow: .github/workflows/ci.yml
+
+{"conclusion":"success","databaseId":42444909967,"headSha":"999c5adbfeb3017e1db7bf7ed13e09f99f98e8a7","jobs":[{"completedAt":"2026-11-08T04:00:07Z","conclusion":"success","databaseId":128621697859,"name":"Lint, Typecheck, Test","startedAt":"2026-11-08T03:58:57Z","status":"completed","steps":[],"url":"https://github.com/simiancraft/chromonym/actions/runs/42444909967/job/128621697859"},{"completedAt":"2026-11-08T04:00:07Z","conclusion":"skipped","databaseId":128621922640,"name":"Release","startedAt":"2026-11-08T04:00:07Z","status":"completed","steps":[],"url":"https://github.com/simiancraft/chromonym/actions/runs/42444909967/job/128621922640"}],"status":"completed","url":"https://github.com/simiancraft/chromonym/actions/runs/42444909967"}
+
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:00.7050343Z HEAD is now at 45b0aae Merge 999c5adbfeb3017e1db7bf7ed13e09f99f98e8a7 into 0bd9d972a560a5cad1b578aadb8c2fddd6d47850
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:00.7569742Z   bun-version: 1.4.2
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:02.8463551Z ##[group]Run bun install --frozen-lockfile
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:03.7226397Z ##[group]Run bun run lint
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:04.0929808Z ##[group]Run cd demo && bun install --frozen-lockfile
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:19.9542441Z ##[group]Run bun run check:eslint
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:22.6511658Z ##[group]Run bun run typecheck
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:23.0276519Z ##[group]Run bun run build
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:23.3776605Z ##[group]Run bun run typecheck:test
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:23.9508270Z ##[group]Run bun run check:package
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:25.8681612Z ^[[1m^[[32mAll good!^[[39m^[[22m
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:28.1936889Z ##[group]Run bun run check:knip
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:28.8686766Z ##[group]Run bun test --coverage --coverage-reporter=lcov
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:29.2227285Z  555 pass
+Lint, Typecheck, Test	UNKNOWN STEP	2026-11-08T03:59:29.2227708Z  0 fail

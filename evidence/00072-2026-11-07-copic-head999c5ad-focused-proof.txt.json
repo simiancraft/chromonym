@@ -1,0 +1,22 @@
+{
+  "scope_tags": ["code", "data", "packaging", "frontend", "documentation"],
+  "covered_paths": [
+    "src/palettes/copic.ts",
+    "src/palettes/normalize.ts",
+    "src/index.ts",
+    "src/identify.ts",
+    "src/resolve.ts",
+    "src/indexing.ts",
+    "src/types.ts",
+    "package.json",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "README.md",
+    "NOTICE.md"
+  ],
+  "capture_commit": "999c5adbfeb3017e1db7bf7ed13e09f99f98e8a7",
+  "capture_method": "semantic comparison with sile/copic_colors at 42651233ab925fe872acd1956a77d8d5139f5013; bun test test/palettes.test.ts test/subpathExports.test.ts; package imports and lookup smoke test; bun run typecheck:demo && (cd demo && bun run build)",
+  "content_hash": "sha256:88639efa73fe397ceeab6a50abae1bd468976f35b38cd8b80b5258f05cb486ae"
+}
