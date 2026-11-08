@@ -92,6 +92,14 @@ maybe('subpath exports resolve', () => {
     expect(m.xkcd.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/carc exports the CARC palette object', async () => {
+    const m = await import('../dist/palettes/carc.js');
+    expect(m.carc.name).toBe('carc');
+    expect(m.carc.colors['Green 383']).toBe('#4f5443');
+    expect(Object.keys(m.carc.colors).length).toBe(26);
+    expect(m.carc.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/fs595c exports the fs595c palette object', async () => {
     const m = await import('../dist/palettes/fs595c.js');
     expect(m.fs595c.name).toBe('fs595c');
@@ -297,6 +305,7 @@ maybe('subpath exports resolve', () => {
       "const { crayola } = await import('chromonym/crayola');",
       "const { ntc } = await import('chromonym/ntc');",
       "const { xkcd } = await import('chromonym/xkcd');",
+      "const { carc } = await import('chromonym/carc');",
       "const { fs595c } = await import('chromonym/fs595c');",
       "const { fs595b } = await import('chromonym/fs595b');",
       "const { tcca } = await import('chromonym/tcca');",
@@ -329,6 +338,7 @@ maybe('subpath exports resolve', () => {
       '  crayolaRazz: crayola.colors.Razzmatazz === "#e3256b",',
       '  ntcStratos: ntc.colors.Stratos === "#000741",',
       '  xkcdCloudyBlue: xkcd.colors["cloudy blue"] === "#acc2d9",',
+      '  carcGreen383: carc.colors["Green 383"] === "#4f5443",',
       '  fs595cInsignia: fs595c.colors["FS 11136"] === "#8c4040",',
       '  fs595bInsignia: fs595b.colors["FS 11136"] === "#9b2f25",',
       '  tccaOldGloryRed: tcca.colors["Old Glory Red 70180"] === "#9c1c2d",',
@@ -374,6 +384,7 @@ maybe('subpath exports resolve', () => {
       crayolaRazz: true,
       ntcStratos: true,
       xkcdCloudyBlue: true,
+      carcGreen383: true,
       fs595cInsignia: true,
       fs595bInsignia: true,
       tccaOldGloryRed: true,
