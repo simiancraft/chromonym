@@ -14,6 +14,7 @@ import { pokemon } from '../src/palettes/pokemon.js';
 import { ral } from '../src/palettes/ral.js';
 import { resene } from '../src/palettes/resene.js';
 import { tailwind } from '../src/palettes/tailwind.js';
+import { usMilitary } from '../src/palettes/usMilitary.js';
 import { uswds } from '../src/palettes/uswds.js';
 import { web } from '../src/palettes/web.js';
 import { werner } from '../src/palettes/werner.js';
@@ -208,6 +209,19 @@ describe.each([
         'red-warm-60v': '#9c3d10',
         'cyan-5': '#e7f6f8',
         'gray-100': '#000000',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'usMilitary',
+    usMilitary,
+    {
+      minCount: 31,
+      spotChecks: {
+        'Army Gold': '#ffcc01',
+        'Air Force Blue': '#00308f',
+        'Air Force Ultramarine Blue': '#00539f',
+        'DOW Space Blue': '#15263b',
       } as Record<string, string>,
     },
   ],

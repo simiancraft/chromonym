@@ -148,6 +148,14 @@ maybe('subpath exports resolve', () => {
     expect(m.milStd2525d.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/us-military exports the usMilitary palette object', async () => {
+    const m = await import('../dist/palettes/usMilitary.js');
+    expect(m.usMilitary.name).toBe('usMilitary');
+    expect(m.usMilitary.colors['Air Force Blue']).toBe('#00308f');
+    expect(Object.keys(m.usMilitary.colors).length).toBe(31);
+    expect(m.usMilitary.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/pokemon exports the pokemon palette object', async () => {
     const m = await import('../dist/palettes/pokemon.js');
     expect(m.pokemon.name).toBe('pokemon');
@@ -285,6 +293,7 @@ maybe('subpath exports resolve', () => {
       "const { material } = await import('chromonym/material');",
       "const { ral } = await import('chromonym/ral');",
       "const { milStd2525d } = await import('chromonym/mil-std-2525d');",
+      "const { usMilitary } = await import('chromonym/us-military');",
       "const { uswds } = await import('chromonym/uswds');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
@@ -314,6 +323,7 @@ maybe('subpath exports resolve', () => {
       '  materialPrimary: material.colors["light-primary"] === "#6750a4",',
       '  ralSignalYellow: ral.colors["RAL 1003"] === "#f9a900",',
       '  milStd2525dFriend: milStd2525d.colors["Friend Medium"] === "#00a8dc",',
+      '  usMilitaryBlue: usMilitary.colors["Air Force Blue"] === "#00308f",',
       '  uswdsBlue: uswds.colors["blue-60v"] === "#005ea2",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
@@ -356,6 +366,7 @@ maybe('subpath exports resolve', () => {
       materialPrimary: true,
       ralSignalYellow: true,
       milStd2525dFriend: true,
+      usMilitaryBlue: true,
       uswdsBlue: true,
       hexToRgba: true,
       rgb: true,
