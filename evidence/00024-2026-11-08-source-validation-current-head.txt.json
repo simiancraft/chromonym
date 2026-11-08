@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["data", "code", "provenance"],
+  "covered_paths": ["src/palettes/japanese.ts", "NOTICE.md"],
+  "capture_commit": "3b6b9ad95e61f1e4f0323baac9d1b68e1f1ead01",
+  "capture_method": "bun .proof/source-validation.ts, using the validator pinned at locker commit c5938b97260db6167ed3399d22da061c80e86217",
+  "content_hash": "sha256:6f0664d090fe82f84054232e6e71e2ea62e3deac6321adaa0a9fc8f6b06a1f64"
+}

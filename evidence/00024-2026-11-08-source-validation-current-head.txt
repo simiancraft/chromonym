@@ -1,0 +1,30 @@
+{
+  "captureCommit": "3b6b9ad95e61f1e4f0323baac9d1b68e1f1ead01",
+  "sourceRevision": 1372240562,
+  "sourceNameRows": 229,
+  "sourceFirstOccurrenceKeys": 227,
+  "localKeys": 227,
+  "missing": [],
+  "extra": [],
+  "wrong": [],
+  "duplicateSourceNames": [
+    [
+      "Tonocha",
+      [
+        "#985538",
+        "#5a6457"
+      ]
+    ],
+    [
+      "Kuwazome",
+      [
+        "#c57f2e",
+        "#59292c"
+      ]
+    ]
+  ],
+  "normalizedKeys": 227,
+  "normalizedCollisions": [],
+  "hanaba": "#ffb94e",
+  "kayou": "#ffb94e"
+}
