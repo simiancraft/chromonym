@@ -1,3 +1,10 @@
+# [3.12.0](https://github.com/simiancraft/chromonym/compare/v3.11.0...v3.12.0) (2026-11-08)
+
+
+### Features
+
+* **palettes:** add MIL-STD-101C colors ([d4d54fe](https://github.com/simiancraft/chromonym/commit/d4d54fe32eab8658994c531a5c9a5c939536e57f))
+
 # [3.11.0](https://github.com/simiancraft/chromonym/compare/v3.10.0...v3.11.0) (2026-11-08)
 
 
