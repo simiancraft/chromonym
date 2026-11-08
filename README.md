@@ -21,7 +21,7 @@
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
 </p>
 
-**The last color-naming library you'll ever need.** Give it any hex, RGB, HSL, or HSV value and get back the nearest named color; give it a color name and get back the value. One API (`identify`, `resolve`, and `convert`) works against any palette you throw at it. Ships twenty-seven palettes out of the box (CSS, X11, Pantone, Copic, Crayola, Farrow & Ball, NTC, XKCD, Japanese traditional colors, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B, FS 595 C, CARC, TCCA, MIL-STD-101C, MIL-STD-709D, MIL-STD-2525D, U.S. military identity colors, Werner, and Pokémon); bring your own (brand colors, paint chips, game factions, and chart themes) with full TypeScript inference and zero registration. Six distance metrics range from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone; you only pay for palettes you import.
+**The last color-naming library you'll ever need.** Give it any hex, RGB, HSL, or HSV value and get back the nearest named color; give it a color name and get back the value. One API (`identify`, `resolve`, and `convert`) works against any palette you throw at it. Ships twenty-eight palettes out of the box (CSS, X11, Pantone, Copic, Prismacolor, Crayola, Farrow & Ball, NTC, XKCD, Japanese traditional colors, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B, FS 595 C, CARC, TCCA, MIL-STD-101C, MIL-STD-709D, MIL-STD-2525D, U.S. military identity colors, Werner, and Pokémon); bring your own (brand colors, paint chips, game factions, and chart themes) with full TypeScript inference and zero registration. Six distance metrics range from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone; you only pay for palettes you import.
 
 <sub>*chromonym* (n.): a name for a color; *chroma* + *-onym*. Also the library.</sub>
 
@@ -349,7 +349,7 @@ Unparseable values are dropped with a `console.warn` naming the palette, the off
 
 If you prefer zero runtime and already have hex-only values, the `as const satisfies Palette<'A' | 'B' | ...>` pattern still works — list the key union once in the generic and it narrows identically.
 
-### The twenty-seven we ship
+### The twenty-eight we ship
 
 | Name | Entries | Source |
 |---|---|---|
@@ -357,6 +357,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `x11` | 658 | X.Org `rgb.txt` (public domain) |
 | `pantone` | 907 | Pantone Coated (C) — community approximations (not Pantone-licensed) |
 | `copic` | 358 | Copic Sketch marker codes; community sRGB values from an MIT/Apache-2.0 dataset |
+| `prismacolor` | 150 | Prismacolor Premier pencil codes; community-scanned approximate screen values |
 | `crayola` | 84 | Crayola crayon colors — community approximations (not Crayola-licensed) |
 | `farrowBall` | 132 | Farrow & Ball paint colors; unofficial approximate screen values |
 | `ntc` | 1566 | Chirag Mehta's "Name That Color" dataset (broad coverage of design / UI / hardware names) |
@@ -551,7 +552,7 @@ Re-exported from the root barrel — `import type { ... } from 'chromonym'`:
 | Per-format shapes | `HexColor`, `Rgba`, `RgbInput`, `RgbaInput`, `HslInput`, `HsvInput` |
 | Palette container | `Palette<Name>`, `NormalizeFn` |
 | Distance selector | `DistanceMetric` |
-| Color-name unions | `WebColorName`, `X11ColorName`, `PantoneColorName`, `CopicColorName` |
+| Color-name unions | `WebColorName`, `X11ColorName`, `PantoneColorName`, `CopicColorName`, `PrismacolorColorName` |
 
 ## Development
 

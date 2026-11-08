@@ -85,6 +85,24 @@ The values are intended for on-screen lookup and nearest-color comparison;
 they are not official measurements, and they should not be used for
 production color matching against physical marker ink.
 
+## Prismacolor®
+
+**Prismacolor®** is a registered trademark of **Newell Brands**. Chromonym
+is **not affiliated with, endorsed by, licensed by, or certified by Newell
+Brands**.
+
+The `prismacolor` palette ships community-authored approximate screen values
+for the 150-color Prismacolor Premier Soft Core colored pencil set. The PC
+codes, names, and hex values come from Cyan Design's public ["150 Prismacolor
+Premier Colored Pencils HEX Chart"](https://cyanindesign.blogspot.com/2022/08/150-prismacolor-premier-colored-pencils.html),
+published August 26, 2022, and corrected February 14, 2024. The author says
+the values were derived by scanning and adjusting the results to resemble the
+physical pencils. The source states no reuse terms.
+
+PC codes such as `PC901` are used as nominative references. The values are not
+official measurements, and they should not be used for production color
+matching against physical pencil marks.
+
 ## Crayola®
 
 **Crayola®** is a registered trademark of **Crayola LLC**. Chromonym is

@@ -71,6 +71,14 @@ maybe('subpath exports resolve', () => {
     expect(m.copic.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/prismacolor exports the Prismacolor palette object', async () => {
+    const m = await import('../dist/palettes/prismacolor.js');
+    expect(m.prismacolor.name).toBe('prismacolor');
+    expect(m.prismacolor.colors.PC901).toBe('#162452');
+    expect(Object.keys(m.prismacolor.colors)).toHaveLength(150);
+    expect(m.prismacolor.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/crayola exports the crayola palette object', async () => {
     const m = await import('../dist/palettes/crayola.js');
     expect(m.crayola.name).toBe('crayola');
@@ -332,6 +340,7 @@ maybe('subpath exports resolve', () => {
     const script = [
       "const { pantone } = await import('chromonym/pantone');",
       "const { copic } = await import('chromonym/copic');",
+      "const { prismacolor } = await import('chromonym/prismacolor');",
       "const { web } = await import('chromonym/web');",
       "const { x11 } = await import('chromonym/x11');",
       "const { crayola } = await import('chromonym/crayola');",
@@ -369,6 +378,7 @@ maybe('subpath exports resolve', () => {
       'const out = {',
       '  pantoneName: pantone.name,',
       '  copicBlue: copic.colors.B01 === "#e1f1f3",',
+      '  prismacolorIndigo: prismacolor.colors.PC901 === "#162452",',
       '  webRed: web.colors.red,',
       '  x11Count: Object.keys(x11.colors).length > 600,',
       '  crayolaRazz: crayola.colors.Razzmatazz === "#e3256b",',
@@ -419,6 +429,7 @@ maybe('subpath exports resolve', () => {
     expect(result).toEqual({
       pantoneName: 'pantone',
       copicBlue: true,
+      prismacolorIndigo: true,
       webRed: '#ff0000',
       x11Count: true,
       crayolaRazz: true,

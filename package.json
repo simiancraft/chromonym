@@ -1,6 +1,6 @@
 {
   "name": "chromonym",
-  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or twenty-seven built-in sets (CSS, X11, Pantone, Copic, Crayola, Farrow & Ball, NTC, XKCD, Japanese traditional colors, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, CARC, TCCA, MIL-STD-101C, MIL-STD-709D, MIL-STD-2525D, US military identity colors, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
+  "description": "Find the nearest named color for any hex, RGB, HSL, or HSV value. One color-naming API for any palette: identify, resolve, and convert color names across your own palette or twenty-eight built-in sets (CSS, X11, Pantone, Copic, Prismacolor, Crayola, Farrow & Ball, NTC, XKCD, Japanese traditional colors, RAL, Tailwind, Material, USWDS, Resene, NCS, ISCC-NBS, NBS, FS 595 B/C, CARC, TCCA, MIL-STD-101C, MIL-STD-709D, MIL-STD-2525D, US military identity colors, Werner, Pokemon); fully typed, tree-shakeable, perceptual color distance (CIEDE2000 / OKLAB).",
   "keywords": [
     "color",
     "colors",
@@ -16,6 +16,7 @@
     "x11-colors",
     "pantone",
     "copic",
+    "prismacolor",
     "crayola",
     "farrow-ball",
     "ral",
@@ -74,6 +75,11 @@
       "types": "./dist/palettes/copic.d.ts",
       "import": "./dist/palettes/copic.js",
       "default": "./dist/palettes/copic.js"
+    },
+    "./prismacolor": {
+      "types": "./dist/palettes/prismacolor.d.ts",
+      "import": "./dist/palettes/prismacolor.js",
+      "default": "./dist/palettes/prismacolor.js"
     },
     "./pokemon": {
       "types": "./dist/palettes/pokemon.d.ts",
