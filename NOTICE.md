@@ -86,6 +86,19 @@ isn't present, open an issue or define a BYO palette.
 The `x11` palette is derived from the X.Org `rgb.txt` file, which is in
 the public domain.
 
+## Material Design
+
+Material Design is a trademark of Google LLC. Chromonym is not affiliated
+with, endorsed by, licensed by, or certified by Google LLC.
+
+The `material` palette reproduces the baseline light and dark system color
+role values from Google Material 3 design system version v0.192 in the
+[`material-components/material-web`](https://github.com/material-components/material-web)
+repository. That reference data is copyright Google LLC and licensed under
+the Apache License 2.0. The palette is provided as a nominative reference to
+the published tokens, not as an imitation of, or substitute for, Material
+Design tooling.
+
 ## CSS / SVG named colors
 
 The `web` palette mirrors the CSS Color Module Level 4 named-color

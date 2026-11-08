@@ -3,6 +3,7 @@ import { crayola } from '../src/palettes/crayola.js';
 import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
+import { material } from '../src/palettes/material.js';
 import { nbs } from '../src/palettes/nbs.js';
 import { ncs } from '../src/palettes/ncs.js';
 import { ntc } from '../src/palettes/ntc.js';
@@ -165,6 +166,19 @@ describe.each([
         'rose-500': '#ff2056',
         'gray-50': '#f9fafb',
         'blue-600': '#155dfc',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'material',
+    material,
+    {
+      minCount: 98,
+      spotChecks: {
+        'light-primary': '#6750a4',
+        'light-on-surface': '#1d1b20',
+        'dark-primary': '#d0bcff',
+        'dark-surface': '#141218',
       } as Record<string, string>,
     },
   ],
