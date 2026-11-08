@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["frontend", "flow"],
+  "covered_paths": ["demo/src/components/PaletteGrid.tsx", "demo/src/components/PaletteTiles.tsx", "src/palettes/material.ts"],
+  "capture_commit": "1b29ec8000f7ab4651156c68c54355d8c26dccde",
+  "capture_method": "Playwright Chromium against the local production demo build at port 43026; selected Material Design 3 in the tile selector and grid selector, asserted the 98 swatches, representative light and dark roles, computed tile colors, and application error state",
+  "content_hash": "sha256:745277ff07f396b052590fac66ce981544b54925344a8915c89fb04960390189"
+}

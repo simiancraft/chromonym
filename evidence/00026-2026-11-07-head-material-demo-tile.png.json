@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["frontend", "flow"],
+  "covered_paths": ["demo/src/components/PaletteGrid.tsx", "demo/src/components/PaletteTiles.tsx", "src/palettes/material.ts"],
+  "capture_commit": "1b29ec8000f7ab4651156c68c54355d8c26dccde",
+  "capture_method": "Playwright Chromium element screenshot of the production demo palette selector after choosing Material Design 3; PNG remained the artifact of record because a lossless ImageMagick pass grew the file, and pixel comparison reported zero differences",
+  "content_hash": "sha256:1493da61946e704765b024a00b1a814341454d5ef1514d838c41aa72c76661b0"
+}

@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "data", "package"],
+  "covered_paths": ["package.json", "src/index.ts", "src/palettes/material.ts"],
+  "capture_commit": "1b29ec8000f7ab4651156c68c54355d8c26dccde",
+  "capture_method": "Node 24 compared the built palette with Material Web v0.192 reference and system-role files at upstream commit d872455c4be56022da2095349b30ef46e0b55bc3, then exercised root and chromonym/material imports, resolve, and identify",
+  "content_hash": "sha256:f51fc3296112d79e073593e5ae5b43c99c0e2cb3f523713d13ab28f1a2fa87e5"
+}

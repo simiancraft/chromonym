@@ -1,0 +1,12 @@
+capture_commit=1b29ec8000f7ab4651156c68c54355d8c26dccde
+target_url=http://127.0.0.1:43026/
+material_tile_selected=pass
+material_tile_count_label=98
+material_tile_background=rgb(103, 80, 164)
+material_tile_ink=rgb(242, 235, 221)
+material_grid_swatch_count=98
+light_primary_rendered=pass
+dark_primary_rendered=pass
+application_page_errors=0
+only_ignored_resource_error=favicon.ico
+PLAYWRIGHT_MATERIAL_DEMO_EXIT=0

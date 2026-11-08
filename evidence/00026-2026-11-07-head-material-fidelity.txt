@@ -1,0 +1,16 @@
+capture_commit=1b29ec8000f7ab4651156c68c54355d8c26dccde
+upstream_material_web_commit=d872455c4be56022da2095349b30ef46e0b55bc3
+upstream_design_system_version=v0.192
+expected_roles=98
+actual_roles=98
+light_roles=49
+dark_roles=49
+missing=0
+extra=0
+mismatches=0
+root_export=pass
+node_esm_subpath_export=pass
+default_metric=deltaEok
+resolve_exact=pass
+identify_exact=pass
+FOCUSED_MATERIAL_PROOF_EXIT=0

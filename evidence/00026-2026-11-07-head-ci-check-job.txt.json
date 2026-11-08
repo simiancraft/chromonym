@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "data", "package", "frontend", "ci"],
+  "covered_paths": [".github/workflows/ci.yml", "demo/src/components/PaletteGrid.tsx", "demo/src/components/PaletteTiles.tsx", "package.json", "src/index.ts", "src/palettes/material.ts", "test/palettes.test.ts", "test/subpathExports.test.ts"],
+  "capture_commit": "1b29ec8000f7ab4651156c68c54355d8c26dccde",
+  "capture_method": "Executed every command in the ci.yml check job in workflow order with Bun 1.4.2, including bun test --coverage --coverage-reporter=lcov",
+  "content_hash": "sha256:b1200248e0ccfba16d74a33128edf90fc8b64472f227c2074865b4bd9fb6bb12"
+}
