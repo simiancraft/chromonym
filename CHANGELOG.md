@@ -1,3 +1,15 @@
+# [3.6.0](https://github.com/simiancraft/chromonym/compare/v3.5.3...v3.6.0) (2026-11-08)
+
+
+### Bug Fixes
+
+* **demo:** register material palette ([2ee8168](https://github.com/simiancraft/chromonym/commit/2ee81688ad23b4b8dc0471a90f12e46f90024354))
+
+
+### Features
+
+* **palettes:** add Material Design 3 tokens ([fd6a65b](https://github.com/simiancraft/chromonym/commit/fd6a65bad530104e34f2aa41e3f74b2fff05e51c))
+
 ## [3.5.3](https://github.com/simiancraft/chromonym/compare/v3.5.2...v3.5.3) (2026-09-23)
 
 ## [3.5.2](https://github.com/simiancraft/chromonym/compare/v3.5.1...v3.5.2) (2026-09-23)
