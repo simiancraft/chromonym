@@ -1,3 +1,11 @@
+# [3.7.0](https://github.com/simiancraft/chromonym/compare/v3.6.0...v3.7.0) (2026-11-08)
+
+
+### Features
+
+* **palettes:** add milStd2525d ([a874b0d](https://github.com/simiancraft/chromonym/commit/a874b0d99c79f28430f4418694dfbc67c08670e1)), closes [#ffff00](https://github.com/simiancraft/chromonym/issues/ffff00)
+* **palettes:** add uswds ([d9a4c3a](https://github.com/simiancraft/chromonym/commit/d9a4c3ae644b14a63a45dacb203a229580a3653f))
+
 # [3.6.0](https://github.com/simiancraft/chromonym/compare/v3.5.3...v3.6.0) (2026-11-08)
 
 
