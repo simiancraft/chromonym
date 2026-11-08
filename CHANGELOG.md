@@ -1,3 +1,10 @@
+# [3.11.0](https://github.com/simiancraft/chromonym/compare/v3.10.0...v3.11.0) (2026-11-08)
+
+
+### Features
+
+* **palettes:** add CARC coating colors ([38eaab1](https://github.com/simiancraft/chromonym/commit/38eaab1ce5d17ac5ea4a627ad70866f495c054bc))
+
 # [3.10.0](https://github.com/simiancraft/chromonym/compare/v3.9.0...v3.10.0) (2026-11-08)
 
 
