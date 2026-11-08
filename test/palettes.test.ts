@@ -8,6 +8,7 @@ import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
 import { material } from '../src/palettes/material.js';
 import { milStd101c } from '../src/palettes/milStd101c.js';
+import { milStd709d } from '../src/palettes/milStd709d.js';
 import { milStd2525d } from '../src/palettes/milStd2525d.js';
 import { nbs } from '../src/palettes/nbs.js';
 import { ncs } from '../src/palettes/ncs.js';
@@ -275,6 +276,19 @@ describe.each([
         Brown: '#625046',
         Blue: '#2c698d',
         Green: '#5b7a41',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'milStd709d',
+    milStd709d,
+    {
+      minCount: 18,
+      spotChecks: {
+        Yellow: '#f5a01c',
+        'Dark Green': '#476653',
+        'Light Blue': '#466b7d',
+        Bronze: '#b89964',
       } as Record<string, string>,
     },
   ],

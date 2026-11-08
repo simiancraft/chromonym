@@ -99,6 +99,9 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // MIL-STD-101C: safety yellow identifies flammable materials and gives
   // this compact hazard palette a distinct, high-visibility tile.
   milStd101c: { tone: '#fcb217', ink: 'var(--bh-ink)' },
+  // MIL-STD-709D: dark green identifies toxic chemical agent filler and
+  // distinguishes this ammunition palette from the adjacent safety yellow.
+  milStd709d: { tone: '#476653', ink: 'var(--bh-cream)' },
   // MIL-STD-2525D: Friend Dark (#006b8c), the friendly-unit blue of a
   // map symbol, deep enough to carry the cream label.
   milStd2525d: { tone: '#006b8c', ink: 'var(--bh-cream)' },
@@ -130,6 +133,7 @@ const ORDER: PaletteKey[] = [
   'material',
   'uswds',
   'milStd101c',
+  'milStd709d',
   'milStd2525d',
   'usMilitary',
 ];
