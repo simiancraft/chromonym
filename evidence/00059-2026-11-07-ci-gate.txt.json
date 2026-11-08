@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["ci", "docs"],
+  "covered_paths": ["NOTICE.md", ".github/workflows/ci.yml", "package.json", "bun.lock"],
+  "capture_commit": "b2157e06761b750f5c888644396db71d8b252863",
+  "capture_method": "GitHub Actions run 42432711149, job 128584883909",
+  "content_hash": "sha256:af89826254ef972e320b82e21e73e475bde9855b0f4978e68b48eea96c972125"
+}

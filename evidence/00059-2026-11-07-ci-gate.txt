@@ -1,0 +1,29 @@
+GitHub Actions CI receipt
+
+Capture commit: b2157e06761b750f5c888644396db71d8b252863
+Workflow: .github/workflows/ci.yml
+Workflow run: https://github.com/simiancraft/chromonym/actions/runs/42432711149
+Job: https://github.com/simiancraft/chromonym/actions/runs/42432711149/job/128584883909
+Event: pull_request
+Branch: fix/pantone-notice-inventory-57
+Status: completed
+Conclusion: success
+Started: 2026-11-08T01:05:30Z
+Completed: 2026-11-08T01:06:35Z
+
+Deciding job: Lint, Typecheck, Test
+
+SUCCESS  bun install --frozen-lockfile
+SUCCESS  bun run lint
+SUCCESS  cd demo && bun install --frozen-lockfile
+SUCCESS  bun run check:eslint
+SUCCESS  bun run typecheck
+SUCCESS  bun run build
+SUCCESS  bun run typecheck:test
+SUCCESS  bun run check:package
+SUCCESS  bun run check:knip
+SUCCESS  bun test --coverage --coverage-reporter=lcov
+
+The GitHub Actions run metadata reports headSha
+b2157e06761b750f5c888644396db71d8b252863, conclusion success, and a
+successful conclusion for every deciding step above.
