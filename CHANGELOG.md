@@ -1,3 +1,10 @@
+# [3.15.0](https://github.com/simiancraft/chromonym/compare/v3.14.0...v3.15.0) (2026-11-08)
+
+
+### Features
+
+* **palettes:** add Farrow & Ball ([4f51ff2](https://github.com/simiancraft/chromonym/commit/4f51ff26b059bea8faca35b33b5d5e1535cd2753))
+
 # [3.14.0](https://github.com/simiancraft/chromonym/compare/v3.13.0...v3.14.0) (2026-11-08)
 
 
