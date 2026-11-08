@@ -40,7 +40,7 @@ const usMilitaryColors = {
   'Air Force Chrome': '#8f8f8c',
 
   // Air Force Emblem colors, U.S. Air Force trademark guidance:
-  // https://www.trademark.af.mil/Branding/Air-Force-Symbol/
+  // https://www.trademark.af.mil/Branding/The-Air-Force-Emblem/
   'Air Force Ultramarine Blue': '#00539f',
   'Air Force Yellow': '#ffd520',
   'Air Force Brittany Blue': '#95c4da',

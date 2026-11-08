@@ -127,11 +127,11 @@ in official U.S. Government brand and trademark guidance:
 - **U.S. Army:** *U.S. Army Brand Guidelines*, version 1.0, March 2023,
   color palette specifications on pages 24 and 26. The specification
   values are used where appendix accessibility tables differ.
-- **Department of the Air Force:** the Air Force Symbol and Air Force
-  Emblem colors published by the
-  [Air Force trademark office](https://www.trademark.af.mil/Branding/Air-Force-Symbol/),
-  accessed November 7, 2026. Published RGB byte values were converted
-  directly to hex; rendering-only emblem highlights are excluded.
+- **Department of the Air Force:** the [Air Force Symbol](https://www.trademark.af.mil/Branding/Air-Force-Symbol/)
+  and [Air Force Emblem](https://www.trademark.af.mil/Branding/The-Air-Force-Emblem/)
+  colors published by the Air Force trademark office, accessed November 7,
+  2026. Published RGB byte values were converted directly to hex;
+  rendering-only emblem highlights are excluded.
 - **Department of War:** the
   [U.S. Department of War Brand Guide](https://www.war.gov/Brand-Guide/),
   updated September 25, 2025. The palette calls the guide's "Primary
