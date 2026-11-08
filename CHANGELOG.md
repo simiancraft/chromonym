@@ -1,3 +1,10 @@
+# [3.13.0](https://github.com/simiancraft/chromonym/compare/v3.12.0...v3.13.0) (2026-11-08)
+
+
+### Features
+
+* **palettes:** add MIL-STD-709D ammunition colors ([757a0f0](https://github.com/simiancraft/chromonym/commit/757a0f02b1b839d1a27ca342b3d4bde1386070a8))
+
 # [3.12.0](https://github.com/simiancraft/chromonym/compare/v3.11.0...v3.12.0) (2026-11-08)
 
 
