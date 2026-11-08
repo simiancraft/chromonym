@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["docs", "typescript", "runtime"],
+  "covered_paths": ["README.md"],
+  "capture_commit": "d3e537e10c6e626c8728bf68bf9b1c7466ba69d8",
+  "capture_method": "Tailwind CSS 3.4.18 recipe type-check and execution under Node 24.22.2 and Bun 1.4.4",
+  "content_hash": "sha256:273a4926518afbf1efa9e8c3d35bf05915180177ca80a9764b1c831ab359aea7"
+}

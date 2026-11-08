@@ -1,0 +1,41 @@
+Capture commit: d3e537e10c6e626c8728bf68bf9b1c7466ba69d8
+Dependency: tailwindcss 3.4.18
+
+Command:
+../node_modules/.bin/tsc --noEmit --strict --module ESNext --moduleResolution Bundler --target ES2022 --skipLibCheck --ignoreConfig readme-recipe.ts
+
+Exit code: 1
+Output:
+readme-recipe.ts(36,33): error TS2345: Argument of type 'DefaultColors' is not assignable to parameter of type 'Record<string, unknown>'.
+  Index signature for type 'string' is missing in type 'DefaultColors'.
+
+Command:
+node --import tsx readme-recipe.ts
+
+Exit code: 0
+Output:
+red-500
+
+Command:
+bun run readme-recipe.ts
+
+Exit code: 0
+Output:
+warn - As of Tailwind CSS v2.2, `lightBlue` has been renamed to `sky`.
+warn - Update your configuration file to silence this warning.
+
+warn - As of Tailwind CSS v3.0, `warmGray` has been renamed to `stone`.
+warn - Update your configuration file to silence this warning.
+
+warn - As of Tailwind CSS v3.0, `trueGray` has been renamed to `neutral`.
+warn - Update your configuration file to silence this warning.
+
+warn - As of Tailwind CSS v3.0, `coolGray` has been renamed to `gray`.
+warn - Update your configuration file to silence this warning.
+
+warn - As of Tailwind CSS v3.0, `blueGray` has been renamed to `slate`.
+warn - Update your configuration file to silence this warning.
+red-500
+
+Result:
+The runtime lookup succeeds under Node and Bun. The documented TypeScript does not type-check against Tailwind v3, and Bun emits the deprecated getter warnings that the recipe claims to avoid.
