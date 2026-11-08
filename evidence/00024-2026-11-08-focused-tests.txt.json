@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["code", "package"],
+  "covered_paths": ["src/palettes/japanese.ts", "src/index.ts", "package.json", "test/palettes.test.ts", "test/subpathExports.test.ts"],
+  "capture_commit": "3b6b9ad95e61f1e4f0323baac9d1b68e1f1ead01",
+  "capture_method": "bun test test/palettes.test.ts test/subpathExports.test.ts",
+  "content_hash": "sha256:d7802443e6b60dd67e020063c9d6b3dd189e640b2236924bade54b8b7a7fa466"
+}

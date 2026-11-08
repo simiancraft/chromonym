@@ -1,0 +1,10 @@
+Receipt: CI deciding coverage command
+Command: bun test --coverage --coverage-reporter=lcov
+Captured at: 3b6b9ad95e61f1e4f0323baac9d1b68e1f1ead01
+bun test v1.4.4 (38afee6c8)
+
+ 624 pass
+ 0 fail
+ 24125 expect() calls
+Ran 624 tests across 26 files. [158.00ms]
+Exit code: 0

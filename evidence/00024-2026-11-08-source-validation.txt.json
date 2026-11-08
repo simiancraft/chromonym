@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["data", "code"],
+  "covered_paths": ["src/palettes/japanese.ts", "NOTICE.md"],
+  "capture_commit": "3b6b9ad95e61f1e4f0323baac9d1b68e1f1ead01",
+  "capture_method": "bun .proof/source-validation.ts against Wikipedia revision 1372240562",
+  "content_hash": "sha256:eb73fc1621aa6941e6d81817b8518b94d8805ffccdf09f9e1639e422e553cf92"
+}

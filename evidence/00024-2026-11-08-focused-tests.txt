@@ -1,0 +1,10 @@
+Receipt: focused Japanese palette API and package tests
+Command: bun test test/palettes.test.ts test/subpathExports.test.ts
+Captured at: 3b6b9ad95e61f1e4f0323baac9d1b68e1f1ead01
+bun test v1.4.4 (38afee6c8)
+
+ 228 pass
+ 0 fail
+ 22589 expect() calls
+Ran 228 tests across 2 files. [102.00ms]
+Exit code: 0
