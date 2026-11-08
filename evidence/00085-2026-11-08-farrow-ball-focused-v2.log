@@ -1,0 +1,17 @@
+Script started on 2026-11-08 00:32:01-06:00 [<not executed on terminal>]
+{
+  "captureCommit": "e67d15c3853cba32b6e184a48b7b58e371b2d162",
+  "sourceCommit": "5a46ba515d61169e49adc81dddb1bcd88da9d60a",
+  "rootAndSubpathSame": true,
+  "localCount": 132,
+  "upstreamCount": 132,
+  "mismatches": [],
+  "missing": [],
+  "extra": [],
+  "defaultMetric": "deltaE2000",
+  "resolvedElephantsBreath": "#ccbfb3",
+  "identifiedDeadSalmon": "Dead Salmon",
+  "resolvedBorrowedLight": "#d5dbdb"
+}
+
+Script done on 2026-11-08 00:32:01-06:00 [COMMAND_EXIT_CODE="0"]
