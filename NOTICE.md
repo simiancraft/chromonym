@@ -551,6 +551,25 @@ shades with 80xxx cable numbers. Present-day heraldic yarns may also
 differ. Several measured shades are fluorescent, so their sRGB values
 are approximations by construction; values outside sRGB are clamped.
 
+## TIOH heraldic yarn colors
+
+The `tioh` palette (45 entries) reproduces the HEX column of the
+"Common Colors Conversion Chart" in The Institute of Heraldry's
+**TIOH Palette Sampler** (2022). The sampler is a U.S. Government
+publication with no stated reuse terms. An archived copy is available
+[here](https://web.archive.org/web/20250726210417/https://generalstaff.org/BBOW/Colors/TIOH_Palette_Sampler_2023.pdf).
+
+The chart states that TIOH derived its HEX values from Pantone references.
+The values are therefore on-screen approximations of physical yarns, not
+measurements of those yarns. The palette includes no Pantone identifiers.
+The related `tcca` palette records NBS measurements of the 1946 textile
+cards to which later heraldic yarns are matched.
+
+The sampler prints yarn cable 67103 for both AF Yellow and White. The DoD
+heraldic yarn card identifies White as 67101, so the palette corrects the
+White key to `White 67101`. The sampler's epoxy-chip and PVC-chip charts
+are not included.
+
 ## MIL-STD-2525D (Joint Military Symbology)
 
 The `milStd2525d` palette (20 entries) reproduces the symbol colors in

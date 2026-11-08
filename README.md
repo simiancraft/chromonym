@@ -21,7 +21,7 @@
   <code>identify</code> &nbsp;•&nbsp; <code>resolve</code> &nbsp;•&nbsp; <code>convert</code>
 </p>
 
-**The last color-naming library you'll ever need.** Give it any hex, RGB, HSL, or HSV value and get back the nearest named color; give it a color name and get back the value. One API (`identify`, `resolve`, and `convert`) works against any palette you throw at it. Ships twenty-nine palettes out of the box (CSS, X11, Pantone, Copic, Prismacolor, Crayola, Farrow & Ball, NTC, XKCD, Japanese traditional colors, RAL, Tailwind, Material, USWDS, Resene, NCS, Munsell, ISCC-NBS, NBS, FS 595 B, FS 595 C, CARC, TCCA, MIL-STD-101C, MIL-STD-709D, MIL-STD-2525D, U.S. military identity colors, Werner, and Pokémon); bring your own (brand colors, paint chips, game factions, and chart themes) with full TypeScript inference and zero registration. Six distance metrics range from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone; you only pay for palettes you import.
+**The last color-naming library you'll ever need.** Give it any hex, RGB, HSL, or HSV value and get back the nearest named color; give it a color name and get back the value. One API (`identify`, `resolve`, and `convert`) works against any palette you throw at it. Ships thirty palettes out of the box (CSS, X11, Pantone, Copic, Prismacolor, Crayola, Farrow & Ball, NTC, XKCD, Japanese traditional colors, RAL, Tailwind, Material, USWDS, Resene, NCS, Munsell, ISCC-NBS, NBS, FS 595 B, FS 595 C, CARC, TCCA, TIOH, MIL-STD-101C, MIL-STD-709D, MIL-STD-2525D, U.S. military identity colors, Werner, and Pokémon); bring your own (brand colors, paint chips, game factions, and chart themes) with full TypeScript inference and zero registration. Six distance metrics range from fast Euclidean to industry-standard CIEDE2000 and OKLAB. Tree-shakes to the bone; you only pay for palettes you import.
 
 <sub>*chromonym* (n.): a name for a color; *chroma* + *-onym*. Also the library.</sub>
 
@@ -349,7 +349,7 @@ Unparseable values are dropped with a `console.warn` naming the palette, the off
 
 If you prefer zero runtime and already have hex-only values, the `as const satisfies Palette<'A' | 'B' | ...>` pattern still works — list the key union once in the generic and it narrows identically.
 
-### The twenty-nine we ship
+### The thirty we ship
 
 | Name | Entries | Source |
 |---|---|---|
@@ -367,6 +367,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `fs595c` | 682 | Federal Standard 595C paint chips (US Government spec; military / aviation coatings) |
 | `carc` | 26 | Chemical Agent Resistant Coating colors from MIL-DTL-53039E, using their specified FS 595 chips |
 | `tcca` | 238 | TCCA Standard Color Card of America, 9th edition, and U.S. Army Color Card, measured by NBS in 1946 |
+| `tioh` | 45 | TIOH common heraldic yarn colors, keyed by cable number; approximate screen values reproduced from its 2022 sampler |
 | `milStd101c` | 10 | MIL-STD-101C pipeline and compressed-gas-cylinder hazard identification colors, using their specified FS 595 chips |
 | `milStd709d` | 18 | MIL-STD-709D Tier II ammunition identification colors, using their specified FS 595 chips |
 | `milStd2525d` | 20 | MIL-STD-2525D military symbology colors: hostile, friend, neutral, unknown, and civilian, in dark, medium, light, and unfilled |

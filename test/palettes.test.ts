@@ -23,6 +23,7 @@ import { ral } from '../src/palettes/ral.js';
 import { resene } from '../src/palettes/resene.js';
 import { tailwind } from '../src/palettes/tailwind.js';
 import { tcca } from '../src/palettes/tcca.js';
+import { tioh } from '../src/palettes/tioh.js';
 import { usMilitary } from '../src/palettes/usMilitary.js';
 import { uswds } from '../src/palettes/uswds.js';
 import { web } from '../src/palettes/web.js';
@@ -169,6 +170,17 @@ describe.each([
       spotChecks: {
         'Old Glory Red 70180': '#9c1c2d',
         'Scarlet 65006': '#a62c30',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'tioh',
+    tioh,
+    {
+      minCount: 45,
+      spotChecks: {
+        'Scarlet 67111': '#c10230',
+        'Ultramarine Blue 67118': '#001689',
       } as Record<string, string>,
     },
   ],

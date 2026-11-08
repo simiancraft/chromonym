@@ -61,6 +61,9 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // TCCA: Old Glory Red from the card itself distinguishes this textile
   // reference from the neighboring olive military-coating palettes.
   tcca: { tone: '#9c1c2d', ink: 'var(--bh-cream)' },
+  // TIOH: Flag Blue is a heraldic yarn color from the sampler and contrasts
+  // with TCCA's red while keeping the two textile references adjacent.
+  tioh: { tone: '#011e41', ink: 'var(--bh-cream)' },
   // ISCC-NBS: neutral medium gray, fitting for the science-y Munsell-
   // derived standard. Restrained, formal, and visually distinct from
   // the other poster tones.
@@ -135,6 +138,7 @@ const ORDER: PaletteKey[] = [
   'fs595c',
   'fs595b',
   'tcca',
+  'tioh',
   'isccNbs',
   'munsell',
   'nbs',
