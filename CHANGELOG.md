@@ -1,3 +1,10 @@
+# [3.9.0](https://github.com/simiancraft/chromonym/compare/v3.8.0...v3.9.0) (2026-11-08)
+
+
+### Features
+
+* **palettes:** add Copic markers ([82e15ad](https://github.com/simiancraft/chromonym/commit/82e15adc24850fb9048b86baad2fa4bdbcedc396))
+
 # [3.8.0](https://github.com/simiancraft/chromonym/compare/v3.7.2...v3.8.0) (2026-11-08)
 
 
