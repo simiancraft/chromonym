@@ -40,6 +40,9 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // Survey data has an irreverent character; the tone stays inside
   // the muted Bauhaus palette rather than going neon.
   xkcd: { tone: '#5c2a6b', ink: 'var(--bh-cream)' },
+  // Japanese traditional colors: Sakura-iro is a recognizable pale pink from
+  // the palette and contrasts with the neighboring deep XKCD plum.
+  japanese: { tone: '#fcc9b9', ink: 'var(--bh-ink)' },
   // CARC: Green 383 is a primary camouflage color from the palette and
   // separates the focused coating set from the broader FS 595 revisions.
   carc: { tone: '#4f5443', ink: 'var(--bh-cream)' },
@@ -118,6 +121,7 @@ const ORDER: PaletteKey[] = [
   'crayola',
   'ntc',
   'xkcd',
+  'japanese',
   'carc',
   'fs595c',
   'fs595b',

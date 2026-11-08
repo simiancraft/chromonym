@@ -35,6 +35,7 @@ export { type CrayolaColorName, crayola } from './palettes/crayola.js';
 export { type Fs595bColorName, fs595b } from './palettes/fs595b.js';
 export { type Fs595cColorName, fs595c } from './palettes/fs595c.js';
 export { type IsccNbsColorName, isccNbs } from './palettes/isccNbs.js';
+export { type JapaneseColorName, japanese } from './palettes/japanese.js';
 export { type MaterialColorName, material } from './palettes/material.js';
 export { type MilStd101cColorName, milStd101c } from './palettes/milStd101c.js';
 export { type MilStd709dColorName, milStd709d } from './palettes/milStd709d.js';

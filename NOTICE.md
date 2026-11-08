@@ -195,6 +195,24 @@ outdated.
 The `web` palette mirrors the CSS Color Module Level 4 named-color
 set, which is a public specification.
 
+## Traditional colors of Japan
+
+The `japanese` palette reproduces approximate sRGB values and Hepburn
+romanizations from [Wikipedia's "Traditional colors of Japan"](https://en.wikipedia.org/w/index.php?title=Traditional_colors_of_Japan&oldid=1372240562),
+revision 1372240562 from August 31, 2026, accessed November 7, 2026.
+The corresponding Japanese name is retained as a trailing comment for each
+entry. Wikipedia contributors publish the source text under the
+[Creative Commons Attribution-ShareAlike 4.0 International license](https://creativecommons.org/licenses/by-sa/4.0/).
+
+Chromonym lowercases the hex values and removes two later rows whose
+romanizations duplicate earlier keys: `Tonocha` and `Kuwazome`. The two source
+names for 花葉色, `Hanaba-iro` and `kayou-iro`, are separate lookup keys with
+the same value. The palette's normalizer removes macrons, case, spaces,
+hyphens, apostrophes, and other
+punctuation. These changes are available under the same CC BY-SA 4.0 license.
+The values are approximate screen renderings of historically variable dye
+colors; they are not physical dye specifications.
+
 ## Resene
 
 The `resene` palette (1378 entries) is derived from the Raku

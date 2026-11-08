@@ -6,6 +6,7 @@ import { crayola } from '../src/palettes/crayola.js';
 import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
+import { japanese } from '../src/palettes/japanese.js';
 import { material } from '../src/palettes/material.js';
 import { milStd101c } from '../src/palettes/milStd101c.js';
 import { milStd709d } from '../src/palettes/milStd709d.js';
@@ -25,6 +26,7 @@ import { web } from '../src/palettes/web.js';
 import { werner } from '../src/palettes/werner.js';
 import { x11 } from '../src/palettes/x11.js';
 import { xkcd } from '../src/palettes/xkcd.js';
+import { resolve } from '../src/resolve.js';
 
 const HEX_RE = /^#[0-9a-f]{6}$/;
 
@@ -82,6 +84,18 @@ describe.each([
       spotChecks: {
         'cloudy blue': '#acc2d9',
         dust: '#b2996e',
+      } as Record<string, string>,
+    },
+  ],
+  [
+    'japanese',
+    japanese,
+    {
+      minCount: 227,
+      spotChecks: {
+        'Sakura-iro': '#fcc9b9',
+        Ainezumi: '#5c544e',
+        'Kōbai-iro': '#db5a6b',
       } as Record<string, string>,
     },
   ],
@@ -344,6 +358,23 @@ describe.each([
 
   it('declares a default distance metric', () => {
     expect(typeof space.defaultMetric).toBe('string');
+  });
+});
+
+describe('japanese palette', () => {
+  it('ships 227 romanized lookup names', () => {
+    expect(Object.keys(japanese.colors)).toHaveLength(227);
+  });
+
+  it('resolves both names for Hanaba-iro', () => {
+    expect(resolve('Hanaba-iro', { palette: japanese })).toBe('#ffb94e');
+    expect(resolve('kayou-iro', { palette: japanese })).toBe('#ffb94e');
+  });
+
+  it('normalizes macrons, case, spaces, hyphens, and apostrophes', () => {
+    expect(japanese.normalize('Kōbai-iro')).toBe('kobaiiro');
+    expect(japanese.normalize('KOBAI IRO')).toBe('kobaiiro');
+    expect(japanese.normalize("Su'ō")).toBe('suo');
   });
 });
 
