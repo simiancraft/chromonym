@@ -1,0 +1,96 @@
+PR 75 caught-up head proof
+Captured: 2026-11-07 America/Chicago
+Capture commit: a214152ef78b956b68a4a36bc94fbb7d180dd82a
+
+REMOTE IDENTITY
+
+Commands:
+  git fetch origin fix/add-us-military-colors-74
+  git merge-base --is-ancestor a214152ef78b956b68a4a36bc94fbb7d180dd82a origin/fix/add-us-military-colors-74
+
+Result:
+  merge-base exit code: 0
+  pull request head: a214152ef78b956b68a4a36bc94fbb7d180dd82a
+
+REQUIRED LOCAL GATE
+
+Command:
+  bun run build && (cd demo && bun install --frozen-lockfile) && bun run check
+
+Result:
+  exit code: 0
+  555 pass
+  0 fail
+  demo production build: success, 1940 modules transformed
+  knip: success
+  publint: All good
+  chromonym/us-military package resolution: ESM and bundler checks green
+
+The command ran after a successful bun install --frozen-lockfile at the
+capture commit. The local runtime was Bun 1.4.4.
+
+FOCUSED PALETTE VERIFICATION
+
+Command:
+  bun test test/palettes.test.ts test/subpathExports.test.ts
+
+Result:
+  177 pass
+  0 fail
+  20750 expect() calls
+  Ran 177 tests across 2 files.
+
+A separate runtime comparison imported usMilitary from the root and palette
+module, compared the complete object with all 31 key/value pairs in issue 74,
+converted all nine published Air Force RGB triples to hex, and exercised
+resolve and identify.
+
+Result:
+  {
+    "entryCount": 31,
+    "mismatches": [],
+    "extras": [],
+    "rgbMismatches": [],
+    "rootAndSubpathSameObject": true,
+    "defaultMetric": "deltaE2000",
+    "normalizedResolve": "#cf0000",
+    "nearestIdentify": "Air Force Blue",
+    "allLowerSixDigitHex": true
+  }
+
+CURRENT-HEAD CI DECISION
+
+Workflow: .github/workflows/ci.yml
+Run: https://github.com/simiancraft/chromonym/actions/runs/42444805424
+Job: https://github.com/simiancraft/chromonym/actions/runs/42444805424/job/128621384324
+Head SHA: a214152ef78b956b68a4a36bc94fbb7d180dd82a
+Conclusion: success
+Runtime: workflow-pinned Bun 1.4.2
+
+The pull-request workflow ran frozen installs, Biome, ESLint, library and demo
+typechecks, build, test typecheck, package hygiene, Knip, and the exact
+coverage command below:
+
+  bun test --coverage --coverage-reporter=lcov
+
+The CI log records 555 passing tests across 22 files, 0 failures, passing
+usMilitary palette checks, a passing chromonym/us-military subpath test, and
+successful package validation for chromonym/us-military.
+
+LOCAL COVERAGE RUNTIME NOTE
+
+The same coverage command under local Bun 1.4.4 ran all 555 tests with 0
+failures but returned exit code 1 because it measured 99.97 percent line
+coverage. It identified src/convert.ts line 93, an unchanged base file, as
+uncovered. This does not alter the required gate result. The authoritative
+workflow, pinned to Bun 1.4.2, ran that exact command successfully at the
+capture commit.
+
+RE-CHECK
+
+  git fetch origin fix/add-us-military-colors-74
+  git merge-base --is-ancestor a214152ef78b956b68a4a36bc94fbb7d180dd82a origin/fix/add-us-military-colors-74
+  bun test test/palettes.test.ts test/subpathExports.test.ts
+  gh run view 42444805424 -R simiancraft/chromonym
+  gh run view 42444805424 -R simiancraft/chromonym --log
+
