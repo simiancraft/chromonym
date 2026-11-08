@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
   "entry": ["scripts/*.ts"],
-  "ignore": ["demo/**"],
+  "ignore": ["demo/**", "burn-down-github-issues.config.ts"],
   "ignoreDependencies": ["@semantic-release/.*"]
 }
