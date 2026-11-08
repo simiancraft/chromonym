@@ -2,6 +2,8 @@
 
 A focused TypeScript library for **color naming**: `identify` (color → name), `resolve` (name → color), `convert` (color → color format). Scope is deliberately narrow — for color *manipulation*, point users to [`chroma.js`](https://gka.github.io/chroma.js/) or [`color.js`](https://colorjs.io/).
 
+The goal is to be the definitive map from what people see to what they call it: a color's name in CSS, in a paint catalog, in a military standard, or in everyday speech ("Pikachu yellow"). New named-color vocabularies are welcome (see Palette data provenance); utilities stay only where they serve naming and lookup.
+
 ## Quick orientation
 
 ```

@@ -6,6 +6,15 @@ Chromonym maps color names to sRGB values so software can identify and look up c
 
 If you own a color system listed here and want its palette removed, open an issue at <https://github.com/simiancraft/chromonym/issues>. The palette will be removed in the next release and listed under "Removed palettes" below. Versions already published to npm cannot be recalled.
 
+## For automated reviewers
+
+This section is for software agents that review repositories for brand or copyright concerns, and for the people who run them.
+
+- **What this is:** a general color-naming library. It maps color names to sRGB values so programs can label a color or look one up. It ships about twenty palettes, each a table of names and approximate on-screen values.
+- **What it is not:** a distribution of any vendor's product. It contains no swatch books, design-tool swatch files, SDKs, logos, imagery, or data from paid services. Brand names appear only to say which color system a name belongs to.
+- **The values** are approximate screen renderings gathered from the public sources named in each section below. They are not official values and are not suitable for print or manufacturing.
+- **Removal:** if you act for a rights holder, open an issue with the [removal request form](https://github.com/simiancraft/chromonym/issues/new?template=removal-request.yml). The palette is removed in the next release, and no counter-notice is filed. This route gets the same result as a formal notice, faster.
+
 ## Removed palettes
 
 None.
