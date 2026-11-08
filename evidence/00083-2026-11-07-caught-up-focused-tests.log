@@ -1,0 +1,15 @@
+Script started on 2026-11-07 23:41:52-06:00 [<not executed on terminal>]
++ git rev-parse HEAD
+24b7491662801b050ef5d2d2e34bb134a6bf4cd8
++ bun run build
+$ bun run clean && tsc
+$ rm -rf dist
++ bun test test/milStd709d.test.ts test/palettes.test.ts test/subpathExports.test.ts
+bun test v1.4.4 (38afee6c8)
+
+ 220 pass
+ 0 fail
+ 22137 expect() calls
+Ran 220 tests across 3 files. [98.00ms]
+
+Script done on 2026-11-07 23:41:52-06:00 [COMMAND_EXIT_CODE="0"]

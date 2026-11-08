@@ -1,0 +1,18 @@
+{
+  "scope_tags": ["code", "data", "package"],
+  "covered_paths": [
+    "src/palettes/milStd709d.ts",
+    "src/palettes/fs595c.ts",
+    "src/index.ts",
+    "src/identify.ts",
+    "src/resolve.ts",
+    "src/indexing.ts",
+    "package.json",
+    "test/milStd709d.test.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "24b7491662801b050ef5d2d2e34bb134a6bf4cd8",
+  "capture_method": "bun run build; bun test test/milStd709d.test.ts test/palettes.test.ts test/subpathExports.test.ts",
+  "content_hash": "sha256:a16b9ff00234a7fb6a75581c951eef53605787fe629d0b67b70e4eea6fe732a5"
+}
