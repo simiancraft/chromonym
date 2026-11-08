@@ -287,18 +287,42 @@ centroids from the primary Munsell data.
 
 ## Federal Standard 595 (FS595B and FS595C)
 
-The `fs595b` (209 entries) and `fs595c` (589 entries) palettes
-are derived from the Raku modules **`Color::Names::FS595B`** and
-**`Color::Names::FS595C`** in the
+The `fs595b` palette (209 entries) is derived from the Raku module
+**`Color::Names::FS595B`** in the
 [`thundergnat/Color-Names`](https://github.com/thundergnat/Color-Names)
-repository, which digitize the US Federal Government's
-**Federal Standard 595** paint-color specification (used for
-military, aviation, and government-equipment coatings). FS595B
-is the 1989 revision, superseded by FS595C in 2008. Both are
+repository, which digitizes the US Federal Government's
+**Federal Standard 595B** paint-color specification.
+
+The `fs595c` palette has 682 entries. Values for 650 chips come from
+the General Services Administration's measured **FED-STD-595C and
+Change Notice 1** digital data, published January 16, 2008, and
+updated July 31, 2008. Chromonym uses the D65/10 degree CIELAB columns
+from the workbook's "CIE only" sheet. The archived
+[data workbook](https://web.archive.org/web/20170515085542/https://www.gsa.gov/portal/getMediaData?mediaId=213223)
+and [measurement method](https://web.archive.org/web/20170515072756/https://www.gsa.gov/portal/getMediaData?mediaId=213231)
+are US Government works and are public domain.
+
+GSA measured the chips with the CIE 1964 10 degree observer, while
+sRGB is defined for the CIE 1931 2 degree observer. The conversion
+therefore has an observer mismatch. Chromonym converts GSA's D65/10
+degree CIELAB values through the corresponding D65 white point to
+sRGB, clamps out-of-gamut channels, and rounds them to 8-bit values.
+
+The following 32 compatibility entries are absent from GSA's data and
+retain their prior `Color::Names::FS595C` values: `FS 10129`,
+`FS 14087`, `FS 14108`, `FS 15053`, `FS 16152`, `FS 16231`,
+`FS 17200`, `FS 20129`, `FS 24087`, `FS 25466`, `FS 30076`,
+`FS 30129`, `FS 30152`, `FS 30400`, `FS 33432`, `FS 33591`,
+`FS 34056`, `FS 34062`, `FS 34077`, `FS 34087`, `FS 34115`,
+`FS 34172`, `FS 35050`, `FS 35053`, `FS 35115`, `FS 35182`,
+`FS 36187`, `FS 36329`, `FS 36400`, `FS 37043`, `FS 37178`, and
+`FS 38913`.
+
+FS595B is the 1989 revision, superseded by FS595C in 2008. Both are
 still in active use depending on which revision a given piece of
-documentation or equipment references. The Federal Standard
-itself is a US-government-published specification and is not
-subject to copyright restrictions when faithfully reproduced.
+documentation or equipment references. The Federal Standards and
+GSA measurements are US Government publications and are not subject
+to copyright restrictions when faithfully reproduced.
 
 - Canonical keys in both palettes are the 5-digit FS codes
   prefixed with `FS ` (e.g. `FS 11136`). Common names attached
@@ -310,12 +334,8 @@ subject to copyright restrictions when faithfully reproduced.
   revision).
 - Same-coded chips can differ in hex between the B and C
   revisions; for example `FS 11136` ("Insignia Red") is
-  `#9b2f25` in FS595B versus `#a32b25` in FS595C. Pick the
+  `#9b2f25` in FS595B versus `#8c4040` in FS595C. Pick the
   palette that matches your reference documentation.
-- sRGB hex values are taken verbatim from the upstream modules'
-  RGB byte triplets; the published standard specifies color
-  chips under controlled lighting, and all digital sRGB
-  approximations including these are necessarily simplified.
 - Chromonym is **not affiliated with** any US Government agency
   or defense contractor; no endorsement is implied.
 

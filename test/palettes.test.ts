@@ -84,10 +84,10 @@ describe.each([
     'fs595c',
     fs595c,
     {
-      minCount: 580,
+      minCount: 680,
       spotChecks: {
-        'FS 10032': '#372726',
-        'FS 11136': '#a32b25',
+        'FS 10032': '#473f3f',
+        'FS 11136': '#8c4040',
       } as Record<string, string>,
     },
   ],
