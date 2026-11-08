@@ -1,0 +1,15 @@
+{
+  "scope_tags": ["code", "data", "ci"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "src/palettes/tioh.ts",
+    "src/index.ts",
+    "package.json",
+    "test/tioh.test.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "82ef49b46dfd7d8dc1b56678be9107b6eec734a1",
+  "capture_method": "bun test --coverage --coverage-reporter=lcov",
+  "content_hash": "sha256:5fdf8e742e99c71d2aa85e1c50ca1b56778bb36e9df7a01d906ffc8b045de561"
+}

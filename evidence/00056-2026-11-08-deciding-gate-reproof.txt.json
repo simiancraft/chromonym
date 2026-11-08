@@ -1,0 +1,18 @@
+{
+  "scope_tags": ["code", "data", "packaging", "demo", "docs", "ci"],
+  "covered_paths": [
+    "NOTICE.md",
+    "README.md",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "package.json",
+    "src/index.ts",
+    "src/palettes/tioh.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts",
+    "test/tioh.test.ts"
+  ],
+  "capture_commit": "82ef49b46dfd7d8dc1b56678be9107b6eec734a1",
+  "capture_method": "bun run build && (cd demo && bun install --frozen-lockfile) && bun run check",
+  "content_hash": "sha256:d15a53a27e510c5592f4ff5e89859f77901d6e615336fd81a049c2166623ac65"
+}

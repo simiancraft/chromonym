@@ -1,0 +1,10 @@
+capture_commit=82ef49b46dfd7d8dc1b56678be9107b6eec734a1
+command=bun test --coverage --coverage-reporter=lcov
+exit_code=0
+
+bun test v1.4.4 (38afee6c8)
+
+ 661 pass
+ 0 fail
+ 33047 expect() calls
+Ran 661 tests across 28 files. [174.00ms]
