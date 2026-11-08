@@ -1,0 +1,72 @@
+Chromonym PR #72 focused proof
+Captured at: 31edca54a8c8969a936087ff990faa0e804bc055
+Date: 2026-11-07 America/Chicago
+
+Claim
+The Copic palette exactly reproduces the code, English name, and sRGB value
+triples from the pinned permissively licensed source; its public APIs,
+package subpath, tests, and demo integration work at the captured commit.
+
+Pinned upstream
+Repository: https://github.com/sile/copic_colors
+Commit: 42651233ab925fe872acd1956a77d8d5139f5013
+Data: https://github.com/sile/copic_colors/blob/42651233ab925fe872acd1956a77d8d5139f5013/src/lib.rs
+License declaration: https://github.com/sile/copic_colors/blob/42651233ab925fe872acd1956a77d8d5139f5013/Cargo.toml
+Declared license: MIT OR Apache-2.0
+
+Semantic data comparison
+Method: parse every upstream Color::new entry into code, English name, and
+lowercase sRGB hex; parse every src/palettes/copic.ts entry into the same
+shape; compare both keyed sets.
+
+capture_commit=31edca54a8c8969a936087ff990faa0e804bc055
+upstream_commit=42651233ab925fe872acd1956a77d8d5139f5013
+upstream_license=MIT OR Apache-2.0
+upstream_entries=358
+shipped_entries=358
+unique_upstream_codes=358
+unique_shipped_codes=358
+missing=0
+extra=0
+name_or_rgb_mismatches=0
+exit_code=0
+
+Focused tests
+Command: bun test test/palettes.test.ts test/subpathExports.test.ts
+
+bun test v1.4.4 (38afee6c8)
+177 pass
+0 fail
+21218 expect() calls
+Ran 177 tests across 2 files.
+exit_code=0
+
+Public package behavior
+Command: import copic from both chromonym and chromonym/copic with Node ESM,
+then exercise resolve and identify.
+
+{"sameObject":true,"count":358,"resolveYG03":"#eaeeb2","resolveC5":"#a4aeb2","identifyB01":"B01"}
+exit_code=0
+
+Demo integration
+Command: bun run typecheck:demo && (cd demo && bun run build)
+
+TypeScript no-emit check: pass
+Vite modules transformed: 1940
+Vite production build: pass
+exit_code=0
+
+Covered paths
+src/palettes/copic.ts
+src/index.ts
+package.json
+test/palettes.test.ts
+test/subpathExports.test.ts
+demo/src/components/PaletteGrid.tsx
+demo/src/components/PaletteTiles.tsx
+README.md
+NOTICE.md
+
+Not covered
+Physical marker-ink accuracy. The shipped values are documented community
+sRGB approximations for on-screen lookup, not official physical measurements.

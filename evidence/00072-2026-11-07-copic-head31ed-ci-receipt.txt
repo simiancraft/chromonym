@@ -1,0 +1,47 @@
+Chromonym PR #72 deciding CI receipt
+Captured at: 31edca54a8c8969a936087ff990faa0e804bc055
+Date: 2026-11-07 America/Chicago
+
+Workflow: .github/workflows/ci.yml
+Workflow run: https://github.com/simiancraft/chromonym/actions/runs/42443304361
+Event: pull_request
+Run head SHA: 31edca54a8c8969a936087ff990faa0e804bc055
+Run status: completed
+Run conclusion: success
+Deciding job: Lint, Typecheck, Test
+Job: https://github.com/simiancraft/chromonym/actions/runs/42443304361/job/128616906328
+Job conclusion: success
+Run log test result: 551 pass, 0 fail
+
+Commands exercised by the deciding job, in workflow order
+bun install --frozen-lockfile
+bun run lint
+cd demo && bun install --frozen-lockfile
+bun run check:eslint
+bun run typecheck
+bun run build
+bun run typecheck:test
+bun run check:package
+bun run check:knip
+bun test --coverage --coverage-reporter=lcov
+
+PR check rollup at capture time
+Lint, Typecheck, Test: SUCCESS
+Analyze (actions): SUCCESS
+Analyze (javascript-typescript), CodeQL: SUCCESS
+Analyze (javascript-typescript), Code Quality: SUCCESS
+CodeQL: SUCCESS
+codecov/patch: SUCCESS
+codecov/project: SUCCESS
+
+Re-check
+Open the immutable code commit and the linked GitHub Actions run. Compare the
+commands above with .github/workflows/ci.yml at the captured commit.
+
+Covered paths
+.github/workflows/ci.yml
+package.json
+bun.lock
+src/**
+test/**
+demo/**

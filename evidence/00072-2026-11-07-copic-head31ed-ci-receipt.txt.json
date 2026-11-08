@@ -1,0 +1,14 @@
+{
+  "scope_tags": ["ci", "code", "security"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "package.json",
+    "bun.lock",
+    "src/**",
+    "test/**",
+    "demo/**"
+  ],
+  "capture_commit": "31edca54a8c8969a936087ff990faa0e804bc055",
+  "capture_method": "GitHub Actions run 42443304361 and PR check rollup queried with gh run view and gh pr checks",
+  "content_hash": "sha256:fa17c3a2183ee0477d0718fe5805164ca68e20d47372f85e0b4e103ff4221f5c"
+}
