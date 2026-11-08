@@ -1,0 +1,18 @@
+{
+  "scope_tags": ["code", "data", "package", "demo", "ci", "provenance"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "NOTICE.md",
+    "README.md",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "package.json",
+    "src/index.ts",
+    "src/palettes/usMilitary.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "e3226ede28fd2c4e96a9594ce3a4f76d703b8e83",
+  "capture_method": "focused Bun tests and runtime comparison; official-source URL/index verification; GitHub Actions run 42443612369; recorded full repository gate",
+  "content_hash": "sha256:17d5774da3af5b87a908b22a28cba2a50fbb84c8cf3c21d462517005d6f6fe5b"
+}

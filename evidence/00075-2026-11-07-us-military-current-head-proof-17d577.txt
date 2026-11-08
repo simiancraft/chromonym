@@ -1,0 +1,106 @@
+PR 75 current-head proof
+Captured: 2026-11-07 America/Chicago
+Capture commit: e3226ede28fd2c4e96a9594ce3a4f76d703b8e83
+
+REMOTE IDENTITY
+
+Command:
+  git fetch origin fix/add-us-military-colors-74
+  git merge-base --is-ancestor e3226ede28fd2c4e96a9594ce3a4f76d703b8e83 origin/fix/add-us-military-colors-74
+  git rev-parse origin/fix/add-us-military-colors-74
+
+Result:
+  merge-base exit code: 0
+  remote head: e3226ede28fd2c4e96a9594ce3a4f76d703b8e83
+
+FOCUSED PALETTE VERIFICATION
+
+Command:
+  bun test test/palettes.test.ts test/subpathExports.test.ts
+
+Result:
+  bun test v1.4.4 (38afee6c8)
+  177 pass
+  0 fail
+  20564 expect() calls
+  Ran 177 tests across 2 files. [105.00ms]
+
+The focused runtime comparison imported usMilitary from the root and palette
+module, compared the complete object with all 31 key/value pairs in issue 74,
+and exercised resolve and identify.
+
+Result:
+  {
+    "sameObject": true,
+    "entryCount": 31,
+    "matchesIssue": true,
+    "defaultMetric": "deltaE2000",
+    "resolved": "#cf0000",
+    "identified": "Air Force Blue"
+  }
+
+AIR FORCE SOURCE URL VERIFICATION
+
+The source comments in src/palettes/usMilitary.ts and links in NOTICE.md use
+two distinct official Department of the Air Force trademark-office pages:
+
+  Symbol: https://www.trademark.af.mil/Branding/Air-Force-Symbol/
+  Emblem: https://www.trademark.af.mil/Branding/The-Air-Force-Emblem/
+
+Direct automated requests to both exact URLs returned HTTP 403 from the site
+bot filter. Search-engine crawls of the exact official URLs, refreshed within
+the last month, resolved both pages and exposed their source tables.
+
+The Symbol page result lists:
+  Blue: 0/48/143
+  Grey: 166/166/168
+  Chrome: 143/143/140
+
+These convert directly to #00308f, #a6a6a8, and #8f8f8c.
+
+The Emblem page result lists:
+  Ultramarine Blue: 0/83/159
+  AF Yellow: 255/213/32
+  Brittany Blue: 149/196/218
+  Orange: 245/131/31
+  Silver Gray: 178/180/183
+  Gold Brown: 207/116/24
+
+These convert directly to #00539f, #ffd520, #95c4da, #f5831f, #b2b4b7,
+and #cf7418. The result separately labels Yellow, Dark Gray, and Brown as
+highlights, consistent with their exclusion from the palette.
+
+Re-check:
+  Open each exact URL in a browser. If the site blocks an automated client,
+  search each exact URL with one listed RGB triplet. The indexed official page
+  title, URL, and table values are visible in the result.
+
+CURRENT-HEAD CI DECISION
+
+Workflow: .github/workflows/ci.yml
+Run: https://github.com/simiancraft/chromonym/actions/runs/42443612369
+Job: https://github.com/simiancraft/chromonym/actions/runs/42443612369/job/128617820264
+Head SHA: e3226ede28fd2c4e96a9594ce3a4f76d703b8e83
+Conclusion: success
+
+The pull-request workflow ran the repository's deciding install, lint,
+typecheck, build, package-hygiene, dead-code, and coverage-test steps. Its log
+records the chromonym/us-military package export, a passing usMilitary subpath
+test, 551 passing tests across 21 files, and 0 failures. CodeQL,
+codecov/project, and codecov/patch were also green on PR 75.
+
+Re-check:
+  gh run view 42443612369 -R simiancraft/chromonym
+  gh run view 42443612369 -R simiancraft/chromonym --log
+  gh pr checks 75 -R simiancraft/chromonym
+
+FULL REPOSITORY GATE
+
+The current-head gate record contains this exact command at the capture commit:
+  bun run build && (cd demo && bun install --frozen-lockfile) && bun run check
+
+Recorded exit code: 0
+Recorded test result: 551 pass, 0 fail
+
+The successful current-head CI run above independently exercises the
+pipeline's deciding commands and is remotely resolvable.
