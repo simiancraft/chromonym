@@ -1,0 +1,50 @@
+Chromonym PR #72 local gate refresh
+Captured at: 31edca54a8c8969a936087ff990faa0e804bc055
+Date: 2026-11-07 America/Chicago
+
+Dependency installation
+Command: bun install --frozen-lockfile
+Bun: 1.4.4 (38afee6c8)
+Packages installed: 351
+Exit code: 0
+
+Deciding command
+Command: bun run build && (cd demo && bun install --frozen-lockfile) && bun run check
+Capture commit: 31edca54a8c8969a936087ff990faa0e804bc055
+Exit code: 0
+
+Observed results
+- library TypeScript build passed
+- demo frozen-lockfile install passed with 514 packages
+- Biome completed with no fixes; one pre-existing warning and two configuration infos
+- demo ESLint passed
+- library, demo, and test TypeScript checks passed
+- 551 tests passed and 0 failed
+- demo production build passed with 1,940 modules transformed
+- knip passed
+- publint reported All good
+- package export analysis resolved chromonym/copic for ESM and bundler profiles
+
+Focused confirmation after the gate
+- pinned upstream entries: 358
+- shipped entries: 358
+- missing or extra entries: 0
+- name or RGB mismatches: 0
+- standardNormalize collisions: 0
+- focused palette and subpath tests: 177 pass, 0 fail
+- runtime export identity, resolve examples, and identify example: pass
+
+Re-check
+At capture commit 31edca54a8c8969a936087ff990faa0e804bc055, run:
+bun install --frozen-lockfile
+bun run build && (cd demo && bun install --frozen-lockfile) && bun run check
+
+Covered paths
+.github/workflows/ci.yml
+package.json
+bun.lock
+src/**
+test/**
+demo/**
+README.md
+NOTICE.md

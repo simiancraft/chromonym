@@ -1,0 +1,16 @@
+{
+  "scope_tags": ["ci", "code", "data", "packaging", "frontend", "documentation"],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "package.json",
+    "bun.lock",
+    "src/**",
+    "test/**",
+    "demo/**",
+    "README.md",
+    "NOTICE.md"
+  ],
+  "capture_commit": "31edca54a8c8969a936087ff990faa0e804bc055",
+  "capture_method": "bun install --frozen-lockfile; bun run build && (cd demo && bun install --frozen-lockfile) && bun run check; semantic source comparison; focused Bun tests; runtime export and lookup checks",
+  "content_hash": "sha256:92a199117092bb785b7266adaaa88481ffce51a8eda84e9eab77e2d3a75eee37"
+}
