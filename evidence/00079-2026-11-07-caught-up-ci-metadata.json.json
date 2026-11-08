@@ -1,0 +1,7 @@
+{
+  "scope_tags": ["ci", "code", "data", "package"],
+  "covered_paths": [".github/workflows/ci.yml", "bun.lock", "demo/bun.lock", "package.json", "src", "test", "demo/src"],
+  "capture_commit": "10d6288ac8f8fa4a14ce482edf3408bc6f4649df",
+  "capture_method": "gh run view 42446976136 --json databaseId,headSha,headBranch,event,status,conclusion,createdAt,updatedAt,url,workflowName,jobs",
+  "content_hash": "sha256:cf0a61aebfca8ddca873cf4ba81d2b1486c0daf5dd1fcdb83ab9560d0c3bd148"
+}
