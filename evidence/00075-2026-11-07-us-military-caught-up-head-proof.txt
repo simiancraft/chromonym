@@ -1,0 +1,77 @@
+PR 75 caught-up-head proof
+Captured: 2026-11-07 America/Chicago
+Capture commit: 98ceec7fbba2b7d2fd7ca09a0ee8a4045bc08f02
+
+REMOTE IDENTITY
+
+Commands:
+  git fetch origin fix/add-us-military-colors-74
+  git merge-base --is-ancestor 98ceec7fbba2b7d2fd7ca09a0ee8a4045bc08f02 origin/fix/add-us-military-colors-74
+  git rev-parse origin/fix/add-us-military-colors-74
+
+Result:
+  merge-base exit code: 0
+  remote head: 98ceec7fbba2b7d2fd7ca09a0ee8a4045bc08f02
+
+FOCUSED PALETTE VERIFICATION
+
+Command:
+  bun test test/palettes.test.ts test/subpathExports.test.ts
+
+Result:
+  bun test v1.4.4 (38afee6c8)
+  177 pass
+  0 fail
+  20750 expect() calls
+  Ran 177 tests across 2 files. [108.00ms]
+
+A runtime comparison imported usMilitary from the root and palette module,
+compared the complete object with all 31 key/value pairs in issue 74, checked
+that every value is lowercase six-digit hex, and exercised resolve and identify.
+
+Result:
+  {
+    "sameObject": true,
+    "entryCount": 31,
+    "matchesIssue": true,
+    "defaultMetric": "deltaE2000",
+    "resolved": "#cf0000",
+    "identified": "Air Force Blue",
+    "allLowerHex": true
+  }
+
+Re-check:
+  Run the focused test command, then compare src/palettes/usMilitary.ts with
+  the complete 31-entry table in issue 74. Import src/index.ts and
+  src/palettes/usMilitary.ts to repeat the runtime checks above.
+
+CURRENT-HEAD CI DECISION
+
+Workflow: .github/workflows/ci.yml
+Run: https://github.com/simiancraft/chromonym/actions/runs/42444294916
+Job: https://github.com/simiancraft/chromonym/actions/runs/42444294916/job/128619875558
+Head SHA: 98ceec7fbba2b7d2fd7ca09a0ee8a4045bc08f02
+Conclusion: success
+
+The pull-request workflow ran its frozen install, lint, demo install,
+react-compiler lint, library and test typechecks, build, package-hygiene,
+dead-code, and coverage-test commands. The log records the
+chromonym/us-military package export, a passing usMilitary subpath test,
+555 passing tests across 22 files, and 0 failures.
+
+Re-check:
+  gh run view 42444294916 -R simiancraft/chromonym
+  gh run view 42444294916 -R simiancraft/chromonym --log
+  gh pr checks 75 -R simiancraft/chromonym
+
+FULL REPOSITORY GATE
+
+After bun install --frozen-lockfile succeeded, this exact command ran at the
+capture commit:
+  bun run build && (cd demo && bun install --frozen-lockfile) && bun run check
+
+Recorded exit code: 0
+Recorded test result: 555 pass, 0 fail
+
+The gate also completed the demo production build, knip, publint, and package
+export validation. Package validation included chromonym/us-military.

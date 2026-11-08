@@ -1,0 +1,27 @@
+{
+  "scope_tags": [
+    "code",
+    "data",
+    "package",
+    "demo",
+    "ci",
+    "provenance"
+  ],
+  "covered_paths": [
+    ".github/workflows/ci.yml",
+    "NOTICE.md",
+    "README.md",
+    "bun.lock",
+    "demo/bun.lock",
+    "demo/src/components/PaletteGrid.tsx",
+    "demo/src/components/PaletteTiles.tsx",
+    "package.json",
+    "src/index.ts",
+    "src/palettes/usMilitary.ts",
+    "test/palettes.test.ts",
+    "test/subpathExports.test.ts"
+  ],
+  "capture_commit": "98ceec7fbba2b7d2fd7ca09a0ee8a4045bc08f02",
+  "capture_method": "bun test test/palettes.test.ts test/subpathExports.test.ts; complete 31-entry runtime comparison; bun run build && (cd demo && bun install --frozen-lockfile) && bun run check; GitHub Actions CI run 42444294916",
+  "content_hash": "sha256:e40cc44761864ca687882a1d287a6126c11d63596ec73aaa157a12194d0e74b4"
+}
