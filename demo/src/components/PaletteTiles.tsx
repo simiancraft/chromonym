@@ -96,6 +96,9 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // USWDS: blue-60v (#005ea2), the 'primary' color of the default USWDS
   // theme, so it reads as "a .gov website" to anyone who has used one.
   uswds: { tone: '#005ea2', ink: 'var(--bh-cream)' },
+  // MIL-STD-101C: safety yellow identifies flammable materials and gives
+  // this compact hazard palette a distinct, high-visibility tile.
+  milStd101c: { tone: '#fcb217', ink: 'var(--bh-ink)' },
   // MIL-STD-2525D: Friend Dark (#006b8c), the friendly-unit blue of a
   // map symbol, deep enough to carry the cream label.
   milStd2525d: { tone: '#006b8c', ink: 'var(--bh-cream)' },
@@ -126,6 +129,7 @@ const ORDER: PaletteKey[] = [
   'ral',
   'material',
   'uswds',
+  'milStd101c',
   'milStd2525d',
   'usMilitary',
 ];
