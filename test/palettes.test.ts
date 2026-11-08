@@ -26,6 +26,7 @@ import { web } from '../src/palettes/web.js';
 import { werner } from '../src/palettes/werner.js';
 import { x11 } from '../src/palettes/x11.js';
 import { xkcd } from '../src/palettes/xkcd.js';
+import { resolve } from '../src/resolve.js';
 
 const HEX_RE = /^#[0-9a-f]{6}$/;
 
@@ -90,7 +91,7 @@ describe.each([
     'japanese',
     japanese,
     {
-      minCount: 226,
+      minCount: 227,
       spotChecks: {
         'Sakura-iro': '#fcc9b9',
         Ainezumi: '#5c544e',
@@ -361,8 +362,13 @@ describe.each([
 });
 
 describe('japanese palette', () => {
-  it('ships the 226 uniquely romanized entries', () => {
-    expect(Object.keys(japanese.colors)).toHaveLength(226);
+  it('ships 227 romanized lookup names', () => {
+    expect(Object.keys(japanese.colors)).toHaveLength(227);
+  });
+
+  it('resolves both names for Hanaba-iro', () => {
+    expect(resolve('Hanaba-iro', { palette: japanese })).toBe('#ffb94e');
+    expect(resolve('kayou-iro', { palette: japanese })).toBe('#ffb94e');
   });
 
   it('normalizes macrons, case, spaces, hyphens, and apostrophes', () => {

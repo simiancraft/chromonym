@@ -75,6 +75,11 @@ describe('convert', () => {
     it("the 'PANTONE' format key is no longer accepted — supply a palette instead", () => {
       expect(() => convert({ r: 228, g: 0, b: 43 }, { format: 'PANTONE' as never })).toThrow();
     });
+    it('rejects other unsupported output formats without a migration hint', () => {
+      expect(() => convert({ r: 255, g: 0, b: 0 }, { format: 'LAB' as never })).toThrow(
+        'Unsupported format: "LAB"',
+      );
+    });
   });
 
   describe('unified palette option — palette name → color', () => {

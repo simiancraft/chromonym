@@ -360,7 +360,7 @@ If you prefer zero runtime and already have hex-only values, the `as const satis
 | `crayola` | 84 | Crayola crayon colors — community approximations (not Crayola-licensed) |
 | `ntc` | 1566 | Chirag Mehta's "Name That Color" dataset (broad coverage of design / UI / hardware names) |
 | `xkcd` | 923 | XKCD 2010 color-survey results (CC0; crowd-sourced common-speech names) |
-| `japanese` | 226 | Traditional colors of Japan, keyed by Hepburn romanization with Japanese names in source comments (Wikipedia, CC BY-SA 4.0) |
+| `japanese` | 227 | Traditional colors of Japan, keyed by Hepburn romanization with Japanese names in source comments (Wikipedia, CC BY-SA 4.0) |
 | `fs595b` | 209 | Federal Standard 595B paint chips (1989 revision; modelers / historical equipment) |
 | `fs595c` | 682 | Federal Standard 595C paint chips (US Government spec; military / aviation coatings) |
 | `carc` | 26 | Chemical Agent Resistant Coating colors from MIL-DTL-53039E, using their specified FS 595 chips |

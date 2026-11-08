@@ -205,8 +205,10 @@ entry. Wikipedia contributors publish the source text under the
 [Creative Commons Attribution-ShareAlike 4.0 International license](https://creativecommons.org/licenses/by-sa/4.0/).
 
 Chromonym lowercases the hex values and removes two later rows whose
-romanizations duplicate earlier keys: `Tonocha` and `Kuwazome`. The palette's
-normalizer removes macrons, case, spaces, hyphens, apostrophes, and other
+romanizations duplicate earlier keys: `Tonocha` and `Kuwazome`. The two source
+names for 花葉色, `Hanaba-iro` and `kayou-iro`, are separate lookup keys with
+the same value. The palette's normalizer removes macrons, case, spaces,
+hyphens, apostrophes, and other
 punctuation. These changes are available under the same CC BY-SA 4.0 license.
 The values are approximate screen renderings of historically variable dye
 colors; they are not physical dye specifications.

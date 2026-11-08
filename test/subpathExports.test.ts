@@ -150,7 +150,7 @@ maybe('subpath exports resolve', () => {
     const m = await import('../dist/palettes/japanese.js');
     expect(m.japanese.name).toBe('japanese');
     expect(m.japanese.colors['Sakura-iro']).toBe('#fcc9b9');
-    expect(Object.keys(m.japanese.colors)).toHaveLength(226);
+    expect(Object.keys(m.japanese.colors)).toHaveLength(227);
     expect(m.japanese.defaultMetric).toBe('deltaE2000');
   });
 

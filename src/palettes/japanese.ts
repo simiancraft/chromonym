@@ -1,7 +1,7 @@
 import type { Palette } from '../types.js';
 
 /**
- * Traditional colors of Japan (226 entries), keyed by the Hepburn
+ * Traditional colors of Japan (227 names), keyed by the Hepburn
  * romanizations published by Wikipedia. The corresponding Japanese name is
  * preserved in each entry comment. Values are approximate sRGB renderings of
  * colors with historical variation, not specifications for physical dyes.
@@ -114,7 +114,8 @@ const japaneseColors = {
   Shirotsurubami: '#ce9f6f', // 白橡
   Kitsurubami: '#bb8141', // 黄橡
   "Tō'ō": '#ffb61e', // 藤黄
-  'Hanaba-iro}} or {{translit|ja|kayou-iro': '#ffb94e', // 花葉色
+  'Hanaba-iro': '#ffb94e', // 花葉色
+  'kayou-iro': '#ffb94e', // 花葉色
   'Torinoko-iro': '#e2be9f', // 鳥の子色
   'Ukon-iro': '#e69b3a', // 鬱金色
   Kikuchiba: '#e29c45', // 黄朽葉
