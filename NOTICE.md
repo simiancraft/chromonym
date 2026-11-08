@@ -302,6 +302,23 @@ subject to copyright restrictions when faithfully reproduced.
 - Chromonym is **not affiliated with** any US Government agency
   or defense contractor; no endorsement is implied.
 
+## MIL-STD-2525D (Joint Military Symbology)
+
+The `milStd2525d` palette (20 entries) reproduces the symbol colors in
+**MIL-STD-2525D, *Joint Military Symbology*** (US Department of
+Defense, 10 June 2014): Table XV, "Color range values for filled
+symbols" (a dark, medium, and light fill for each standard identity),
+and Table XVI, "Default colors for unfilled symbols". The standard
+prints each color as an RGB triplet; the palette converts those to hex
+and changes nothing else.
+
+- The standard is a US Government work marked **Distribution A:
+  approved for public release, distribution is unlimited**.
+- MIL-STD-2525E (2022) supersedes 2525D and may revise these colors;
+  the palette is pinned to 2525D.
+- Chromonym is **not affiliated with** the Department of Defense; no
+  endorsement is implied.
+
 ## XKCD color survey
 
 The `xkcd` palette (923 entries after normalization-collision

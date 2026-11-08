@@ -141,6 +141,13 @@ maybe('subpath exports resolve', () => {
     expect(m.uswds.defaultMetric).toBe('deltaE2000');
   });
 
+  it('chromonym/mil-std-2525d exports the milStd2525d palette object', async () => {
+    const m = await import('../dist/palettes/milStd2525d.js');
+    expect(m.milStd2525d.name).toBe('milStd2525d');
+    expect(m.milStd2525d.colors['Friend Medium']).toBe('#00a8dc');
+    expect(m.milStd2525d.defaultMetric).toBe('deltaE2000');
+  });
+
   it('chromonym/pokemon exports the pokemon palette object', async () => {
     const m = await import('../dist/palettes/pokemon.js');
     expect(m.pokemon.name).toBe('pokemon');
@@ -277,6 +284,7 @@ maybe('subpath exports resolve', () => {
       "const { tailwind } = await import('chromonym/tailwind');",
       "const { material } = await import('chromonym/material');",
       "const { ral } = await import('chromonym/ral');",
+      "const { milStd2525d } = await import('chromonym/mil-std-2525d');",
       "const { uswds } = await import('chromonym/uswds');",
       "const { hexToRgba } = await import('chromonym/conversions/hex');",
       "const { rgbToRgba } = await import('chromonym/conversions/rgb');",
@@ -305,6 +313,7 @@ maybe('subpath exports resolve', () => {
       '  tailwindSlate: tailwind.colors["slate-500"] === "#62748e",',
       '  materialPrimary: material.colors["light-primary"] === "#6750a4",',
       '  ralSignalYellow: ral.colors["RAL 1003"] === "#f9a900",',
+      '  milStd2525dFriend: milStd2525d.colors["Friend Medium"] === "#00a8dc",',
       '  uswdsBlue: uswds.colors["blue-60v"] === "#005ea2",',
       "  hexToRgba: hexToRgba('#ff0000').r === 255,",
       '  rgb: rgbToRgba([1,2,3]).r === 1,',
@@ -346,6 +355,7 @@ maybe('subpath exports resolve', () => {
       tailwindSlate: true,
       materialPrimary: true,
       ralSignalYellow: true,
+      milStd2525dFriend: true,
       uswdsBlue: true,
       hexToRgba: true,
       rgb: true,

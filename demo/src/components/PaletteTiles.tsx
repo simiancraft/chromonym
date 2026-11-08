@@ -87,6 +87,9 @@ const TILE_META: Record<PaletteKey, { tone: string; ink: string }> = {
   // USWDS: blue-60v (#005ea2), the 'primary' color of the default USWDS
   // theme, so it reads as "a .gov website" to anyone who has used one.
   uswds: { tone: '#005ea2', ink: 'var(--bh-cream)' },
+  // MIL-STD-2525D: Friend Dark (#006b8c), the friendly-unit blue of a
+  // map symbol, deep enough to carry the cream label.
+  milStd2525d: { tone: '#006b8c', ink: 'var(--bh-cream)' },
 };
 
 const ORDER: PaletteKey[] = [
@@ -108,6 +111,7 @@ const ORDER: PaletteKey[] = [
   'ral',
   'material',
   'uswds',
+  'milStd2525d',
 ];
 
 // Indicator square — same scale family as the sample swatches (h-3 ≈ 12px).

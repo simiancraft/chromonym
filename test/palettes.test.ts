@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'bun:test';
+import { identify } from '../src/identify.js';
 import { crayola } from '../src/palettes/crayola.js';
 import { fs595b } from '../src/palettes/fs595b.js';
 import { fs595c } from '../src/palettes/fs595c.js';
 import { isccNbs } from '../src/palettes/isccNbs.js';
 import { material } from '../src/palettes/material.js';
+import { milStd2525d } from '../src/palettes/milStd2525d.js';
 import { nbs } from '../src/palettes/nbs.js';
 import { ncs } from '../src/palettes/ncs.js';
 import { ntc } from '../src/palettes/ntc.js';
@@ -209,6 +211,19 @@ describe.each([
       } as Record<string, string>,
     },
   ],
+  [
+    'milStd2525d',
+    milStd2525d,
+    {
+      minCount: 20,
+      spotChecks: {
+        'Hostile Medium': '#ff3031',
+        'Friend Light': '#80e0ff',
+        'Civilian Dark': '#500050',
+        'Friend Unfilled': '#00ffff',
+      } as Record<string, string>,
+    },
+  ],
 ])('%s palette', (name, space, { minCount, spotChecks }) => {
   it('declares its own name', () => {
     expect(space.name as string).toBe(name);
@@ -285,5 +300,20 @@ describe('uswds palette', () => {
       }
     }
     expect(worst).toBeGreaterThanOrEqual(4.5);
+  });
+});
+
+describe('milStd2525d palette', () => {
+  const identities = ['Hostile', 'Friend', 'Neutral', 'Unknown', 'Civilian'] as const;
+  const shades = ['Dark', 'Medium', 'Light', 'Unfilled'] as const;
+
+  it('carries a dark, medium, light, and unfilled color for each identity, and nothing else', () => {
+    const expected = identities.flatMap((id) => shades.map((shade) => `${id} ${shade}`));
+    expect(Object.keys(milStd2525d.colors).sort()).toEqual(expected.sort());
+  });
+
+  it('answers the shared yellow with the filled entry, first in insertion order', () => {
+    expect(milStd2525d.colors['Unknown Unfilled']).toBe(milStd2525d.colors['Unknown Medium']);
+    expect(identify('#ffff00', { palette: milStd2525d })).toBe('Unknown Medium');
   });
 });
