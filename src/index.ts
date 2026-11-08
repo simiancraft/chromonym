@@ -43,6 +43,7 @@ export { type PokemonColorName, pokemon } from './palettes/pokemon.js';
 export { type RalColorName, ral } from './palettes/ral.js';
 export { type ReseneColorName, resene } from './palettes/resene.js';
 export { type TailwindColorName, tailwind } from './palettes/tailwind.js';
+export { type UsMilitaryColorName, usMilitary } from './palettes/usMilitary.js';
 export { type UswdsColorName, uswds } from './palettes/uswds.js';
 export { type WebColorName, web } from './palettes/web.js';
 export { type WernerColorName, werner } from './palettes/werner.js';
