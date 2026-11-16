@@ -273,14 +273,14 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
-    "@biomejs/biome": "^2.5.14",
+    "@biomejs/biome": "^2.6.8",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^13.2.0",
-    "@types/bun": "^1.4.2",
+    "@types/bun": "^1.4.4",
     "fast-check": "^4.10.2",
-    "knip": "^6.37.0",
-    "publint": "^0.3.24",
+    "knip": "^6.45.1",
+    "publint": "^0.3.25",
     "semantic-release": "^25.0.9",
     "typescript": "^7.0.2"
   },
